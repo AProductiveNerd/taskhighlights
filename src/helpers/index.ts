@@ -13,12 +13,12 @@ export const getAllFromTable = async (
 export const getAllFromTableWhere = async (
 	table: string,
 	column: string,
-	id: string
+	id: number | string | boolean
 ): Promise<QueryResult> => {
 	const formatted: string = await format(
 		"SELECT * FROM %I WHERE %I = %L",
-		table,
-		column,
+		table.toLowerCase(),
+		column.toLowerCase(),
 		id
 	);
 
@@ -45,8 +45,8 @@ export const deleteTableColumnFromId = async (
 ): Promise<QueryResult> => {
 	const formatted = format(
 		"DELETE FROM %I WHERE %I = %L",
-		table,
-		column,
+		table.toLowerCase(),
+		column.toLowerCase(),
 		id
 	);
 

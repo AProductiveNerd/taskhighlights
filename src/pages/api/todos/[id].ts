@@ -19,7 +19,11 @@ export default async function handler(
 	}: { description: string; done: boolean; id: number } = req.body;
 
 	const user = (
-		await getAllFromTableWhere("users", "userId", req.query.id[0])
+		await getAllFromTableWhere(
+			"users",
+			"userId",
+			parseInt(req.query.id[0])
+		)
 	).rows[0];
 
 	if (user) {
