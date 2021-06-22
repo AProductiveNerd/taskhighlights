@@ -1,13 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { pool } from "../../db";
-import { createNewUser, deleteTableColumnFromId } from "../../helpers";
-//new Date().toISOString();
+import { PrismaClient, users } from "@prisma/client";
+
 export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse<any>
 ) {
-	// const userId = req.query.id;
-	// const users = await pool.query("SELECT * FROM users");
+	const prisma = new PrismaClient();
+
 	const {
 		avatar,
 		dateCreated,
@@ -18,7 +17,7 @@ export default async function handler(
 		username,
 	}: {
 		avatar: string;
-		dateCreated: number;
+		dateCreated: string;
 		emailAddress: string;
 		fullName: string;
 		lastSeen: string;
@@ -30,31 +29,41 @@ export default async function handler(
 
 	switch (method) {
 		case "GET":
-			const allUsers = await pool.query("SELECT * FROM users");
-			res.json(allUsers.rows);
+			const allUsers: users[] = await prisma.users.findMany({
+				where: {
+					userid: userId,
+				},
+			});
+
+			res.json(allUsers);
 			break;
 
 		case "POST":
-			const newUser = await createNewUser(
-				avatar,
-				dateCreated,
-				emailAddress,
-				fullName,
-				lastSeen,
-				username
-			);
+			const newUser: users = await prisma.users.create({
+				data: {
+					avatar: avatar,
+					datecreated: dateCreated,
+					emailaddress: emailAddress,
+					fullname: fullName,
+					lastseen: lastSeen,
+					username: username,
+				},
+			});
 
-		res.json(newUser.rows[0]);
+			res.json(newUser);
 			break;
 
 		case "DELETE":
 			if (userId !== undefined) {
-				await deleteTableColumnFromId("users", "userId", userId);
+				const deletedUser: users = await prisma.users.delete({
+					where: {
+						userid: userId,
+					},
+				});
+
+				res.json(deletedUser);
 			}
 
-			const getAllUsers = await pool.query("SELECT * FROM users");
-
-			res.json(getAllUsers.rows);
 			break;
 	}
 }

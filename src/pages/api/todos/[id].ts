@@ -1,10 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import {
-	createNewTask,
-	deleteTableColumnFromId,
-	getAllFromTable,
-	getAllFromTableWhere,
-} from "../../../helpers";
+import { PrismaClient, todo, users } from "@prisma/client";
 
 export default async function handler(
 	req: NextApiRequest,
@@ -15,29 +10,53 @@ export default async function handler(
 		todo_id,
 	}: { description: string; todo_id: number } = req.body;
 
+	const prisma = new PrismaClient();
 	const userId: number = parseInt(req.query.id.toString());
 
-	const user = (await getAllFromTableWhere("users", "userId", userId))
-		.rows[0];
+	const user: users[] = await prisma.users.findMany({
+		where: {
+			userid: userId,
+		},
+	});
 
 	if (user) {
 		const method: string = req.method;
 
 		switch (method) {
 			case "GET":
-				const allTodos = await getAllFromTableWhere(
-					"todo",
-					"userId",
-					userId
-				);
-				res.json(allTodos.rows);
+				const allTodos: todo[] = await prisma.todo.findMany({
+					where: {
+						User: {
+							userid: userId,
+						},
+					},
+				});
+
+				res.json(allTodos);
 
 				break;
 
 			case "POST":
 				if (typeof description === "string" && description !== "") {
-					const newTodo = await createNewTask(description, userId);
-					res.json(newTodo.rows[0]);
+					// const newTodo = await createNewTask(description, userId);
+					await prisma.todo.create({
+						data: {
+							description: description,
+							User: {
+								connect: { userid: userId },
+							},
+						},
+					});
+
+					const allTodos: todo[] = await prisma.todo.findMany({
+						where: {
+							User: {
+								userid: userId,
+							},
+						},
+					});
+
+					res.json(allTodos);
 				} else {
 					res.status(406).json({ Error: "Not Acceptable" });
 				}
@@ -46,16 +65,13 @@ export default async function handler(
 
 			case "DELETE":
 				if (todo_id !== undefined) {
-					const deleted = await deleteTableColumnFromId(
-						"todo",
-						"todo_id",
-						todo_id
-					);
+					const deleted: todo = await prisma.todo.delete({
+						where: {
+							todo_id: todo_id,
+						},
+					});
 
-					if (deleted) {
-						const getallTodos = await getAllFromTable("todo");
-						res.json(getallTodos.rows);
-					}
+					res.json(deleted);
 				} else {
 					res.status(406).json({ Error: "Not Acceptable" });
 				}
