@@ -1,6 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { Pool } from "pg";
-import { pool } from "../../../db";
 import {
 	createNewTask,
 	deleteTableColumnFromId,
@@ -14,47 +12,44 @@ export default async function handler(
 ) {
 	const {
 		description,
-		done,
-		id,
-	}: { description: string; done: boolean; id: number } = req.body;
+		todo_id,
+	}: { description: string; todo_id: number } = req.body;
 
-	const user = (
-		await getAllFromTableWhere(
-			"users",
-			"userId",
-			parseInt(req.query.id[0])
-		)
-	).rows[0];
+	const userId: number = parseInt(req.query.id.toString());
+
+	const user = (await getAllFromTableWhere("users", "userId", userId))
+		.rows[0];
 
 	if (user) {
 		const method: string = req.method;
 
 		switch (method) {
 			case "GET":
-				const allTodos = await getAllFromTable("todo");
+				const allTodos = await getAllFromTableWhere(
+					"todo",
+					"userId",
+					userId
+				);
 				res.json(allTodos.rows);
+
 				break;
 
 			case "POST":
-				if (
-					typeof description === "string" &&
-					description !== "" &&
-					typeof done === "boolean"
-				) {
-					const newTodo = await createNewTask(description, done);
-
+				if (typeof description === "string" && description !== "") {
+					const newTodo = await createNewTask(description, userId);
 					res.json(newTodo.rows[0]);
 				} else {
 					res.status(406).json({ Error: "Not Acceptable" });
 				}
+
 				break;
 
 			case "DELETE":
-				if (id !== undefined) {
+				if (todo_id !== undefined) {
 					const deleted = await deleteTableColumnFromId(
 						"todo",
 						"todo_id",
-						id
+						todo_id
 					);
 
 					if (deleted) {
@@ -64,6 +59,7 @@ export default async function handler(
 				} else {
 					res.status(406).json({ Error: "Not Acceptable" });
 				}
+
 				break;
 		}
 	} else {

@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { pool } from "../../db";
+import { createNewUser, deleteTableColumnFromId } from "../../helpers";
 //new Date().toISOString();
 export default async function handler(
 	req: NextApiRequest,
@@ -21,7 +22,7 @@ export default async function handler(
 		emailAddress: string;
 		fullName: string;
 		lastSeen: string;
-		userId: string;
+		userId: number;
 		username: string;
 	} = req.body;
 
@@ -34,28 +35,25 @@ export default async function handler(
 			break;
 
 		case "POST":
-			const newTodo = await pool.query(
-				"INSERT INTO users (avatar, dateCreated, emailAddress, fullName, lastSeen, userId, username) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *",
-				[
-					avatar,
-					dateCreated,
-					emailAddress,
-					fullName,
-					lastSeen,
-					userId,
-					username,
-				]
+			const newUser = await createNewUser(
+				avatar,
+				dateCreated,
+				emailAddress,
+				fullName,
+				lastSeen,
+				username
 			);
-			res.json(newTodo.rows[0]);
+
+		res.json(newUser.rows[0]);
 			break;
 
 		case "DELETE":
 			if (userId !== undefined) {
-				await pool.query("DELETE FROM users WHERE userId = ($1)", [
-					userId,
-				]);
+				await deleteTableColumnFromId("users", "userId", userId);
 			}
+
 			const getAllUsers = await pool.query("SELECT * FROM users");
+
 			res.json(getAllUsers.rows);
 			break;
 	}
