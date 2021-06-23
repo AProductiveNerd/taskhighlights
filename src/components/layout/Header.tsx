@@ -1,10 +1,9 @@
-import { users } from "@prisma/client";
-import { useContext } from "react";
-import FireUserContext from "./../../contexts/FireUserContext";
+import { HomeIcon, LogoutIcon } from "@heroicons/react/outline";
+
 import Image from "next/image";
-import { fireAuth } from "../../libs/Firebase";
-import { LogoutIcon, HomeIcon } from "@heroicons/react/outline";
 import Link from "next/link";
+import { fireAuth } from "../../libs/Firebase";
+import { users } from "@prisma/client";
 
 export const Header = ({ user }: { user: users | null }) => {
 	return (
@@ -21,17 +20,17 @@ export const Header = ({ user }: { user: users | null }) => {
 				</Link>
 			</div>
 
-			<div className="bg-gradient-to-tr from-theme-primary-500 to-theme-fuchsia-600 p-1 rounded-full">
-				<div className="relative rounded-full w-20 h-20 transform transition hover:-rotate-360 bg-white cursor-pointer">
-					{user?.avatar && (
+			{user?.avatar && (
+				<div className="bg-gradient-to-tr from-theme-primary-500 to-theme-fuchsia-600 p-1 rounded-full">
+					<div className="relative rounded-full w-20 h-20 transform transition hover:-rotate-360 bg-white cursor-pointer">
 						<Image
 							alt="user-avatar"
 							src={user.avatar}
 							layout="fill"
 						/>
-					)}
+					</div>
 				</div>
-			</div>
+			)}
 
 			<div>
 				<button

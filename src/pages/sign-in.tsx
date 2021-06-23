@@ -1,10 +1,10 @@
 import Head from "next/head";
+import { Layout } from "../components/layout";
 import Link from "next/link";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { fireAuth } from "../libs/Firebase";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { Layout } from "../components/layout";
 
 export default function SignIn() {
 	const router = useRouter();
@@ -126,9 +126,14 @@ export default function SignIn() {
 
 					<div className="text-base text-center text-theme-blueGray-400">
 						{`Don't have an account? `}
+
 						<span className="font-medium hover:text-theme-primary-500 w-max relative cursor-pointer group">
-							<Link href="/sign-up">Sign Up</Link>
-							<div className="right-0 bottom-0 absolute w-14 h-2 bg-theme-primary-700/40 group-hover:bg-transparent"></div>
+							<Link href="/sign-up">
+								<a>
+									Sign Up
+									<div className="-right-1 bottom-0 absolute w-16 h-2 bg-theme-primary-700/40 group-hover:bg-transparent"></div>
+								</a>
+							</Link>
 						</span>
 					</div>
 				</div>

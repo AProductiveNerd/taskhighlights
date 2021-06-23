@@ -210,7 +210,6 @@ export default function SignUp() {
 							<div>
 								<button
 									type="submit"
-									// onClick={() => handleSignUp}
 									className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-base font-medium rounded-md text-white bg-theme-primary-500 hover:bg-theme-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-theme-primary-500"
 								>
 									<span className="absolute left-0 inset-y-0 flex items-center pl-3">
@@ -227,18 +226,16 @@ export default function SignUp() {
 						)}
 
 						<div className="text-base text-center text-theme-blueGray-400">
-							<p>
-								{`Already have an account? `}
+							{`Already have an account? `}
 
-								<span className="font-medium hover:text-theme-primary-500 w-max relative cursor-pointer group">
-									<Link href="/sign-in">
-										<a>
-											Sign In
-											<div className="-right-1 bottom-0 absolute w-14 h-2 bg-theme-primary-700/40 group-hover:bg-transparent"></div>
-										</a>
-									</Link>
-								</span>
-							</p>
+							<span className="font-medium hover:text-theme-primary-500 w-max relative cursor-pointer group">
+								<Link href="/sign-in">
+									<a>
+										Sign In
+										<div className="-right-1 bottom-0 absolute w-14 h-2 bg-theme-primary-700/40 group-hover:bg-transparent"></div>
+									</a>
+								</Link>
+							</span>
 						</div>
 					</form>
 				</div>
