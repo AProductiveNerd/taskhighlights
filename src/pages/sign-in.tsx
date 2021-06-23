@@ -33,20 +33,24 @@ export default function SignIn() {
 				<Head>
 					<title>Sign In | Task Highlights</title>
 				</Head>
+
 				<div className="max-w-md w-full space-y-8">
 					<div className="text-center">
 						<h1 className="text-[4.1rem] leading-none font-extrabold text-theme-primary-500">
 							Task Highlights
 						</h1>
+
 						<h2 className="mt-6 text-center text-3xl font-semibold text-theme-blueGray-400">
 							Sign in to your account
 						</h2>
 					</div>
+
 					{error && (
 						<p className="mb-4 text-sm text-red-500 text-center font-semibold">
 							{error}
 						</p>
 					)}
+
 					<form
 						className="mt-8 space-y-6"
 						method="POST"
@@ -57,11 +61,13 @@ export default function SignIn() {
 							name="remember"
 							defaultValue="true"
 						/>
+
 						<div className="rounded-md shadow-sm -space-y-px">
 							<div>
 								<label htmlFor="email-address" className="sr-only">
 									Email address
 								</label>
+
 								<input
 									id="email-address"
 									name="email"
@@ -76,10 +82,12 @@ export default function SignIn() {
 									value={emailAddress}
 								/>
 							</div>
+
 							<div>
 								<label htmlFor="password" className="sr-only">
 									Password
 								</label>
+
 								<input
 									id="password"
 									name="password"
@@ -95,6 +103,7 @@ export default function SignIn() {
 								/>
 							</div>
 						</div>
+
 						{!isInvalid && (
 							<div>
 								<button
@@ -114,6 +123,7 @@ export default function SignIn() {
 							</div>
 						)}
 					</form>
+
 					<div className="text-base text-center text-theme-blueGray-400">
 						{`Don't have an account? `}
 						<span className="font-medium hover:text-theme-primary-500 w-max relative cursor-pointer group">

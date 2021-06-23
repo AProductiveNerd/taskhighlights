@@ -25,7 +25,7 @@ export const Layout = ({ children }) => {
 				<Header user={currentUser} />
 			</header>
 
-			<main className="flex-1 border-t-2 border-theme-primary-500 flex">
+			<main className="flex-1 border-t-2 border-theme-primary-500 flex justify-center">
 				{children}
 			</main>
 		</div>

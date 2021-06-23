@@ -11,7 +11,11 @@ export const Header = ({ user }: { user: users | null }) => {
 		<div className="flex flex-row p-4 items-center px-4 space-x-14 sm:space-x-40 md:space-x-60">
 			<div>
 				<Link href="/">
-					<a title="Home" aria-label="Home">
+					<a
+						title="Home"
+						aria-label="Home"
+						className="flex items-center"
+					>
 						<HomeIcon className="w-8 h-8" />
 					</a>
 				</Link>
@@ -32,6 +36,7 @@ export const Header = ({ user }: { user: users | null }) => {
 			<div>
 				<button
 					aria-label="Sign out"
+					className="flex items-center"
 					title="Sign out"
 					onClick={() => fireAuth.signOut()}
 				>
