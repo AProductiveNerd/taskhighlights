@@ -1,32 +1,29 @@
 import Head from "next/head";
-import { LockClosedIcon } from "@heroicons/react/solid";
-import { useRouter } from "next/router";
 import Link from "next/link";
+import { LockClosedIcon } from "@heroicons/react/solid";
+import { fireAuth } from "../libs/Firebase";
+import { useRouter } from "next/router";
 import { useState } from "react";
-import { PrismaClient } from "@prisma/client";
 
 export default function SignIn() {
 	const router = useRouter();
 
-	const prisma = new PrismaClient();
 	const [emailAddress, setEmailAddress] = useState("");
 	const [password, setPassword] = useState("");
 
 	const [error, setError] = useState("");
 	const isInvalid = password === "" || emailAddress === "";
+
 	const handleLogin = async (event) => {
-		// event.preventDefault();
-		// console.log("I tried");
-		// try {
-		// 	await firebase
-		// 		.auth()
-		// 		.signInWithEmailAndPassword(emailAddress, password);
-		// 	router.push("/");
-		// } catch (error) {
-		// 	setEmailAddress("");
-		// 	setPassword("");
-		// 	setError(error.message);
-		// }
+		event.preventDefault();
+		try {
+			await fireAuth.signInWithEmailAndPassword(emailAddress, password);
+			router.push("/");
+		} catch (error) {
+			setEmailAddress("");
+			setPassword("");
+			setError(error.message);
+		}
 	};
 
 	return (

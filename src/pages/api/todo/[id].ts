@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient, todo, users } from "@prisma/client";
 
+import { PrismaClient, todo, users } from "@prisma/client";
 export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse<any>
@@ -11,11 +11,11 @@ export default async function handler(
 	}: { description: string; todo_id: number } = req.body;
 
 	const prisma = new PrismaClient();
-	const userId: number = parseInt(req.query.id.toString());
+	const userid: string = req.query.id.toString();
 
-	const user: users[] = await prisma.users.findMany({
+	const user: users = await prisma.users.findUnique({
 		where: {
-			userid: userId,
+			userid,
 		},
 	});
 
@@ -27,7 +27,7 @@ export default async function handler(
 				const allTodos: todo[] = await prisma.todo.findMany({
 					where: {
 						User: {
-							userid: userId,
+							userid,
 						},
 					},
 				});
@@ -38,12 +38,12 @@ export default async function handler(
 
 			case "POST":
 				if (typeof description === "string" && description !== "") {
-					// const newTodo = await createNewTask(description, userId);
+					// const newTodo = await createNewTask(description, userid);
 					await prisma.todo.create({
 						data: {
-							description: description,
+							description,
 							User: {
-								connect: { userid: userId },
+								connect: { userid },
 							},
 						},
 					});
@@ -51,7 +51,7 @@ export default async function handler(
 					const allTodos: todo[] = await prisma.todo.findMany({
 						where: {
 							User: {
-								userid: userId,
+								userid,
 							},
 						},
 					});
@@ -67,7 +67,7 @@ export default async function handler(
 				if (todo_id !== undefined) {
 					const deleted: todo = await prisma.todo.delete({
 						where: {
-							todo_id: todo_id,
+							todo_id,
 						},
 					});
 

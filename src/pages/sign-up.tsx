@@ -5,60 +5,66 @@ import { AvatarGenerator } from "random-avatar-generator";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { LockClosedIcon } from "@heroicons/react/solid";
+import { getUserByUsername } from "./../utils/index";
+import { fireAuth } from "../libs/Firebase";
+import { users } from "@prisma/client";
+import axios from "axios";
 
 export default function SignUp() {
 	const generator = new AvatarGenerator();
 	const router = useRouter();
 
 	const [username, setUsername] = useState("");
-	const [fullName, setFullName] = useState("");
-	const [emailAddress, setEmailAddress] = useState("");
+	const [fullname, setfullname] = useState("");
+	const [emailaddress, setemailaddress] = useState("");
 	const [password, setPassword] = useState("");
 	const [avatar, setAvatar] = useState("");
 	const [error, setError] = useState("");
 	const isInvalid =
 		password === "" ||
-		emailAddress === "" ||
-		fullName === "" ||
+		emailaddress === "" ||
+		fullname === "" ||
 		username === "";
 
-	// const handleSignUp = async (event) => {
-	// 	event.preventDefault();
+	const handleSignUp = async (event) => {
+		event.preventDefault();
 
-	// 	const usernameExists = await doesUsernameExist(username);
-	// 	if (!usernameExists.length && avatar !== "") {
-	// 		try {
-	// 			const createdUserResult = await firebase
-	// 				.auth()
-	// 				.createUserWithEmailAndPassword(emailAddress, password);
+		if (avatar !== "") {
+			try {
+				const createdUser =
+					await fireAuth.createUserWithEmailAndPassword(
+						emailaddress,
+						password
+					);
 
-	// 			await createdUserResult.user.updateProfile({
-	// 				displayName: username,
-	// 			});
+				await createdUser.user.updateProfile({
+					displayName: username,
+				});
 
-	// 			await firebase.firestore().collection("users").add({
-	// 				avatar: avatar,
-	// 				dateCreated: Date.now(),
-	// 				emailAddress: emailAddress.toLowerCase(),
-	// 				followRequests: [],
-	// 				following: [],
-	// 				fullName,
-	// 				userId: createdUserResult.user.uid,
-	// 				username: username,
-	// 			});
+				const datecreated = new Date().toISOString();
 
-	// 			router.push("/");
-	// 		} catch (error) {
-	// 			setFullName("");
-	// 			setEmailAddress("");
-	// 			setPassword("");
-	// 			setError(error.message);
-	// 		}
-	// 	} else {
-	// 		setUsername("");
-	// 		setError("That username is already taken, please try another.");
-	// 	}
-	// };
+				const pgUser: users = await axios.post("/api/users", {
+					avatar,
+					datecreated,
+					emailaddress: createdUser.user.email,
+					fullname,
+					lastseen: datecreated,
+					userid: createdUser.user.uid,
+					username,
+				});
+
+				router.push("/");
+			} catch (error) {
+				setfullname("");
+				setemailaddress("");
+				setPassword("");
+				setError(error.message);
+			}
+		} else {
+			setUsername("");
+			avatar === "" && setError("Please choose an avatar");
+		}
+	};
 
 	return (
 		<div className="min-h-screen flex items-center justify-center bg-theme-blueGray-900 py-12 px-4 sm:px-6 lg:px-8">
@@ -67,7 +73,7 @@ export default function SignUp() {
 			</Head>
 			<div className="max-w-md w-full space-y-8">
 				<div className="text-center">
-					<h1 className="text-[4.1rem] leading-none font-extrabold text-theme-primary-500">
+					<h1 className="text-7xl leading-tight font-extrabold text-theme-primary-500">
 						Task Highlights
 					</h1>
 					<h2 className="mt-6 text-center text-3xl font-semibold text-theme-blueGray-400">
@@ -82,7 +88,7 @@ export default function SignUp() {
 				<form
 					className="mt-8 space-y-6"
 					method="POST"
-					// onSubmit={handleSignUp}
+					onSubmit={handleSignUp}
 				>
 					<input type="hidden" name="remember" defaultValue="true" />
 					<div className="rounded-md shadow-sm -space-y-px">
@@ -99,9 +105,9 @@ export default function SignUp() {
 								className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-theme-primary-500 focus:border-theme-primary-500 focus:z-10 sm:text-sm"
 								placeholder="Full Name"
 								onChange={({ target }) =>
-									setFullName(target.value)
+									setfullname(target.value)
 								}
-								value={fullName}
+								value={fullname}
 							/>
 						</div>
 						<div>
@@ -117,7 +123,7 @@ export default function SignUp() {
 								className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-theme-primary-500 focus:border-theme-primary-500 focus:z-10 sm:text-sm"
 								placeholder="Username"
 								onChange={({ target }) =>
-									setUsername(target.value)
+									setUsername(target.value.toLowerCase())
 								}
 								value={username}
 							/>
@@ -135,9 +141,9 @@ export default function SignUp() {
 								className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-theme-primary-500 focus:border-theme-primary-500 focus:z-10 sm:text-sm"
 								placeholder="Email address"
 								onChange={({ target }) =>
-									setEmailAddress(target.value)
+									setemailaddress(target.value.toLowerCase())
 								}
-								value={emailAddress}
+								value={emailaddress}
 							/>
 						</div>
 						<div>
@@ -186,6 +192,7 @@ export default function SignUp() {
 						<div>
 							<button
 								type="submit"
+								// onClick={() => handleSignUp}
 								className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-base font-medium rounded-md text-white bg-theme-primary-500 hover:bg-theme-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-theme-primary-500"
 							>
 								<span className="absolute left-0 inset-y-0 flex items-center pl-3">

@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient, users } from "@prisma/client";
+import { getUserByUsername } from "./../../utils/index";
 
 export default async function handler(
 	req: NextApiRequest,
@@ -9,44 +10,48 @@ export default async function handler(
 
 	const {
 		avatar,
-		dateCreated,
-		emailAddress,
-		fullName,
-		lastSeen,
-		userId,
+		datecreated,
+		emailaddress,
+		fullname,
+		lastseen,
+		userid,
 		username,
+		reqcontent,
 	}: {
 		avatar: string;
-		dateCreated: string;
-		emailAddress: string;
-		fullName: string;
-		lastSeen: string;
-		userId: number;
+		datecreated: string;
+		emailaddress: string;
+		fullname: string;
+		lastseen: string;
+		userid: string;
 		username: string;
+		reqcontent: string;
 	} = req.body;
-
 	const method: string = req.method;
-
 	switch (method) {
 		case "GET":
-			const allUsers: users[] = await prisma.users.findMany({
-				where: {
-					userid: userId,
-				},
-			});
+			if (reqcontent === "getbyusername") {
+			} else {
+				const allUsers: users[] = await prisma.users.findMany({
+					where: {
+						userid: userid,
+					},
+				});
+				res.json(allUsers);
+			}
 
-			res.json(allUsers);
 			break;
 
 		case "POST":
 			const newUser: users = await prisma.users.create({
 				data: {
-					avatar: avatar,
-					datecreated: dateCreated,
-					emailaddress: emailAddress,
-					fullname: fullName,
-					lastseen: lastSeen,
-					username: username,
+					avatar,
+					datecreated,
+					emailaddress,
+					fullname,
+					lastseen,
+					username,
+					userid,
 				},
 			});
 
@@ -54,10 +59,10 @@ export default async function handler(
 			break;
 
 		case "DELETE":
-			if (userId !== undefined) {
+			if (userid !== undefined) {
 				const deletedUser: users = await prisma.users.delete({
 					where: {
-						userid: userId,
+						userid,
 					},
 				});
 

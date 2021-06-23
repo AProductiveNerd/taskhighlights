@@ -11,18 +11,17 @@ model todo {
   todo_id     Int     @id @default(autoincrement())
   description String? @db.VarChar(255)
   done        Boolean @default(false)
-  uid         Int
+  uid         String
   User        users   @relation(fields: [uid], references: [userid])
 }
 
 model users {
   avatar       String
-  emailaddress String
+  emailaddress String   @unique
   fullname     String
-  username     String
+  username     String   @unique
   datecreated  DateTime @db.Timestamptz(6)
   lastseen     DateTime @db.Timestamptz(6)
-  userid       Int      @id @default(autoincrement())
+  userid       String   @unique
   todo         todo[]
 }
-
