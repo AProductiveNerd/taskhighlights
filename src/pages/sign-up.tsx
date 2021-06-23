@@ -43,7 +43,7 @@ export default function SignUp() {
 
 				const datecreated = new Date().toISOString();
 
-				const pgUser: users = await axios.post("/api/users", {
+				await axios.post("/api/users", {
 					avatar,
 					datecreated,
 					emailaddress: createdUser.user.email,
