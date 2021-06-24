@@ -43,7 +43,9 @@ export const Layout = ({ children }) => {
 				<main
 					className={`flex-1 ${
 						displayHeader && "border-t-2"
-					} border-theme-primary-500`}
+					} border-theme-primary-500 ${
+						!displayHeader && "flex justify-center items-center"
+					}`}
 				>
 					{children}
 				</main>

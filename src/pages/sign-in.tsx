@@ -4,7 +4,7 @@ import Link from "next/link";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { fireAuth } from "../libs/Firebase";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 
 export default function SignIn() {
 	const router = useRouter();
@@ -15,7 +15,7 @@ export default function SignIn() {
 	const [error, setError] = useState("");
 	const isInvalid = password === "" || emailAddress === "";
 
-	const handleLogin = async (event) => {
+	const handleLogin = async (event: FormEvent) => {
 		event.preventDefault();
 		try {
 			await fireAuth.signInWithEmailAndPassword(emailAddress, password);
