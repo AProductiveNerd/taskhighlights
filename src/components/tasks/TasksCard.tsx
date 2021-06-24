@@ -16,49 +16,6 @@ export const TasksCard = () => {
 			"
 		>
 			<AddTask />
-			<ol>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-				<ul>sf</ul>
-			</ol>
 		</div>
 	);
 };
