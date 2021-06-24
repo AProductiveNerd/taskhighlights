@@ -1,4 +1,4 @@
-import { PrismaClient, users } from "@prisma/client";
+import { PrismaClient, todo, users } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export interface question {
@@ -78,4 +78,42 @@ export const deleteUserByUsername = async (
 	});
 
 	return deletedUser;
+};
+
+export const getAllUserTodos = async (userid: string): Promise<todo[]> => {
+	const allTodos: todo[] = await prisma.todo.findMany({
+		where: {
+			User: {
+				userid,
+			},
+		},
+	});
+
+	return allTodos;
+};
+
+export const createUserTodo = async (
+	description: string,
+	userid: string
+): Promise<todo> => {
+	const createdTodo = await prisma.todo.create({
+		data: {
+			description,
+			User: {
+				connect: { userid },
+			},
+		},
+	});
+
+	return createdTodo;
+};
+
+export const deleteUserTodo = async (todo_id: number): Promise<todo> => {
+	const deletedTodo = await prisma.todo.delete({
+		where: {
+			todo_id,
+		},
+	});
+
+	return deletedTodo;
 };

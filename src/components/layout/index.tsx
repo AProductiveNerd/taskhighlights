@@ -2,10 +2,12 @@ import { Header } from "./Header";
 import { useContext, useEffect, useState } from "react";
 import FireUserContext from "../../contexts/FireUserContext";
 import axios from "axios";
+import UserContext from "./../../contexts/UserContext";
+import { users } from "@prisma/client";
 
 export const Layout = ({ children }) => {
 	const { fireId } = useContext(FireUserContext);
-	const [currentUser, setCurrentUser] = useState(null);
+	const [currentUser, setCurrentUser] = useState<users>(null);
 
 	useEffect(() => {
 		const fetchUser = async (): Promise<void> => {
@@ -20,14 +22,16 @@ export const Layout = ({ children }) => {
 	}, [fireId, currentUser]);
 
 	return (
-		<div className="bg-theme-blueGray-900 min-h-screen flex flex-col text-theme-blueGray-400">
-			<header className="flex justify-center">
-				<Header user={currentUser} />
-			</header>
+		<UserContext.Provider value={currentUser}>
+			<div className="bg-theme-blueGray-900 min-h-screen flex flex-col text-theme-blueGray-400">
+				<header className="flex justify-center">
+					<Header />
+				</header>
 
-			<main className="flex-1 border-t-2 border-theme-primary-500 flex justify-center">
-				{children}
-			</main>
-		</div>
+				<main className="flex-1 border-t-2 border-theme-primary-500 flex justify-center">
+					{children}
+				</main>
+			</div>
+		</UserContext.Provider>
 	);
 };

@@ -1,6 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import {
+	createUserTodo,
+	deleteUserTodo,
+	getAllUserTodos,
+	getUserByUserId,
+} from "../../../utils";
+import { todo, users } from "@prisma/client";
 
-import { PrismaClient, todo, users } from "@prisma/client";
 export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse<any>
@@ -10,73 +16,36 @@ export default async function handler(
 		todo_id,
 	}: { description: string; todo_id: number } = req.body;
 
-	const prisma = new PrismaClient();
 	const userid: string = req.query.id.toString();
 
-	const user: users = await prisma.users.findUnique({
-		where: {
-			userid,
-		},
-	});
+	const user: users = await getUserByUserId(userid);
 
 	if (user) {
 		const method: string = req.method;
 
-		switch (method) {
-			case "GET":
-				const allTodos: todo[] = await prisma.todo.findMany({
-					where: {
-						User: {
-							userid,
-						},
-					},
-				});
+		if (method === "GET") {
+			const allTodos: todo[] = await getAllUserTodos(userid);
 
-				res.json(allTodos);
+			res.json(allTodos);
+		} else if (method === "POST") {
+			if (typeof description === "string" && description !== "") {
+				const createdTodo: todo = await createUserTodo(
+					description,
+					userid
+				);
 
-				break;
+				res.json(createdTodo);
+			} else {
+				res.status(406).json({ Error: "Not Acceptable" });
+			}
+		} else if (method === "DELETE") {
+			if (todo_id !== undefined) {
+				const deleted: todo = await deleteUserTodo(todo_id);
 
-			case "POST":
-				if (typeof description === "string" && description !== "") {
-					// const newTodo = await createNewTask(description, userid);
-					await prisma.todo.create({
-						data: {
-							description,
-							User: {
-								connect: { userid },
-							},
-						},
-					});
-
-					const allTodos: todo[] = await prisma.todo.findMany({
-						where: {
-							User: {
-								userid,
-							},
-						},
-					});
-
-					res.json(allTodos);
-				} else {
-					res.status(406).json({ Error: "Not Acceptable" });
-				}
-
-				break;
-
-			case "DELETE":
-				if (todo_id !== undefined) {
-					const deleted: todo = await prisma.todo.delete({
-						where: {
-							todo_id,
-						},
-					});
-
-					res.json(deleted);
-				} else {
-					res.status(406).json({ Error: "Not Acceptable" });
-				}
-
-				break;
+				res.json(deleted);
+			} else {
+				res.status(406).json({ Error: "Not Acceptable" });
+			}
 		}
 	} else {
 		res.status(406).json({ Error: "No user found" });
