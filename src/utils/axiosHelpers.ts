@@ -4,9 +4,11 @@ import axios from "axios";
 export const fetchUserFromUserid = async (
 	userid: string
 ): Promise<users> => {
-	const { data: user } = await axios.get(`/api/user?userid=${userid}`);
+	const { data }: { data: users } = await axios.get(
+		`/api/user?userid=${userid}`
+	);
 
-	return user;
+	return data;
 };
 
 export const createUserAxios = async (
@@ -18,7 +20,7 @@ export const createUserAxios = async (
 	userId: string,
 	userName: string
 ): Promise<users> => {
-	const createdUser: users = await axios.post("/api/user", {
+	const { data }: { data: users } = await axios.post("/api/user", {
 		avatar,
 		datecreated,
 		lastseen,
@@ -28,5 +30,5 @@ export const createUserAxios = async (
 		userName,
 	});
 
-	return createdUser;
+	return data;
 };

@@ -7,11 +7,13 @@ import { users } from "@prisma/client";
 import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
 
+// !Stories Limit 5 including own
+
 export const Header = () => {
 	const currentUser: users = useContext(UserContext);
 
 	return (
-		<div className="flex flex-row p-4 items-center px-4 space-x-14 sm:space-x-40 md:space-x-60">
+		<div className="flex flex-1 flex-row p-4 items-center justify-evenly px-4 sm:space-x-40 md:space-x-60">
 			<div>
 				<Link href="/">
 					<a
@@ -25,8 +27,8 @@ export const Header = () => {
 			</div>
 
 			{currentUser?.avatar && (
-				<div className="bg-gradient-to-tr from-theme-primary-500 to-theme-fuchsia-600 p-1 rounded-full">
-					<div className="relative rounded-full w-20 h-20 transform transition hover:-rotate-360 bg-white cursor-pointer">
+				<div className="flex -space-x-1 overflow-hidden">
+					<div className="relative inline-block h-12 w-12 rounded-full ring-2 ring-theme-blueGray-900">
 						<Image
 							alt="user-avatar"
 							src={currentUser.avatar}

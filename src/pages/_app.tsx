@@ -15,8 +15,8 @@ function MyApp({ Component, pageProps }: AppProps) {
 		fireAuth.onAuthStateChanged((user) => {
 			if (
 				!user &&
-				router.pathname !== "/sign-in" &&
-				router.pathname !== "/sign-up"
+				router.pathname.toString() !== "/sign-in" &&
+				router.pathname.toString() !== "/sign-up"
 			) {
 				router.push("/sign-in");
 			} else {

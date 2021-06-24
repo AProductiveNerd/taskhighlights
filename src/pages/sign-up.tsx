@@ -75,12 +75,12 @@ export default function SignUp() {
 
 				<div className="max-w-md w-full space-y-8">
 					<div className="text-center">
-						<h1 className="text-7xl leading-tight font-extrabold text-theme-primary-500">
+						<h1 className="text-5xl sm:text-7xl leading-tight font-extrabold text-theme-primary-500">
 							Task Highlights
 						</h1>
 
-						<h2 className="mt-6 text-center text-3xl font-semibold text-theme-blueGray-400">
-							Sign up to your account
+						<h2 className="mt-6 text-center text-xl sm:text-3xl font-semibold text-theme-blueGray-400">
+							Sign up
 						</h2>
 					</div>
 
