@@ -1,12 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import {
+	createUser,
 	deleteUserByUserId,
 	deleteUserByUsername,
 	getUserByUserId,
 	getUserByUsername,
 	question,
 	urlSplitByQuestions,
-} from "../../utils";
+} from "../../utils/prismaCrud";
 
 import { users } from "@prisma/client";
 
@@ -17,6 +18,24 @@ export default async function handler(
 	const { username, userid }: question = await urlSplitByQuestions(
 		req.url
 	);
+
+	const {
+		avatar,
+		datecreated,
+		emailaddress,
+		fullname,
+		lastseen,
+		userId,
+		userName,
+	}: {
+		avatar: string;
+		datecreated: Date;
+		emailaddress: string;
+		fullname: string;
+		lastseen: Date;
+		userId: string;
+		userName: string;
+	} = req.body;
 
 	const method: string = req.method;
 
@@ -56,5 +75,17 @@ export default async function handler(
 				res.json({ Error: "No user found" });
 			}
 		}
+	} else if (method === "POST") {
+		const createdUser = await createUser(
+			avatar,
+			datecreated,
+			lastseen,
+			emailaddress,
+			fullname,
+			userId,
+			userName
+		);
+
+		res.json(createdUser);
 	}
 }

@@ -1,24 +1,22 @@
 import { Header } from "./Header";
 import { useContext, useEffect, useState } from "react";
 import FireUserContext from "../../contexts/FireUserContext";
-import axios from "axios";
 import UserContext from "./../../contexts/UserContext";
 import { users } from "@prisma/client";
+import { fetchUserFromUserid } from "../../utils/axiosHelpers";
 
 export const Layout = ({ children }) => {
 	const { fireId } = useContext(FireUserContext);
 	const [currentUser, setCurrentUser] = useState<users>(null);
 
 	useEffect(() => {
-		const fetchUser = async (): Promise<void> => {
-			await axios.get(`/api/user?userid=${fireId}`).then((res) => {
-				if (JSON.stringify(currentUser) !== JSON.stringify(res.data)) {
-					setCurrentUser(res.data);
-				}
-			});
-		};
+		(async () => {
+			const user = await fetchUserFromUserid(fireId);
 
-		fetchUser();
+			if (JSON.stringify(currentUser) !== JSON.stringify(user)) {
+				setCurrentUser(user);
+			}
+		})();
 	}, [fireId, currentUser]);
 
 	return (

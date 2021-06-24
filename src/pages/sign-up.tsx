@@ -2,14 +2,12 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { AvatarGenerator } from "random-avatar-generator";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { useRouter } from "next/router";
 import { LockClosedIcon } from "@heroicons/react/solid";
-import { getUserByUsername } from "./../utils/index";
 import { fireAuth } from "../libs/Firebase";
-import { users } from "@prisma/client";
-import axios from "axios";
 import { Layout } from "../components/layout";
+import { createUserAxios } from "../utils/axiosHelpers";
 
 export default function SignUp() {
 	const generator = new AvatarGenerator();
@@ -21,13 +19,14 @@ export default function SignUp() {
 	const [password, setPassword] = useState("");
 	const [avatar, setAvatar] = useState("");
 	const [error, setError] = useState("");
+
 	const isInvalid =
 		password === "" ||
 		emailaddress === "" ||
 		fullname === "" ||
 		username === "";
 
-	const handleSignUp = async (event) => {
+	const handleSignUp = async (event: FormEvent) => {
 		event.preventDefault();
 
 		if (avatar !== "") {
@@ -42,17 +41,17 @@ export default function SignUp() {
 					displayName: username,
 				});
 
-				const datecreated = new Date().toISOString();
+				const datecreated: string = new Date().toISOString();
 
-				await axios.post("/api/users", {
+				await createUserAxios(
 					avatar,
 					datecreated,
-					emailaddress: createdUser.user.email,
+					datecreated,
+					createdUser?.user?.email,
 					fullname,
-					lastseen: datecreated,
-					userid: createdUser.user.uid,
-					username,
-				});
+					createdUser?.user?.uid,
+					username
+				);
 
 				router.push("/");
 			} catch (error) {
@@ -73,6 +72,7 @@ export default function SignUp() {
 				<Head>
 					<title>Sign up | Task Highlights</title>
 				</Head>
+
 				<div className="max-w-md w-full space-y-8">
 					<div className="text-center">
 						<h1 className="text-7xl leading-tight font-extrabold text-theme-primary-500">

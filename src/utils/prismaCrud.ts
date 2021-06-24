@@ -6,6 +6,30 @@ export interface question {
 	userid?: string;
 }
 
+export const createUser = async (
+	avatar: string,
+	datecreated: Date,
+	lastseen: Date,
+	emailaddress: string,
+	fullname: string,
+	userid: string,
+	username: string
+): Promise<users> => {
+	const createdUser: users = await prisma.users.create({
+		data: {
+			avatar,
+			datecreated,
+			emailaddress,
+			fullname,
+			lastseen,
+			userid,
+			username,
+		},
+	});
+
+	return createdUser;
+};
+
 export const getUserByUsername = async (
 	username: string
 ): Promise<users> => {

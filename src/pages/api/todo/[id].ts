@@ -4,7 +4,7 @@ import {
 	deleteUserTodo,
 	getAllUserTodos,
 	getUserByUserId,
-} from "../../../utils";
+} from "../../../utils/prismaCrud";
 import { todo, users } from "@prisma/client";
 
 export default async function handler(
