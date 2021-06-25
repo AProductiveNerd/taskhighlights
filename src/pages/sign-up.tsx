@@ -46,7 +46,6 @@ export default function SignUp() {
 				await createUserAxios(
 					avatar,
 					datecreated,
-					datecreated,
 					createdUser?.user?.email,
 					fullname,
 					createdUser?.user?.uid,

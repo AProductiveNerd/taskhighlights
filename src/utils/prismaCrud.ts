@@ -8,7 +8,6 @@ export interface question {
 
 export const createUser = async (
 	avatar: string,
-	datecreated: Date,
 	lastseen: Date,
 	emailaddress: string,
 	fullname: string,
@@ -18,7 +17,6 @@ export const createUser = async (
 	const createdUser: users = await prisma.users.create({
 		data: {
 			avatar,
-			datecreated,
 			emailaddress,
 			fullname,
 			lastseen,
@@ -118,13 +116,17 @@ export const getAllUserTodos = async (userid: string): Promise<todo[]> => {
 
 export const createUserTodo = async (
 	description: string,
-	userid: string
+	userid: string,
+	page_id: number
 ): Promise<todo> => {
 	const createdTodo = await prisma.todo.create({
 		data: {
 			description,
 			User: {
 				connect: { userid },
+			},
+			pages: {
+				connect: { page_id },
 			},
 		},
 	});

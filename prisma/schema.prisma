@@ -9,11 +9,13 @@ datasource db {
 }
 
 model todo {
-  todo_id     Int     @id @default(autoincrement())
-  description String? @db.VarChar(255)
-  done        Boolean @default(false)
-  uid         String
-  User        users   @relation(fields: [uid], references: [userid])
+  todo_id      Int     @id @default(autoincrement())
+  description  String  @db.VarChar(255)
+  done         Boolean @default(false)
+  uid          String
+  pagesPage_id Int
+  pages        pages   @relation(fields: [pagesPage_id], references: [page_id])
+  User         users   @relation(fields: [uid], references: [userid])
 }
 
 model users {
@@ -21,8 +23,18 @@ model users {
   emailaddress String   @unique
   fullname     String
   username     String   @unique
-  datecreated  DateTime @db.Timestamptz(6)
+  datecreated  DateTime @default(now()) @db.Timestamptz(6)
   lastseen     DateTime @db.Timestamptz(6)
   userid       String   @unique
+  pages        pages[]
   todo         todo[]
+}
+
+model pages {
+  page_id      Int      @id @default(autoincrement())
+  title        String
+  date_created DateTime @default(now())
+  uid          String
+  User         users    @relation(fields: [uid], references: [userid])
+  todos        todo[]
 }

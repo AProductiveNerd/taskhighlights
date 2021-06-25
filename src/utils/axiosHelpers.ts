@@ -13,7 +13,6 @@ export const fetchUserFromUserid = async (
 
 export const createUserAxios = async (
 	avatar: string,
-	datecreated: string,
 	lastseen: string,
 	emailaddress: string,
 	fullname: string,
@@ -22,7 +21,6 @@ export const createUserAxios = async (
 ): Promise<users> => {
 	const { data }: { data: users } = await axios.post("/api/user", {
 		avatar,
-		datecreated,
 		lastseen,
 		emailaddress,
 		fullname,

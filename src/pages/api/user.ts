@@ -21,7 +21,6 @@ export default async function handler(
 
 	const {
 		avatar,
-		datecreated,
 		emailaddress,
 		fullname,
 		lastseen,
@@ -29,7 +28,6 @@ export default async function handler(
 		userName,
 	}: {
 		avatar: string;
-		datecreated: Date;
 		emailaddress: string;
 		fullname: string;
 		lastseen: Date;
@@ -78,7 +76,6 @@ export default async function handler(
 	} else if (method === "POST") {
 		const createdUser = await createUser(
 			avatar,
-			datecreated,
 			lastseen,
 			emailaddress,
 			fullname,
