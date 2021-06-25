@@ -104,7 +104,7 @@ export default function SignUp() {
 						<div className="rounded-md shadow-sm -space-y-px">
 							<div>
 								<label htmlFor="email-address" className="sr-only">
-									Email address
+									Full Name
 								</label>
 
 								<input
@@ -113,7 +113,7 @@ export default function SignUp() {
 									type="text"
 									autoComplete="name"
 									required
-									className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-theme-primary-500 focus:border-theme-primary-500 focus:z-10 sm:text-sm"
+									className="appearance-none rounded-none rounded-t relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-theme-primary-500 focus:border-theme-primary-500 focus:z-10 sm:text-sm"
 									placeholder="Full Name"
 									onChange={({ target }) =>
 										setfullname(target.value)
@@ -133,7 +133,7 @@ export default function SignUp() {
 									type="text"
 									autoComplete="username"
 									required
-									className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-theme-primary-500 focus:border-theme-primary-500 focus:z-10 sm:text-sm"
+									className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-theme-primary-500 focus:border-theme-primary-500 focus:z-10 sm:text-sm"
 									placeholder="Username"
 									onChange={({ target }) =>
 										setUsername(target.value.toLowerCase())
@@ -153,7 +153,7 @@ export default function SignUp() {
 									type="email"
 									autoComplete="email"
 									required
-									className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-theme-primary-500 focus:border-theme-primary-500 focus:z-10 sm:text-sm"
+									className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-theme-primary-500 focus:border-theme-primary-500 focus:z-10 sm:text-sm"
 									placeholder="Email address"
 									onChange={({ target }) =>
 										setemailaddress(target.value.toLowerCase())
@@ -173,7 +173,7 @@ export default function SignUp() {
 									type="password"
 									autoComplete="current-password"
 									required
-									className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-theme-primary-500 focus:border-theme-primary-500 focus:z-10 sm:text-sm"
+									className="appearance-none rounded-none rounded-b relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-theme-primary-500 focus:border-theme-primary-500 focus:z-10 sm:text-sm"
 									placeholder="Password"
 									onChange={({ target }) =>
 										setPassword(target.value)
@@ -232,7 +232,7 @@ export default function SignUp() {
 								<Link href="/sign-in">
 									<a>
 										Sign In
-										<div className="-right-1 bottom-0 absolute w-14 h-2 bg-theme-primary-700/40 group-hover:bg-transparent"></div>
+										<div className="-right-1 bottom-0 absolute w-14 h-2 bg-theme-primary-500/40 group-hover:bg-transparent"></div>
 									</a>
 								</Link>
 							</span>
