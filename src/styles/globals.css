@@ -12,7 +12,7 @@ html {
 }
 
 ::-webkit-scrollbar {
-	width: 6px;
+	width: 5px;
 }
 ::-webkit-scrollbar-thumb {
 	background: rgba(244, 63, 94, 1);

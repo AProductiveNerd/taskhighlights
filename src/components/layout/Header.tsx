@@ -13,7 +13,7 @@ export const Header = () => {
 	const currentUser: users = useContext(UserContext);
 
 	return (
-		<div className="flex flex-1 flex-row p-4 items-center justify-evenly px-4 sm:space-x-40 md:space-x-60">
+		<div className="flex flex-1 flex-row py-3 items-center justify-evenly px-4 sm:space-x-40 md:space-x-60">
 			<div>
 				<Link href="/">
 					<a
@@ -21,7 +21,7 @@ export const Header = () => {
 						aria-label="Home"
 						className="flex items-center"
 					>
-						<HomeIcon className="w-8 h-8" />
+						<HomeIcon className="w-7 h-7" />
 					</a>
 				</Link>
 			</div>
@@ -45,7 +45,7 @@ export const Header = () => {
 					title="Sign out"
 					onClick={() => fireAuth.signOut()}
 				>
-					<LogoutIcon className="w-8 h-8" />
+					<LogoutIcon className="w-7 h-7" />
 				</button>
 			</div>
 		</div>
