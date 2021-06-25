@@ -103,7 +103,7 @@ export default function SignUp() {
 
 						<div className="rounded-md shadow-sm -space-y-px">
 							<div>
-								<label htmlFor="email-address" className="sr-only">
+								<label htmlFor="full-name" className="sr-only">
 									Full Name
 								</label>
 
