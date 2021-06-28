@@ -1,4 +1,4 @@
-import { PrismaClient, user, page } from "@prisma/client";
+import { PrismaClient, user, page, Prisma } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export interface User_Body {
@@ -193,4 +193,16 @@ export const getAllPagesByUserid = async (
 	});
 
 	return pages;
+};
+
+export const deleteAllPagesByUserid = async (
+	page_user_id: string
+): Promise<Prisma.BatchPayload> => {
+	const deletedPages: Prisma.BatchPayload = await prisma.page.deleteMany({
+		where: {
+			page_user_id,
+		},
+	});
+
+	return deletedPages;
 };
