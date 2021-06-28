@@ -12,7 +12,7 @@ model page {
   page_id                   Int      @id @default(autoincrement())
   date_created              DateTime @default(now())
   page_title                String   @unique
-  page_user_id              String   @unique
+  page_user_id              String
   last_accessed             DateTime @updatedAt
   page_User                 user     @relation(fields: [page_user_id], references: [user_userid])
   page_Todos                todo?
@@ -38,6 +38,6 @@ model user {
   user_datecreated  DateTime @default(now()) @db.Timestamptz(6)
   user_lastseen     DateTime @updatedAt
   user_userid       String   @unique
-  user_Pages        page?
+  user_Pages        page[]
   user_Todos        todo?
 }

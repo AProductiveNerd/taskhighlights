@@ -53,7 +53,7 @@ export default async function handler(
 	} else if (method === "POST") {
 		try {
 			const body: Body = req.body;
-			const createdUser = await createUser(body);
+			const createdUser: user = await createUser(body);
 			res.status(201).json(createdUser);
 		} catch (e) {
 			if (e instanceof Prisma.PrismaClientKnownRequestError) {
