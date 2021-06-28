@@ -7,17 +7,13 @@ import {
 	deletePageByPageTitle,
 	getPageByPageid,
 	getPageByPageTitle,
+	Page_Body,
 } from "../../../utils/prismaHelpers";
 
 interface Query {
 	page_id?: number;
 	page_title?: string;
 	page_user_id?: string;
-}
-
-interface Body {
-	page_title: string;
-	page_user_id: string;
 }
 
 export default async function handler(
@@ -31,21 +27,21 @@ export default async function handler(
 		if (page_id) {
 			const page: page = await getPageByPageid(page_id);
 
-			res.status(201).json(page);
+			res.status(200).json(page);
 		} else if (page_title) {
 			const page: page = await getPageByPageTitle(page_title);
 
-			res.status(201).json(page);
+			res.status(200).json(page);
 		} else {
 			if (page_user_id) {
 				const page: page = await createRetDailyPage(page_user_id);
 
-				res.status(201).json(page);
+				res.status(200).json(page);
 			}
 		}
 	} else if (method === "POST") {
 		try {
-			const body: Body = req.body;
+			const body: Page_Body = req.body;
 			const createdPage: page = await createPage(body);
 
 			res.status(201).json(createdPage);

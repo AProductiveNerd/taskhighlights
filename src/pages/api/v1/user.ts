@@ -8,20 +8,13 @@ import {
 	getUserByEmailaddress,
 	getUserByUserid,
 	getUserByUsername,
+	User_Body,
 } from "../../../utils/prismaHelpers";
 
 interface Query {
 	user_userid?: string;
 	user_emailaddress?: string;
 	user_username?: string;
-}
-
-interface Body {
-	user_avatar: string;
-	user_emailaddress: string;
-	user_fullname: string;
-	user_username: string;
-	user_userid: string;
 }
 
 export default async function handler(
@@ -52,7 +45,7 @@ export default async function handler(
 		}
 	} else if (method === "POST") {
 		try {
-			const body: Body = req.body;
+			const body: User_Body = req.body;
 			const createdUser: user = await createUser(body);
 			res.status(201).json(createdUser);
 		} catch (e) {

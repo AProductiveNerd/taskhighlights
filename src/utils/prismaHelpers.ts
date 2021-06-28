@@ -1,7 +1,7 @@
 import { PrismaClient, user, page } from "@prisma/client";
 const prisma = new PrismaClient();
 
-interface User_Body {
+export interface User_Body {
 	user_avatar: string;
 	user_emailaddress: string;
 	user_fullname: string;
@@ -9,7 +9,7 @@ interface User_Body {
 	user_userid: string;
 }
 
-interface Page_Body {
+export interface Page_Body {
 	page_title: string;
 	page_user_id: string;
 }
@@ -181,4 +181,16 @@ export const deletePageByPageTitle = async (
 	});
 
 	return deletedPage;
+};
+
+export const getAllPagesByUserid = async (
+	page_user_id: string
+): Promise<page[]> => {
+	const pages: page[] = await prisma.page.findMany({
+		where: {
+			page_user_id,
+		},
+	});
+
+	return pages;
 };
