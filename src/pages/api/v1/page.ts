@@ -42,6 +42,7 @@ export default async function handler(
 	} else if (method === "POST") {
 		try {
 			const body: Page_Body = req.body;
+			console.log(body);
 			const createdPage: page = await createPage(body);
 
 			res.status(201).json(createdPage);

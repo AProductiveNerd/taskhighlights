@@ -1,4 +1,4 @@
-import { PrismaClient, user, page, Prisma } from "@prisma/client";
+import { PrismaClient, user, page, Prisma, todo } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export interface User_Body {
@@ -12,6 +12,12 @@ export interface User_Body {
 export interface Page_Body {
 	page_title: string;
 	page_user_id: string;
+}
+
+export interface Todo_Body {
+	todo_description: string;
+	todo_user_id: string;
+	todo_page_id: number;
 }
 
 export const getUserByUsername = async (
@@ -205,4 +211,40 @@ export const deleteAllPagesByUserid = async (
 	});
 
 	return deletedPages;
+};
+
+export const getTodobyTodoId = async (todo_id: number): Promise<todo> => {
+	const todo: todo = await prisma.todo.findUnique({
+		where: {
+			todo_id,
+		},
+	});
+
+	return todo;
+};
+
+export const createTodo = async ({
+	todo_description,
+	todo_page_id,
+	todo_user_id,
+}: Todo_Body): Promise<todo> => {
+	const todo: todo = await prisma.todo.create({
+		data: {
+			todo_description,
+			todo_page_id,
+			todo_user_id,
+		},
+	});
+
+	return todo;
+};
+
+export const deleteTodo = async (todo_id: number): Promise<todo> => {
+	const deletedTodo: todo = await prisma.todo.delete({
+		where: {
+			todo_id,
+		},
+	});
+
+	return deletedTodo;
 };

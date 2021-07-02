@@ -40,7 +40,6 @@ export default async function handler(
 			const requested_user: user = await getUserByEmailaddress(
 				user_emailaddress
 			);
-
 			res.status(200).json(requested_user);
 		}
 	} else if (method === "POST") {

@@ -21,12 +21,12 @@ model page {
 
 model todo {
   todo_id                   Int     @id @default(autoincrement())
-  todo_description          String  @db.VarChar(255)
+  todo_description          String  @unique @db.VarChar(255)
   todo_done                 Boolean @default(false)
   todo_page_id              Int     @unique
-  todo_user_id              String  @unique
-  todo_Pages                page    @relation(fields: [todo_page_id], references: [page_id])
-  todo_User                 user    @relation(fields: [todo_user_id], references: [user_userid])
+  todo_user_id              String
+  page_pageTotodo           page    @relation(fields: [todo_page_id], references: [page_id])
+  user                      user    @relation(fields: [todo_user_id], references: [user_userid])
   page_pageTotodoManyToMany page[]  @relation("pageTotodoManyToMany")
 }
 
@@ -38,6 +38,6 @@ model user {
   user_datecreated  DateTime @default(now()) @db.Timestamptz(6)
   user_lastseen     DateTime @updatedAt
   user_userid       String   @unique
-  user_Pages        page[]
-  user_Todos        todo?
+  page              page[]
+  todo              todo[]
 }

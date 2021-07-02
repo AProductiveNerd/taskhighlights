@@ -4,7 +4,7 @@ import Link from "next/link";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { fireAuth } from "../libs/Firebase";
 import { useRouter } from "next/router";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
 export default function SignIn() {
 	const router = useRouter();
