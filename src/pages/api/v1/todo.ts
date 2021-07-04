@@ -1,4 +1,4 @@
-import { todo } from "@prisma/client";
+import { Todo } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import {
 	createTodo,
@@ -8,7 +8,7 @@ import {
 } from "../../../utils/prismaHelpers";
 
 interface Query {
-	todo_id?: number;
+	todo_id?: string;
 }
 
 export default async function handler(
@@ -21,17 +21,15 @@ export default async function handler(
 	const body: Todo_Body = req.body;
 
 	if (method === "GET") {
-		if (todo_id) {
-			const todo: todo = await getTodobyTodoId(todo_id);
+		const todo: Todo = await getTodobyTodoId(parseInt(todo_id));
 
-			res.status(200).json(todo);
-		}
+		res.status(200).json(todo);
 	} else if (method === "POST") {
-		const todo: todo = await createTodo(body);
+		const todo: Todo = await createTodo(body);
 
 		res.status(201).json(todo);
 	} else if (method === "DELETE") {
-		const deletedTodo: todo = await deleteTodo(todo_id);
+		const deletedTodo: Todo = await deleteTodo(parseInt(todo_id));
 
 		res.status(200).json(deletedTodo);
 	}

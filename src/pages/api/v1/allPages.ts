@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { page, Prisma } from "@prisma/client";
+import { Page, Prisma } from "@prisma/client";
 import {
 	deleteAllPagesByUserid,
 	getAllPagesByUserid,
@@ -11,18 +11,18 @@ export default async function handler(
 ) {
 	const method = req.method;
 	const {
-		page_user_id,
+		user_id,
 	}: {
-		page_user_id?: string;
+		user_id?: string;
 	} = req.query;
 
 	if (method === "GET") {
-		const pages: page[] = await getAllPagesByUserid(page_user_id);
+		const pages: Page[] = await getAllPagesByUserid(user_id);
 
 		res.status(200).json(pages);
 	} else if (method === "DELETE") {
 		const deletedPages: Prisma.BatchPayload =
-			await deleteAllPagesByUserid(page_user_id);
+			await deleteAllPagesByUserid(user_id);
 
 		res.status(200).json({
 			Success: `Deleted ${deletedPages.count} pages`,

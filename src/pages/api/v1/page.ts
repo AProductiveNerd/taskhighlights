@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { page, Prisma } from "@prisma/client";
+import { Page, Prisma } from "@prisma/client";
 import {
 	createPage,
 	deletePageByPageid,
@@ -11,7 +11,7 @@ import {
 } from "../../../utils/prismaHelpers";
 
 interface Query {
-	page_id?: number;
+	page_id?: string;
 	page_title?: string;
 	page_user_id?: string;
 }
@@ -25,16 +25,16 @@ export default async function handler(
 
 	if (method === "GET") {
 		if (page_id) {
-			const page: page = await getPageByPageid(page_id);
+			const page: Page = await getPageByPageid(parseInt(page_id));
 
 			res.status(200).json(page);
 		} else if (page_title) {
-			const page: page = await getPageByPageTitle(page_title);
+			const page: Page = await getPageByPageTitle(page_title);
 
 			res.status(200).json(page);
 		} else {
 			if (page_user_id) {
-				const page: page = await createRetDailyPage(page_user_id);
+				const page: Page = await createRetDailyPage(page_user_id);
 
 				res.status(200).json(page);
 			}
@@ -42,8 +42,8 @@ export default async function handler(
 	} else if (method === "POST") {
 		try {
 			const body: Page_Body = req.body;
-			console.log(body);
-			const createdPage: page = await createPage(body);
+
+			const createdPage: Page = await createPage(body);
 
 			res.status(201).json(createdPage);
 		} catch (e) {
@@ -53,11 +53,13 @@ export default async function handler(
 		}
 	} else if (method === "DELETE") {
 		if (page_id) {
-			const deletedPage: page = await deletePageByPageid(page_id);
+			const deletedPage: Page = await deletePageByPageid(
+				parseInt(page_id)
+			);
 
 			res.status(200).json(deletedPage);
 		} else if (page_title) {
-			const deletedPage: page = await deletePageByPageTitle(page_title);
+			const deletedPage: Page = await deletePageByPageTitle(page_title);
 
 			res.status(200).json(deletedPage);
 		}

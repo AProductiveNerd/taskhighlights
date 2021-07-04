@@ -8,36 +8,32 @@ datasource db {
   shadowDatabaseUrl = env("SHADOW_URL")
 }
 
-model page {
-  page_id                   Int      @id @default(autoincrement())
-  date_created              DateTime @default(now())
-  page_title                String   @unique
-  page_user_id              String
-  last_accessed             DateTime @updatedAt
-  page_User                 user     @relation(fields: [page_user_id], references: [user_userid])
-  page_Todos                todo?
-  todo_pageTotodoManyToMany todo[]   @relation("pageTotodoManyToMany")
+model User {
+  user_id          String   @id
+  user_email       String   @unique
+  user_username    String   @unique
+  user_lastseen    DateTime @updatedAt
+  user_datecreated DateTime @default(now())
+  user_avatar      String
+  user_fullname    String
+  User_Page        Page[]
+  User_todo        Todo[]
 }
 
-model todo {
-  todo_id                   Int     @id @default(autoincrement())
-  todo_description          String  @unique @db.VarChar(255)
-  todo_done                 Boolean @default(false)
-  todo_page_id              Int     @unique
-  todo_user_id              String
-  page_pageTotodo           page    @relation(fields: [todo_page_id], references: [page_id])
-  user                      user    @relation(fields: [todo_user_id], references: [user_userid])
-  page_pageTotodoManyToMany page[]  @relation("pageTotodoManyToMany")
+model Page {
+  page_id            Int      @id @default(autoincrement())
+  page_datecreated   DateTime @default(now())
+  page_title         String   @unique
+  page_last_accessed DateTime @updatedAt
+  Page_Todo          Todo[]
+  Page_User          User[]
 }
 
-model user {
-  user_avatar       String
-  user_emailaddress String   @unique
-  user_fullname     String
-  user_username     String   @unique
-  user_datecreated  DateTime @default(now()) @db.Timestamptz(6)
-  user_lastseen     DateTime @updatedAt
-  user_userid       String   @unique
-  page              page[]
-  todo              todo[]
+model Todo {
+  todo_id          Int      @id @default(autoincrement())
+  todo_datecreated DateTime @default(now())
+  todo_description String
+  todo_done        Boolean  @default(false)
+  Todo_Page        Page[]
+  Todo_User        User[]
 }
