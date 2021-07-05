@@ -1,4 +1,5 @@
-import { PrismaClient, User, Page, Todo, Prisma } from "@prisma/client";
+import { Page, Prisma, PrismaClient, Todo, User } from "@prisma/client";
+
 const prisma = new PrismaClient();
 
 export interface User_Body {

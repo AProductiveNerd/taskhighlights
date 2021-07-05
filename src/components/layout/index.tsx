@@ -1,14 +1,15 @@
-import { Header } from "./Header";
 import { useContext, useEffect, useState } from "react";
+
 import FireUserContext from "../../contexts/FireUserContext";
+import { Header } from "./Header";
+import { User } from "@prisma/client";
 import UserContext from "./../../contexts/UserContext";
-import { users } from "@prisma/client";
-import { fetchUserFromUserid } from "../../utils/axiosHelpers";
+import { fetchUserFromUserid } from "../../utils/fetchHelpers";
 import { useRouter } from "next/router";
 
 export const Layout = ({ children }) => {
 	const { fireId } = useContext(FireUserContext);
-	const [currentUser, setCurrentUser] = useState<users>(null);
+	const [currentUser, setCurrentUser] = useState<User>(null);
 
 	const [displayHeader, setDisplayHeader] = useState(true);
 
