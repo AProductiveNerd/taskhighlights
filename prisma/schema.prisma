@@ -8,33 +8,32 @@ datasource db {
   shadowDatabaseUrl = env("SHADOW_URL")
 }
 
-model todo {
-  todo_id      Int     @id @default(autoincrement())
-  description  String  @db.VarChar(255)
-  done         Boolean @default(false)
-  uid          String
-  pagesPage_id Int
-  pages        pages   @relation(fields: [pagesPage_id], references: [page_id])
-  User         users   @relation(fields: [uid], references: [userid])
+model User {
+  user_id          String   @id
+  user_email       String   @unique
+  user_username    String   @unique
+  user_lastseen    DateTime @updatedAt
+  user_datecreated DateTime @default(now())
+  user_avatar      String
+  user_fullname    String
+  User_Page        Page[]
+  User_todo        Todo[]
 }
 
-model users {
-  avatar       String
-  emailaddress String   @unique
-  fullname     String
-  username     String   @unique
-  datecreated  DateTime @default(now()) @db.Timestamptz(6)
-  lastseen     DateTime @db.Timestamptz(6)
-  userid       String   @unique
-  pages        pages[]
-  todo         todo[]
+model Page {
+  page_id            Int      @id @default(autoincrement())
+  page_datecreated   DateTime @default(now())
+  page_title         String   @unique
+  page_last_accessed DateTime @updatedAt
+  Page_Todo          Todo[]
+  Page_User          User[]
 }
 
-model pages {
-  page_id      Int      @id @default(autoincrement())
-  title        String
-  date_created DateTime @default(now())
-  uid          String
-  User         users    @relation(fields: [uid], references: [userid])
-  todos        todo[]
+model Todo {
+  todo_id          Int      @id @default(autoincrement())
+  todo_datecreated DateTime @default(now())
+  todo_description String
+  todo_done        Boolean  @default(false)
+  Todo_Page        Page[]
+  Todo_User        User[]
 }

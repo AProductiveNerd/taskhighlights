@@ -1,56 +1,54 @@
+import { FormEvent, useState } from "react";
+
+import { AvatarGenerator } from "random-avatar-generator";
+import { CreateUser } from "../utils/fetchHelpers";
 import Head from "next/head";
 import Image from "next/image";
+import { Layout } from "../components/layout";
 import Link from "next/link";
-import { AvatarGenerator } from "random-avatar-generator";
-import { FormEvent, useState } from "react";
-import { useRouter } from "next/router";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { fireAuth } from "../libs/Firebase";
-import { Layout } from "../components/layout";
-import { createUserAxios } from "../utils/axiosHelpers";
+import { useRouter } from "next/router";
 
 export default function SignUp() {
 	const generator = new AvatarGenerator();
 	const router = useRouter();
 
-	const [username, setUsername] = useState("");
-	const [fullname, setfullname] = useState("");
-	const [emailaddress, setemailaddress] = useState("");
+	const [user_username, setUsername] = useState("");
+	const [user_fullname, setfullname] = useState("");
+	const [user_email, setemailaddress] = useState("");
 	const [password, setPassword] = useState("");
-	const [avatar, setAvatar] = useState("");
+	const [user_avatar, setAvatar] = useState("");
 	const [error, setError] = useState("");
 
 	const isInvalid =
 		password === "" ||
-		emailaddress === "" ||
-		fullname === "" ||
-		username === "";
+		user_email === "" ||
+		user_fullname === "" ||
+		user_username === "";
 
 	const handleSignUp = async (event: FormEvent) => {
 		event.preventDefault();
 
-		if (avatar !== "") {
+		if (user_avatar !== "") {
 			try {
 				const createdUser =
 					await fireAuth.createUserWithEmailAndPassword(
-						emailaddress,
+						user_email,
 						password
 					);
 
 				await createdUser.user.updateProfile({
-					displayName: username,
+					displayName: user_username,
 				});
 
-				const datecreated: string = new Date().toISOString();
-
-				await createUserAxios(
-					avatar,
-					datecreated,
-					createdUser?.user?.email,
-					fullname,
-					createdUser?.user?.uid,
-					username
-				);
+				await CreateUser({
+					user_avatar,
+					user_email,
+					user_fullname,
+					user_id: createdUser?.user?.uid,
+					user_username,
+				});
 
 				router.push("/");
 			} catch (error) {
@@ -61,7 +59,7 @@ export default function SignUp() {
 			}
 		} else {
 			setUsername("");
-			avatar === "" && setError("Please choose an avatar");
+			user_avatar === "" && setError("Please choose an avatar");
 		}
 	};
 
@@ -117,7 +115,7 @@ export default function SignUp() {
 									onChange={({ target }) =>
 										setfullname(target.value)
 									}
-									value={fullname}
+									value={user_fullname}
 								/>
 							</div>
 
@@ -137,7 +135,7 @@ export default function SignUp() {
 									onChange={({ target }) =>
 										setUsername(target.value.toLowerCase())
 									}
-									value={username}
+									value={user_username}
 								/>
 							</div>
 
@@ -157,7 +155,7 @@ export default function SignUp() {
 									onChange={({ target }) =>
 										setemailaddress(target.value.toLowerCase())
 									}
-									value={emailaddress}
+									value={user_email}
 								/>
 							</div>
 
@@ -194,18 +192,18 @@ export default function SignUp() {
 							</button>
 
 							<div>
-								{avatar !== "" ? (
+								{user_avatar !== "" ? (
 									<Image
 										alt="avatar"
 										width={250}
 										height={250}
-										src={avatar}
+										src={user_avatar}
 									/>
 								) : null}
 							</div>
 						</div>
 
-						{!isInvalid && avatar !== "" && (
+						{!isInvalid && user_avatar !== "" && (
 							<div>
 								<button
 									type="submit"
