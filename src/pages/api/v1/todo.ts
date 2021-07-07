@@ -3,9 +3,11 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import {
   createTodo,
   deleteTodo,
-  getTodobyTodoId, Todo_Body
+  getTodobyTodoId,
+  Todo_Body,
+  toggleTodoDone,
+  updateTodoDescription
 } from "../../../utils/prismaHelpers";
-
 
 interface Query {
   todo_id?: string;
@@ -26,9 +28,19 @@ export default async function handler(
 
     res.status(200).json(todo);
   } else if (method === "POST") {
-    const todo: Todo = await createTodo(body);
+    if (body.task === "toggleState") {
+      const todo: Todo = await toggleTodoDone(body);
 
-    res.status(201).json(todo);
+      res.status(201).json(todo);
+    } else if (body.task === "updateDescription") {
+      const todo: Todo = await updateTodoDescription(body);
+
+      res.status(201).json(todo);
+    } else {
+      const todo: Todo = await createTodo(body);
+
+      res.status(201).json(todo);
+    }
   } else if (method === "DELETE") {
     const deletedTodo: Todo = await deleteTodo(parseInt(todo_id));
 

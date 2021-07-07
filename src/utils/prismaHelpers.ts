@@ -3,259 +3,322 @@ import { Page, Prisma, PrismaClient, Todo, User } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export interface User_Body {
-	user_avatar: string;
-	user_email: string;
-	user_fullname: string;
-	user_username: string;
-	user_id: string;
+  user_avatar: string;
+  user_email: string;
+  user_fullname: string;
+  user_username: string;
+  user_id: string;
 }
 
 export interface Page_Body {
-	page_title: string;
-	page_user_id: string;
+  page_title: string;
+  user_id: string;
 }
 
 export interface Todo_Body {
-	todo_description: string;
-	todo_user_id: string;
-	todo_page_id: number;
+  todo_description?: string;
+  user_id?: string;
+  page_id?: number;
+  task?: string;
+  todo_id?: number;
+  todo_done?: boolean;
 }
 
 export const getUserByUsername = async (
-	user_username: string
+  user_username: string
 ): Promise<User> => {
-	const user = await prisma.user.findUnique({
-		where: {
-			user_username,
-		},
-	});
+  const user = await prisma.user.findUnique({
+    where: {
+      user_username
+    }
+  });
 
-	return user;
+  return user;
 };
 
 export const getUserByUserid = async (user_id: string): Promise<User> => {
-	const user = await prisma.user.findUnique({
-		where: {
-			user_id,
-		},
-	});
+  const user = await prisma.user.findUnique({
+    where: {
+      user_id
+    }
+  });
 
-	return user;
+  return user;
 };
 
 export const getUserByEmailaddress = async (
-	user_email: string
+  user_email: string
 ): Promise<User> => {
-	const user = await prisma.user.findUnique({
-		where: {
-			user_email,
-		},
-	});
+  const user = await prisma.user.findUnique({
+    where: {
+      user_email
+    }
+  });
 
-	return user;
+  return user;
 };
 
 export const createUser = async ({
-	user_avatar,
-	user_email,
-	user_fullname,
-	user_id,
-	user_username,
+  user_avatar,
+  user_email,
+  user_fullname,
+  user_id,
+  user_username
 }: User_Body): Promise<User> => {
-	const createdUser: User = await prisma.user.create({
-		data: {
-			user_avatar,
-			user_email,
-			user_fullname,
-			user_id,
-			user_username,
-		},
-	});
+  const createdUser: User = await prisma.user.create({
+    data: {
+      user_avatar,
+      user_email,
+      user_fullname,
+      user_id,
+      user_username
+    }
+  });
 
-	return createdUser;
+  return createdUser;
 };
 
-export const deleteUserbyuserid = async (
-	user_id: string
-): Promise<User> => {
-	const deletedUser: User = await prisma.user.delete({
-		where: {
-			user_id,
-		},
-	});
+export const deleteUserbyuserid = async (user_id: string): Promise<User> => {
+  const deletedUser: User = await prisma.user.delete({
+    where: {
+      user_id
+    }
+  });
 
-	return deletedUser;
+  return deletedUser;
 };
 
-export const deleteUserbyemail = async (
-	user_email: string
-): Promise<User> => {
-	const deletedUser: User = await prisma.user.delete({
-		where: {
-			user_email,
-		},
-	});
+export const deleteUserbyemail = async (user_email: string): Promise<User> => {
+  const deletedUser: User = await prisma.user.delete({
+    where: {
+      user_email
+    }
+  });
 
-	return deletedUser;
+  return deletedUser;
 };
 
 export const deleteUserbyusername = async (
-	user_username: string
+  user_username: string
 ): Promise<User> => {
-	const deletedUser: User = await prisma.user.delete({
-		where: {
-			user_username,
-		},
-	});
+  const deletedUser: User = await prisma.user.delete({
+    where: {
+      user_username
+    }
+  });
 
-	return deletedUser;
+  return deletedUser;
 };
 
 export const getPageByPageid = async (page_id: number): Promise<Page> => {
-	const page: Page = await prisma.page.findUnique({
-		where: {
-			page_id,
-		},
-	});
+  const page: Page = await prisma.page.findUnique({
+    where: {
+      page_id
+    }
+  });
 
-	return page;
+  return page;
 };
 
-export const getPageByPageTitle = async (
-	page_title: string
-): Promise<Page> => {
-	const page: Page = await prisma.page.findUnique({
-		where: {
-			page_title,
-		},
-	});
+export const getPageByPageTitle = async (page_title: string): Promise<Page> => {
+  const page: Page = await prisma.page.findUnique({
+    where: {
+      page_title
+    }
+  });
 
-	return page;
+  return page;
 };
 
 export const createPage = async ({
-	page_title,
-	page_user_id,
+  page_title,
+  user_id
 }: Page_Body): Promise<Page> => {
-	const createdPage: Page = await prisma.page.create({
-		data: {
-			page_title,
-			page_user_id,
-		},
-	});
+  const createdPage: Page = await prisma.page.create({
+    data: {
+      page_title,
+      Page_User: {
+        connect: {
+          user_id
+        }
+      }
+    }
+  });
 
-	return createdPage;
+  return createdPage;
 };
 
-export const createRetDailyPage = async (
-	page_user_id: string
-): Promise<Page> => {
-	const today: string = new Date().toLocaleDateString("en-GB");
+export const createRetDailyPage = async (user_id: string): Promise<Page> => {
+  if (user_id.toString() !== "undefined") {
+    const today: string = new Date().toLocaleDateString("en-GB");
 
-	const page: Page = await prisma.page.upsert({
-		where: { page_title: today },
-		create: {
-			page_title: today,
-			page_user_id,
-		},
-		update: {},
-	});
+    const page: Page = await prisma.page.upsert({
+      where: {
+        page_title: today
+      },
+      create: {
+        page_title: today,
+        Page_User: {
+          connect: {
+            user_id
+          }
+        }
+      },
+      update: {}
+    });
 
-	return page;
+    return page;
+  }
 };
 
-export const deletePageByPageid = async (
-	page_id: number
-): Promise<Page> => {
-	const deletedPage: Page = await prisma.page.delete({
-		where: {
-			page_id,
-		},
-	});
+export const deletePageByPageid = async (page_id: number): Promise<Page> => {
+  const deletedPage: Page = await prisma.page.delete({
+    where: {
+      page_id
+    }
+  });
 
-	return deletedPage;
+  return deletedPage;
 };
 
 export const deletePageByPageTitle = async (
-	page_title: string
+  page_title: string
 ): Promise<Page> => {
-	const deletedPage: Page = await prisma.page.delete({
-		where: {
-			page_title,
-		},
-	});
+  const deletedPage: Page = await prisma.page.delete({
+    where: {
+      page_title
+    }
+  });
 
-	return deletedPage;
+  return deletedPage;
 };
 
-export const getAllPagesByUserid = async (
-	page_user_id: string
-): Promise<Page[]> => {
-	const pages: Page[] = await prisma.page.findMany({
-		where: {
-			page_user_id,
-		},
-	});
+export const getAllPagesByUserid = async (user_id: string): Promise<Page[]> => {
+  const pages: Page[] = await prisma.page.findMany({
+    where: {
+      Page_User: {
+        is: {
+          user_id
+        }
+      }
+    }
+  });
 
-	return pages;
+  return pages;
 };
 
 export const deleteAllPagesByUserid = async (
-	page_user_id: string
+  user_id: string
 ): Promise<Prisma.BatchPayload> => {
-	const deletedPages: Prisma.BatchPayload = await prisma.page.deleteMany({
-		where: {
-			page_user_id,
-		},
-	});
+  const deletedPages: Prisma.BatchPayload = await prisma.page.deleteMany({
+    where: {
+      Page_User: {
+        is: {
+          user_id
+        }
+      }
+    }
+  });
 
-	return deletedPages;
+  return deletedPages;
 };
 
 export const getTodobyTodoId = async (todo_id: number): Promise<Todo> => {
-	const todo: Todo = await prisma.todo.findUnique({
-		where: {
-			todo_id,
-		},
-	});
+  const todo: Todo = await prisma.todo.findUnique({
+    where: {
+      todo_id
+    }
+  });
 
-	return todo;
+  return todo;
 };
 
 export const createTodo = async ({
-	todo_description,
-	todo_page_id,
-	todo_user_id,
+  todo_description,
+  page_id,
+  user_id
 }: Todo_Body): Promise<Todo> => {
-	const todo: Todo = await prisma.todo.create({
-		data: {
-			todo_description,
-			todo_page_id,
-			todo_user_id,
-		},
-	});
+  const todo: Todo = await prisma.todo.create({
+    data: {
+      todo_description,
+      Todo_User: {
+        connect: {
+          user_id
+        }
+      },
+      Todo_Page: {
+        connect: {
+          page_id
+        }
+      }
+    }
+  });
 
-	return todo;
+  return todo;
 };
 
 export const deleteTodo = async (todo_id: number): Promise<Todo> => {
-	const deletedTodo: Todo = await prisma.todo.delete({
-		where: {
-			todo_id,
-		},
-	});
+  const deletedTodo: Todo = await prisma.todo.delete({
+    where: {
+      todo_id
+    }
+  });
 
-	return deletedTodo;
+  return deletedTodo;
 };
 
 export const getAllTodosByPage = async (
-	todo_page_id: number
+  page_id: number,
+  user_id: string
 ): Promise<Todo[]> => {
-	const todos: Todo[] = await prisma.todo.findMany({
-		where: {
-			todo_page_id,
-		},
-	});
+  const todos: Todo[] = await prisma.todo.findMany({
+    where: {
+      AND: {
+        Todo_Page: {
+          is: {
+            page_id
+          }
+        },
+        Todo_User: {
+          is: {
+            user_id
+          }
+        }
+      }
+    }
+  });
 
-	return todos;
+  return todos;
+};
+
+export const toggleTodoDone = async ({
+  todo_id,
+  todo_done
+}: Todo_Body): Promise<Todo> => {
+  const todo: Todo = await prisma.todo.update({
+    where: {
+      todo_id
+    },
+    data: {
+      todo_done: !todo_done
+    }
+  });
+
+  return todo;
+};
+
+export const updateTodoDescription = async ({
+  todo_id,
+  todo_description
+}: Todo_Body): Promise<Todo> => {
+  const todo: Todo = await prisma.todo.update({
+    where: {
+      todo_id
+    },
+    data: {
+      todo_description
+    }
+  });
+
+  return todo;
 };

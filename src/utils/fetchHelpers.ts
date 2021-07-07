@@ -37,8 +37,57 @@ export const createTask = async (body: Todo_Body): Promise<Todo> => {
   }
 };
 
-export const fetchAllTodosByPage = async (page_id: number): Promise<Todo[]> => {
-  const data = await fetch(`${API_V1}allTodos?page_id=${page_id}`);
+export const fetchAllTodosByPage = async (
+  page_id: number,
+  user_id: string
+): Promise<Todo[]> => {
+  const data = await fetch(
+  `${API_V1}allTodos?page_id=${page_id}&user_id=${user_id}`
+  );
 
   return data.json();
+};
+
+export const toggleTodoState = async ({
+  todo_id,
+  todo_done
+}: {
+  todo_id: number;
+  todo_done: boolean;
+}): Promise<Todo> => {
+  if (todo_id && todo_done) {
+    const data = await fetch(`${API_V1}todo`, {
+      method: "POST",
+      body: JSON.stringify({
+        task: "toggleState",
+        todo_id,
+        todo_done
+      }),
+      headers: { "Content-Type": "application/json" }
+    });
+
+    return data.json();
+  }
+};
+
+export const updateTodoDescription = async ({
+  todo_id,
+  todo_description
+}: {
+  todo_id: number;
+  todo_description: string;
+}): Promise<Todo> => {
+  if (todo_id && todo_description) {
+    const data = await fetch(`${API_V1}todo`, {
+      method: "POST",
+      body: JSON.stringify({
+        task: "updateDescription",
+        todo_id,
+        todo_description
+      }),
+      headers: { "Content-Type": "application/json" }
+    });
+
+    return data.json();
+  }
 };

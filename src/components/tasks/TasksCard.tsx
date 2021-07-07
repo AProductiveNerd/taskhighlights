@@ -28,7 +28,10 @@ export const TasksCard = (): JSX.Element => {
   useEffect(() => {
     if (currentPage?.page_id) {
       (async () => {
-        const todos: Todo[] = await fetchAllTodosByPage(currentPage?.page_id);
+        const todos: Todo[] = await fetchAllTodosByPage(
+          currentPage?.page_id,
+          currentUser?.user_id
+        );
         console.log([pageTodos, todos]);
         if (JSON.stringify(pageTodos) !== JSON.stringify(todos)) {
           console.log("set todos");
@@ -36,7 +39,7 @@ export const TasksCard = (): JSX.Element => {
         }
       })();
     }
-  }, [currentPage?.page_id, pageTodos, addedCounter]);
+  }, [currentPage?.page_id, pageTodos, addedCounter, currentUser?.user_id]);
 
   return (
     <div className="noScrollbar space-y-5 max-h-[80vh] w-11/12 sm:max-w-md md:max-w-lg py-4 px-8 bg-theme-blueGray-800 shadow-lg rounded-lg mx-auto selection:bg-theme-primary-500/60 overflow-y-scroll overflow-x-hidden">
@@ -52,7 +55,12 @@ export const TasksCard = (): JSX.Element => {
       <hr className="border-dashed" />
       <div>
         {pageTodos?.map((todo: Todo) => (
-          <IndividualTask todo={todo} key={todo.todo_id} />
+          <IndividualTask
+            todo={todo}
+            key={todo.todo_id}
+            addedCounter={addedCounter}
+            setAddedCounter={setAddedCounter}
+          />
         ))}
       </div>
     </div>

@@ -2,7 +2,12 @@ import { Page, Prisma } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import {
   createPage,
-  createRetDailyPage, deletePageByPageid, deletePageByPageTitle, getPageByPageid, getPageByPageTitle, Page_Body
+  createRetDailyPage,
+  deletePageByPageid,
+  deletePageByPageTitle,
+  getPageByPageid,
+  getPageByPageTitle,
+  Page_Body
 } from "../../../utils/prismaHelpers";
 
 interface Query {
@@ -29,7 +34,7 @@ export default async function handler(
 
       res.status(200).json(page);
     } else {
-      if (page_user_id) {
+      if (typeof page_user_id === "string") {
         const page: Page = await createRetDailyPage(page_user_id);
 
         res.status(200).json(page);
