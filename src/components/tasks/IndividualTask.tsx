@@ -13,7 +13,6 @@ export const IndividualTask = ({
 }): JSX.Element => {
   const stateToggle = async () => {
     await toggleTodoState({ todo_id, todo_done });
-    console.log("hi");
     setAddedCounter(addedCounter++);
   };
 

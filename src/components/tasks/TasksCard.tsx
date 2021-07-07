@@ -19,7 +19,6 @@ export const TasksCard = (): JSX.Element => {
       const page: Page = await fetchPageRet(currentUser?.user_id);
 
       if (JSON.stringify(currentPage) !== JSON.stringify(page)) {
-        console.log("set page");
         setCurrentPage(page);
       }
     })();
@@ -32,9 +31,7 @@ export const TasksCard = (): JSX.Element => {
           currentPage?.page_id,
           currentUser?.user_id
         );
-        console.log([pageTodos, todos]);
         if (JSON.stringify(pageTodos) !== JSON.stringify(todos)) {
-          console.log("set todos");
           setPageTodos(todos);
         }
       })();
