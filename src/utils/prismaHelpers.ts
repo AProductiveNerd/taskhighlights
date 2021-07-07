@@ -148,10 +148,11 @@ export const createPage = async ({
   return createdPage;
 };
 
-export const createRetDailyPage = async (user_id: string): Promise<Page> => {
+export const createRetDailyPage = async (
+  user_id: string,
+  today: string
+): Promise<Page> => {
   if (user_id.toString() !== "undefined") {
-    const today: string = new Date().toLocaleDateString("en-GB");
-
     const page: Page = await prisma.page.upsert({
       where: {
         page_title: today

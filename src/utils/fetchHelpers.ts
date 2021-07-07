@@ -20,7 +20,11 @@ export const CreateUser = async (body: User_Body): Promise<User> => {
 };
 
 export const fetchPageRet = async (user_id: string): Promise<Page> => {
-  const data = await fetch(`${API_V1}page?page_user_id=${user_id}`);
+  const today: string = new Date().toLocaleDateString("en-GB");
+
+  const data = await fetch(
+    `${API_V1}page?page_user_id=${user_id}&today=${today}`
+  );
 
   return data.json();
 };
@@ -42,7 +46,7 @@ export const fetchAllTodosByPage = async (
   user_id: string
 ): Promise<Todo[]> => {
   const data = await fetch(
-  `${API_V1}allTodos?page_id=${page_id}&user_id=${user_id}`
+    `${API_V1}allTodos?page_id=${page_id}&user_id=${user_id}`
   );
 
   return data.json();

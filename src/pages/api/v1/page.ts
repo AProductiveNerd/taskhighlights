@@ -14,6 +14,7 @@ interface Query {
   page_id?: string;
   page_title?: string;
   page_user_id?: string;
+  today?: string;
 }
 
 export default async function handler(
@@ -22,7 +23,7 @@ export default async function handler(
   res: NextApiResponse<any>
 ): Promise<void> {
   const method = req.method;
-  const { page_id, page_title, page_user_id }: Query = req.query;
+  const { page_id, page_title, page_user_id, today }: Query = req.query;
 
   if (method === "GET") {
     if (page_id) {
@@ -35,7 +36,7 @@ export default async function handler(
       res.status(200).json(page);
     } else {
       if (typeof page_user_id === "string") {
-        const page: Page = await createRetDailyPage(page_user_id);
+        const page: Page = await createRetDailyPage(page_user_id, today);
 
         res.status(200).json(page);
       }
