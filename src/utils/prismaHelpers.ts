@@ -12,13 +12,13 @@ export interface User_Body {
 
 export interface Page_Body {
 	page_title: string;
-	user_id: string;
+	page_user_id: string;
 }
 
 export interface Todo_Body {
 	todo_description: string;
-	user_id: string;
-	page_id: number;
+	todo_user_id: string;
+	todo_page_id: number;
 }
 
 export const getUserByUsername = async (
@@ -135,16 +135,12 @@ export const getPageByPageTitle = async (
 
 export const createPage = async ({
 	page_title,
-	user_id,
+	page_user_id,
 }: Page_Body): Promise<Page> => {
 	const createdPage: Page = await prisma.page.create({
 		data: {
 			page_title,
-			Page_User: {
-				connect: {
-					user_id,
-				},
-			},
+			page_user_id,
 		},
 	});
 
@@ -152,7 +148,7 @@ export const createPage = async ({
 };
 
 export const createRetDailyPage = async (
-	user_id: string
+	page_user_id: string
 ): Promise<Page> => {
 	const today: string = new Date().toLocaleDateString("en-GB");
 
@@ -160,11 +156,7 @@ export const createRetDailyPage = async (
 		where: { page_title: today },
 		create: {
 			page_title: today,
-			Page_User: {
-				connect: {
-					user_id,
-				},
-			},
+			page_user_id,
 		},
 		update: {},
 	});
@@ -197,15 +189,11 @@ export const deletePageByPageTitle = async (
 };
 
 export const getAllPagesByUserid = async (
-	user_id: string
+	page_user_id: string
 ): Promise<Page[]> => {
 	const pages: Page[] = await prisma.page.findMany({
 		where: {
-			Page_User: {
-				every: {
-					user_id,
-				},
-			},
+			page_user_id,
 		},
 	});
 
@@ -213,15 +201,11 @@ export const getAllPagesByUserid = async (
 };
 
 export const deleteAllPagesByUserid = async (
-	user_id: string
+	page_user_id: string
 ): Promise<Prisma.BatchPayload> => {
 	const deletedPages: Prisma.BatchPayload = await prisma.page.deleteMany({
 		where: {
-			Page_User: {
-				every: {
-					user_id,
-				},
-			},
+			page_user_id,
 		},
 	});
 
@@ -240,22 +224,14 @@ export const getTodobyTodoId = async (todo_id: number): Promise<Todo> => {
 
 export const createTodo = async ({
 	todo_description,
-	page_id,
-	user_id,
+	todo_page_id,
+	todo_user_id,
 }: Todo_Body): Promise<Todo> => {
 	const todo: Todo = await prisma.todo.create({
 		data: {
 			todo_description,
-			Todo_Page: {
-				connect: {
-					page_id,
-				},
-			},
-			Todo_User: {
-				connect: {
-					user_id,
-				},
-			},
+			todo_page_id,
+			todo_user_id,
 		},
 	});
 
@@ -270,4 +246,16 @@ export const deleteTodo = async (todo_id: number): Promise<Todo> => {
 	});
 
 	return deletedTodo;
+};
+
+export const getAllTodosByPage = async (
+	todo_page_id: number
+): Promise<Todo[]> => {
+	const todos: Todo[] = await prisma.todo.findMany({
+		where: {
+			todo_page_id,
+		},
+	});
+
+	return todos;
 };

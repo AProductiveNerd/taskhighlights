@@ -1,5 +1,5 @@
 import { Context, createContext } from "react";
-import { users } from "@prisma/client";
+import { User } from "@prisma/client";
 
-const UserContext: Context<users> = createContext(null);
+const UserContext: Context<User> = createContext(null);
 export default UserContext;

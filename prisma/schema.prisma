@@ -25,8 +25,9 @@ model Page {
   page_datecreated   DateTime @default(now())
   page_title         String   @unique
   page_last_accessed DateTime @updatedAt
+  page_user_id       String
+  Page_User          User     @relation(fields: [page_user_id], references: [user_id])
   Page_Todo          Todo[]
-  Page_User          User[]
 }
 
 model Todo {
@@ -34,6 +35,8 @@ model Todo {
   todo_datecreated DateTime @default(now())
   todo_description String
   todo_done        Boolean  @default(false)
-  Todo_Page        Page[]
-  Todo_User        User[]
+  todo_user_id     String
+  todo_page_id     Int
+  Todo_Page        Page     @relation(fields: [todo_page_id], references: [page_id])
+  Todo_User        User     @relation(fields: [todo_user_id], references: [user_id])
 }
