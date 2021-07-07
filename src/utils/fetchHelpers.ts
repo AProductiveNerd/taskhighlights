@@ -59,19 +59,17 @@ export const toggleTodoState = async ({
   todo_id: number;
   todo_done: boolean;
 }): Promise<Todo> => {
-  if (todo_id && todo_done) {
-    const data = await fetch(`${API_V1}todo`, {
-      method: "POST",
-      body: JSON.stringify({
-        task: "toggleState",
-        todo_id,
-        todo_done
-      }),
-      headers: { "Content-Type": "application/json" }
-    });
+  const data = await fetch(`${API_V1}todo`, {
+    method: "POST",
+    body: JSON.stringify({
+      task: "toggleState",
+      todo_id,
+      todo_done
+    }),
+    headers: { "Content-Type": "application/json" }
+  });
 
-    return data.json();
-  }
+  return data.json();
 };
 
 export const updateTodoDescription = async ({
