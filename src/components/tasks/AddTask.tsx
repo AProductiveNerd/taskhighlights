@@ -15,9 +15,9 @@ export const AddTask = ({
 
   const taskCreator = async () => {
     await createTask({
-      page_id: page,
+      todo_page_id: page,
       todo_description: task,
-      user_id: user
+      todo_user_id: user
     });
 
     setTask("");
