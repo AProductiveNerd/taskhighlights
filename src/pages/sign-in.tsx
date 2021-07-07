@@ -1,11 +1,11 @@
-import { FormEvent, useState } from "react";
-
-import Head from "next/head";
-import { Layout } from "../components/layout";
-import Link from "next/link";
 import { LockClosedIcon } from "@heroicons/react/solid";
-import { fireAuth } from "../libs/Firebase";
+import Head from "next/head";
+import Link from "next/link";
 import { useRouter } from "next/router";
+import { FormEvent, useState } from "react";
+import { Layout } from "../components/layout";
+import { fireAuth } from "../libs/Firebase";
+
 
 export default function SignIn(): JSX.Element {
   const router = useRouter();

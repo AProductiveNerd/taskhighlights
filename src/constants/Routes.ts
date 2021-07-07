@@ -5,3 +5,4 @@ export const PROFILE = "/p/:username";
 export const COMPLETED = "/completed";
 export const ARCHIVED = "/archived";
 export const NOT_FOUND = "/404";
+export const API_V1 = "/api/v1/";

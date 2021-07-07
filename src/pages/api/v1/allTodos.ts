@@ -1,6 +1,6 @@
+import { Todo } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getAllTodosByPage } from "../../../utils/prismaHelpers";
-import { Todo } from "@prisma/client";
 
 interface Query {
   page_id?: string;

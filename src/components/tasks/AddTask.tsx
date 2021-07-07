@@ -1,14 +1,18 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
 import { PlusCircleIcon } from "@heroicons/react/outline";
+import { Fragment, useState } from "react";
 import { createTask } from "../../utils/fetchHelpers";
 
 export const AddTask = ({
   page,
-  user
+  user,
+  addedCounter,
+  setAddedCounter
 }: {
   page: number;
   user: string;
+  addedCounter: number;
+  setAddedCounter: React.Dispatch<React.SetStateAction<number>>;
 }): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
   const [task, setTask] = useState("");
@@ -19,7 +23,7 @@ export const AddTask = ({
       todo_description: task,
       todo_user_id: user
     });
-
+    setAddedCounter(addedCounter + 1);
     setTask("");
   };
 

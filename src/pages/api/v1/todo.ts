@@ -1,12 +1,11 @@
+import { Todo } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import {
-  Todo_Body,
   createTodo,
   deleteTodo,
-  getTodobyTodoId
+  getTodobyTodoId, Todo_Body
 } from "../../../utils/prismaHelpers";
 
-import { Todo } from "@prisma/client";
 
 interface Query {
   todo_id?: string;

@@ -1,12 +1,15 @@
 import { Todo } from "@prisma/client";
 
-export const IndividualTask = ({ todo_description }: Todo): JSX.Element => {
-  console.log("hi");
-  console.log(todo_description);
+export const IndividualTask = ({
+  todo: { todo_description, todo_done }
+}: {
+  todo: Todo;
+}): JSX.Element => {
   return (
-    <div>
-      {/* <h1>{todo_description}</h1> */}
-      <h1>asd;alskdjasd</h1>
+    <div className="flex items-center space-x-2">
+      <input type="checkbox" defaultChecked={todo_done} />
+      <p>{todo_description}</p>
+      <h2></h2>
     </div>
   );
 };

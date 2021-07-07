@@ -1,12 +1,12 @@
+import type { AppProps } from "next/app";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import FireUserContext from "../contexts/FireUserContext";
+import { fireAuth } from "../libs/Firebase";
 import "../styles/globals.css";
 
-import { useEffect, useState } from "react";
 
-import type { AppProps } from "next/app";
-import FireUserContext from "../contexts/FireUserContext";
-import Head from "next/head";
-import { fireAuth } from "../libs/Firebase";
-import { useRouter } from "next/router";
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   const [fireId, setFireId] = useState({});

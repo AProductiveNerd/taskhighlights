@@ -1,14 +1,13 @@
-import type { NextApiRequest, NextApiResponse } from "next";
 import { Prisma, User } from "@prisma/client";
+import type { NextApiRequest, NextApiResponse } from "next";
 import {
-  User_Body,
   createUser,
   deleteUserbyemail,
   deleteUserbyuserid,
   deleteUserbyusername,
   getUserByEmailaddress,
   getUserByUserid,
-  getUserByUsername
+  getUserByUsername, User_Body
 } from "../../../utils/prismaHelpers";
 
 interface Query {

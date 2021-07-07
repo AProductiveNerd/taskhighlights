@@ -1,14 +1,14 @@
-import { FormEvent, useState } from "react";
-
-import { AvatarGenerator } from "random-avatar-generator";
-import { CreateUser } from "../utils/fetchHelpers";
+import { LockClosedIcon } from "@heroicons/react/solid";
 import Head from "next/head";
 import Image from "next/image";
-import { Layout } from "../components/layout";
 import Link from "next/link";
-import { LockClosedIcon } from "@heroicons/react/solid";
-import { fireAuth } from "../libs/Firebase";
 import { useRouter } from "next/router";
+import { AvatarGenerator } from "random-avatar-generator";
+import { FormEvent, useState } from "react";
+import { Layout } from "../components/layout";
+import { fireAuth } from "../libs/Firebase";
+import { CreateUser } from "../utils/fetchHelpers";
+
 
 export default function SignUp(): JSX.Element {
   const generator = new AvatarGenerator();
