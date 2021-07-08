@@ -14,7 +14,7 @@ export const IndividualTask = ({
   setAddedCounter: React.Dispatch<React.SetStateAction<number>>;
 }): JSX.Element => {
   const [displayTextEdit, setDisplayTextEdit] = useState(false);
-  const [newTitle, setNewTitle] = useState(todo_description);
+  const [newTitle, setNewTitle] = useState<string>(todo_description);
 
   const stateToggle = async () => {
     await toggleTodoState({ todo_id, todo_done });
@@ -22,9 +22,9 @@ export const IndividualTask = ({
   };
 
   const handleTextSubmit = async () => {
-    await updateTodoDescription({ todo_id, todo_description });
-    setDisplayTextEdit(false);
+    await updateTodoDescription({ todo_id, todo_description: newTitle });
     setAddedCounter(addedCounter++);
+    setDisplayTextEdit(false);
   };
 
   return (
@@ -38,9 +38,7 @@ export const IndividualTask = ({
       {displayTextEdit === true ? (
         <input
           type="text"
-          className={`bg-theme-secondary outline-none w-full border-b-2 border-theme-primary ${
-            todo_done && "line-through"
-          }`}
+          className={``}
           value={newTitle}
           onChange={({ target }) => setNewTitle(target.value)}
           onKeyDown={(event) => {
@@ -50,17 +48,13 @@ export const IndividualTask = ({
             }
             if (event.key === "Escape") {
               setDisplayTextEdit(false);
+              setNewTitle(todo_description);
             }
           }}
         />
       ) : (
-        <p
-          className={`w-full border-b-2 border-theme-primary ${
-            todo_done && "line-through"
-          }`}
-          onClick={() => setDisplayTextEdit(!displayTextEdit)}
-        >
-          {todo_description}
+        <p className={``} onClick={() => setDisplayTextEdit(!displayTextEdit)}>
+          {newTitle}
         </p>
       )}
     </div>
