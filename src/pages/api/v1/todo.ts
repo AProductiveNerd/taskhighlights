@@ -37,6 +37,7 @@ export default async function handler(
 
       res.status(201).json(todo);
     } else {
+      console.log({ page: "todoAPI", body });
       const todo: Todo = await createTodo(body);
 
       res.status(201).json(todo);

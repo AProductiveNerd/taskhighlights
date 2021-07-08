@@ -252,6 +252,7 @@ export const createTodo = async ({
   page_id,
   user_id
 }: Todo_Body): Promise<Todo> => {
+  console.log({ page: "prismaHelpers", page_id, user_id });
   const todo: Todo = await prisma.todo.create({
     data: {
       todo_description,

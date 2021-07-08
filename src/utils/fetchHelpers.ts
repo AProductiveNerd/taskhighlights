@@ -30,6 +30,7 @@ export const fetchPageRet = async (user_id: string): Promise<Page> => {
 };
 
 export const createTask = async (body: Todo_Body): Promise<Todo> => {
+  console.log({ page: "fetchHelpers", body });
   if (body) {
     const data = await fetch(`${API_V1}todo`, {
       method: "POST",
