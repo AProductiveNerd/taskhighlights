@@ -17,7 +17,8 @@ model User {
   user_avatar      String
   user_fullname    String
   User_Page        Page[]
-  User_todo        Todo[]
+  User_Story       Story[]
+  User_Todo        Todo[]
 }
 
 model Page {
@@ -27,13 +28,14 @@ model Page {
   page_last_accessed DateTime @updatedAt
   page_user_id       String
   Page_User          User     @relation(fields: [page_user_id], references: [user_id])
+  Page_Story         Story[]
   Page_Todo          Todo[]
 
   @@unique([page_user_id, page_title], name: "user_title_unique")
 }
 
 model Todo {
-  todo_id          Int      @id @default(autoincrement())
+  todo_id          String   @id @default(cuid())
   todo_datecreated DateTime @default(now())
   todo_description String
   todo_done        Boolean  @default(false)
@@ -41,4 +43,14 @@ model Todo {
   todo_page_id     String
   Todo_Page        Page     @relation(fields: [todo_page_id], references: [page_id])
   Todo_User        User     @relation(fields: [todo_user_id], references: [user_id])
+}
+
+model Story {
+  story_id          String   @id @default(cuid())
+  story_datecreated DateTime @default(now())
+  story_user_id     String
+  story_page_id     String
+  story_title       String
+  Story_Page        Page     @relation(fields: [story_page_id], references: [page_id])
+  Story_User        User     @relation(fields: [story_user_id], references: [user_id])
 }
