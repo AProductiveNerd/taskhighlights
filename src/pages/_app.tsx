@@ -1,12 +1,11 @@
 import type { AppProps } from "next/app";
-import Head from "next/head";
+// import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import FireUserContext from "../contexts/FireUserContext";
 import { fireAuth } from "../libs/Firebase";
+import "../../public/Inter Web/inter.css";
 import "../styles/globals.css";
-
-
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   const [fireId, setFireId] = useState({});
@@ -29,9 +28,9 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
 
   return (
     <FireUserContext.Provider value={{ fireId }}>
-      <Head>
+      {/* <Head>
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
-      </Head>
+      </Head> */}
       <Component {...pageProps} />
     </FireUserContext.Provider>
   );
