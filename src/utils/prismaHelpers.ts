@@ -18,7 +18,7 @@ export interface Page_Body {
 export interface Todo_Body {
   todo_description?: string;
   user_id?: string;
-  page_id?: number;
+  page_id?: string;
   task?: string;
   todo_id?: number;
   todo_done?: boolean;
@@ -110,7 +110,7 @@ export const deleteUserbyusername = async (
   return deletedUser;
 };
 
-export const getPageByPageid = async (page_id: number): Promise<Page> => {
+export const getPageByPageid = async (page_id: string): Promise<Page> => {
   const page: Page = await prisma.page.findUnique({
     where: {
       page_id
@@ -152,6 +152,24 @@ export const createRetDailyPage = async (
   user_id: string,
   today: string
 ): Promise<Page> => {
+  // if (user_id.toString() !== "undefined") {
+  //   const page: Page = await prisma.page.upsert({
+  //     where: {
+  //       page_title: today
+  //     },
+  //     create: {
+  //       page_title: today,
+  //       Page_User: {
+  //         connect: {
+  //           user_id
+  //         }
+  //       }
+  //     },
+  //     update: {}
+  //   });
+
+  //   return page;
+  // }
   if (user_id.toString() !== "undefined") {
     const page: Page = await prisma.page.upsert({
       where: {
@@ -172,7 +190,7 @@ export const createRetDailyPage = async (
   }
 };
 
-export const deletePageByPageid = async (page_id: number): Promise<Page> => {
+export const deletePageByPageid = async (page_id: string): Promise<Page> => {
   const deletedPage: Page = await prisma.page.delete({
     where: {
       page_id
@@ -269,7 +287,7 @@ export const deleteTodo = async (todo_id: number): Promise<Todo> => {
 };
 
 export const getAllTodosByPage = async (
-  page_id: number,
+  page_id: string,
   user_id: string
 ): Promise<Todo[]> => {
   const todos: Todo[] = await prisma.todo.findMany({

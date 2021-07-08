@@ -27,7 +27,7 @@ export default async function handler(
 
   if (method === "GET") {
     if (page_id) {
-      const page: Page = await getPageByPageid(parseInt(page_id));
+      const page: Page = await getPageByPageid(page_id);
 
       res.status(200).json(page);
     } else if (page_title) {
@@ -55,7 +55,7 @@ export default async function handler(
     }
   } else if (method === "DELETE") {
     if (page_id) {
-      const deletedPage: Page = await deletePageByPageid(parseInt(page_id));
+      const deletedPage: Page = await deletePageByPageid(page_id);
 
       res.status(200).json(deletedPage);
     } else if (page_title) {

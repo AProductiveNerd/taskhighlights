@@ -16,7 +16,7 @@ export default async function handler(
   const { page_id, user_id }: Query = req.query;
 
   if (method === "GET") {
-    const todos: Todo[] = await getAllTodosByPage(parseInt(page_id), user_id);
+    const todos: Todo[] = await getAllTodosByPage(page_id, user_id);
     res.status(200).json(todos);
   }
 }

@@ -9,7 +9,7 @@ export const AddTask = ({
   addedCounter,
   setAddedCounter
 }: {
-  page: number;
+  page: string;
   user: string;
   addedCounter: number;
   setAddedCounter: React.Dispatch<React.SetStateAction<number>>;

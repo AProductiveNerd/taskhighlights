@@ -42,7 +42,7 @@ export const createTask = async (body: Todo_Body): Promise<Todo> => {
 };
 
 export const fetchAllTodosByPage = async (
-  page_id: number,
+  page_id: string,
   user_id: string
 ): Promise<Todo[]> => {
   const data = await fetch(
