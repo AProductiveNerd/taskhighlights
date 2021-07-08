@@ -23,11 +23,13 @@ model User {
 model Page {
   page_id            String   @id @default(cuid())
   page_datecreated   DateTime @default(now())
-  page_title         String   @unique
+  page_title         String
   page_last_accessed DateTime @updatedAt
   page_user_id       String
   Page_User          User     @relation(fields: [page_user_id], references: [user_id])
   Page_Todo          Todo[]
+
+  @@unique([page_user_id, page_title], name: "user_title_unique")
 }
 
 model Todo {

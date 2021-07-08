@@ -120,10 +120,16 @@ export const getPageByPageid = async (page_id: string): Promise<Page> => {
   return page;
 };
 
-export const getPageByPageTitle = async (page_title: string): Promise<Page> => {
+export const getPageByPageTitle = async (
+  page_title: string,
+  user_id: string
+): Promise<Page> => {
   const page: Page = await prisma.page.findUnique({
     where: {
-      page_title
+      user_title_unique: {
+        page_title,
+        page_user_id: user_id
+      }
     }
   });
 
@@ -152,28 +158,13 @@ export const createRetDailyPage = async (
   user_id: string,
   today: string
 ): Promise<Page> => {
-  // if (user_id.toString() !== "undefined") {
-  //   const page: Page = await prisma.page.upsert({
-  //     where: {
-  //       page_title: today
-  //     },
-  //     create: {
-  //       page_title: today,
-  //       Page_User: {
-  //         connect: {
-  //           user_id
-  //         }
-  //       }
-  //     },
-  //     update: {}
-  //   });
-
-  //   return page;
-  // }
   if (user_id.toString() !== "undefined") {
     const page: Page = await prisma.page.upsert({
       where: {
-        page_title: today
+        user_title_unique: {
+          page_title: today,
+          page_user_id: user_id
+        }
       },
       create: {
         page_title: today,
@@ -201,11 +192,15 @@ export const deletePageByPageid = async (page_id: string): Promise<Page> => {
 };
 
 export const deletePageByPageTitle = async (
-  page_title: string
+  page_title: string,
+  user_id: string
 ): Promise<Page> => {
   const deletedPage: Page = await prisma.page.delete({
     where: {
-      page_title
+      user_title_unique: {
+        page_title,
+        page_user_id: user_id
+      }
     }
   });
 

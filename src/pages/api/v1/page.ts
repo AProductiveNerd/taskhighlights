@@ -31,7 +31,7 @@ export default async function handler(
 
       res.status(200).json(page);
     } else if (page_title) {
-      const page: Page = await getPageByPageTitle(page_title);
+      const page: Page = await getPageByPageTitle(page_title, page_user_id);
 
       res.status(200).json(page);
     } else {
@@ -59,7 +59,10 @@ export default async function handler(
 
       res.status(200).json(deletedPage);
     } else if (page_title) {
-      const deletedPage: Page = await deletePageByPageTitle(page_title);
+      const deletedPage: Page = await deletePageByPageTitle(
+        page_title,
+        page_user_id
+      );
 
       res.status(200).json(deletedPage);
     }
