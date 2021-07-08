@@ -56,7 +56,7 @@ export const toggleTodoState = async ({
   todo_id,
   todo_done
 }: {
-  todo_id: number;
+  todo_id: string;
   todo_done: boolean;
 }): Promise<Todo> => {
   const data = await fetch(`${API_V1}todo`, {
@@ -76,7 +76,7 @@ export const updateTodoDescription = async ({
   todo_id,
   todo_description
 }: {
-  todo_id: number;
+  todo_id: string;
   todo_description: string;
 }): Promise<Todo> => {
   if (todo_id && todo_description) {

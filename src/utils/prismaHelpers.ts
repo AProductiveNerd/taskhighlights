@@ -20,7 +20,7 @@ export interface Todo_Body {
   user_id?: string;
   page_id?: string;
   task?: string;
-  todo_id?: number;
+  todo_id?: string;
   todo_done?: boolean;
 }
 
@@ -237,7 +237,7 @@ export const deleteAllPagesByUserid = async (
   return deletedPages;
 };
 
-export const getTodobyTodoId = async (todo_id: number): Promise<Todo> => {
+export const getTodobyTodoId = async (todo_id: string): Promise<Todo> => {
   const todo: Todo = await prisma.todo.findUnique({
     where: {
       todo_id
@@ -271,7 +271,7 @@ export const createTodo = async ({
   return todo;
 };
 
-export const deleteTodo = async (todo_id: number): Promise<Todo> => {
+export const deleteTodo = async (todo_id: string): Promise<Todo> => {
   const deletedTodo: Todo = await prisma.todo.delete({
     where: {
       todo_id

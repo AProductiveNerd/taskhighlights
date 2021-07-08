@@ -24,7 +24,7 @@ export default async function handler(
   const body: Todo_Body = req.body;
 
   if (method === "GET") {
-    const todo: Todo = await getTodobyTodoId(parseInt(todo_id));
+    const todo: Todo = await getTodobyTodoId(todo_id);
 
     res.status(200).json(todo);
   } else if (method === "POST") {
@@ -42,7 +42,7 @@ export default async function handler(
       res.status(201).json(todo);
     }
   } else if (method === "DELETE") {
-    const deletedTodo: Todo = await deleteTodo(parseInt(todo_id));
+    const deletedTodo: Todo = await deleteTodo(todo_id);
 
     res.status(200).json(deletedTodo);
   }
