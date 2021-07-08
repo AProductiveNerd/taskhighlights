@@ -5,9 +5,9 @@ import UserContext from "./../../contexts/UserContext";
 import { fetchAllTodosByPage } from "./../../utils/fetchHelpers";
 import { AddTask } from "./AddTask";
 import { IndividualTask } from "./IndividualTask";
+// ! Limit the number of tasks a user can add to amplify the constraints lead to creativity effect
 
 export const TasksCard = (): JSX.Element => {
-  // ! Limit the number of tasks a user can add to amplify the constraints lead to creativity effect
   const [currentPage, setCurrentPage] = useState<Page>(null);
   const [pageTodos, setPageTodos] = useState<Todo[]>(null);
   const [addedCounter, setAddedCounter] = useState<number>(0);
