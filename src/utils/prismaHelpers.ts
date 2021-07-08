@@ -314,7 +314,7 @@ export const toggleTodoDone = async ({
       todo_id
     },
     data: {
-      todo_done: !todo_done
+      todo_done
     }
   });
 
