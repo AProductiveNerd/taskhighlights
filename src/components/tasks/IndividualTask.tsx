@@ -1,6 +1,6 @@
 import { Todo } from "@prisma/client";
 import { useState } from "react";
-import { toggleTodoState } from "../../utils/fetchHelpers";
+import { toggleTodoState as toggle_todo_state } from "../../utils/fetchHelpers";
 // import { useState } from "react";
 import { updateTodoDescription } from "./../../utils/fetchHelpers";
 
@@ -13,48 +13,53 @@ export const IndividualTask = ({
   addedCounter: number;
   setAddedCounter: React.Dispatch<React.SetStateAction<number>>;
 }): JSX.Element => {
-  const [displayTextEdit, setDisplayTextEdit] = useState(false);
-  const [newTitle, setNewTitle] = useState<string>(todo_description);
+  const [display_text_edit, set_display_text_edit] = useState(false);
+  const [todo_state, set_todo_state] = useState<boolean>(todo_done);
+  const [new_title, set_new_title] = useState<string>(todo_description);
 
-  const stateToggle = async () => {
-    await toggleTodoState({ todo_id, todo_done });
+  const state_toggle = async () => {
+    await toggle_todo_state({ todo_id, todo_done: todo_state });
+    set_todo_state(todo_state);
     setAddedCounter(addedCounter++);
   };
 
   const handleTextSubmit = async () => {
-    await updateTodoDescription({ todo_id, todo_description: newTitle });
+    await updateTodoDescription({ todo_id, todo_description: new_title });
+    set_display_text_edit(false);
     setAddedCounter(addedCounter++);
-    setDisplayTextEdit(false);
   };
 
   return (
     <div className="flex items-center space-x-2">
       <input
         type="checkbox"
-        defaultChecked={todo_done}
-        onChange={stateToggle}
+        defaultChecked={todo_state}
+        onChange={state_toggle}
       />
 
-      {displayTextEdit === true ? (
+      {display_text_edit === true ? (
         <input
           type="text"
-          className={``}
-          value={newTitle}
-          onChange={({ target }) => setNewTitle(target.value)}
+          className={`${todo_state && "line-through"}`}
+          value={new_title}
+          onChange={({ target }) => set_new_title(target.value)}
           onKeyDown={(event) => {
             if (event.key === "Enter") {
               handleTextSubmit();
-              setDisplayTextEdit(false);
+              set_display_text_edit(false);
             }
             if (event.key === "Escape") {
-              setDisplayTextEdit(false);
-              setNewTitle(todo_description);
+              set_display_text_edit(false);
+              set_new_title(todo_description);
             }
           }}
         />
       ) : (
-        <p className={``} onClick={() => setDisplayTextEdit(!displayTextEdit)}>
-          {newTitle}
+        <p
+          className={`${todo_state && "line-through"}`}
+          onClick={() => set_display_text_edit(!display_text_edit)}
+        >
+          {new_title}
         </p>
       )}
     </div>
