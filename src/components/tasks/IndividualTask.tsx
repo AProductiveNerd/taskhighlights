@@ -30,7 +30,7 @@ export const IndividualTask = ({
   }, [todo_id, todo_state]);
 
   return (
-    <div className="flex items-center space-x-2 text-left break-all">
+    <div className="flex items-center space-x-2 text-left text-xl break-all">
       <input
         type="checkbox"
         defaultChecked={todo_state}
@@ -42,7 +42,9 @@ export const IndividualTask = ({
       {display_text_edit === true ? (
         <input
           type="text"
-          className={`${todo_state && "line-through"} w-full`}
+          className={
+            "w-full cursor-pointer selection:bg-theme-blueGray-800 selection:text-theme-blueGray-400"
+          }
           value={new_title}
           onChange={({ target }) => set_new_title(target.value)}
           onKeyDown={(event) => {
@@ -57,7 +59,7 @@ export const IndividualTask = ({
         />
       ) : (
         <p
-          className={`${todo_state && "line-through"}`}
+          className={`${todo_state && "line-through"} w-full cursor-pointer`}
           onClick={() => set_display_text_edit(!display_text_edit)}
         >
           {new_title}
