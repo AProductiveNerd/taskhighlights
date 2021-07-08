@@ -18,7 +18,6 @@ export const AddTask = ({
   const [task, setTask] = useState("");
 
   const taskCreator = async () => {
-    console.log({ page: "AddTask", page_id: page, user_id: user });
     await createTask({
       page_id: page,
       todo_description: task,
