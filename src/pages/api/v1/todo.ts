@@ -5,6 +5,7 @@ import {
   deleteTodo,
   getTodobyTodoId,
   Todo_Body,
+  toggleArchived,
   toggleTodoDone,
   updateTodoDescription
 } from "../../../utils/prismaHelpers";
@@ -34,6 +35,10 @@ export default async function handler(
       res.status(201).json(todo);
     } else if (body.task === "updateDescription") {
       const todo: Todo = await updateTodoDescription(body);
+
+      res.status(201).json(todo);
+    } else if (body.task === "toggleArchive") {
+      const todo: Todo = await toggleArchived(body);
 
       res.status(201).json(todo);
     } else {

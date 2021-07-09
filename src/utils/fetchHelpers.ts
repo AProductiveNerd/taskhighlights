@@ -103,3 +103,23 @@ export const deleteTodo = async (todo_id: string): Promise<Todo> => {
     return data.json();
   }
 };
+
+export const toggleArchiveState = async ({
+  todo_id,
+  todo_archived
+}: {
+  todo_id: string;
+  todo_archived: boolean;
+}): Promise<Todo> => {
+  const data = await fetch(`${API_V1}todo`, {
+    method: "POST",
+    body: JSON.stringify({
+      task: "toggleState",
+      todo_id,
+      todo_archived
+    }),
+    headers: { "Content-Type": "application/json" }
+  });
+
+  return data.json();
+};

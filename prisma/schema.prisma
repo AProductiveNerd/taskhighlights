@@ -41,6 +41,7 @@ model Todo {
   todo_done        Boolean  @default(false)
   todo_user_id     String
   todo_page_id     String
+  todo_archived    Boolean  @default(false)
   Todo_Page        Page     @relation(fields: [todo_page_id], references: [page_id])
   Todo_User        User     @relation(fields: [todo_user_id], references: [user_id])
 }

@@ -1,14 +1,20 @@
+import { ArchiveIcon, TrashIcon } from "@heroicons/react/solid";
 import { Todo } from "@prisma/client";
 import { useEffect, useState } from "react";
 import {
   deleteTodo,
+  toggleArchiveState,
   toggleTodoState,
   updateTodoDescription
 } from "../../utils/fetchHelpers";
-import { TrashIcon } from "@heroicons/react/solid";
 
 export const IndividualTask = ({
-  todo: { todo_description, todo_done: db_done, todo_id },
+  todo: {
+    todo_description,
+    todo_done: db_done,
+    todo_id,
+    todo_archived: db_archive
+  },
   addedCounter,
   setAddedCounter
 }: {
@@ -19,6 +25,8 @@ export const IndividualTask = ({
   const [display_text_edit, set_display_text_edit] = useState<boolean>(false);
   const [todo_state, set_todo_state] = useState<boolean>(db_done);
   const [new_title, set_new_title] = useState<string>(todo_description);
+  const [todo_archive_state, set_todo_archive_state] =
+    useState<boolean>(db_archive);
 
   const handleTextSubmit = async () => {
     await updateTodoDescription({ todo_id, todo_description: new_title });
@@ -33,9 +41,17 @@ export const IndividualTask = ({
 
   useEffect(() => {
     (async () => {
-      await toggleTodoState({ todo_done: todo_state, todo_id });
+      await toggleTodoState({ todo_id, todo_done: todo_state });
     })();
   }, [todo_id, todo_state]);
+
+  useEffect(() => {
+    console.log("hiii");
+
+    (async () => {
+      await toggleArchiveState({ todo_archived: todo_archive_state, todo_id });
+    })();
+  }, [todo_archive_state, todo_id]);
 
   return (
     <div className="flex items-center space-x-2 text-left text-xl break-all">
@@ -73,12 +89,14 @@ export const IndividualTask = ({
           {new_title}
         </p>
       )}
-      <button
-        // className="h-6 w-6 flex justify-center items-center"
-        title="Permanently Delete"
-        onClick={() => handleDelete()}
-      >
+      <button title="Permanently Delete" onClick={handleDelete}>
         <TrashIcon className="w-6 h-6" />
+      </button>
+      <button
+        title="Archive"
+        onClick={() => set_todo_archive_state(!todo_state)}
+      >
+        <ArchiveIcon className="w-6 h-6" />
       </button>
     </div>
   );

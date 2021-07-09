@@ -22,6 +22,7 @@ export interface Todo_Body {
   task?: string;
   todo_id?: string;
   todo_done?: boolean;
+  todo_archived?: boolean;
 }
 
 export const getUserByUsername = async (
@@ -289,11 +290,16 @@ export const getAllTodosByPage = async (
   user_id: string
 ): Promise<Todo[]> => {
   const todos: Todo[] = await prisma.todo.findMany({
-    orderBy: {
-      todo_done: "asc"
-    },
+    orderBy: [
+      { todo_done: "asc" },
+      { todo_description: "asc" },
+      { todo_archived: "asc" }
+    ],
     where: {
       AND: {
+        todo_archived: {
+          equals: false
+        },
         Todo_Page: {
           is: {
             page_id
@@ -337,6 +343,22 @@ export const updateTodoDescription = async ({
     },
     data: {
       todo_description
+    }
+  });
+
+  return todo;
+};
+
+export const toggleArchived = async ({
+  todo_id,
+  todo_archived
+}: Todo_Body): Promise<Todo> => {
+  const todo: Todo = await prisma.todo.update({
+    where: {
+      todo_id
+    },
+    data: {
+      todo_archived
     }
   });
 
