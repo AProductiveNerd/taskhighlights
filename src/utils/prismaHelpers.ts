@@ -297,9 +297,6 @@ export const getAllTodosByPage = async (
     ],
     where: {
       AND: {
-        todo_archived: {
-          equals: false
-        },
         Todo_Page: {
           is: {
             page_id
