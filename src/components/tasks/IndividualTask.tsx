@@ -1,6 +1,6 @@
 import { ArchiveIcon, TrashIcon } from "@heroicons/react/solid";
 import { Todo } from "@prisma/client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   deleteTodo,
   toggleArchiveState,
@@ -39,19 +39,17 @@ export const IndividualTask = ({
     setAddedCounter(addedCounter++);
   };
 
-  useEffect(() => {
+  const toggleTodoDone = () => {
     (async () => {
       await toggleTodoState({ todo_id, todo_done: todo_state });
     })();
-  }, [todo_id, todo_state]);
+  };
 
-  useEffect(() => {
-    console.log("hiii");
-
+  const toggleArchiving = () => {
     (async () => {
       await toggleArchiveState({ todo_archived: todo_archive_state, todo_id });
     })();
-  }, [todo_archive_state, todo_id]);
+  };
 
   return (
     <div className="flex items-center space-x-2 text-left text-xl break-all">
@@ -59,7 +57,8 @@ export const IndividualTask = ({
         type="checkbox"
         defaultChecked={todo_state}
         onChange={() => {
-          set_todo_state(!todo_state);
+          set_todo_state(!db_done);
+          toggleTodoDone();
         }}
       />
 
@@ -89,14 +88,17 @@ export const IndividualTask = ({
           {new_title}
         </p>
       )}
-      <button title="Permanently Delete" onClick={handleDelete}>
-        <TrashIcon className="w-6 h-6" />
-      </button>
       <button
         title="Archive"
-        onClick={() => set_todo_archive_state(!todo_state)}
+        onClick={() => {
+          set_todo_archive_state(!todo_archive_state);
+          toggleArchiving();
+        }}
       >
         <ArchiveIcon className="w-6 h-6" />
+      </button>
+      <button title="Permanently Delete" onClick={handleDelete}>
+        <TrashIcon className="w-6 h-6" />
       </button>
     </div>
   );

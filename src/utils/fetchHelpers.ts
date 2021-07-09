@@ -64,7 +64,7 @@ export const toggleTodoState = async ({
     body: JSON.stringify({
       task: "toggleState",
       todo_id,
-      todo_done
+      todo_done: !todo_done
     }),
     headers: { "Content-Type": "application/json" }
   });
@@ -114,7 +114,7 @@ export const toggleArchiveState = async ({
   const data = await fetch(`${API_V1}todo`, {
     method: "POST",
     body: JSON.stringify({
-      task: "toggleState",
+      task: "toggleArchive",
       todo_id,
       todo_archived
     }),
