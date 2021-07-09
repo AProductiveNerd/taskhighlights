@@ -1,2 +1,5 @@
-export const siteUrl = "https://taskhighlights2.vercel.app";
-export const generateRobotsTxt = true;
+/* eslint-disable no-undef */
+module.exports = {
+  siteUrl: "https://taskhighlights2.vercel.app",
+  generateRobotsTxt: true,
+}
