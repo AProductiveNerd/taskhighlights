@@ -31,12 +31,12 @@ export const IndividualTask = ({
   const handleTextSubmit = async () => {
     await updateTodoDescription({ todo_id, todo_description: new_title });
     set_display_text_edit(false);
-    setAddedCounter(addedCounter++);
+    setAddedCounter(addedCounter + 1);
   };
 
   const handleDelete = async () => {
     await deleteTodo(todo_id);
-    setAddedCounter(addedCounter++);
+    setAddedCounter(addedCounter + 1);
   };
 
   const toggleTodoDone = () => {
