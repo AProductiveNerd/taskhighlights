@@ -6,7 +6,6 @@ import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
 import { fireAuth } from "../../libs/Firebase";
 
-
 // !Stories Limit 5 including own
 
 export const Header = (): JSX.Element => {

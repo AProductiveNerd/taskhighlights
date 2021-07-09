@@ -1,3 +1,4 @@
+import { FastForwardIcon, RewindIcon } from "@heroicons/react/solid";
 import { User } from "@prisma/client";
 import { useContext, useEffect, useState } from "react";
 import { fetchPageRet } from "../../utils/fetchHelpers";
@@ -12,12 +13,20 @@ export const TasksCard = (): JSX.Element => {
   const [currentPage, setCurrentPage] = useState<Page_and_Todos>(null);
   const [pageTodos, setPageTodos] = useState<Useful_Todo[]>(null);
   const [addedCounter, setAddedCounter] = useState<number>(0);
+  const [back_date_num, setBack_date_num] = useState<number>(0);
 
   const currentUser: User = useContext(UserContext);
 
   useEffect(() => {
     (async () => {
-      const page: Page_and_Todos = await fetchPageRet(currentUser?.user_id);
+      const today: string = new Date(
+        new Date().setDate(new Date().getDate() - back_date_num)
+      ).toLocaleDateString("en-GB");
+
+      const page: Page_and_Todos = await fetchPageRet(
+        currentUser?.user_id,
+        today
+      );
 
       if (JSON.stringify(currentPage) !== JSON.stringify(page)) {
         setCurrentPage(page);
@@ -26,7 +35,13 @@ export const TasksCard = (): JSX.Element => {
         }
       }
     })();
-  }, [currentPage, currentUser?.user_id, addedCounter, pageTodos]);
+  }, [
+    currentPage,
+    currentUser?.user_id,
+    addedCounter,
+    pageTodos,
+    back_date_num
+  ]);
 
   return (
     <div className="noScrollbar space-y-5 max-h-[80vh] w-11/12 sm:max-w-md md:max-w-lg py-4 px-8 bg-theme-blueGray-800 shadow-lg rounded-lg mx-auto selection:bg-theme-primary-500/60 overflow-y-scroll overflow-x-hidden">
@@ -49,6 +64,14 @@ export const TasksCard = (): JSX.Element => {
             setAddedCounter={setAddedCounter}
           />
         ))}
+      </div>
+      <div className="flex justify-between">
+        <button onClick={() => setBack_date_num(back_date_num + 1)}>
+          <RewindIcon className="w-6 h-6" />
+        </button>
+        <button onClick={() => setBack_date_num(back_date_num - 1)}>
+          <FastForwardIcon className="w-6 h-6" />
+        </button>
       </div>
     </div>
   );

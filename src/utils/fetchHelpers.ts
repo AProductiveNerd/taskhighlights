@@ -20,10 +20,9 @@ export const CreateUser = async (body: User_Body): Promise<User> => {
 };
 
 export const fetchPageRet = async (
-  user_id: string
+  user_id: string,
+  today: string
 ): Promise<Page_and_Todos> => {
-  const today: string = new Date().toLocaleDateString("en-GB");
-
   const data = await fetch(
     `${API_V1}page?page_user_id=${user_id}&today=${today}`
   );
