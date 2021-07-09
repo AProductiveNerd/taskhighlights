@@ -46,7 +46,12 @@ export const TasksCard = (): JSX.Element => {
   return (
     <div className="noScrollbar space-y-5 max-h-[80vh] w-11/12 sm:max-w-md md:max-w-lg py-4 px-8 bg-theme-blueGray-800 shadow-lg rounded-lg mx-auto selection:bg-theme-primary-500/60 overflow-y-scroll overflow-x-hidden">
       <div className="flex justify-between items-center">
-        <p className="text-4xl">{currentPage?.page_title}</p>
+        <p className="text-4xl">
+          {currentPage?.page_title ||
+            new Date(
+              new Date().setDate(new Date().getDate() - back_date_num)
+            ).toLocaleDateString("en-GB")}
+        </p>
         <AddTask
           user={currentUser?.user_id}
           page={currentPage?.page_id}
