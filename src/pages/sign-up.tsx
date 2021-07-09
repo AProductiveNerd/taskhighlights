@@ -9,7 +9,6 @@ import { Layout } from "../components/layout";
 import { fireAuth } from "../libs/Firebase";
 import { CreateUser } from "../utils/fetchHelpers";
 
-
 export default function SignUp(): JSX.Element {
   const generator = new AvatarGenerator();
   const router = useRouter();
@@ -67,6 +66,9 @@ export default function SignUp(): JSX.Element {
       <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <Head>
           <title>Sign up | Task Highlights</title>
+          <meta name="description" content="Sign up for Task Highlights" />
+          <meta property="og:title" content="Sign up | Task Highlights" />
+          <link rel="icon" href="./favicon.ico" />
         </Head>
 
         <div className="max-w-md w-full space-y-8">

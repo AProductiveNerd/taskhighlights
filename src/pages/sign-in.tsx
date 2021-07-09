@@ -6,7 +6,6 @@ import { FormEvent, useState } from "react";
 import { Layout } from "../components/layout";
 import { fireAuth } from "../libs/Firebase";
 
-
 export default function SignIn(): JSX.Element {
   const router = useRouter();
 
@@ -33,6 +32,9 @@ export default function SignIn(): JSX.Element {
       <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <Head>
           <title>Sign In | Task Highlights</title>
+          <meta name="description" content="Sign in to Task Highlights" />
+          <meta property="og:title" content="Sign in | Task Highlights" />
+          <link rel="icon" href="./favicon.ico" />
         </Head>
 
         <div className="max-w-md w-full space-y-8">
