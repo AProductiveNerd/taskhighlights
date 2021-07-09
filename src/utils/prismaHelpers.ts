@@ -25,6 +25,21 @@ export interface Todo_Body {
   todo_archived?: boolean;
 }
 
+export type Page_and_Todos = Page & {
+  Page_Todo: {
+    todo_archived: boolean;
+    todo_description: string;
+    todo_done: boolean;
+    todo_id: string;
+  }[];
+};
+
+export interface Useful_Todo {
+  todo_archived: boolean;
+  todo_description: string;
+  todo_done: boolean;
+  todo_id: string;
+}
 export const getUserByUsername = async (
   user_username: string
 ): Promise<User> => {
@@ -158,9 +173,9 @@ export const createPage = async ({
 export const createRetDailyPage = async (
   user_id: string,
   today: string
-): Promise<Page> => {
+): Promise<Page_and_Todos> => {
   if (user_id.toString() !== "undefined") {
-    const page: Page = await prisma.page.upsert({
+    const page: Page_and_Todos = await prisma.page.upsert({
       where: {
         user_title_unique: {
           page_title: today,
@@ -177,7 +192,19 @@ export const createRetDailyPage = async (
       },
       update: {},
       include: {
-        Page_Todo: true
+        Page_Todo: {
+          select: {
+            todo_archived: true,
+            todo_description: true,
+            todo_done: true,
+            todo_id: true,
+            Todo_Page: false,
+            Todo_User: false,
+            todo_datecreated: false,
+            todo_page_id: false,
+            todo_user_id: false
+          }
+        }
       }
     });
 

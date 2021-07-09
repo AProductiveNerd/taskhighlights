@@ -1,5 +1,4 @@
 import { ArchiveIcon, TrashIcon } from "@heroicons/react/solid";
-import { Todo } from "@prisma/client";
 import { useState } from "react";
 import {
   deleteTodo,
@@ -7,6 +6,7 @@ import {
   toggleTodoState,
   updateTodoDescription
 } from "../../utils/fetchHelpers";
+import { Useful_Todo } from "../../utils/prismaHelpers";
 
 export const IndividualTask = ({
   todo: {
@@ -18,7 +18,7 @@ export const IndividualTask = ({
   addedCounter,
   setAddedCounter
 }: {
-  todo: Todo;
+  todo: Useful_Todo;
   addedCounter: number;
   setAddedCounter: React.Dispatch<React.SetStateAction<number>>;
 }): JSX.Element => {

@@ -7,6 +7,7 @@ import {
   deletePageByPageTitle,
   getPageByPageid,
   getPageByPageTitle,
+  Page_and_Todos,
   Page_Body
 } from "../../../utils/prismaHelpers";
 
@@ -36,7 +37,10 @@ export default async function handler(
       res.status(200).json(page);
     } else {
       if (typeof page_user_id === "string") {
-        const page: Page = await createRetDailyPage(page_user_id, today);
+        const page: Page_and_Todos = await createRetDailyPage(
+          page_user_id,
+          today
+        );
 
         res.status(200).json(page);
       }

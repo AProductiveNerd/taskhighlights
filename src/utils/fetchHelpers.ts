@@ -1,7 +1,7 @@
-import { Page, Todo, User } from "@prisma/client";
+import { Todo, User } from "@prisma/client";
 import fetch from "node-fetch";
 import { API_V1 } from "../constants/Routes";
-import { Todo_Body, User_Body } from "./prismaHelpers";
+import { Page_and_Todos, Todo_Body, User_Body } from "./prismaHelpers";
 
 export const fetchUserFromUserid = async (user_id: string): Promise<User> => {
   const data = await fetch(`${API_V1}user?user_id=${user_id}`);
@@ -19,7 +19,9 @@ export const CreateUser = async (body: User_Body): Promise<User> => {
   }
 };
 
-export const fetchPageRet = async (user_id: string): Promise<Page> => {
+export const fetchPageRet = async (
+  user_id: string
+): Promise<Page_and_Todos> => {
   const today: string = new Date().toLocaleDateString("en-GB");
 
   const data = await fetch(
