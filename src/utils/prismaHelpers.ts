@@ -174,7 +174,10 @@ export const createRetDailyPage = async (
           }
         }
       },
-      update: {}
+      update: {},
+      include: {
+        Page_Todo: true
+      }
     });
 
     return page;
@@ -286,6 +289,9 @@ export const getAllTodosByPage = async (
   user_id: string
 ): Promise<Todo[]> => {
   const todos: Todo[] = await prisma.todo.findMany({
+    orderBy: {
+      todo_done: "asc"
+    },
     where: {
       AND: {
         Todo_Page: {

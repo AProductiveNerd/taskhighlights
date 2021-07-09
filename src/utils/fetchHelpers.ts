@@ -93,3 +93,13 @@ export const updateTodoDescription = async ({
     return data.json();
   }
 };
+
+export const deleteTodo = async (todo_id: string): Promise<Todo> => {
+  if (todo_id) {
+    const data = await fetch(`${API_V1}todo?todo_id=${todo_id}`, {
+      method: "DELETE"
+    });
+
+    return data.json();
+  }
+};

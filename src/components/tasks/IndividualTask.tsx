@@ -1,9 +1,11 @@
 import { Todo } from "@prisma/client";
 import { useEffect, useState } from "react";
 import {
+  deleteTodo,
   toggleTodoState,
   updateTodoDescription
 } from "../../utils/fetchHelpers";
+import { TrashIcon } from "@heroicons/react/solid";
 
 export const IndividualTask = ({
   todo: { todo_description, todo_done: db_done, todo_id },
@@ -23,6 +25,12 @@ export const IndividualTask = ({
     set_display_text_edit(false);
     setAddedCounter(addedCounter++);
   };
+
+  const handleDelete = async () => {
+    await deleteTodo(todo_id);
+    setAddedCounter(addedCounter++);
+  };
+
   useEffect(() => {
     (async () => {
       await toggleTodoState({ todo_done: todo_state, todo_id });
@@ -65,6 +73,13 @@ export const IndividualTask = ({
           {new_title}
         </p>
       )}
+      <button
+        // className="h-6 w-6 flex justify-center items-center"
+        title="Permanently Delete"
+        onClick={() => handleDelete()}
+      >
+        <TrashIcon className="w-6 h-6" />
+      </button>
     </div>
   );
 };
