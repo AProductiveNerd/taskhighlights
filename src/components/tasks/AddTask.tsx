@@ -84,6 +84,13 @@ export const AddTask = ({
                 <div className="mt-2">
                   <input
                     className="text-xl text-gray-500 w-full p-2"
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter") {
+                        taskCreator();
+                      } else if (event.key === "Escape") {
+                        setIsOpen(false);
+                      }
+                    }}
                     onChange={({ target }) => setTask(target.value)}
                     value={task}
                   />
@@ -94,11 +101,10 @@ export const AddTask = ({
                     type="button"
                     className="inline-flex justify-center px-4 py-2 text-sm font-medium text-theme-fuchsia-200 bg-theme-primary-500/60 border border-transparent rounded-md hover:bg-theme-primary-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                     onClick={() => {
-                      taskCreator();
                       setIsOpen(false);
                     }}
                   >
-                    Add!
+                    Done!
                   </button>
                 </div>
               </div>
