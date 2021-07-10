@@ -3,6 +3,7 @@ import { User } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import { useContext } from "react";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import UserContext from "../../contexts/UserContext";
 import { fireAuth } from "../../libs/Firebase";
 
@@ -21,7 +22,7 @@ export const Header = (): JSX.Element => {
         </Link>
       </div>
 
-      {currentUser?.user_avatar && (
+      {currentUser?.user_avatar ? (
         <div className="flex -space-x-1 overflow-hidden">
           <div className="relative inline-block h-12 w-12 rounded-full ring-2 ring-theme-blueGray-900">
             <Image
@@ -31,6 +32,10 @@ export const Header = (): JSX.Element => {
             />
           </div>
         </div>
+      ) : (
+        <SkeletonTheme color="#0F172A" highlightColor="#1E293B">
+          <Skeleton circle={true} height={44} width={44} />
+        </SkeletonTheme>
       )}
 
       <div>

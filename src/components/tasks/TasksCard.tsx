@@ -1,6 +1,7 @@
 import { FastForwardIcon, RewindIcon } from "@heroicons/react/solid";
 import { User } from "@prisma/client";
 import { useContext, useEffect, useState } from "react";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { fetchPageRet } from "../../utils/fetchHelpers";
 import { Page_and_Todos, Useful_Todo } from "../../utils/prismaHelpers";
 import UserContext from "./../../contexts/UserContext";
@@ -61,14 +62,20 @@ export const TasksCard = (): JSX.Element => {
       </div>
       <hr className="border-dashed" />
       <div>
-        {pageTodos?.map((todo: Useful_Todo) => (
-          <IndividualTask
-            todo={todo}
-            key={todo.todo_id}
-            addedCounter={addedCounter}
-            setAddedCounter={setAddedCounter}
-          />
-        ))}
+        {pageTodos ? (
+          pageTodos?.map((todo: Useful_Todo) => (
+            <IndividualTask
+              todo={todo}
+              key={todo.todo_id}
+              addedCounter={addedCounter}
+              setAddedCounter={setAddedCounter}
+            />
+          ))
+        ) : (
+          <SkeletonTheme color="#0F172A" highlightColor="#1E293B">
+            <Skeleton count={10} height={20} />
+          </SkeletonTheme>
+        )}
       </div>
       <div className="flex justify-between">
         <button onClick={() => setBack_date_num(back_date_num + 1)}>
