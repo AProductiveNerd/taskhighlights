@@ -32,6 +32,7 @@ export const AddTask = ({
       <div className="flex items-center justify-center">
         <button
           type="button"
+          aria-label="Add a task!"
           onClick={() => setIsOpen(true)}
           className="px-4 py-2 text-sm font-medium text-white bg-black rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
         >
@@ -99,6 +100,7 @@ export const AddTask = ({
                 <div className="mt-4">
                   <button
                     type="button"
+                    aria-label="Close add tasks popup"
                     className="inline-flex justify-center px-4 py-2 text-sm font-medium text-theme-fuchsia-200 bg-theme-primary-500/60 border border-transparent rounded-md hover:bg-theme-primary-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                     onClick={() => {
                       setIsOpen(false);

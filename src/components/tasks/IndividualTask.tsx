@@ -55,6 +55,7 @@ export const IndividualTask = ({
     <div className="flex items-center space-x-2 text-left text-xl break-all">
       <input
         type="checkbox"
+        id={todo_id}
         defaultChecked={todo_state}
         onChange={() => {
           set_todo_state(!db_done);
@@ -81,15 +82,17 @@ export const IndividualTask = ({
           }}
         />
       ) : (
-        <p
+        <label
+          htmlFor={todo_id}
           className={`${todo_state && "line-through"} w-full cursor-pointer`}
           onClick={() => set_display_text_edit(!display_text_edit)}
         >
           {new_title}
-        </p>
+        </label>
       )}
       <button
         title="Archive"
+        aria-label="Archive Task"
         onClick={() => {
           set_todo_archive_state(!todo_archive_state);
           toggleArchiving();
@@ -97,7 +100,11 @@ export const IndividualTask = ({
       >
         <ArchiveIcon className="w-6 h-6" />
       </button>
-      <button title="Permanently Delete" onClick={handleDelete}>
+      <button
+        aria-label="Permanently Delete Task"
+        title="Permanently Delete"
+        onClick={handleDelete}
+      >
         <TrashIcon className="w-6 h-6" />
       </button>
     </div>

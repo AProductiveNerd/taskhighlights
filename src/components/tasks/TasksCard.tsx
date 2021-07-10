@@ -78,10 +78,16 @@ export const TasksCard = (): JSX.Element => {
         )}
       </div>
       <div className="flex justify-between">
-        <button onClick={() => setBack_date_num(back_date_num + 1)}>
+        <button
+          aria-label="Go to previous date page"
+          onClick={() => setBack_date_num(back_date_num + 1)}
+        >
           <RewindIcon className="w-6 h-6" />
         </button>
-        <button onClick={() => setBack_date_num(back_date_num - 1)}>
+        <button
+          aria-label="Go to next date page"
+          onClick={() => setBack_date_num(back_date_num - 1)}
+        >
           <FastForwardIcon className="w-6 h-6" />
         </button>
       </div>

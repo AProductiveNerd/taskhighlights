@@ -99,6 +99,7 @@ export default function SignIn(): JSX.Element {
               <div>
                 <button
                   type="submit"
+                  aria-label="Sign in"
                   className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-base font-medium rounded-md text-white bg-theme-primary-500 hover:bg-theme-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-theme-primary-500"
                 >
                   <span className="absolute left-0 inset-y-0 flex items-center pl-3">

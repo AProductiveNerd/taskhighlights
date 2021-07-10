@@ -176,6 +176,7 @@ export default function SignUp(): JSX.Element {
             <div className="text-sm text-center flex justify-between flex-col items-center space-y-3">
               <button
                 type="button"
+                name="Generate avatar"
                 onClick={() => setAvatar(generator.generateRandomAvatar())}
                 className="bg-white text-theme-primary-600 hover:text-theme-primary-700 w-full rounded h-11 font-bold border"
               >
@@ -197,6 +198,7 @@ export default function SignUp(): JSX.Element {
             {!isInvalid && user_avatar !== "" && (
               <div>
                 <button
+                  aria-label="Sign up"
                   type="submit"
                   className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-base font-medium rounded-md text-white bg-theme-primary-500 hover:bg-theme-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-theme-primary-500"
                 >
