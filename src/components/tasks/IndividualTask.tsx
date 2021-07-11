@@ -34,22 +34,18 @@ export const IndividualTask = ({
     setAddedCounter(addedCounter + 1);
   };
 
+  const toggleTodoDone = async () => {
+    await toggleTodoState({ todo_id, todo_done: todo_state });
+  };
+
   const handleDelete = async () => {
     await deleteTodo(todo_id);
     setAddedCounter(addedCounter + 1);
   };
 
-  const toggleTodoDone = () => {
-    (async () => {
-      await toggleTodoState({ todo_id, todo_done: todo_state });
-    })();
-  };
-
-  const toggleArchiving = () => {
-    (async () => {
-      await toggleArchiveState({ todo_archived: todo_archive_state, todo_id });
-      setAddedCounter(addedCounter + 1);
-    })();
+  const toggleArchiving = async () => {
+    await toggleArchiveState({ todo_archived: todo_archive_state, todo_id });
+    setAddedCounter(addedCounter + 1);
   };
 
   return (
@@ -87,7 +83,9 @@ export const IndividualTask = ({
           className={`${todo_state && "line-through"} w-full cursor-pointer`}
           onClick={() => set_display_text_edit(!display_text_edit)}
         >
-          <label htmlFor={todo_id}>{new_title}</label>
+          <label className="cursor-pointer" htmlFor={todo_id}>
+            {new_title}
+          </label>
         </p>
       )}
 

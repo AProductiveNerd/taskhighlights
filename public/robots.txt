@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://taskhighlights2.vercel.app
+
+# Sitemaps
+Sitemap: https://taskhighlights2.vercel.app/sitemap.xml
