@@ -48,6 +48,7 @@ export const IndividualTask = ({
   const toggleArchiving = () => {
     (async () => {
       await toggleArchiveState({ todo_archived: todo_archive_state, todo_id });
+      setAddedCounter(addedCounter + 1);
     })();
   };
 
@@ -82,24 +83,25 @@ export const IndividualTask = ({
           }}
         />
       ) : (
-        <label
-          htmlFor={todo_id}
+        <p
           className={`${todo_state && "line-through"} w-full cursor-pointer`}
           onClick={() => set_display_text_edit(!display_text_edit)}
         >
-          {new_title}
-        </label>
+          <label htmlFor={todo_id}>{new_title}</label>
+        </p>
       )}
+
       <button
         title="Archive"
         aria-label="Archive Task"
         onClick={() => {
-          set_todo_archive_state(!todo_archive_state);
+          set_todo_archive_state(!db_archive);
           toggleArchiving();
         }}
       >
         <ArchiveIcon className="w-6 h-6" />
       </button>
+
       <button
         aria-label="Permanently Delete Task"
         title="Permanently Delete"

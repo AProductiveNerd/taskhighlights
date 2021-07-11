@@ -203,6 +203,9 @@ export const createRetDailyPage = async (
             todo_datecreated: false,
             todo_page_id: false,
             todo_user_id: false
+          },
+          where: {
+            todo_archived: false
           }
         }
       }
