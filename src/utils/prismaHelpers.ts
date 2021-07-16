@@ -14,6 +14,10 @@ export interface Page_Body {
   page_title: string;
   user_id: string;
 }
+export interface Story_Body {
+  todo_id: string;
+  story_id: string;
+}
 
 export interface Todo_Body {
   todo_description?: string;
@@ -32,6 +36,7 @@ export interface Useful_Todo {
   todo_done: boolean;
   todo_highlight: boolean;
   todo_id: string;
+  todo_story_id: string;
 }
 
 export type Page_and_Todos = Page & {
@@ -41,6 +46,18 @@ export type Page_and_Todos = Page & {
     todo_done: boolean;
     todo_id: string;
     todo_highlight: boolean;
+    todo_story_id: string;
+  }[];
+};
+
+export type Story_and_Todos = Story & {
+  Story_Todo: {
+    todo_id: string;
+    todo_description: string;
+    todo_done: boolean;
+    todo_archived: boolean;
+    todo_highlight: boolean;
+    todo_story_id: string;
   }[];
 };
 
@@ -179,7 +196,7 @@ export const createRetDailyPage = async (
   today: string
 ): Promise<Page_and_Todos> => {
   if (user_id.toString() !== "undefined") {
-    const page: Page_and_Todos = await prisma.page.upsert({
+    const page = await prisma.page.upsert({
       where: {
         user_title_unique: {
           page_title: today,
@@ -202,6 +219,7 @@ export const createRetDailyPage = async (
             todo_description: true,
             todo_done: true,
             todo_id: true,
+            todo_story_id: true,
             todo_highlight: true,
             Todo_Page: false,
             Todo_User: false,
@@ -404,34 +422,124 @@ export const toggleArchived = async ({
   return todo;
 };
 
+export const getStoryByStoryId = async (story_id: string): Promise<Story> => {
+  const story: Story = await prisma.story.findUnique({
+    where: {
+      story_id
+    }
+  });
+
+  return story;
+};
+
+export const getStoryByStoryTitle = async (
+  story_title: string,
+  user_id: string
+): Promise<Story> => {
+  const story: Story = await prisma.story.findUnique({
+    where: {
+      story_user_title_unique: {
+        story_title,
+        story_user_id: user_id
+      }
+    }
+  });
+
+  return story;
+};
+
 export const createUpdateStory = async ({
   story_user_id,
-  today: story_title,
-  todo_id
+  today: story_title
 }: {
   story_user_id: string;
   today: string;
-  todo_id: string;
-}): Promise<Story> => {
-  const story: Story = await prisma.story.upsert({
+}): Promise<Story_and_Todos> => {
+  const story: Story_and_Todos = await prisma.story.upsert({
     where: {
       story_user_title_unique: {
         story_title,
         story_user_id
       }
     },
-    update: {
-      Story_Todo: {
-        connect: {
-          todo_id
-        }
-      }
-    },
+    update: {},
     create: {
       story_title,
       Story_User: {
         connect: {
           user_id: story_user_id
+        }
+      }
+    },
+
+    include: {
+      Story_Todo: {
+        select: {
+          todo_archived: true,
+          todo_description: true,
+          todo_done: true,
+          todo_id: true,
+          todo_story_id: true,
+          todo_highlight: true,
+          Todo_Page: false,
+          Todo_User: false,
+          todo_datecreated: false,
+          todo_page_id: false,
+          todo_user_id: false
+        },
+        where: {
+          todo_archived: false
+        },
+        orderBy: [
+          { todo_done: "asc" },
+          { todo_description: "asc" },
+          { todo_archived: "asc" }
+        ]
+      }
+    }
+  });
+
+  return story;
+};
+
+export const deleteStoryByStoryid = async (
+  story_id: string
+): Promise<Story> => {
+  const story: Story = await prisma.story.delete({
+    where: {
+      story_id
+    }
+  });
+
+  return story;
+};
+
+export const deleteStoryByStoryTitle = async (
+  story_title: string,
+  story_user_id: string
+): Promise<Story> => {
+  const story: Story = await prisma.story.delete({
+    where: {
+      story_user_title_unique: {
+        story_title,
+        story_user_id
+      }
+    }
+  });
+
+  return story;
+};
+
+export const addTodoToStory = async ({
+  todo_id,
+  story_id
+}: Story_Body): Promise<Story> => {
+  const story: Story = await prisma.story.update({
+    where: { story_id },
+    data: {
+      Story_Todo: {
+        connect: {
+          todo_id
         }
       }
     }
