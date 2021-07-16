@@ -15,6 +15,7 @@ export const TasksCard = (): JSX.Element => {
   const [pageTodos, setPageTodos] = useState<Useful_Todo[]>(null);
   const [addedCounter, setAddedCounter] = useState<number>(0);
   const [back_date_num, setBack_date_num] = useState<number>(0);
+  const [highlight, setHighlight] = useState<Useful_Todo>(null);
 
   const currentUser: User = useContext(UserContext);
 
@@ -31,8 +32,17 @@ export const TasksCard = (): JSX.Element => {
 
       if (JSON.stringify(currentPage) !== JSON.stringify(page)) {
         setCurrentPage(page);
+
         if (JSON.stringify(pageTodos) !== JSON.stringify(page.Page_Todo)) {
-          setPageTodos(page?.Page_Todo);
+          const noHighlight = page?.Page_Todo.filter(
+            (todo) => todo.todo_highlight === false
+          );
+          setPageTodos(noHighlight);
+
+          const highlightTask = page?.Page_Todo.filter(
+            (todo) => todo.todo_highlight === true
+          );
+          setHighlight(highlightTask[0]);
         }
       }
     })();
@@ -53,15 +63,32 @@ export const TasksCard = (): JSX.Element => {
               new Date().setDate(new Date().getDate() - back_date_num)
             ).toLocaleDateString("en-GB")}
         </p>
+
         <AddTask
           user={currentUser?.user_id}
           page={currentPage?.page_id}
+          highlight={highlight}
           addedCounter={addedCounter}
           setAddedCounter={setAddedCounter}
         />
       </div>
+
       <hr className="border-dashed" />
-      <div>
+
+      <div className="space-y-1">
+        {highlight ? (
+          <IndividualTask
+            todo={highlight}
+            highlight={true}
+            addedCounter={addedCounter}
+            setAddedCounter={setAddedCounter}
+          />
+        ) : (
+          <SkeletonTheme color="#0F172A" highlightColor="#1E293B">
+            <Skeleton height={20} />
+          </SkeletonTheme>
+        )}
+
         {pageTodos ? (
           pageTodos?.map((todo: Useful_Todo) => (
             <IndividualTask
@@ -77,6 +104,7 @@ export const TasksCard = (): JSX.Element => {
           </SkeletonTheme>
         )}
       </div>
+
       <div className="flex justify-between">
         <button
           aria-label="Go to previous date page"
@@ -84,6 +112,7 @@ export const TasksCard = (): JSX.Element => {
         >
           <RewindIcon className="w-6 h-6" />
         </button>
+
         <button
           aria-label="Go to next date page"
           onClick={() => setBack_date_num(back_date_num - 1)}

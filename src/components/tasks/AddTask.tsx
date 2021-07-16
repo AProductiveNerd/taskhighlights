@@ -2,29 +2,35 @@ import { Dialog, Transition } from "@headlessui/react";
 import { PlusCircleIcon } from "@heroicons/react/outline";
 import { Fragment, useState } from "react";
 import { createTask } from "../../utils/fetchHelpers";
+import { Useful_Todo } from "../../utils/prismaHelpers";
 
 export const AddTask = ({
   page,
   user,
   addedCounter,
-  setAddedCounter
+  setAddedCounter,
+  highlight
 }: {
   page: string;
   user: string;
   addedCounter: number;
   setAddedCounter: React.Dispatch<React.SetStateAction<number>>;
+  highlight: Useful_Todo;
 }): JSX.Element => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [task, setTask] = useState("");
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [task, setTask] = useState<string>("");
+  const [should_highlight, setShouldHighlight] = useState<boolean>(false);
 
   const taskCreator = async () => {
     await createTask({
       page_id: page,
       todo_description: task,
-      user_id: user
+      user_id: user,
+      todo_highlight: should_highlight
     });
-    setAddedCounter(addedCounter + 1);
     setTask("");
+    setShouldHighlight(false);
+    setAddedCounter(addedCounter + 1);
   };
 
   return (
@@ -96,6 +102,14 @@ export const AddTask = ({
                     value={task}
                   />
                 </div>
+
+                {!highlight && (
+                  <input
+                    type="checkbox"
+                    defaultChecked={should_highlight}
+                    onClick={() => setShouldHighlight(!should_highlight)}
+                  />
+                )}
 
                 <div className="mt-4">
                   <button

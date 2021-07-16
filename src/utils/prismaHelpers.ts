@@ -1,4 +1,4 @@
-import { Page, Prisma, PrismaClient, Todo, User } from "@prisma/client";
+import { Page, Prisma, PrismaClient, Story, Todo, User } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -23,6 +23,15 @@ export interface Todo_Body {
   todo_id?: string;
   todo_done?: boolean;
   todo_archived?: boolean;
+  todo_highlight?: boolean;
+}
+
+export interface Useful_Todo {
+  todo_archived: boolean;
+  todo_description: string;
+  todo_done: boolean;
+  todo_highlight: boolean;
+  todo_id: string;
 }
 
 export type Page_and_Todos = Page & {
@@ -31,15 +40,10 @@ export type Page_and_Todos = Page & {
     todo_description: string;
     todo_done: boolean;
     todo_id: string;
+    todo_highlight: boolean;
   }[];
 };
 
-export interface Useful_Todo {
-  todo_archived: boolean;
-  todo_description: string;
-  todo_done: boolean;
-  todo_id: string;
-}
 export const getUserByUsername = async (
   user_username: string
 ): Promise<User> => {
@@ -198,6 +202,7 @@ export const createRetDailyPage = async (
             todo_description: true,
             todo_done: true,
             todo_id: true,
+            todo_highlight: true,
             Todo_Page: false,
             Todo_User: false,
             todo_datecreated: false,
@@ -206,7 +211,12 @@ export const createRetDailyPage = async (
           },
           where: {
             todo_archived: false
-          }
+          },
+          orderBy: [
+            { todo_done: "asc" },
+            { todo_description: "asc" },
+            { todo_archived: "asc" }
+          ]
         }
       }
     });
@@ -284,11 +294,13 @@ export const getTodobyTodoId = async (todo_id: string): Promise<Todo> => {
 export const createTodo = async ({
   todo_description,
   page_id,
-  user_id
+  user_id,
+  todo_highlight
 }: Todo_Body): Promise<Todo> => {
   const todo: Todo = await prisma.todo.create({
     data: {
       todo_description,
+      todo_highlight,
       Todo_User: {
         connect: {
           user_id
@@ -390,4 +402,40 @@ export const toggleArchived = async ({
   });
 
   return todo;
+};
+
+export const createUpdateStory = async ({
+  story_user_id,
+  today: story_title,
+  todo_id
+}: {
+  story_user_id: string;
+  today: string;
+  todo_id: string;
+}): Promise<Story> => {
+  const story: Story = await prisma.story.upsert({
+    where: {
+      story_user_title_unique: {
+        story_title,
+        story_user_id
+      }
+    },
+    update: {
+      Story_Todo: {
+        connect: {
+          todo_id
+        }
+      }
+    },
+    create: {
+      story_title,
+      Story_User: {
+        connect: {
+          user_id: story_user_id
+        }
+      }
+    }
+  });
+
+  return story;
 };

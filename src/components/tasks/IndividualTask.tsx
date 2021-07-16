@@ -16,9 +16,11 @@ export const IndividualTask = ({
     todo_archived: db_archive
   },
   addedCounter,
+  highlight,
   setAddedCounter
 }: {
   todo: Useful_Todo;
+  highlight?: boolean;
   addedCounter: number;
   setAddedCounter: React.Dispatch<React.SetStateAction<number>>;
 }): JSX.Element => {
@@ -83,30 +85,39 @@ export const IndividualTask = ({
           className={`${todo_state && "line-through"} w-full cursor-pointer`}
           onClick={() => set_display_text_edit(!display_text_edit)}
         >
-          <label className="cursor-pointer" htmlFor={todo_id}>
+          <label
+            className={`cursor-pointer ${
+              highlight && "text-theme-fuchsia-500 text-2xl"
+            }`}
+            htmlFor={todo_id}
+          >
             {new_title}
           </label>
         </p>
       )}
 
-      <button
-        title="Archive"
-        aria-label="Archive Task"
-        onClick={() => {
-          set_todo_archive_state(!db_archive);
-          toggleArchiving();
-        }}
-      >
-        <ArchiveIcon className="w-6 h-6" />
-      </button>
+      {!highlight && (
+        <>
+          <button
+            title="Archive"
+            aria-label="Archive Task"
+            onClick={() => {
+              set_todo_archive_state(!db_archive);
+              toggleArchiving();
+            }}
+          >
+            <ArchiveIcon className="w-6 h-6" />
+          </button>
 
-      <button
-        aria-label="Permanently Delete Task"
-        title="Permanently Delete"
-        onClick={handleDelete}
-      >
-        <TrashIcon className="w-6 h-6" />
-      </button>
+          <button
+            aria-label="Permanently Delete Task"
+            title="Permanently Delete"
+            onClick={handleDelete}
+          >
+            <TrashIcon className="w-6 h-6" />
+          </button>
+        </>
+      )}
     </div>
   );
 };
