@@ -2,9 +2,9 @@ import { FastForwardIcon, RewindIcon } from "@heroicons/react/solid";
 import { User } from "@prisma/client";
 import { useContext, useEffect, useState } from "react";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import { fetchPageRet } from "../../utils/fetchHelpers";
+import { fetchPageRet, getStoryById } from "../../utils/fetchHelpers";
 import {
-  Page_and_Todos,
+  Page_Story_Todos,
   Story_and_Todos,
   Useful_Todo
 } from "../../utils/prismaHelpers";
@@ -15,7 +15,7 @@ import { IndividualTask } from "./IndividualTask";
 // ! Limit the number of tasks a user can add to amplify the constraints lead to creativity effect
 
 export const TasksCard = (): JSX.Element => {
-  const [currentPage, setCurrentPage] = useState<Page_and_Todos>(null);
+  const [currentPage, setCurrentPage] = useState<Page_Story_Todos>(null);
   const [pageTodos, setPageTodos] = useState<Useful_Todo[]>(null);
   const [addedCounter, setAddedCounter] = useState<number>(0);
   const [back_date_num, setBack_date_num] = useState<number>(0);
@@ -30,11 +30,10 @@ export const TasksCard = (): JSX.Element => {
         new Date().setDate(new Date().getDate() - back_date_num)
       ).toLocaleDateString("en-GB");
 
-      const page: Page_and_Todos = await fetchPageRet(
+      const page: Page_Story_Todos = await fetchPageRet(
         currentUser?.user_id,
         today
       );
-
       if (JSON.stringify(currentPage) !== JSON.stringify(page)) {
         setCurrentPage(page);
 
@@ -49,8 +48,12 @@ export const TasksCard = (): JSX.Element => {
           );
           setHighlight(highlightTask[0]);
         }
+      }
+      if (JSON.stringify(story) !== JSON.stringify(page.Page_Story)) {
+        const storyId = page?.Page_Story.story_id;
 
-        // if (JSON.stringify(story) !==JSON.stringify() )
+        const story: Story_and_Todos = await getStoryById(storyId);
+        set_story(story);
       }
     })();
   }, [
@@ -58,7 +61,8 @@ export const TasksCard = (): JSX.Element => {
     currentUser?.user_id,
     addedCounter,
     pageTodos,
-    back_date_num
+    back_date_num,
+    story
   ]);
 
   return (
@@ -87,6 +91,7 @@ export const TasksCard = (): JSX.Element => {
           <IndividualTask
             todo={highlight}
             highlight={true}
+            storyid={story?.story_id}
             addedCounter={addedCounter}
             setAddedCounter={setAddedCounter}
           />
@@ -97,6 +102,7 @@ export const TasksCard = (): JSX.Element => {
             <IndividualTask
               todo={todo}
               key={todo.todo_id}
+              storyid={story?.story_id}
               addedCounter={addedCounter}
               setAddedCounter={setAddedCounter}
             />

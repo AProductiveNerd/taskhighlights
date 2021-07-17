@@ -32,11 +32,10 @@ export default async function handler(
 
   if (method === "GET") {
     if (story_id) {
-      const story: Story = await getStoryByStoryId(story_id);
+      const story: Story_and_Todos = await getStoryByStoryId(story_id);
 
       res.status(200).json(story);
     } else if (story_title) {
-      console.log("yeah that worked");
       const story: Story_and_Todos = await getStoryByStoryTitle(
         story_title,
         story_user_id

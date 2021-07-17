@@ -1,8 +1,8 @@
-import { Story, Todo, User } from "@prisma/client";
+import { Todo, User } from "@prisma/client";
 import fetch from "node-fetch";
 import { API_V1 } from "../constants/Routes";
 import {
-  Page_and_Todos,
+  Page_Story_Todos,
   Story_and_Todos,
   Story_Body,
   Todo_Body,
@@ -28,7 +28,7 @@ export const CreateUser = async (body: User_Body): Promise<User> => {
 export const fetchPageRet = async (
   user_id: string,
   today: string
-): Promise<Page_and_Todos> => {
+): Promise<Page_Story_Todos> => {
   const data = await fetch(
     `${API_V1}page?page_user_id=${user_id}&today=${today}`
   );
@@ -131,18 +131,10 @@ export const toggleArchiveState = async ({
   return data.json();
 };
 
-export const getStoryByTitle = async ({
-  story_title,
-  story_user_id,
-  page_id
-}: {
-  story_title: string;
-  story_user_id: string;
-  page_id: string;
-}): Promise<Story_and_Todos> => {
-  const data = await fetch(
-    `${API_V1}story?today=${story_title}&story_user_id=${story_user_id}&page_id=${page_id}`
-  );
+export const getStoryById = async (
+  story_id: string
+): Promise<Story_and_Todos> => {
+  const data = await fetch(`${API_V1}story?story_id=${story_id}`);
 
   return data.json();
 };

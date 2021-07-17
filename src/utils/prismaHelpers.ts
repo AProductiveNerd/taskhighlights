@@ -39,14 +39,18 @@ export interface Useful_Todo {
   todo_story_id: string;
 }
 
-export type Page_and_Todos = Page & {
+export type Page_Story_Todos = Page & {
+  Page_Story: {
+    story_title: string;
+    story_id: string;
+  };
   Page_Todo: {
     todo_archived: boolean;
     todo_description: string;
     todo_done: boolean;
     todo_id: string;
-    todo_highlight: boolean;
     todo_story_id: string;
+    todo_highlight: boolean;
   }[];
 };
 
@@ -194,7 +198,7 @@ export const createPage = async ({
 export const createRetDailyPage = async (
   user_id: string,
   today: string
-): Promise<Page_and_Todos> => {
+): Promise<Page_Story_Todos> => {
   if (user_id.toString() !== "undefined") {
     const page = await prisma.page.upsert({
       where: {
@@ -213,6 +217,12 @@ export const createRetDailyPage = async (
       },
       update: {},
       include: {
+        Page_Story: {
+          select: {
+            story_title: true,
+            story_id: true
+          }
+        },
         Page_Todo: {
           select: {
             todo_archived: true,
@@ -422,10 +432,37 @@ export const toggleArchived = async ({
   return todo;
 };
 
-export const getStoryByStoryId = async (story_id: string): Promise<Story> => {
-  const story: Story = await prisma.story.findUnique({
+export const getStoryByStoryId = async (
+  story_id: string
+): Promise<Story_and_Todos> => {
+  const story: Story_and_Todos = await prisma.story.findUnique({
     where: {
       story_id
+    },
+    include: {
+      Story_Todo: {
+        select: {
+          todo_archived: true,
+          todo_description: true,
+          todo_done: true,
+          todo_id: true,
+          todo_story_id: true,
+          todo_highlight: true,
+          Todo_Page: false,
+          Todo_User: false,
+          todo_datecreated: false,
+          todo_page_id: false,
+          todo_user_id: false
+        },
+        where: {
+          todo_archived: false
+        },
+        orderBy: [
+          { todo_done: "asc" },
+          { todo_description: "asc" },
+          { todo_archived: "asc" }
+        ]
+      }
     }
   });
 

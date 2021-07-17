@@ -1,6 +1,13 @@
-import { ArchiveIcon, TrashIcon } from "@heroicons/react/solid";
+import {
+  ArchiveIcon,
+  EyeIcon,
+  EyeOffIcon,
+  TrashIcon
+} from "@heroicons/react/solid";
+
 import { useState } from "react";
 import {
+  addTaskToStory,
   deleteTodo,
   toggleArchiveState,
   toggleTodoState,
@@ -13,14 +20,17 @@ export const IndividualTask = ({
     todo_description,
     todo_done: db_done,
     todo_id,
-    todo_archived: db_archive
+    todo_archived: db_archive,
+    todo_story_id
   },
+  storyid,
   addedCounter,
   highlight,
   setAddedCounter
 }: {
   todo: Useful_Todo;
   highlight?: boolean;
+  storyid: string;
   addedCounter: number;
   setAddedCounter: React.Dispatch<React.SetStateAction<number>>;
 }): JSX.Element => {
@@ -50,8 +60,13 @@ export const IndividualTask = ({
     setAddedCounter(addedCounter + 1);
   };
 
+  const toggleAddToStory = async () => {
+    await addTaskToStory({ story_id: storyid, todo_id });
+    setAddedCounter(addedCounter + 1);
+  };
+
   return (
-    <div className="flex items-center space-x-2 text-left text-xl break-all">
+    <div className="flex items-center space-x-2 text-left text-xl break-words leading-5">
       <input
         type="checkbox"
         id={todo_id}
@@ -117,6 +132,22 @@ export const IndividualTask = ({
             <TrashIcon className="w-6 h-6" />
           </button>
         </>
+      )}
+
+      {storyid === todo_story_id ? (
+        <button
+          title="Add to story"
+          aria-label="Add to story"
+          onClick={() => {
+            toggleAddToStory();
+          }}
+        >
+          <EyeIcon className="w-6 h-6" />
+        </button>
+      ) : (
+        <button title="Remove from story" aria-label="Remove from story">
+          <EyeOffIcon className="w-6 h-6" />
+        </button>
       )}
     </div>
   );
