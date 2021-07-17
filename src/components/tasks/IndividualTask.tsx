@@ -135,18 +135,17 @@ export const IndividualTask = ({
       )}
 
       {storyid === todo_story_id ? (
-        <button
-          title="Add to story"
-          aria-label="Add to story"
-          onClick={() => {
-            toggleAddToStory();
-          }}
-        >
+        <button title="Add to story" aria-label="Add to story">
           <EyeIcon className="w-6 h-6" />
         </button>
       ) : (
         <button title="Remove from story" aria-label="Remove from story">
-          <EyeOffIcon className="w-6 h-6" />
+          <EyeOffIcon
+            className="w-6 h-6"
+            onClick={() => {
+              toggleAddToStory();
+            }}
+          />
         </button>
       )}
     </div>
