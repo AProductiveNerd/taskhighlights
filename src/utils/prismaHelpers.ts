@@ -435,12 +435,37 @@ export const getStoryByStoryId = async (story_id: string): Promise<Story> => {
 export const getStoryByStoryTitle = async (
   story_title: string,
   user_id: string
-): Promise<Story> => {
-  const story: Story = await prisma.story.findUnique({
+): Promise<Story_and_Todos> => {
+  const story: Story_and_Todos = await prisma.story.findUnique({
     where: {
       story_user_title_unique: {
         story_title,
         story_user_id: user_id
+      }
+    },
+    include: {
+      Story_Todo: {
+        select: {
+          todo_archived: true,
+          todo_description: true,
+          todo_done: true,
+          todo_id: true,
+          todo_story_id: true,
+          todo_highlight: true,
+          Todo_Page: false,
+          Todo_User: false,
+          todo_datecreated: false,
+          todo_page_id: false,
+          todo_user_id: false
+        },
+        where: {
+          todo_archived: false
+        },
+        orderBy: [
+          { todo_done: "asc" },
+          { todo_description: "asc" },
+          { todo_archived: "asc" }
+        ]
       }
     }
   });
@@ -450,10 +475,12 @@ export const getStoryByStoryTitle = async (
 
 export const createUpdateStory = async ({
   story_user_id,
+  page_id,
   today: story_title
 }: {
   story_user_id: string;
   today: string;
+  page_id: string;
 }): Promise<Story_and_Todos> => {
   const story: Story_and_Todos = await prisma.story.upsert({
     where: {
@@ -465,6 +492,11 @@ export const createUpdateStory = async ({
     update: {},
     create: {
       story_title,
+      Story_Page: {
+        connect: {
+          page_id
+        }
+      },
       Story_User: {
         connect: {
           user_id: story_user_id
@@ -533,14 +565,39 @@ export const deleteStoryByStoryTitle = async (
 export const addTodoToStory = async ({
   todo_id,
   story_id
-}: Story_Body): Promise<Story> => {
-  const story: Story = await prisma.story.update({
+}: Story_Body): Promise<Story_and_Todos> => {
+  const story: Story_and_Todos = await prisma.story.update({
     where: { story_id },
     data: {
       Story_Todo: {
         connect: {
           todo_id
         }
+      }
+    },
+    include: {
+      Story_Todo: {
+        select: {
+          todo_archived: true,
+          todo_description: true,
+          todo_done: true,
+          todo_id: true,
+          todo_story_id: true,
+          todo_highlight: true,
+          Todo_Page: false,
+          Todo_User: false,
+          todo_datecreated: false,
+          todo_page_id: false,
+          todo_user_id: false
+        },
+        where: {
+          todo_archived: false
+        },
+        orderBy: [
+          { todo_done: "asc" },
+          { todo_description: "asc" },
+          { todo_archived: "asc" }
+        ]
       }
     }
   });

@@ -3,7 +3,11 @@ import { User } from "@prisma/client";
 import { useContext, useEffect, useState } from "react";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { fetchPageRet } from "../../utils/fetchHelpers";
-import { Page_and_Todos, Useful_Todo } from "../../utils/prismaHelpers";
+import {
+  Page_and_Todos,
+  Story_and_Todos,
+  Useful_Todo
+} from "../../utils/prismaHelpers";
 import UserContext from "./../../contexts/UserContext";
 
 import { AddTask } from "./AddTask";
@@ -16,6 +20,7 @@ export const TasksCard = (): JSX.Element => {
   const [addedCounter, setAddedCounter] = useState<number>(0);
   const [back_date_num, setBack_date_num] = useState<number>(0);
   const [highlight, setHighlight] = useState<Useful_Todo>(null);
+  const [story, set_story] = useState<Story_and_Todos>(null);
 
   const currentUser: User = useContext(UserContext);
 
@@ -44,6 +49,8 @@ export const TasksCard = (): JSX.Element => {
           );
           setHighlight(highlightTask[0]);
         }
+
+        // if (JSON.stringify(story) !==JSON.stringify() )
       }
     })();
   }, [
@@ -76,17 +83,13 @@ export const TasksCard = (): JSX.Element => {
       <hr className="border-dashed" />
 
       <div className="space-y-1">
-        {highlight ? (
+        {highlight && (
           <IndividualTask
             todo={highlight}
             highlight={true}
             addedCounter={addedCounter}
             setAddedCounter={setAddedCounter}
           />
-        ) : (
-          <SkeletonTheme color="#0F172A" highlightColor="#1E293B">
-            <Skeleton height={20} />
-          </SkeletonTheme>
         )}
 
         {pageTodos ? (

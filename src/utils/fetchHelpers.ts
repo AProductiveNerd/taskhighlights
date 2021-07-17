@@ -1,7 +1,13 @@
-import { Todo, User } from "@prisma/client";
+import { Story, Todo, User } from "@prisma/client";
 import fetch from "node-fetch";
 import { API_V1 } from "../constants/Routes";
-import { Page_and_Todos, Todo_Body, User_Body } from "./prismaHelpers";
+import {
+  Page_and_Todos,
+  Story_and_Todos,
+  Story_Body,
+  Todo_Body,
+  User_Body
+} from "./prismaHelpers";
 
 export const fetchUserFromUserid = async (user_id: string): Promise<User> => {
   const data = await fetch(`${API_V1}user?user_id=${user_id}`);
@@ -118,6 +124,38 @@ export const toggleArchiveState = async ({
       task: "toggleArchive",
       todo_id,
       todo_archived
+    }),
+    headers: { "Content-Type": "application/json" }
+  });
+
+  return data.json();
+};
+
+export const getStoryByTitle = async ({
+  story_title,
+  story_user_id,
+  page_id
+}: {
+  story_title: string;
+  story_user_id: string;
+  page_id: string;
+}): Promise<Story_and_Todos> => {
+  const data = await fetch(
+    `${API_V1}story?today=${story_title}&story_user_id=${story_user_id}&page_id=${page_id}`
+  );
+
+  return data.json();
+};
+
+export const addTaskToStory = async ({
+  story_id,
+  todo_id
+}: Story_Body): Promise<Story_and_Todos> => {
+  const data = await fetch(`${API_V1}story`, {
+    method: "POST",
+    body: JSON.stringify({
+      todo_id,
+      story_id
     }),
     headers: { "Content-Type": "application/json" }
   });

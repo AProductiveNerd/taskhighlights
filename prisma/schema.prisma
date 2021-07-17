@@ -28,6 +28,7 @@ model Page {
   page_last_accessed DateTime @updatedAt
   page_user_id       String
   Page_User          User     @relation(fields: [page_user_id], references: [user_id])
+  Page_Story         Story?
   Page_Todo          Todo[]
 
   @@unique([page_user_id, page_title], name: "user_title_unique")
@@ -38,6 +39,8 @@ model Story {
   story_datecreated DateTime @default(now())
   story_user_id     String
   story_title       String
+  story_page_id     String   @unique
+  Story_Page        Page     @relation(fields: [story_page_id], references: [page_id])
   Story_User        User     @relation(fields: [story_user_id], references: [user_id])
   Story_Todo        Todo[]
 

@@ -1,4 +1,8 @@
-import { addTodoToStory, Story_Body } from "./../../../utils/prismaHelpers";
+import {
+  addTodoToStory,
+  Story_and_Todos,
+  Story_Body
+} from "./../../../utils/prismaHelpers";
 import { Prisma, Story } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import {
@@ -13,6 +17,7 @@ interface Query {
   story_id?: string;
   story_title?: string;
   story_user_id?: string;
+  page_id?: string;
   today?: string;
 }
 
@@ -22,7 +27,8 @@ export default async function handler(
   res: NextApiResponse<any>
 ): Promise<void> {
   const method = req.method;
-  const { story_id, story_title, story_user_id, today }: Query = req.query;
+  const { story_id, story_title, story_user_id, page_id, today }: Query =
+    req.query;
 
   if (method === "GET") {
     if (story_id) {
@@ -30,7 +36,8 @@ export default async function handler(
 
       res.status(200).json(story);
     } else if (story_title) {
-      const story: Story = await getStoryByStoryTitle(
+      console.log("yeah that worked");
+      const story: Story_and_Todos = await getStoryByStoryTitle(
         story_title,
         story_user_id
       );
@@ -40,7 +47,8 @@ export default async function handler(
       if (typeof story_user_id === "string") {
         const story: Story = await createUpdateStory({
           story_user_id,
-          today
+          today,
+          page_id
         });
 
         res.status(200).json(story);
@@ -50,7 +58,7 @@ export default async function handler(
     try {
       const body: Story_Body = req.body;
 
-      const story: Story = await addTodoToStory(body);
+      const story: Story_and_Todos = await addTodoToStory(body);
 
       res.status(201).json(story);
     } catch (e) {
