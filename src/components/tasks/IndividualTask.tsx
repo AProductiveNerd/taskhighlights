@@ -4,16 +4,23 @@ import {
   EyeOffIcon,
   TrashIcon
 } from "@heroicons/react/solid";
-
+import { Story } from "@prisma/client";
 import { useState } from "react";
+import {
+  todo_archived,
+  todo_description,
+  todo_done,
+  todo_highlight,
+  Useful_Todo
+} from "../../constants/Types";
 import {
   addTaskToStory,
   deleteTodo,
+  removeTaskFromStory,
   toggleArchiveState,
   toggleTodoState,
   updateTodoDescription
 } from "../../utils/fetchHelpers";
-import { Useful_Todo } from "../../utils/prismaHelpers";
 
 export const IndividualTask = ({
   todo: {
@@ -23,22 +30,23 @@ export const IndividualTask = ({
     todo_archived: db_archive,
     todo_story_id
   },
-  storyid,
+  story: { story_id: storyid },
   addedCounter,
   highlight,
   setAddedCounter
 }: {
   todo: Useful_Todo;
-  highlight?: boolean;
-  storyid: string;
+  story: Story;
+  highlight?: todo_highlight;
   addedCounter: number;
   setAddedCounter: React.Dispatch<React.SetStateAction<number>>;
 }): JSX.Element => {
   const [display_text_edit, set_display_text_edit] = useState<boolean>(false);
-  const [todo_state, set_todo_state] = useState<boolean>(db_done);
-  const [new_title, set_new_title] = useState<string>(todo_description);
+  const [todo_state, set_todo_state] = useState<todo_done>(db_done);
+  const [new_title, set_new_title] =
+    useState<todo_description>(todo_description);
   const [todo_archive_state, set_todo_archive_state] =
-    useState<boolean>(db_archive);
+    useState<todo_archived>(db_archive);
 
   const handleTextSubmit = async () => {
     await updateTodoDescription({ todo_id, todo_description: new_title });
@@ -60,8 +68,13 @@ export const IndividualTask = ({
     setAddedCounter(addedCounter + 1);
   };
 
-  const toggleAddToStory = async () => {
+  const addToStory = async () => {
     await addTaskToStory({ story_id: storyid, todo_id });
+    setAddedCounter(addedCounter + 1);
+  };
+
+  const removeFromStory = async () => {
+    await removeTaskFromStory({ story_id: storyid, todo_id });
     setAddedCounter(addedCounter + 1);
   };
 
@@ -136,16 +149,11 @@ export const IndividualTask = ({
 
       {storyid === todo_story_id ? (
         <button title="Add to story" aria-label="Add to story">
-          <EyeIcon className="w-6 h-6" />
+          <EyeIcon className="w-6 h-6" onClick={() => removeFromStory()} />
         </button>
       ) : (
         <button title="Remove from story" aria-label="Remove from story">
-          <EyeOffIcon
-            className="w-6 h-6"
-            onClick={() => {
-              toggleAddToStory();
-            }}
-          />
+          <EyeOffIcon className="w-6 h-6" onClick={() => addToStory()} />
         </button>
       )}
     </div>

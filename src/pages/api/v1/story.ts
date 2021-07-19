@@ -1,16 +1,13 @@
-import {
-  addTodoToStory,
-  Story_and_Todos,
-  Story_Body
-} from "./../../../utils/prismaHelpers";
 import { Prisma, Story } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { Story_and_Todos, Story_Body } from "../../../constants/Types";
 import {
-  createUpdateStory,
-  deleteStoryByStoryid,
-  deleteStoryByStoryTitle,
-  getStoryByStoryId,
-  getStoryByStoryTitle
+  prisma_createUpdateStory,
+  prisma_deleteStoryByStoryid,
+  prisma_getStoryByStoryId,
+  prisma_getStoryByStoryTitle,
+  prisma_addTodoToStory,
+  prisma_removeTodoFromStory
 } from "../../../utils/prismaHelpers";
 
 interface Query {
@@ -32,11 +29,11 @@ export default async function handler(
 
   if (method === "GET") {
     if (story_id) {
-      const story: Story_and_Todos = await getStoryByStoryId(story_id);
+      const story: Story_and_Todos = await prisma_getStoryByStoryId(story_id);
 
       res.status(200).json(story);
     } else if (story_title) {
-      const story: Story_and_Todos = await getStoryByStoryTitle(
+      const story: Story_and_Todos = await prisma_getStoryByStoryTitle(
         story_title,
         story_user_id
       );
@@ -44,7 +41,7 @@ export default async function handler(
       res.status(200).json(story);
     } else {
       if (typeof story_user_id === "string") {
-        const story: Story = await createUpdateStory({
+        const story: Story = await prisma_createUpdateStory({
           story_user_id,
           today,
           page_id
@@ -57,9 +54,15 @@ export default async function handler(
     try {
       const body: Story_Body = req.body;
 
-      const story: Story_and_Todos = await addTodoToStory(body);
-
-      res.status(201).json(story);
+      if (body.task === "add") {
+        const story: Story_and_Todos = await prisma_addTodoToStory(body);
+        res.status(201).json(story);
+      } else if (body.task === "remove") {
+        const story: Story_and_Todos = await prisma_removeTodoFromStory(body);
+        res.status(201).json(story);
+      } else {
+        res.status(501).json({ Error: "bad req" });
+      }
     } catch (e) {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         res.status(409).json(e.message);
@@ -67,14 +70,7 @@ export default async function handler(
     }
   } else if (method === "DELETE") {
     if (story_id) {
-      const deletedPage: Story = await deleteStoryByStoryid(story_id);
-
-      res.status(200).json(deletedPage);
-    } else if (story_title) {
-      const deletedPage: Story = await deleteStoryByStoryTitle(
-        story_title,
-        story_user_id
-      );
+      const deletedPage: Story = await prisma_deleteStoryByStoryid(story_id);
 
       res.status(200).json(deletedPage);
     }

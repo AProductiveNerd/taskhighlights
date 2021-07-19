@@ -1,17 +1,13 @@
 import { FastForwardIcon, RewindIcon } from "@heroicons/react/solid";
-import { User } from "@prisma/client";
+import { Story, User } from "@prisma/client";
 import { useContext, useEffect, useState } from "react";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import { fetchPageRet, getStoryById } from "../../utils/fetchHelpers";
-import {
-  Page_Story_Todos,
-  Story_and_Todos,
-  Useful_Todo
-} from "../../utils/prismaHelpers";
+import { Page_Story_Todos, Useful_Todo } from "../../constants/Types";
+import { fetchPageRet } from "../../utils/fetchHelpers";
 import UserContext from "./../../contexts/UserContext";
-
 import { AddTask } from "./AddTask";
 import { IndividualTask } from "./IndividualTask";
+
 // ! Limit the number of tasks a user can add to amplify the constraints lead to creativity effect
 
 export const TasksCard = (): JSX.Element => {
@@ -20,7 +16,7 @@ export const TasksCard = (): JSX.Element => {
   const [addedCounter, setAddedCounter] = useState<number>(0);
   const [back_date_num, setBack_date_num] = useState<number>(0);
   const [highlight, setHighlight] = useState<Useful_Todo>(null);
-  const [story, set_story] = useState<Story_and_Todos>(null);
+  const [story, set_story] = useState<Story>(null);
 
   const currentUser: User = useContext(UserContext);
 
@@ -30,10 +26,7 @@ export const TasksCard = (): JSX.Element => {
         new Date().setDate(new Date().getDate() - back_date_num)
       ).toLocaleDateString("en-GB");
 
-      const page: Page_Story_Todos = await fetchPageRet(
-        currentUser?.user_id,
-        today
-      );
+      const page = await fetchPageRet(currentUser?.user_id, today);
       if (JSON.stringify(currentPage) !== JSON.stringify(page)) {
         setCurrentPage(page);
 
@@ -49,12 +42,6 @@ export const TasksCard = (): JSX.Element => {
           setHighlight(highlightTask[0]);
         }
       }
-      if (JSON.stringify(story) !== JSON.stringify(page.Page_Story)) {
-        const storyId = page?.Page_Story.story_id;
-
-        const story: Story_and_Todos = await getStoryById(storyId);
-        set_story(story);
-      }
     })();
   }, [
     currentPage,
@@ -64,6 +51,13 @@ export const TasksCard = (): JSX.Element => {
     back_date_num,
     story
   ]);
+
+  useEffect(() => {
+    if (JSON.stringify(story) !== JSON.stringify(currentPage?.Page_Story)) {
+      console.log("story", story);
+      set_story(currentPage?.Page_Story);
+    }
+  }, [addedCounter, pageTodos, currentPage, story]);
 
   return (
     <div className="noScrollbar space-y-5 max-h-[80vh] w-11/12 sm:max-w-md md:max-w-lg py-4 px-8 bg-theme-blueGray-800 shadow-lg rounded-lg mx-auto selection:bg-theme-primary-500/60 overflow-y-scroll overflow-x-hidden">
@@ -87,22 +81,22 @@ export const TasksCard = (): JSX.Element => {
       <hr className="border-dashed" />
 
       <div className="space-y-1">
-        {highlight && (
+        {highlight && story && (
           <IndividualTask
             todo={highlight}
             highlight={true}
-            storyid={story?.story_id}
+            story={story}
             addedCounter={addedCounter}
             setAddedCounter={setAddedCounter}
           />
         )}
 
-        {pageTodos ? (
+        {pageTodos && story ? (
           pageTodos?.map((todo: Useful_Todo) => (
             <IndividualTask
               todo={todo}
+              story={story}
               key={todo.todo_id}
-              storyid={story?.story_id}
               addedCounter={addedCounter}
               setAddedCounter={setAddedCounter}
             />
