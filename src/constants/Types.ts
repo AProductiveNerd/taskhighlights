@@ -13,6 +13,9 @@ export type user_email = string;
 export type user_username = string;
 export type user_avatar = string;
 export type user_fullname = string;
+export type user_bio = string | null;
+export type user_followers = string[];
+export type user_following = string[];
 
 /*
   Page Model Types

@@ -16,6 +16,9 @@ model User {
   user_datecreated DateTime @default(now())
   user_avatar      String
   user_fullname    String
+  user_bio         String?
+  user_followers   String[]
+  user_following   String[]
   User_Page        Page[]
   User_Story       Story[]
   User_Todo        Todo[]

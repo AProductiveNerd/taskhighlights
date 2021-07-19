@@ -7,6 +7,15 @@ export const fetch_getUserByUserid = async (
   user_id: TYPES.user_id
 ): Promise<User> => {
   const data = await fetch(`${API_V1}user?user_id=${user_id}`);
+
+  return data.json();
+};
+
+export const fetch_getUserByUsername = async (
+  user_username: TYPES.user_username
+): Promise<User> => {
+  const data = await fetch(`${API_V1}user?user_username=${user_username}`);
+
   return data.json();
 };
 
@@ -19,6 +28,7 @@ export const fetch_createUser = async (
       body: JSON.stringify(body),
       headers: { "Content-Type": "application/json" }
     });
+
     return data.json();
   }
 };
@@ -34,7 +44,9 @@ export const fetch_createRetDailyPage = async (
   return data.json();
 };
 
-export const fetch_createTodo = async (body: TYPES.Todo_Body): Promise<Todo> => {
+export const fetch_createTodo = async (
+  body: TYPES.Todo_Body
+): Promise<Todo> => {
   if (body) {
     const data = await fetch(`${API_V1}todo`, {
       method: "POST",
@@ -99,7 +111,9 @@ export const fetch_updateTodoDescription = async ({
   }
 };
 
-export const fetch_deleteTodo = async (todo_id: TYPES.todo_id): Promise<Todo> => {
+export const fetch_deleteTodo = async (
+  todo_id: TYPES.todo_id
+): Promise<Todo> => {
   if (todo_id) {
     const data = await fetch(`${API_V1}todo?todo_id=${todo_id}`, {
       method: "DELETE"

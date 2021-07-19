@@ -22,7 +22,6 @@ import {
   onClick_toggleTodoDone
 } from "../../utils/onClickHelpers";
 
-
 export const IndividualTask = ({
   todo: {
     todo_description,
@@ -134,7 +133,7 @@ export const IndividualTask = ({
       )}
 
       {storyid === todo_story_id ? (
-        <button title="Add to story" aria-label="Add to story">
+        <button title="Remove from story" aria-label="Remove from story">
           <EyeIcon
             className="w-6 h-6"
             onClick={() =>
@@ -147,7 +146,7 @@ export const IndividualTask = ({
           />
         </button>
       ) : (
-        <button title="Remove from story" aria-label="Remove from story">
+        <button title="Add to story" aria-label="Add to story">
           <EyeOffIcon
             className="w-6 h-6"
             onClick={() =>

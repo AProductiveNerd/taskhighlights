@@ -13,7 +13,7 @@ const securityHeaders = [
   },
   {
     key: 'Content-Security-Policy',
-    value: "default-src 'self' taskhighlights2.vercel.app *.taskhighlights2.vercel.app; img-src avataaars.io'"
+    value: "default-src 'self' taskhighlights2.vercel.app *.taskhighlights2.vercel.app; img-src http://localhost:3000 taskhighlights2.vercel.app *.taskhighlights2.vercel.app"
   },
 ]
 
