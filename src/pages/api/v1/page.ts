@@ -38,7 +38,6 @@ export default async function handler(
       res.status(200).json(page);
     } else {
       if (typeof page_user_id === "string") {
-        console.log({ stage: "stop 1", page_user_id, today });
         const page: Page_Story_Todos = await prisma_createRetDailyPage(
           page_user_id,
           today

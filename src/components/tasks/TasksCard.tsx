@@ -54,7 +54,6 @@ export const TasksCard = (): JSX.Element => {
 
   useEffect(() => {
     if (JSON.stringify(story) !== JSON.stringify(currentPage?.Page_Story)) {
-      console.log("story", story);
       set_story(currentPage?.Page_Story);
     }
   }, [addedCounter, pageTodos, currentPage, story]);

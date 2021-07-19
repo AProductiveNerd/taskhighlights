@@ -7,7 +7,7 @@ import { AvatarGenerator } from "random-avatar-generator";
 import { FormEvent, useState } from "react";
 import { Layout } from "../components/layout";
 import { fireAuth } from "../libs/Firebase";
-import { CreateUser } from "../utils/fetchHelpers";
+import { fetch_createUser } from "../utils/fetchHelpers";
 
 export default function SignUp(): JSX.Element {
   const generator = new AvatarGenerator();
@@ -40,7 +40,7 @@ export default function SignUp(): JSX.Element {
           displayName: user_username
         });
 
-        await CreateUser({
+        await fetch_createUser({
           user_avatar,
           user_email,
           user_fullname,

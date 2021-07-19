@@ -123,8 +123,6 @@ export const prisma_createRetDailyPage = async (
   today: TYPES.page_title
 ): Promise<TYPES.Page_Story_Todos> => {
   if (user_id.toString() !== "undefined") {
-    console.log({ stage: "stop 2", user_id, today });
-
     const page = await prisma.page.upsert({
       where: {
         user_title_unique: {
@@ -174,7 +172,7 @@ export const prisma_createRetDailyPage = async (
         }
       }
     });
-    console.log("step 3", page);
+
     return page;
   }
 };

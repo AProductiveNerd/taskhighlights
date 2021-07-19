@@ -141,7 +141,6 @@ export const fetch_addTodoToStory = async ({
   story_id,
   todo_id
 }: TYPES.Story_Body): Promise<TYPES.Story_and_Todos> => {
-  console.log("add story", story_id);
   const data = await fetch(`${API_V1}story`, {
     method: "POST",
     body: JSON.stringify({
