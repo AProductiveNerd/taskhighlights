@@ -14,13 +14,14 @@ import {
   Useful_Todo
 } from "../../constants/Types";
 import {
-  addTaskToStory,
-  deleteTodo,
-  removeTaskFromStory,
-  toggleArchiveState,
-  toggleTodoState,
-  updateTodoDescription
-} from "../../utils/fetchHelpers";
+  onClick_addToStory,
+  onClick_handleDelete,
+  onClick_handleTextSubmit,
+  onClick_removeFromStory,
+  onClick_toggleArchiving,
+  onClick_toggleTodoDone
+} from "../../utils/onClickHelpers";
+
 
 export const IndividualTask = ({
   todo: {
@@ -31,15 +32,13 @@ export const IndividualTask = ({
     todo_story_id
   },
   story: { story_id: storyid },
-  addedCounter,
-  highlight,
-  setAddedCounter
+  stateReload,
+  highlight
 }: {
   todo: Useful_Todo;
   story: Story;
+  stateReload: VoidFunction;
   highlight?: todo_highlight;
-  addedCounter: number;
-  setAddedCounter: React.Dispatch<React.SetStateAction<number>>;
 }): JSX.Element => {
   const [display_text_edit, set_display_text_edit] = useState<boolean>(false);
   const [todo_state, set_todo_state] = useState<todo_done>(db_done);
@@ -47,36 +46,6 @@ export const IndividualTask = ({
     useState<todo_description>(todo_description);
   const [todo_archive_state, set_todo_archive_state] =
     useState<todo_archived>(db_archive);
-
-  const handleTextSubmit = async () => {
-    await updateTodoDescription({ todo_id, todo_description: new_title });
-    set_display_text_edit(false);
-    setAddedCounter(addedCounter + 1);
-  };
-
-  const toggleTodoDone = async () => {
-    await toggleTodoState({ todo_id, todo_done: todo_state });
-  };
-
-  const handleDelete = async () => {
-    await deleteTodo(todo_id);
-    setAddedCounter(addedCounter + 1);
-  };
-
-  const toggleArchiving = async () => {
-    await toggleArchiveState({ todo_archived: todo_archive_state, todo_id });
-    setAddedCounter(addedCounter + 1);
-  };
-
-  const addToStory = async () => {
-    await addTaskToStory({ story_id: storyid, todo_id });
-    setAddedCounter(addedCounter + 1);
-  };
-
-  const removeFromStory = async () => {
-    await removeTaskFromStory({ story_id: storyid, todo_id });
-    setAddedCounter(addedCounter + 1);
-  };
 
   return (
     <div className="flex items-center space-x-2 text-left text-xl break-words leading-5">
@@ -86,7 +55,10 @@ export const IndividualTask = ({
         defaultChecked={todo_state}
         onChange={() => {
           set_todo_state(!db_done);
-          toggleTodoDone();
+          onClick_toggleTodoDone({
+            todo_done: todo_state,
+            todo_id
+          });
         }}
       />
 
@@ -100,7 +72,12 @@ export const IndividualTask = ({
           onChange={({ target }) => set_new_title(target.value)}
           onKeyDown={(event) => {
             if (event.key === "Enter") {
-              handleTextSubmit();
+              onClick_handleTextSubmit({
+                todo_id,
+                todo_description,
+                stateReload,
+                set_display_text_edit
+              });
               set_display_text_edit(false);
             } else if (event.key === "Escape") {
               set_display_text_edit(false);
@@ -131,7 +108,11 @@ export const IndividualTask = ({
             aria-label="Archive Task"
             onClick={() => {
               set_todo_archive_state(!db_archive);
-              toggleArchiving();
+              onClick_toggleArchiving({
+                stateReload,
+                todo_archived: todo_archive_state,
+                todo_id
+              });
             }}
           >
             <ArchiveIcon className="w-6 h-6" />
@@ -140,7 +121,12 @@ export const IndividualTask = ({
           <button
             aria-label="Permanently Delete Task"
             title="Permanently Delete"
-            onClick={handleDelete}
+            onClick={() =>
+              onClick_handleDelete({
+                stateReload,
+                todo_id
+              })
+            }
           >
             <TrashIcon className="w-6 h-6" />
           </button>
@@ -149,11 +135,29 @@ export const IndividualTask = ({
 
       {storyid === todo_story_id ? (
         <button title="Add to story" aria-label="Add to story">
-          <EyeIcon className="w-6 h-6" onClick={() => removeFromStory()} />
+          <EyeIcon
+            className="w-6 h-6"
+            onClick={() =>
+              onClick_removeFromStory({
+                stateReload,
+                story_id: storyid,
+                todo_id
+              })
+            }
+          />
         </button>
       ) : (
         <button title="Remove from story" aria-label="Remove from story">
-          <EyeOffIcon className="w-6 h-6" onClick={() => addToStory()} />
+          <EyeOffIcon
+            className="w-6 h-6"
+            onClick={() =>
+              onClick_addToStory({
+                stateReload,
+                story_id: storyid,
+                todo_id
+              })
+            }
+          />
         </button>
       )}
     </div>

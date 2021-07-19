@@ -3,7 +3,7 @@ import { Story, User } from "@prisma/client";
 import { useContext, useEffect, useState } from "react";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { Page_Story_Todos, Useful_Todo } from "../../constants/Types";
-import { fetchPageRet } from "../../utils/fetchHelpers";
+import { fetch_createRetDailyPage } from "../../utils/fetchHelpers";
 import UserContext from "./../../contexts/UserContext";
 import { AddTask } from "./AddTask";
 import { IndividualTask } from "./IndividualTask";
@@ -26,7 +26,7 @@ export const TasksCard = (): JSX.Element => {
         new Date().setDate(new Date().getDate() - back_date_num)
       ).toLocaleDateString("en-GB");
 
-      const page = await fetchPageRet(currentUser?.user_id, today);
+      const page = await fetch_createRetDailyPage(currentUser?.user_id, today);
       if (JSON.stringify(currentPage) !== JSON.stringify(page)) {
         setCurrentPage(page);
 
@@ -59,6 +59,10 @@ export const TasksCard = (): JSX.Element => {
     }
   }, [addedCounter, pageTodos, currentPage, story]);
 
+  const stateReload = (): void => {
+    setAddedCounter(addedCounter + 1);
+  };
+
   return (
     <div className="noScrollbar space-y-5 max-h-[80vh] w-11/12 sm:max-w-md md:max-w-lg py-4 px-8 bg-theme-blueGray-800 shadow-lg rounded-lg mx-auto selection:bg-theme-primary-500/60 overflow-y-scroll overflow-x-hidden">
       <div className="flex justify-between items-center">
@@ -73,8 +77,7 @@ export const TasksCard = (): JSX.Element => {
           user={currentUser?.user_id}
           page={currentPage?.page_id}
           highlight={highlight}
-          addedCounter={addedCounter}
-          setAddedCounter={setAddedCounter}
+          stateReload={stateReload}
         />
       </div>
 
@@ -86,8 +89,7 @@ export const TasksCard = (): JSX.Element => {
             todo={highlight}
             highlight={true}
             story={story}
-            addedCounter={addedCounter}
-            setAddedCounter={setAddedCounter}
+            stateReload={stateReload}
           />
         )}
 
@@ -97,8 +99,7 @@ export const TasksCard = (): JSX.Element => {
               todo={todo}
               story={story}
               key={todo.todo_id}
-              addedCounter={addedCounter}
-              setAddedCounter={setAddedCounter}
+              stateReload={stateReload}
             />
           ))
         ) : (

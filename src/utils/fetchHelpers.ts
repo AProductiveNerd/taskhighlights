@@ -3,14 +3,14 @@ import fetch from "node-fetch";
 import { API_V1 } from "../constants/Routes";
 import * as TYPES from "../constants/Types";
 
-export const fetchUserFromUserid = async (
+export const fetch_getUserByUserid = async (
   user_id: TYPES.user_id
 ): Promise<User> => {
   const data = await fetch(`${API_V1}user?user_id=${user_id}`);
   return data.json();
 };
 
-export const CreateUser = async (
+export const fetch_createUser = async (
   body: TYPES.User_Request_Body
 ): Promise<User> => {
   if (body) {
@@ -23,7 +23,7 @@ export const CreateUser = async (
   }
 };
 
-export const fetchPageRet = async (
+export const fetch_createRetDailyPage = async (
   user_id: TYPES.user_id,
   today: TYPES.page_title
 ): Promise<TYPES.Page_Story_Todos> => {
@@ -34,7 +34,7 @@ export const fetchPageRet = async (
   return data.json();
 };
 
-export const createTask = async (body: TYPES.Todo_Body): Promise<Todo> => {
+export const fetch_createTodo = async (body: TYPES.Todo_Body): Promise<Todo> => {
   if (body) {
     const data = await fetch(`${API_V1}todo`, {
       method: "POST",
@@ -46,7 +46,7 @@ export const createTask = async (body: TYPES.Todo_Body): Promise<Todo> => {
   }
 };
 
-export const fetchAllTodosByPage = async (
+export const fetch_getAllTodosByPage = async (
   page_id: TYPES.page_id,
   user_id: TYPES.user_id
 ): Promise<Todo[]> => {
@@ -57,7 +57,7 @@ export const fetchAllTodosByPage = async (
   return data.json();
 };
 
-export const toggleTodoState = async ({
+export const fetch_toggleTodoDone = async ({
   todo_id,
   todo_done
 }: {
@@ -77,7 +77,7 @@ export const toggleTodoState = async ({
   return data.json();
 };
 
-export const updateTodoDescription = async ({
+export const fetch_updateTodoDescription = async ({
   todo_id,
   todo_description
 }: {
@@ -99,7 +99,7 @@ export const updateTodoDescription = async ({
   }
 };
 
-export const deleteTodo = async (todo_id: TYPES.todo_id): Promise<Todo> => {
+export const fetch_deleteTodo = async (todo_id: TYPES.todo_id): Promise<Todo> => {
   if (todo_id) {
     const data = await fetch(`${API_V1}todo?todo_id=${todo_id}`, {
       method: "DELETE"
@@ -109,7 +109,7 @@ export const deleteTodo = async (todo_id: TYPES.todo_id): Promise<Todo> => {
   }
 };
 
-export const toggleArchiveState = async ({
+export const fetch_toggleArchived = async ({
   todo_id,
   todo_archived
 }: {
@@ -129,7 +129,7 @@ export const toggleArchiveState = async ({
   return data.json();
 };
 
-export const getStoryById = async (
+export const fetch_getStoryByStoryId = async (
   story_id: TYPES.story_id
 ): Promise<TYPES.Story_and_Todos> => {
   const data = await fetch(`${API_V1}story?story_id=${story_id}`);
@@ -137,7 +137,7 @@ export const getStoryById = async (
   return data.json();
 };
 
-export const addTaskToStory = async ({
+export const fetch_addTodoToStory = async ({
   story_id,
   todo_id
 }: TYPES.Story_Body): Promise<TYPES.Story_and_Todos> => {
@@ -155,7 +155,7 @@ export const addTaskToStory = async ({
   return data.json();
 };
 
-export const removeTaskFromStory = async ({
+export const fetch_removeTodoFromStory = async ({
   story_id,
   todo_id
 }: TYPES.Story_Body): Promise<TYPES.Story_and_Todos> => {

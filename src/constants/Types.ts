@@ -1,4 +1,5 @@
 import { Page, Story } from "@prisma/client";
+import { Dispatch, SetStateAction } from "react";
 
 export type ChildrenProps = {
   children: React.ReactNode;
@@ -110,3 +111,41 @@ export const Useful_Todo_Include_Object = {
   todo_page_id: false,
   todo_user_id: false
 };
+
+/*
+  stateReload function type
+*/
+export type stateReload = VoidFunction;
+
+/*
+  onClickHelpers types
+*/
+export interface handleTextSubmit {
+  stateReload: stateReload;
+  set_display_text_edit: Dispatch<SetStateAction<boolean>>;
+  todo_id: todo_id;
+  todo_description: todo_description;
+}
+
+export interface toggleTodoDone {
+  todo_id: todo_id;
+  todo_done: todo_done;
+}
+export interface toggleArchiving {
+  stateReload: stateReload;
+  todo_id: todo_id;
+  todo_archived: todo_archived;
+}
+
+export interface handleDelete {
+  stateReload: stateReload;
+  todo_id: todo_id;
+}
+
+export interface addToStory extends Story_Body {
+  stateReload: stateReload;
+}
+
+export interface removeFromStory extends Story_Body {
+  stateReload: stateReload;
+}

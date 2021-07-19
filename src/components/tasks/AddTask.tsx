@@ -8,19 +8,17 @@ import {
   Useful_Todo,
   user_id
 } from "../../constants/Types";
-import { createTask } from "../../utils/fetchHelpers";
+import { fetch_createTodo } from "../../utils/fetchHelpers";
 
 export const AddTask = ({
   page,
   user,
-  addedCounter,
-  setAddedCounter,
+  stateReload,
   highlight
 }: {
   page: page_title;
   user: user_id;
-  addedCounter: number;
-  setAddedCounter: React.Dispatch<React.SetStateAction<number>>;
+  stateReload: VoidFunction;
   highlight: Useful_Todo;
 }): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -29,7 +27,7 @@ export const AddTask = ({
     useState<todo_highlight>(false);
 
   const taskCreator = async () => {
-    await createTask({
+    await fetch_createTodo({
       page_id: page,
       todo_description: task,
       user_id: user,
@@ -38,7 +36,7 @@ export const AddTask = ({
     });
     setTask("");
     setShouldHighlight(false);
-    setAddedCounter(addedCounter + 1);
+    stateReload();
   };
 
   return (
