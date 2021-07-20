@@ -1,30 +1,43 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { PlusCircleIcon } from "@heroicons/react/outline";
 import { Fragment, useState } from "react";
-import { createTask } from "../../utils/fetchHelpers";
+import {
+  Useful_Todo,
+  page_title,
+  todo_description,
+  todo_highlight,
+  user_id
+} from "../../constants/Types";
+
+import { PlusCircleIcon } from "@heroicons/react/outline";
+import { fetch_createTodo } from "../../utils/fetchHelpers";
 
 export const AddTask = ({
   page,
   user,
-  addedCounter,
-  setAddedCounter
+  stateReload,
+  highlight
 }: {
-  page: string;
-  user: string;
-  addedCounter: number;
-  setAddedCounter: React.Dispatch<React.SetStateAction<number>>;
+  page: page_title;
+  user: user_id;
+  stateReload: VoidFunction;
+  highlight: Useful_Todo;
 }): JSX.Element => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [task, setTask] = useState("");
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [task, setTask] = useState<todo_description>("");
+  const [should_highlight, setShouldHighlight] =
+    useState<todo_highlight>(false);
 
   const taskCreator = async () => {
-    await createTask({
+    await fetch_createTodo({
       page_id: page,
       todo_description: task,
-      user_id: user
+      user_id: user,
+      todo_highlight: should_highlight,
+      task: "create"
     });
-    setAddedCounter(addedCounter + 1);
     setTask("");
+    setShouldHighlight(false);
+    stateReload();
   };
 
   return (
@@ -96,6 +109,14 @@ export const AddTask = ({
                     value={task}
                   />
                 </div>
+
+                {!highlight && (
+                  <input
+                    type="checkbox"
+                    defaultChecked={should_highlight}
+                    onClick={() => setShouldHighlight(!should_highlight)}
+                  />
+                )}
 
                 <div className="mt-4">
                   <button

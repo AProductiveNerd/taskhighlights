@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getAllTodosByPage } from "../../../utils/prismaHelpers";
-import { Todo } from "@prisma/client";
+
+import { Useful_Todo } from "../../../constants/Types";
+import { prisma_getAllTodosByPage } from "../../../utils/prismaHelpers";
 
 interface Query {
   page_id?: string;
@@ -16,7 +17,10 @@ export default async function handler(
   const { page_id, user_id }: Query = req.query;
 
   if (method === "GET") {
-    const todos: Todo[] = await getAllTodosByPage(page_id, user_id);
+    const todos: Useful_Todo[] = await prisma_getAllTodosByPage(
+      page_id,
+      user_id
+    );
     res.status(200).json(todos);
   }
 }

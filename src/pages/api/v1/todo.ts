@@ -1,13 +1,12 @@
-import { Todo } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { Todo_Body, Useful_Todo } from "../../../constants/Types";
 import {
-  createTodo,
-  deleteTodo,
-  getTodobyTodoId,
-  Todo_Body,
-  toggleArchived,
-  toggleTodoDone,
-  updateTodoDescription
+  prisma_createTodo,
+  prisma_deleteTodo,
+  prisma_getTodobyTodoId,
+  prisma_toggleArchived,
+  prisma_toggleTodoDone,
+  prisma_updateTodoDescription
 } from "../../../utils/prismaHelpers";
 
 interface Query {
@@ -25,29 +24,29 @@ export default async function handler(
   const body: Todo_Body = req.body;
 
   if (method === "GET") {
-    const todo: Todo = await getTodobyTodoId(todo_id);
+    const todo: Useful_Todo = await prisma_getTodobyTodoId(todo_id);
 
     res.status(200).json(todo);
   } else if (method === "POST") {
     if (body.task === "toggleState") {
-      const todo: Todo = await toggleTodoDone(body);
+      const todo: Useful_Todo = await prisma_toggleTodoDone(body);
 
       res.status(201).json(todo);
     } else if (body.task === "updateDescription") {
-      const todo: Todo = await updateTodoDescription(body);
+      const todo: Useful_Todo = await prisma_updateTodoDescription(body);
 
       res.status(201).json(todo);
     } else if (body.task === "toggleArchive") {
-      const todo: Todo = await toggleArchived(body);
+      const todo: Useful_Todo = await prisma_toggleArchived(body);
 
       res.status(201).json(todo);
-    } else {
-      const todo: Todo = await createTodo(body);
+    } else if (body.task === "create") {
+      const todo: Useful_Todo = await prisma_createTodo(body);
 
       res.status(201).json(todo);
     }
   } else if (method === "DELETE") {
-    const deletedTodo: Todo = await deleteTodo(todo_id);
+    const deletedTodo: Useful_Todo = await prisma_deleteTodo(todo_id);
 
     res.status(200).json(deletedTodo);
   }
