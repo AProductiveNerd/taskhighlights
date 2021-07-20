@@ -1,6 +1,5 @@
-import { Prisma, User } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { User_Request_Body } from "../../../constants/Types";
+import { Prisma, User } from "@prisma/client";
 import {
   prisma_createUser,
   prisma_deleteUserbyuserid,
@@ -8,6 +7,8 @@ import {
   prisma_getUserByUserid,
   prisma_getUserByUsername
 } from "../../../utils/prismaHelpers";
+
+import { User_Request_Body } from "../../../constants/Types";
 
 interface Query {
   user_id?: string;

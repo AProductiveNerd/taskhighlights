@@ -1,11 +1,12 @@
-import { User } from "@prisma/client";
-import { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
+
 import { ChildrenProps } from "../../constants/Types";
 import FireUserContext from "../../contexts/FireUserContext";
-import { fetch_getUserByUserid } from "../../utils/fetchHelpers";
-import UserContext from "./../../contexts/UserContext";
 import { Header } from "./Header";
+import { User } from "@prisma/client";
+import UserContext from "./../../contexts/UserContext";
+import { fetch_getUserByUserid } from "../../utils/fetchHelpers";
+import { useRouter } from "next/router";
 
 export const Layout = ({ children }: ChildrenProps): JSX.Element => {
   const { fireId } = useContext(FireUserContext);

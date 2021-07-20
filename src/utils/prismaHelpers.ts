@@ -1,5 +1,6 @@
-import { Page, Prisma, PrismaClient, Story, User } from "@prisma/client";
 import * as TYPES from "./../constants/Types";
+
+import { Page, Prisma, PrismaClient, Story, User } from "@prisma/client";
 
 const prisma = new PrismaClient();
 

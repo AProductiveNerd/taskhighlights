@@ -15,7 +15,6 @@ import {
   fetch_updateTodoDescription
 } from "./fetchHelpers";
 
-
 export const onClick_handleTextSubmit = async ({
   stateReload,
   todo_id,

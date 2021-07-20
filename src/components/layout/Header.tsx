@@ -1,11 +1,12 @@
 import { HomeIcon, LogoutIcon } from "@heroicons/react/outline";
-import { User } from "@prisma/client";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+
 import Image from "next/image";
 import Link from "next/link";
-import { useContext } from "react";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import { User } from "@prisma/client";
 import UserContext from "../../contexts/UserContext";
 import { fireAuth } from "../../libs/Firebase";
+import { useContext } from "react";
 
 // !Stories Limit 5 including own
 

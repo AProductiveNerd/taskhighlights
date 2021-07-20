@@ -1,7 +1,9 @@
-import { Todo, User } from "@prisma/client";
-import fetch from "node-fetch";
-import { API_V1 } from "../constants/Routes";
 import * as TYPES from "../constants/Types";
+
+import { Todo, User } from "@prisma/client";
+
+import { API_V1 } from "../constants/Routes";
+import fetch from "node-fetch";
 
 export const fetch_getUserByUserid = async (
   user_id: TYPES.user_id

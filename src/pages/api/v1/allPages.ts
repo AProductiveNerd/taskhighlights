@@ -1,5 +1,5 @@
-import { Page, Prisma } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { Page, Prisma } from "@prisma/client";
 import {
   prisma_deleteAllPagesByUserid,
   prisma_getAllPagesByUserid

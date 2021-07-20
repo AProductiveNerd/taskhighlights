@@ -1,12 +1,13 @@
 import { FastForwardIcon, RewindIcon } from "@heroicons/react/solid";
+import { Page_Story_Todos, Useful_Todo } from "../../constants/Types";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { Story, User } from "@prisma/client";
 import { useContext, useEffect, useState } from "react";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import { Page_Story_Todos, Useful_Todo } from "../../constants/Types";
-import { fetch_createRetDailyPage } from "../../utils/fetchHelpers";
-import UserContext from "./../../contexts/UserContext";
+
 import { AddTask } from "./AddTask";
 import { IndividualTask } from "./IndividualTask";
+import UserContext from "./../../contexts/UserContext";
+import { fetch_createRetDailyPage } from "../../utils/fetchHelpers";
 
 // ! Limit the number of tasks a user can add to amplify the constraints lead to creativity effect
 

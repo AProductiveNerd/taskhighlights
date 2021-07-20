@@ -1,15 +1,13 @@
-import { User } from "@prisma/client";
-import { useRouter } from "next/router";
-import Image from "next/image";
-import { useEffect, useState } from "react";
-import { useContext } from "react";
-import { Layout } from "../../components/layout/index";
-import UserContext from "../../contexts/UserContext";
-import { fetch_getUserByUsername } from "../../utils/fetchHelpers";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import { useEffect, useState } from "react";
+
+import Image from "next/image";
+import { Layout } from "../../components/layout/index";
+import { User } from "@prisma/client";
+import { fetch_getUserByUsername } from "../../utils/fetchHelpers";
+import { useRouter } from "next/router";
 
 export default function UserProfile(): JSX.Element {
-  const currentUser: User = useContext(UserContext);
   const [profileUser, setProfileUser] = useState<User>(null);
 
   const router = useRouter();

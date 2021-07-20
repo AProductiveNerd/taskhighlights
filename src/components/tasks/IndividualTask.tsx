@@ -4,14 +4,12 @@ import {
   EyeOffIcon,
   TrashIcon
 } from "@heroicons/react/solid";
-import { Story } from "@prisma/client";
-import { useState } from "react";
 import {
+  Useful_Todo,
   todo_archived,
   todo_description,
   todo_done,
-  todo_highlight,
-  Useful_Todo
+  todo_highlight
 } from "../../constants/Types";
 import {
   onClick_addToStory,
@@ -21,6 +19,9 @@ import {
   onClick_toggleArchiving,
   onClick_toggleTodoDone
 } from "../../utils/onClickHelpers";
+
+import { Story } from "@prisma/client";
+import { useState } from "react";
 
 export const IndividualTask = ({
   todo: {

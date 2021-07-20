@@ -1,6 +1,6 @@
 import Head from "next/head";
-import { TasksCard } from "../components/tasks/TasksCard";
 import { Layout } from "./../components/layout/index";
+import { TasksCard } from "../components/tasks/TasksCard";
 
 export default function Home(): JSX.Element {
   return (
