@@ -1,33 +1,33 @@
-const securityHeaders = [
-  {
-    key: 'X-DNS-Prefetch-Control',
-    value: 'on'
-  },
-  {
-    key: 'Strict-Transport-Security',
-    value: 'max-age=31536000; includeSubDomains; preload'
-  },
-  {
-    key: 'X-XSS-Protection',
-    value: '1; mode=block'
-  },
-  {
-    key: 'Content-Security-Policy',
-    value: "default-src 'self' taskhighlights2.vercel.app *.taskhighlights2.vercel.app; img-src http://localhost:3000 taskhighlights2.vercel.app *.taskhighlights2.vercel.app"
-  },
-]
+// const securityHeaders = [
+//   {
+//     key: 'X-DNS-Prefetch-Control',
+//     value: 'on'
+//   },
+//   {
+//     key: 'Strict-Transport-Security',
+//     value: 'max-age=31536000; includeSubDomains; preload'
+//   },
+//   {
+//     key: 'X-XSS-Protection',
+//     value: '1; mode=block'
+//   },
+//   {
+//     key: 'Content-Security-Policy',
+//     value: "default-src 'self' taskhighlights2.vercel.app *.taskhighlights2.vercel.app; img-src http://localhost:3000 taskhighlights2.vercel.app *.taskhighlights2.vercel.app"
+//   },
+// ]
 
 // eslint-disable-next-line no-undef
 module.exports = {
-  async headers() {
-    return [
-      {
-        // Apply these headers to all routes in your application.
-        source: '/(.*)',
-        headers: securityHeaders,
-      },
-    ]
-  },
+  // async headers() {
+  //   return [
+  //     {
+  //       // Apply these headers to all routes in your application.
+  //       source: '/(.*)',
+  //       headers: securityHeaders,
+  //     },
+  //   ]
+  // },
   reactStrictMode: true,
   images: {
     domains: ["avataaars.io"],
