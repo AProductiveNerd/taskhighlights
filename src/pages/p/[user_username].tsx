@@ -4,9 +4,7 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { Layout } from "../../components/layout/index";
-import { Response } from "node-fetch";
 import { User } from "@prisma/client";
-import { fetch_getUserByUsername } from "../../utils/fetchHelpers";
 import { user_username } from "../../constants/Types";
 
 export default function UserProfile({
@@ -65,9 +63,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       user_username: user_username
     ): Promise<globalThis.Response> => {
       const data = await fetch(
-        process.env.NODE_ENV === "development"
-          ? `http://localhost:3000/api/v1/user?user_username=${user_username}`
-          : `${process.env.VERCEL_URL}/api/v1/user?user_username=${user_username}`
+        // process.env.NODE_ENV === "development"
+        // ? `http://localhost:3000/api/v1/user?user_username=${user_username}`
+        `${
+          process.env.VERCEL_URL
+            ? process.env.VERCEL_URL
+            : "http://localhost:3000"
+        }/api/v1/user?user_username=${user_username}`
       );
 
       return data;
@@ -80,13 +82,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     if (fetchedUser.status !== 501) {
       const user: User = await fetchedUser.json();
       return { props: { user } };
-    } else {
-      return {
-        redirect: {
-          destination: "/404",
-          permanent: false
-        }
-      };
+      // } else {
+      // return {
+      // redirect: {
+      // destination: "/404",
+      // permanent: false
+      // }
+      // };
     }
   }
 };
