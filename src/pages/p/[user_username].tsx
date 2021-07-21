@@ -39,9 +39,7 @@ export default function UserProfile(): JSX.Element {
     <Layout>
       <Head>
         <title>
-          {profileUser?.user_username
-            ? `${profileUser.user_fullname} (${profileUser.user_username})`
-            : "Loading Profile..."}
+          {`${profileUser?.user_fullname} (${profileUser?.user_username})`}
         </title>
         <meta property="og:image" content={profileUser?.user_avatar} />
       </Head>
