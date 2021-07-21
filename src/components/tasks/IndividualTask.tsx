@@ -90,14 +90,18 @@ export const IndividualTask = ({
           className={`${todo_state && "line-through"} w-full cursor-pointer`}
           onClick={() => set_display_text_edit(!display_text_edit)}
         >
-          <label
-            className={`cursor-pointer ${
-              highlight && "text-theme-fuchsia-500 leading-7 text-2xl"
-            }`}
-            htmlFor={todo_id}
-          >
-            {new_title}
-          </label>
+          {highlight ? (
+            <label
+              className="cursor-pointer highlight text-theme-fuchsia-500 leading-7 text-2xl"
+              htmlFor={todo_id}
+            >
+              <h1>{new_title}</h1>
+            </label>
+          ) : (
+            <label className="cursor-pointer" htmlFor={todo_id}>
+              <p>{new_title}</p>
+            </label>
+          )}
         </p>
       )}
 
