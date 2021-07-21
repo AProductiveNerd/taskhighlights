@@ -32,8 +32,11 @@ export default async function handler(
       const requested_user: User = await prisma_getUserByUsername(
         user_username
       );
-
-      res.status(200).json(requested_user);
+      if (requested_user !== null) {
+        res.status(200).json(requested_user);
+      } else {
+        res.status(501).json(null);
+      }
     }
   } else if (method === "POST") {
     try {

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 import Image from "next/image";
 import { Layout } from "../../components/layout/index";
+import { Response } from "node-fetch";
 import { User } from "@prisma/client";
 import { fetch_getUserByUsername } from "../../utils/fetchHelpers";
 import { useRouter } from "next/router";
@@ -15,14 +16,23 @@ export default function UserProfile(): JSX.Element {
   useEffect(() => {
     (async () => {
       const reqUsername = router.query.user_username?.toString();
+      if (reqUsername !== undefined) {
+        const fetchedUser: Response = await fetch_getUserByUsername(
+          reqUsername
+        );
 
-      const fetchedUser: User = await fetch_getUserByUsername(reqUsername);
+        if (fetchedUser.status !== 501) {
+          const data = await fetchedUser.json();
 
-      if (JSON.stringify(profileUser) !== JSON.stringify(fetchedUser)) {
-        setProfileUser(fetchedUser);
+          if (JSON.stringify(profileUser) !== JSON.stringify(data)) {
+            setProfileUser(data);
+          }
+        } else {
+          router.push("/404");
+        }
       }
     })();
-  }, [profileUser, router.query.user_username]);
+  }, [profileUser, router, router.query.user_username]);
 
   return (
     <Layout>

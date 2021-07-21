@@ -1,9 +1,10 @@
 import * as TYPES from "../constants/Types";
 
 import { Todo, User } from "@prisma/client";
+import fetch, { Response } from "node-fetch";
 
 import { API_V1 } from "../constants/Routes";
-import fetch from "node-fetch";
+import { fetchedUser } from "./../constants/Types";
 
 export const fetch_getUserByUserid = async (
   user_id: TYPES.user_id
@@ -15,10 +16,10 @@ export const fetch_getUserByUserid = async (
 
 export const fetch_getUserByUsername = async (
   user_username: TYPES.user_username
-): Promise<User> => {
+): Promise<Response> => {
   const data = await fetch(`${API_V1}user?user_username=${user_username}`);
 
-  return data.json();
+  return data;
 };
 
 export const fetch_createUser = async (
