@@ -1,40 +1,19 @@
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import { useEffect, useState } from "react";
 
+import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { Layout } from "../../components/layout/index";
 import { Response } from "node-fetch";
 import { User } from "@prisma/client";
 import { fetch_getUserByUsername } from "../../utils/fetchHelpers";
-import { useRouter } from "next/router";
+import { user_username } from "../../constants/Types";
 
-export default function UserProfile(): JSX.Element {
-  const [profileUser, setProfileUser] = useState<User>(null);
-
-  const router = useRouter();
-
-  useEffect(() => {
-    (async () => {
-      const reqUsername = router.query.user_username?.toString();
-      if (reqUsername !== undefined) {
-        const fetchedUser: Response = await fetch_getUserByUsername(
-          reqUsername
-        );
-
-        if (fetchedUser.status !== 501) {
-          const data: User = await fetchedUser.json();
-
-          if (JSON.stringify(profileUser) !== JSON.stringify(data)) {
-            setProfileUser(data);
-          }
-        } else {
-          router.push("/404");
-        }
-      }
-    })();
-  }, [profileUser, router, router.query.user_username]);
-
+export default function UserProfile({
+  user: profileUser
+}: {
+  user: User;
+}): JSX.Element {
   return (
     <Layout>
       <Head>
@@ -78,3 +57,36 @@ export default function UserProfile(): JSX.Element {
     </Layout>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const reqUsername = context.query.user_username?.toString();
+  if (reqUsername !== undefined) {
+    const getUserByUsername = async (
+      user_username: user_username
+    ): Promise<globalThis.Response> => {
+      const data = await fetch(
+        process.env.NODE_ENV === "development"
+          ? `http://localhost:3000/api/v1/user?user_username=${user_username}`
+          : `${process.env.VERCEL_URL}/api/v1/user?user_username=${user_username}`
+      );
+
+      return data;
+    };
+
+    const fetchedUser: globalThis.Response = await getUserByUsername(
+      reqUsername
+    );
+
+    if (fetchedUser.status !== 501) {
+      const user: User = await fetchedUser.json();
+      return { props: { user } };
+    } else {
+      return {
+        redirect: {
+          destination: "/404",
+          permanent: false
+        }
+      };
+    }
+  }
+};
