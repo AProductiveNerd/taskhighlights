@@ -43,6 +43,7 @@ export default function UserProfile(): JSX.Element {
             ? `${profileUser.user_fullname} (${profileUser.user_username})`
             : "Loading Profile..."}
         </title>
+        <meta property="og:image" content={profileUser?.user_avatar} />
       </Head>
       <SkeletonTheme color="#0F172A" highlightColor="#1E293B">
         <div className="flex-1 flex justify-center mt-5">
