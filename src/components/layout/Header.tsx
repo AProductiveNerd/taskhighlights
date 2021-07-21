@@ -26,11 +26,15 @@ export const Header = (): JSX.Element => {
       {currentUser?.user_avatar ? (
         <div className="flex -space-x-1 overflow-hidden">
           <div className="relative inline-block h-12 w-12 rounded-full ring-2 ring-theme-blueGray-900">
-            <Image
-              alt="user-avatar"
-              src={currentUser.user_avatar}
-              layout="fill"
-            />
+            <Link href={`/p/${currentUser.user_username}`}>
+              <a>
+                <Image
+                  alt="user-avatar"
+                  src={currentUser.user_avatar}
+                  layout="fill"
+                />
+              </a>
+            </Link>
           </div>
         </div>
       ) : (
