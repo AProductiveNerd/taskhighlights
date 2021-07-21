@@ -18,6 +18,7 @@ export default function UserProfile({
         <title>
           {`${profileUser?.user_fullname} (${profileUser?.user_username})`}
         </title>
+
         <meta property="description" content={profileUser?.user_bio} />
 
         <meta name="twitter:card" content={profileUser?.user_bio} />
@@ -29,7 +30,8 @@ export default function UserProfile({
         <meta name="twitter:description" content={profileUser?.user_bio} />
         <meta name="twitter:creator" content="@author_handle" />
 
-        <meta name="twitter:image" content={profileUser?.user_avatar} />
+        <meta name="twitter:image:src" content={profileUser?.user_avatar} />
+
         <meta
           property="og:title"
           content={`${profileUser?.user_fullname} (${profileUser?.user_username})`}
