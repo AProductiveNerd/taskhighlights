@@ -1,3 +1,6 @@
+const withPWA = require('next-pwa')
+
+
 // const securityHeaders = [
 //   {
 //     key: 'X-DNS-Prefetch-Control',
@@ -18,7 +21,7 @@
 // ]
 
 // eslint-disable-next-line no-undef
-module.exports = {
+module.exports = withPWA({
   // async headers() {
   //   return [
   //     {
@@ -37,4 +40,7 @@ module.exports = {
     locales: ["en"],
     defaultLocale: "en",
   },
-}
+  pwa: {
+    dest: 'public'
+  }
+})

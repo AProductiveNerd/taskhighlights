@@ -18,7 +18,7 @@ export default function UserProfile({
         <title>
           {`${profileUser?.user_fullname} (${profileUser?.user_username})`}
         </title>
-        <meta property="og:image" content={profileUser?.user_avatar} />
+        <meta property="og:image" content={`${profileUser?.user_avatar}`} />
       </Head>
       <SkeletonTheme color="#0F172A" highlightColor="#1E293B">
         <div className="flex-1 flex justify-center mt-5">
