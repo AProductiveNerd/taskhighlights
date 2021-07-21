@@ -18,7 +18,30 @@ export default function UserProfile({
         <title>
           {`${profileUser?.user_fullname} (${profileUser?.user_username})`}
         </title>
-        <meta property="og:image" content={`${profileUser?.user_avatar}`} />
+        <meta property="description" content={profileUser?.user_bio} />
+
+        <meta name="twitter:card" content={profileUser?.user_bio} />
+        <meta
+          name="twitter:site"
+          content={"https://taskhighlights2.vercel.app/"}
+        />
+        <meta name="twitter:title" content={profileUser?.user_username} />
+        <meta name="twitter:description" content={profileUser?.user_bio} />
+        <meta name="twitter:creator" content="@author_handle" />
+
+        <meta name="twitter:image" content={profileUser?.user_avatar} />
+        <meta
+          property="og:title"
+          content={`${profileUser?.user_fullname} (${profileUser?.user_username})`}
+        />
+        <meta property="og:type" content="profile" />
+        <meta
+          property="og:url"
+          content={`https://taskhighlights2.vercel.app/p/${profileUser?.user_username}`}
+        />
+        <meta property="og:image" content={profileUser?.user_avatar} />
+
+        <meta property="og:description" content={profileUser?.user_bio} />
       </Head>
       <SkeletonTheme color="#0F172A" highlightColor="#1E293B">
         <div className="flex-1 flex justify-center mt-5">
