@@ -8,7 +8,9 @@ import UserContext from "../../contexts/UserContext";
 import { fireAuth } from "../../libs/Firebase";
 import { useContext } from "react";
 
-// !Stories Limit 5 including own
+//! Stories Limit 5 including own
+
+//? https://github.com/chilllab/react-nice-avatar
 
 export const Header = (): JSX.Element => {
   const currentUser: User = useContext(UserContext);

@@ -92,7 +92,7 @@ export const IndividualTask = ({
         >
           {highlight ? (
             <label
-              className="cursor-pointer highlight text-theme-fuchsia-500 leading-7 text-2xl"
+              className="cursor-pointer highlight text-theme-primary-500 leading-7 text-2xl"
               htmlFor={todo_id}
             >
               <h1>{new_title}</h1>
