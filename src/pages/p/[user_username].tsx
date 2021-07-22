@@ -5,6 +5,8 @@ import Head from "next/head";
 import Image from "next/image";
 import { Layout } from "../../components/layout/index";
 import { User } from "@prisma/client";
+import UserContext from "../../contexts/UserContext";
+import { useContext } from "react";
 import { user_username } from "../../constants/Types";
 
 export default function UserProfile({
@@ -12,6 +14,8 @@ export default function UserProfile({
 }: {
   user: User;
 }): JSX.Element {
+  const currentUser: User = useContext(UserContext);
+
   return (
     <Layout>
       <Head>
@@ -107,13 +111,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     if (fetchedUser.status !== 501) {
       const user: User = await fetchedUser.json();
       return { props: { user } };
-      // } else {
-      // return {
-      // redirect: {
-      // destination: "/404",
-      // permanent: false
-      // }
-      // };
+    } else {
+      return {
+        redirect: {
+          destination: "/404",
+          permanent: false
+        }
+      };
     }
   }
 };
