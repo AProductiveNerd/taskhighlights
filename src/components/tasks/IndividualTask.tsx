@@ -15,6 +15,7 @@ import {
   onClick_addToStory,
   onClick_handleDelete,
   onClick_handleTextSubmit,
+  onClick_makeHighlight,
   onClick_removeFromStory,
   onClick_toggleArchiving,
   onClick_toggleTodoDone
@@ -33,11 +34,13 @@ export const IndividualTask = ({
   },
   story: { story_id: storyid },
   stateReload,
-  highlight
+  highlight,
+  highlightCount
 }: {
   todo: Useful_Todo;
   story: Story;
   stateReload: VoidFunction;
+  highlightCount: number;
   highlight?: todo_highlight;
 }): JSX.Element => {
   const [display_text_edit, set_display_text_edit] = useState<boolean>(false);
@@ -107,6 +110,21 @@ export const IndividualTask = ({
 
       {!highlight && (
         <>
+          {highlightCount === 0 && (
+            <button
+              title="Make Highlight"
+              aria-label="Make Highlight"
+              onClick={() => {
+                onClick_makeHighlight({
+                  stateReload,
+                  todo_id
+                });
+              }}
+            >
+              ✨
+            </button>
+          )}
+
           <button
             title="Archive"
             aria-label="Archive Task"

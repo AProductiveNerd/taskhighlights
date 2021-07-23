@@ -91,6 +91,7 @@ export const TasksCard = (): JSX.Element => {
             highlight={true}
             story={story}
             stateReload={stateReload}
+            highlightCount={1}
           />
         )}
 
@@ -101,6 +102,7 @@ export const TasksCard = (): JSX.Element => {
               story={story}
               key={todo.todo_id}
               stateReload={stateReload}
+              highlightCount={highlight ? 1 : 0}
             />
           ))
         ) : (

@@ -2,6 +2,7 @@ import {
   addToStory,
   handleDelete,
   handleTextSubmit,
+  makeHighlight,
   removeFromStory,
   toggleArchiving,
   toggleTodoDone
@@ -9,6 +10,7 @@ import {
 import {
   fetch_addTodoToStory,
   fetch_deleteTodo,
+  fetch_makeHighlight,
   fetch_removeTodoFromStory,
   fetch_toggleArchived,
   fetch_toggleTodoDone,
@@ -31,6 +33,14 @@ export const onClick_toggleTodoDone = async ({
   todo_done
 }: toggleTodoDone): Promise<void> => {
   await fetch_toggleTodoDone({ todo_id, todo_done });
+};
+
+export const onClick_makeHighlight = async ({
+  todo_id,
+  stateReload
+}: makeHighlight): Promise<void> => {
+  await fetch_makeHighlight(todo_id);
+  stateReload();
 };
 
 export const onClick_toggleArchiving = async ({

@@ -4,6 +4,7 @@ import {
   prisma_createTodo,
   prisma_deleteTodo,
   prisma_getTodobyTodoId,
+  prisma_makeHighlight,
   prisma_toggleArchived,
   prisma_toggleTodoDone,
   prisma_updateTodoDescription
@@ -42,6 +43,10 @@ export default async function handler(
         res.status(201).json(todo);
       } else if (body.task === "toggleArchive") {
         const todo: Useful_Todo = await prisma_toggleArchived(body);
+
+        res.status(201).json(todo);
+      } else if (body.task === "makeHighlight") {
+        const todo: Useful_Todo = await prisma_makeHighlight(body.todo_id);
 
         res.status(201).json(todo);
       } else if (body.task === "create") {

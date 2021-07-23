@@ -146,6 +146,21 @@ export const fetch_toggleArchived = async ({
   return data.json();
 };
 
+export const fetch_makeHighlight = async (
+  todo_id: TYPES.todo_id
+): Promise<Todo> => {
+  const data = await fetch(`${API_V1}todo`, {
+    method: "POST",
+    body: JSON.stringify({
+      task: "makeHighlight",
+      todo_id
+    }),
+    headers: { "Content-Type": "application/json" }
+  });
+
+  return data.json();
+};
+
 export const fetch_getStoryByStoryId = async (
   story_id: TYPES.story_id
 ): Promise<TYPES.Story_and_Todos> => {

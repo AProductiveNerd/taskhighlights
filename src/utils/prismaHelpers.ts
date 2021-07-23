@@ -362,6 +362,21 @@ export const prisma_toggleArchived = async ({
   return todo;
 };
 
+export const prisma_makeHighlight = async (
+  todo_id: TYPES.todo_id
+): Promise<TYPES.Useful_Todo> => {
+  const todo: TYPES.Useful_Todo = await prisma.todo.update({
+    where: {
+      todo_id
+    },
+    data: {
+      todo_highlight: true
+    }
+  });
+
+  return todo;
+};
+
 export const prisma_getStoryByStoryId = async (
   story_id: TYPES.story_id
 ): Promise<TYPES.Story_and_Todos> => {

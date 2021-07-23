@@ -46,6 +46,7 @@ export type Todo_Body_Task =
   | "toggleState"
   | "updateDescription"
   | "toggleArchive"
+  | "makeHighlight"
   | "create";
 
 /*
@@ -138,6 +139,11 @@ export interface toggleArchiving {
   stateReload: stateReload;
   todo_id: todo_id;
   todo_archived: todo_archived;
+}
+
+export interface makeHighlight {
+  stateReload: stateReload;
+  todo_id: todo_id;
 }
 
 export interface handleDelete {
