@@ -4,7 +4,6 @@ import { Todo, User } from "@prisma/client";
 import fetch, { Response } from "node-fetch";
 
 import { API_V1 } from "../constants/Routes";
-import { fetchedUser } from "./../constants/Types";
 
 export const fetch_getUserByUserid = async (
   user_id: TYPES.user_id
@@ -199,6 +198,14 @@ export const fetch_removeTodoFromStory = async ({
     }),
     headers: { "Content-Type": "application/json" }
   });
+
+  return data.json();
+};
+
+export const fetch_getAllIncompleteTodosByPage = async (
+  user_id: TYPES.user_id
+): Promise<TYPES.Useful_Todo[]> => {
+  const data = await fetch(`${API_V1}allTodos?user_id=${user_id}`);
 
   return data.json();
 };

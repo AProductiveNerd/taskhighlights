@@ -285,8 +285,7 @@ export const prisma_deleteTodo = async (
   return deletedTodo;
 };
 
-export const prisma_getAllTodosByPage = async (
-  page_id: TYPES.page_id,
+export const prisma_getAllIncompleteTodosByPage = async (
   user_id: TYPES.user_id
 ): Promise<TYPES.Useful_Todo[]> => {
   const todos: TYPES.Useful_Todo[] = await prisma.todo.findMany({
@@ -297,16 +296,12 @@ export const prisma_getAllTodosByPage = async (
     ],
     where: {
       AND: {
-        Todo_Page: {
-          is: {
-            page_id
-          }
-        },
         Todo_User: {
           is: {
             user_id
           }
-        }
+        },
+        todo_done: false
       }
     }
   });

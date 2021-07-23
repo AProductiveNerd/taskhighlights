@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { Useful_Todo } from "../../../constants/Types";
-import { prisma_getAllTodosByPage } from "../../../utils/prismaHelpers";
+import { prisma_getAllIncompleteTodosByPage } from "../../../utils/prismaHelpers";
 
 interface Query {
   page_id?: string;
@@ -14,12 +14,11 @@ export default async function handler(
   res: NextApiResponse<any>
 ): Promise<void> {
   const method = req.method;
-  const { page_id, user_id }: Query = req.query;
+  const { user_id }: Query = req.query;
 
   switch (method) {
     case "GET": {
-      const todos: Useful_Todo[] = await prisma_getAllTodosByPage(
-        page_id,
+      const todos: Useful_Todo[] = await prisma_getAllIncompleteTodosByPage(
         user_id
       );
 
