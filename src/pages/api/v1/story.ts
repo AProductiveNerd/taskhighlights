@@ -27,52 +27,61 @@ export default async function handler(
   const { story_id, story_title, story_user_id, page_id, today }: Query =
     req.query;
 
-  if (method === "GET") {
-    if (story_id) {
-      const story: Story_and_Todos = await prisma_getStoryByStoryId(story_id);
-
-      res.status(200).json(story);
-    } else if (story_title) {
-      const story: Story_and_Todos = await prisma_getStoryByStoryTitle(
-        story_title,
-        story_user_id
-      );
-
-      res.status(200).json(story);
-    } else {
-      if (typeof story_user_id === "string") {
-        const story: Story = await prisma_createUpdateStory({
-          story_user_id,
-          today,
-          page_id
-        });
+  switch (method) {
+    case "GET":
+      if (story_id) {
+        const story: Story_and_Todos = await prisma_getStoryByStoryId(story_id);
 
         res.status(200).json(story);
-      }
-    }
-  } else if (method === "POST") {
-    try {
-      const body: Story_Body = req.body;
+      } else if (story_title) {
+        const story: Story_and_Todos = await prisma_getStoryByStoryTitle(
+          story_title,
+          story_user_id
+        );
 
-      if (body.task === "add") {
-        const story: Story_and_Todos = await prisma_addTodoToStory(body);
-        res.status(201).json(story);
-      } else if (body.task === "remove") {
-        const story: Story_and_Todos = await prisma_removeTodoFromStory(body);
-        res.status(201).json(story);
+        res.status(200).json(story);
       } else {
-        res.status(501).json({ Error: "bad req" });
-      }
-    } catch (e) {
-      if (e instanceof Prisma.PrismaClientKnownRequestError) {
-        res.status(409).json(e.message);
-      }
-    }
-  } else if (method === "DELETE") {
-    if (story_id) {
-      const deletedPage: Story = await prisma_deleteStoryByStoryid(story_id);
+        if (typeof story_user_id === "string") {
+          const story: Story = await prisma_createUpdateStory({
+            story_user_id,
+            today,
+            page_id
+          });
 
-      res.status(200).json(deletedPage);
-    }
+          res.status(200).json(story);
+        }
+      }
+
+      break;
+
+    case "POST":
+      try {
+        const body: Story_Body = req.body;
+
+        if (body.task === "add") {
+          const story: Story_and_Todos = await prisma_addTodoToStory(body);
+          res.status(201).json(story);
+        } else if (body.task === "remove") {
+          const story: Story_and_Todos = await prisma_removeTodoFromStory(body);
+          res.status(201).json(story);
+        } else {
+          res.status(501).json({ Error: "bad req" });
+        }
+      } catch (e) {
+        if (e instanceof Prisma.PrismaClientKnownRequestError) {
+          res.status(409).json(e.message);
+        }
+      }
+
+      break;
+
+    case "DELETE":
+      if (story_id) {
+        const deletedPage: Story = await prisma_deleteStoryByStoryid(story_id);
+
+        res.status(200).json(deletedPage);
+      }
+
+      break;
   }
 }

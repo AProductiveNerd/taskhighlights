@@ -19,35 +19,45 @@ export default async function handler(
   res: NextApiResponse<any>
 ): Promise<void> {
   const method = req.method;
+  const body: Todo_Body = req.body;
   const { todo_id }: Query = req.query;
 
-  const body: Todo_Body = req.body;
+  switch (method) {
+    case "GET": {
+      const todo: Useful_Todo = await prisma_getTodobyTodoId(todo_id);
 
-  if (method === "GET") {
-    const todo: Useful_Todo = await prisma_getTodobyTodoId(todo_id);
+      res.status(200).json(todo);
 
-    res.status(200).json(todo);
-  } else if (method === "POST") {
-    if (body.task === "toggleState") {
-      const todo: Useful_Todo = await prisma_toggleTodoDone(body);
-
-      res.status(201).json(todo);
-    } else if (body.task === "updateDescription") {
-      const todo: Useful_Todo = await prisma_updateTodoDescription(body);
-
-      res.status(201).json(todo);
-    } else if (body.task === "toggleArchive") {
-      const todo: Useful_Todo = await prisma_toggleArchived(body);
-
-      res.status(201).json(todo);
-    } else if (body.task === "create") {
-      const todo: Useful_Todo = await prisma_createTodo(body);
-
-      res.status(201).json(todo);
+      break;
     }
-  } else if (method === "DELETE") {
-    const deletedTodo: Useful_Todo = await prisma_deleteTodo(todo_id);
 
-    res.status(200).json(deletedTodo);
+    case "POST":
+      if (body.task === "toggleState") {
+        const todo: Useful_Todo = await prisma_toggleTodoDone(body);
+
+        res.status(201).json(todo);
+      } else if (body.task === "updateDescription") {
+        const todo: Useful_Todo = await prisma_updateTodoDescription(body);
+
+        res.status(201).json(todo);
+      } else if (body.task === "toggleArchive") {
+        const todo: Useful_Todo = await prisma_toggleArchived(body);
+
+        res.status(201).json(todo);
+      } else if (body.task === "create") {
+        const todo: Useful_Todo = await prisma_createTodo(body);
+
+        res.status(201).json(todo);
+      }
+
+      break;
+
+    case "DELETE": {
+      const deletedTodo: Useful_Todo = await prisma_deleteTodo(todo_id);
+
+      res.status(200).json(deletedTodo);
+
+      break;
+    }
   }
 }

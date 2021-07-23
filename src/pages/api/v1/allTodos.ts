@@ -16,11 +16,14 @@ export default async function handler(
   const method = req.method;
   const { page_id, user_id }: Query = req.query;
 
-  if (method === "GET") {
-    const todos: Useful_Todo[] = await prisma_getAllTodosByPage(
-      page_id,
-      user_id
-    );
-    res.status(200).json(todos);
+  switch (method) {
+    case "GET": {
+      const todos: Useful_Todo[] = await prisma_getAllTodosByPage(
+        page_id,
+        user_id
+      );
+
+      res.status(200).json(todos);
+    }
   }
 }

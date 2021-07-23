@@ -23,42 +23,47 @@ export default async function handler(
   const method = req.method;
   const { user_id, user_username }: Query = req.query;
 
-  if (method === "GET") {
-    if (user_id) {
-      const requested_user: User = await prisma_getUserByUserid(user_id);
+  switch (method) {
+    case "GET":
+      if (user_id) {
+        const requested_user: User = await prisma_getUserByUserid(user_id);
 
-      res.status(200).json(requested_user);
-    } else if (user_username) {
-      const requested_user: User = await prisma_getUserByUsername(
-        user_username
-      );
-      if (requested_user !== null) {
         res.status(200).json(requested_user);
-      } else {
-        res.status(501).json(null);
+      } else if (user_username) {
+        const requested_user: User = await prisma_getUserByUsername(
+          user_username
+        );
+        if (requested_user !== null) {
+          res.status(200).json(requested_user);
+        } else {
+          res.status(501).json(null);
+        }
       }
-    }
-  } else if (method === "POST") {
-    try {
-      const body: User_Request_Body = req.body;
-      const createdUser: User = await prisma_createUser(body);
-      res.status(201).json(createdUser);
-    } catch (e) {
-      if (e instanceof Prisma.PrismaClientKnownRequestError) {
-        res.status(409).json(e.message);
+
+      break;
+    case "POST":
+      try {
+        const body: User_Request_Body = req.body;
+        const createdUser: User = await prisma_createUser(body);
+        res.status(201).json(createdUser);
+      } catch (e) {
+        if (e instanceof Prisma.PrismaClientKnownRequestError) {
+          res.status(409).json(e.message);
+        }
       }
-    }
-  } else if (method === "DELETE") {
-    if (user_id) {
-      const deletedUser: User = await prisma_deleteUserbyuserid(user_id);
+      break;
+    case "DELETE":
+      if (user_id) {
+        const deletedUser: User = await prisma_deleteUserbyuserid(user_id);
 
-      res.status(200).json(deletedUser);
-    } else if (user_username) {
-      const deletedUser: User = await prisma_deleteUserbyusername(
-        user_username
-      );
+        res.status(200).json(deletedUser);
+      } else if (user_username) {
+        const deletedUser: User = await prisma_deleteUserbyusername(
+          user_username
+        );
 
-      res.status(200).json(deletedUser);
-    }
+        res.status(200).json(deletedUser);
+      }
+      break;
   }
 }
