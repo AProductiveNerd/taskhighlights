@@ -25,6 +25,8 @@ import {
 } from "../../utils/onClickHelpers";
 
 import { Story } from "@prisma/client";
+import { useLayoutEffect } from "react";
+import { useRef } from "react";
 
 export const IndividualTask = ({
   todo: {
@@ -52,8 +54,24 @@ export const IndividualTask = ({
   const [todo_archive_state, set_todo_archive_state] =
     useState<todo_archived>(db_archive);
 
+  const editTaskRef = useRef(null);
+
+  useLayoutEffect(() => {
+    editTaskRef.current?.focus();
+  }, [display_text_edit]);
+
   return (
-    <div className="flex items-center space-x-2 text-left text-xl break-words leading-6 group">
+    <div
+      className="flex items-center space-x-2 text-left text-xl break-words leading-6 group"
+      tabIndex={0}
+      onKeyDown={(event) => {
+        if (event.key === "Delete") {
+          onClick_handleDelete({ stateReload, todo_id });
+        } else if (event.key === "Enter") {
+          set_display_text_edit(true);
+        }
+      }}
+    >
       <input
         type="checkbox"
         id={todo_id}
@@ -73,6 +91,7 @@ export const IndividualTask = ({
           className="w-full bg-theme-blueGray-800 cursor-pointer"
           value={new_title}
           onChange={({ target }) => set_new_title(target.value)}
+          ref={editTaskRef}
           onKeyDown={(event) => {
             if (event.key === "Enter") {
               onClick_handleTextSubmit({
@@ -97,26 +116,11 @@ export const IndividualTask = ({
             <label
               className="cursor-pointer highlight text-theme-primary-500 leading-7 text-2xl"
               htmlFor={todo_id}
-              tabIndex={0}
-              onKeyDown={(event) => {
-                if (event.key === "Delete") {
-                  onClick_handleDelete({ stateReload, todo_id });
-                }
-              }}
             >
               <h1>{new_title}</h1>
             </label>
           ) : (
-            <label
-              className="cursor-pointer"
-              htmlFor={todo_id}
-              tabIndex={0}
-              onKeyDown={(event) => {
-                if (event.key === "Delete") {
-                  onClick_handleDelete({ stateReload, todo_id });
-                }
-              }}
-            >
+            <label className="cursor-pointer" htmlFor={todo_id}>
               <p>{new_title}</p>
             </label>
           )}
