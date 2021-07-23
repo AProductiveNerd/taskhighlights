@@ -165,11 +165,7 @@ export const prisma_createRetDailyPage = async (
           where: {
             todo_archived: false
           },
-          orderBy: [
-            { todo_done: "asc" },
-            { todo_description: "asc" },
-            { todo_archived: "asc" }
-          ]
+          orderBy: [{ todo_done: "asc" }, { todo_datecreated: "desc" }]
         }
       }
     });
