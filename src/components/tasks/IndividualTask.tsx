@@ -48,7 +48,7 @@ export const IndividualTask = ({
     useState<todo_archived>(db_archive);
 
   return (
-    <div className="flex items-center space-x-2 text-left text-xl break-words leading-5">
+    <div className="flex items-center space-x-2 text-left text-xl break-words leading-6">
       <input
         type="checkbox"
         id={todo_id}

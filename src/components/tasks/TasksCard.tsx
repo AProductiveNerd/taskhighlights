@@ -84,7 +84,7 @@ export const TasksCard = (): JSX.Element => {
 
       <hr className="border-dashed" />
 
-      <div className="space-y-1">
+      <div className="space-y-2">
         {highlight && story && (
           <IndividualTask
             todo={highlight}
