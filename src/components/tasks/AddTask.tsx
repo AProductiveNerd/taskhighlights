@@ -89,7 +89,7 @@ export const AddTask = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden align-middle transition-all transform bg-theme-blueGray-800 shadow-lg border-theme-primary-500 border-2 rounded-lg space-y-5">
+              <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden align-middle transition-all transform bg-theme-blueGray-800 shadow-lg border-theme-primary-500 border-2 rounded-lg space-y-5 justify-center items-center flex-col">
                 {count <= 10 ? (
                   <>
                     <Dialog.Title
@@ -114,11 +114,21 @@ export const AddTask = ({
                     </div>
 
                     {!highlight && (
-                      <input
-                        type="checkbox"
-                        defaultChecked={should_highlight}
-                        onClick={() => setShouldHighlight(!should_highlight)}
-                      />
+                      <span className="flex items-center justify-center space-x-2">
+                        <label
+                          htmlFor="should_highlight"
+                          className="text-theme-blueGray-400"
+                        >
+                          {`Make it a Highlight? `}
+                        </label>
+
+                        <input
+                          type="checkbox"
+                          id="should_highlight"
+                          defaultChecked={should_highlight}
+                          onClick={() => setShouldHighlight(!should_highlight)}
+                        />
+                      </span>
                     )}
 
                     <div className="mt-4">
