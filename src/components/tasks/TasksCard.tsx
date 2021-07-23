@@ -76,6 +76,7 @@ export const TasksCard = (): JSX.Element => {
         <AddTask
           user={currentUser?.user_id}
           page={currentPage?.page_id}
+          count={pageTodos?.length}
           highlight={highlight}
           stateReload={stateReload}
         />
