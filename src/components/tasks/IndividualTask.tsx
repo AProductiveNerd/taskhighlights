@@ -163,7 +163,7 @@ export const IndividualTask = ({
                               });
                             }}
                           >
-                            <span className="emoji">✨</span>
+                            ✨
                           </button>
                         )}
                       </div>
