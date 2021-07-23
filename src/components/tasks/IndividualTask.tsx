@@ -97,11 +97,26 @@ export const IndividualTask = ({
             <label
               className="cursor-pointer highlight text-theme-primary-500 leading-7 text-2xl"
               htmlFor={todo_id}
+              tabIndex={0}
+              onKeyDown={(event) => {
+                if (event.key === "Delete") {
+                  onClick_handleDelete({ stateReload, todo_id });
+                }
+              }}
             >
               <h1>{new_title}</h1>
             </label>
           ) : (
-            <label className="cursor-pointer" htmlFor={todo_id}>
+            <label
+              className="cursor-pointer"
+              htmlFor={todo_id}
+              tabIndex={0}
+              onKeyDown={(event) => {
+                if (event.key === "Delete") {
+                  onClick_handleDelete({ stateReload, todo_id });
+                }
+              }}
+            >
               <p>{new_title}</p>
             </label>
           )}
