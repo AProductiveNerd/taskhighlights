@@ -1,12 +1,11 @@
 import {
   ArchiveIcon,
-  DotsCircleHorizontalIcon,
   DotsVerticalIcon,
   EyeIcon,
   EyeOffIcon,
   TrashIcon
 } from "@heroicons/react/solid";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import {
   Useful_Todo,
@@ -54,7 +53,7 @@ export const IndividualTask = ({
     useState<todo_archived>(db_archive);
 
   return (
-    <div className="flex items-center space-x-2 text-left text-xl break-words leading-6">
+    <div className="flex items-center space-x-2 text-left text-xl break-words leading-6 group">
       <input
         type="checkbox"
         id={todo_id}
@@ -71,9 +70,7 @@ export const IndividualTask = ({
       {display_text_edit === true ? (
         <input
           type="text"
-          className={
-            "w-full cursor-pointer selection:bg-theme-blueGray-800 selection:text-theme-blueGray-400"
-          }
+          className="w-full bg-theme-blueGray-800 cursor-pointer"
           value={new_title}
           onChange={({ target }) => set_new_title(target.value)}
           onKeyDown={(event) => {
@@ -111,83 +108,8 @@ export const IndividualTask = ({
         </p>
       )}
 
-      {/* {!highlight && (
-        <>
-          {highlightCount === 0 && (
-            <button
-              title="Make Highlight"
-              aria-label="Make Highlight"
-              onClick={() => {
-                onClick_makeHighlight({
-                  stateReload,
-                  todo_id
-                });
-              }}
-            >
-              ✨
-            </button>
-          )}
-
-          <button
-            title="Archive"
-            aria-label="Archive Task"
-            onClick={() => {
-              set_todo_archive_state(!db_archive);
-              onClick_toggleArchiving({
-                stateReload,
-                todo_archived: todo_archive_state,
-                todo_id
-              });
-            }}
-          >
-            <ArchiveIcon className="w-6 h-6" />
-          </button>
-
-          <button
-            aria-label="Permanently Delete Task"
-            title="Permanently Delete"
-            onClick={() =>
-              onClick_handleDelete({
-                stateReload,
-                todo_id
-              })
-            }
-          >
-            <TrashIcon className="w-6 h-6" />
-          </button>
-        </>
-      )}
-
-      {storyid === todo_story_id ? (
-        <button title="Remove from story" aria-label="Remove from story">
-          <EyeIcon
-            className="w-6 h-6"
-            onClick={() =>
-              onClick_removeFromStory({
-                stateReload,
-                story_id: storyid,
-                todo_id
-              })
-            }
-          />
-        </button>
-      ) : (
-        <button title="Add to story" aria-label="Add to story">
-          <EyeOffIcon
-            className="w-6 h-6"
-            onClick={() =>
-              onClick_addToStory({
-                stateReload,
-                story_id: storyid,
-                todo_id
-              })
-            }
-          />
-        </button>
-      )} */}
-
-      <div className="w-56 text-right">
-        <Menu as="div" className="relative inline-block text-left">
+      <div className="text-right hidden group-hover:block flex-shrink">
+        <Menu as="div" className="inline-block text-left">
           <div>
             <Menu.Button className="inline-flex justify-center px-3 py-2 w-full bg-black rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
               <DotsVerticalIcon
@@ -205,7 +127,7 @@ export const IndividualTask = ({
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="absolute inline-flex w-max flex-col items-center px-4 py-2 right-0 bg-black rounded-md bg-opacity-20 backdrop-blur hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 space-y-1 overflow-y-hidden">
+            <Menu.Items className="sticky inline-flex w-max flex-col items-center px-4 py-2 right-0 bg-black rounded-md bg-opacity-20 backdrop-blur hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 space-y-1 overflow-y-hidden mt-1">
               {!highlight && (
                 <>
                   <div>
