@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { Page, Story, User } from "@prisma/client";
+import { Page, Story } from "@prisma/client";
 
 export type ChildrenProps = {
   children: React.ReactNode;
