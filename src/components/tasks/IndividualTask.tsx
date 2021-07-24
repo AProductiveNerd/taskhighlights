@@ -169,6 +169,7 @@ export const IndividualTask = ({
                       </div>
                     </Menu.Item>
                   </div>
+
                   <div>
                     <Menu.Item>
                       <button
@@ -185,6 +186,7 @@ export const IndividualTask = ({
                       </button>
                     </Menu.Item>
                   </div>
+
                   <div>
                     <Menu.Item>
                       <button
@@ -205,6 +207,7 @@ export const IndividualTask = ({
                   </div>
                 </>
               )}
+
               <div>
                 <Menu.Item>
                   <div>

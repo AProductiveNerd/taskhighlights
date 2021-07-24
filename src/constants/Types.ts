@@ -39,7 +39,12 @@ export type story_id = string;
 export type story_title = string;
 
 /*
-  Fetch Request Task Types
+  Routine Model Types
+*/
+export type routine_id = todo_id;
+
+/*
+Fetch Request Task Types
 */
 export type Story_Body_Task = "add" | "remove";
 export type Todo_Body_Task =
