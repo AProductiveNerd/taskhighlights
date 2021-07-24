@@ -1,4 +1,3 @@
-import "../../public/Inter Web/inter.css";
 import "../styles/globals.css";
 
 import { useEffect, useState } from "react";
