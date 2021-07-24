@@ -45,7 +45,8 @@ export default async function handler(
       try {
         const body: User_Request_Body = req.body;
         const createdUser: User = await prisma_createUser(body);
-        res.status(201).json(createdUser);
+
+        res.status(201).json(JSON.parse(JSON.stringify(createdUser)));
       } catch (e) {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
           res.status(409).json(e.message);
