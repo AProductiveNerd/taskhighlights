@@ -24,15 +24,13 @@ export const fetch_getUserByUsername = async (
 export const fetch_createUser = async (
   body: TYPES.User_Request_Body
 ): Promise<User> => {
-  if (body) {
-    const data = await fetch(`${API_V1}user`, {
-      method: "POST",
-      body: JSON.stringify(body),
-      headers: { "Content-Type": "application/json" }
-    });
+  const data = await fetch(`${API_V1}user`, {
+    method: "POST",
+    body: JSON.stringify(JSON.parse(JSON.stringify(body))),
+    headers: { "Content-Type": "application/json" }
+  });
 
-    return data.json();
-  }
+  return data.json();
 };
 
 export const fetch_createRetDailyPage = async (

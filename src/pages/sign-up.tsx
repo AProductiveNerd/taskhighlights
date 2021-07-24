@@ -32,21 +32,21 @@ export default function SignUp(): JSX.Element {
 
     if (user_avatar !== "") {
       try {
-        const createdUser = await fireAuth.createUserWithEmailAndPassword(
+        const fireAuthUser = await fireAuth.createUserWithEmailAndPassword(
           user_email,
           password
         );
 
-        await createdUser.user.updateProfile({
+        await fireAuthUser.user.updateProfile({
           displayName: user_username
         });
-
+    
         await fetch_createUser({
           user_avatar,
           user_email,
           user_fullname,
-          user_id: createdUser?.user?.uid,
-          user_username
+          user_username,
+          user_id: fireAuthUser?.user?.uid
         });
 
         router.push("/");
