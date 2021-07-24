@@ -31,7 +31,6 @@ export const TasksCard = (): JSX.Element => {
       if (JSON.stringify(currentPage) !== JSON.stringify(page)) {
         setCurrentPage(page);
 
-        console.log("today", today);
         if (JSON.stringify(pageTodos) !== JSON.stringify(page.Page_Todo)) {
           const noHighlight = page?.Page_Todo.filter(
             (todo) => todo.todo_highlight === false
@@ -43,7 +42,6 @@ export const TasksCard = (): JSX.Element => {
         const highlightTask = page?.Page_Todo.filter(
           (todo) => todo.todo_highlight === true
         );
-        console.log("highlightTask", highlightTask);
         if (highlightTask.length === 0) {
           setHighlight(null);
         } else {

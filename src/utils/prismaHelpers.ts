@@ -44,7 +44,6 @@ export const prisma_createUser = async ({
       user_username
     }
   });
-
   return createdUser;
 };
 
