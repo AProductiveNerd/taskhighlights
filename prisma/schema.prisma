@@ -9,17 +9,18 @@ datasource db {
 }
 
 model User {
-  user_id          String   @id
-  user_email       String   @unique
-  user_username    String   @unique
-  user_lastseen    DateTime @updatedAt
-  user_datecreated DateTime @default(now())
+  user_id          String    @id
+  user_email       String    @unique
+  user_username    String    @unique
+  user_lastseen    DateTime  @updatedAt
+  user_datecreated DateTime  @default(now())
   user_avatar      String
   user_fullname    String
   user_bio         String?
   user_followers   String[]
   user_following   String[]
   User_Page        Page[]
+  User_Routine     Routine[]
   User_Story       Story[]
   User_Todo        Todo[]
 }
@@ -63,10 +64,13 @@ model Todo {
   Todo_Page        Page     @relation(fields: [todo_page_id], references: [page_id])
   Todo_Story       Story?   @relation(fields: [todo_story_id], references: [story_id])
   Todo_User        User     @relation(fields: [todo_user_id], references: [user_id])
-  Routine          Routine?
 }
 
 model Routine {
-  routine_id String @id
-  Todo       Todo   @relation(fields: [routine_id], references: [todo_id])
+  routine_id          String   @id @default(cuid())
+  routine_datecreated DateTime @default(now())
+  routine_description String
+  routine_done        Boolean  @default(false)
+  routine_user_id     String
+  routine_User        User     @relation(fields: [routine_user_id], references: [user_id])
 }

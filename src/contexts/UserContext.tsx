@@ -1,6 +1,6 @@
 import { Context, createContext } from "react";
 
-import { User } from "@prisma/client";
+import { User_And_Routine } from "../constants/Types";
 
-const UserContext: Context<User> = createContext(null);
+const UserContext: Context<User_And_Routine> = createContext(null);
 export default UserContext;

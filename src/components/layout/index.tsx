@@ -1,16 +1,15 @@
+import { ChildrenProps, User_And_Routine } from "../../constants/Types";
 import React, { useContext, useEffect, useState } from "react";
 
-import { ChildrenProps } from "../../constants/Types";
 import FireUserContext from "../../contexts/FireUserContext";
 import { Header } from "./Header";
-import { User } from "@prisma/client";
 import UserContext from "./../../contexts/UserContext";
 import { fetch_getUserByUserid } from "../../utils/fetchHelpers";
 import { useRouter } from "next/router";
 
 export const Layout = ({ children }: ChildrenProps): JSX.Element => {
   const { fireId } = useContext(FireUserContext);
-  const [currentUser, setCurrentUser] = useState<User>(null);
+  const [currentUser, setCurrentUser] = useState<User_And_Routine>(null);
 
   const [displayHeader, setDisplayHeader] = useState(true);
 

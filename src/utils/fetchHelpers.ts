@@ -7,7 +7,7 @@ import { API_V1 } from "../constants/Routes";
 
 export const fetch_getUserByUserid = async (
   user_id: TYPES.user_id
-): Promise<User> => {
+): Promise<TYPES.User_And_Routine> => {
   const data = await fetch(`${API_V1}user?user_id=${user_id}`);
 
   return data.json();

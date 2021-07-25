@@ -30,10 +30,15 @@ export const prisma_getUserByUsername = async (
 
 export const prisma_getUserByUserid = async (
   user_id: TYPES.user_id
-): Promise<User> => {
-  const user = await prisma.user.findUnique({
+): Promise<TYPES.User_And_Routine> => {
+  const user: TYPES.User_And_Routine = await prisma.user.findUnique({
     where: {
       user_id
+    },
+    include: {
+      User_Routine: {
+        select: TYPES.Useful_Routine_Include_Object
+      }
     }
   });
 
