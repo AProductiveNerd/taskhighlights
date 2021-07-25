@@ -1,16 +1,16 @@
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import { User_Story_Todo, user_username } from "../../constants/Types";
 
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { Layout } from "../../components/layout/index";
-import { User } from "@prisma/client";
-import { user_username } from "../../constants/Types";
+import { StoryCard } from "../../components/tasks/StoryCard";
 
 export default function UserProfile({
   user: profileUser
 }: {
-  user: User;
+  user: User_Story_Todo;
 }): JSX.Element {
   return (
     <Layout>
@@ -77,6 +77,10 @@ export default function UserProfile({
           </div>
         </div>
       </SkeletonTheme>
+
+      <hr className="border-dashed" />
+
+      <StoryCard story_and_todo={profileUser.User_Story[0]} />
     </Layout>
   );
 }
@@ -105,7 +109,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     );
 
     if (fetchedUser.status !== 501) {
-      const user: User = await fetchedUser.json();
+      const user: User_Story_Todo = await fetchedUser.json();
       return { props: { user } };
     } else {
       return {

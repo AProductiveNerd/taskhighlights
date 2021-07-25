@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Prisma, User } from "@prisma/client";
+import { User_Request_Body, User_Story_Todo } from "../../../constants/Types";
 import {
   prisma_createUser,
   prisma_deleteUserbyuserid,
@@ -7,8 +8,6 @@ import {
   prisma_getUserByUserid,
   prisma_getUserByUsername
 } from "../../../utils/prismaHelpers";
-
-import { User_Request_Body } from "../../../constants/Types";
 
 interface Query {
   user_id?: string;
@@ -30,7 +29,7 @@ export default async function handler(
 
         res.status(200).json(requested_user);
       } else if (user_username) {
-        const requested_user: User = await prisma_getUserByUsername(
+        const requested_user: User_Story_Todo = await prisma_getUserByUsername(
           user_username
         );
         if (requested_user !== null) {
@@ -45,7 +44,7 @@ export default async function handler(
       try {
         const body: User_Request_Body = req.body;
         const createdUser: User = await prisma_createUser(body);
-        
+
         res.status(201).json(JSON.parse(JSON.stringify(createdUser)));
       } catch (e) {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {

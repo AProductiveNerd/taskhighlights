@@ -6,10 +6,22 @@ const prisma = new PrismaClient();
 
 export const prisma_getUserByUsername = async (
   user_username: TYPES.user_username
-): Promise<User> => {
-  const user = await prisma.user.findUnique({
+): Promise<TYPES.User_Story_Todo> => {
+  const user: TYPES.User_Story_Todo = await prisma.user.findUnique({
     where: {
       user_username
+    },
+    include: {
+      User_Story: {
+        include: {
+          Story_Todo: {
+            select: TYPES.Useful_Todo_Include_Object
+          }
+        },
+        orderBy: {
+          story_datecreated: "desc"
+        }
+      }
     }
   });
 
