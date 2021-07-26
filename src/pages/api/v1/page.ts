@@ -1,6 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Page, Prisma } from "@prisma/client";
-import { Page_Body, Page_Story_Todos } from "../../../constants/Types";
+import {
+  Page_Body,
+  Page_Story_Todos,
+  corsMethods
+} from "../../../constants/Types";
 import {
   prisma_createPage,
   prisma_createRetDailyPage,
@@ -9,6 +13,9 @@ import {
   prisma_getPageByPageid
 } from "../../../utils/prismaHelpers";
 
+import Cors from "cors";
+import initMiddleware from "../../../libs/InitMiddleware";
+
 interface Query {
   page_id?: string;
   page_title?: string;
@@ -16,11 +23,19 @@ interface Query {
   today?: string;
 }
 
+const cors = initMiddleware(
+  Cors({
+    methods: corsMethods
+  })
+);
+
 export default async function handler(
   req: NextApiRequest,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   res: NextApiResponse<any>
 ): Promise<void> {
+  await cors(req, res);
+
   const method = req.method;
   const { page_id, page_title, page_user_id, today }: Query = req.query;
   switch (method) {

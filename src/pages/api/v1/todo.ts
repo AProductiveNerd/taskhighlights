@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { Todo_Body, Useful_Todo } from "../../../constants/Types";
+import { Todo_Body, Useful_Todo, corsMethods } from "../../../constants/Types";
 import {
   prisma_createTodo,
   prisma_deleteTodo,
@@ -10,15 +10,25 @@ import {
   prisma_updateTodoDescription
 } from "../../../utils/prismaHelpers";
 
+import Cors from "cors";
+import initMiddleware from "../../../libs/InitMiddleware";
+
 interface Query {
   todo_id?: string;
 }
+const cors = initMiddleware(
+  Cors({
+    methods: corsMethods
+  })
+);
 
 export default async function handler(
   req: NextApiRequest,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   res: NextApiResponse<any>
 ): Promise<void> {
+  await cors(req, res);
+
   const method = req.method;
   const body: Todo_Body = req.body;
   const { todo_id }: Query = req.query;

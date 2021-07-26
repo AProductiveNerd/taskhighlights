@@ -19,7 +19,7 @@ export const prisma_getUserByUsername = async (
           }
         },
         orderBy: {
-          story_datecreated: "desc"
+          story_datecreated: "asc"
         }
       }
     }

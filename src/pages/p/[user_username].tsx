@@ -92,8 +92,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       user_username: user_username
     ): Promise<globalThis.Response> => {
       const data = await fetch(
-        // process.env.NODE_ENV === "development"
-        // ? `http://localhost:3000/api/v1/user?user_username=${user_username}`
         `${
           process.env.VERCEL_URL
             ? `https://${process.env.VERCEL_URL}`

@@ -188,3 +188,5 @@ export interface addToStory extends Story_Body {
 export interface removeFromStory extends Story_Body {
   stateReload: stateReload;
 }
+
+export const corsMethods = ["GET"];
