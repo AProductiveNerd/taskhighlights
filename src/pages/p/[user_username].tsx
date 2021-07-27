@@ -5,9 +5,9 @@ import {
   user_username
 } from "../../constants/Types";
 
+import Avatar from "react-nice-avatar";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import Image from "next/image";
 import { Layout } from "../../components/layout/index";
 import { StoryCard } from "../../components/tasks/StoryCard";
 
@@ -42,8 +42,6 @@ export default function UserProfile({
         <meta name="twitter:description" content={profileUser?.user_bio} />
         <meta name="twitter:creator" content="@author_handle" />
 
-        <meta name="twitter:image:src" content={profileUser?.user_avatar} />
-
         <meta
           property="og:title"
           content={`${profileUser?.user_fullname} (${profileUser?.user_username})`}
@@ -53,20 +51,15 @@ export default function UserProfile({
           property="og:url"
           content={`https://taskhighlights2.vercel.app/p/${profileUser?.user_username}`}
         />
-        <meta property="og:image" content={profileUser?.user_avatar} />
 
         <meta property="og:description" content={profileUser?.user_bio} />
       </Head>
       <SkeletonTheme color="#0F172A" highlightColor="#1E293B">
-        <div className="flex-1 flex justify-center mt-5">
+        <div className="flex-1 flex justify-center mt-5 pb-4">
           <div className="flex items-center space-x-3">
             <div className="relative w-28 h-28">
               {profileUser ? (
-                <Image
-                  src={profileUser.user_avatar}
-                  alt="user-avatar"
-                  layout="fill"
-                />
+                <Avatar className="w-28 h-28" {...profileUser.user_avatar} />
               ) : (
                 <Skeleton circle={true} height={44} width={44} />
               )}
