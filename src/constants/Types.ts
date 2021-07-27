@@ -1,6 +1,8 @@
 import { Dispatch, SetStateAction } from "react";
 import { Page, Story, User } from "@prisma/client";
 
+import { AvatarConfig } from "react-nice-avatar";
+
 export type ChildrenProps = {
   children: React.ReactNode;
 };
@@ -11,7 +13,7 @@ export type ChildrenProps = {
 export type user_id = string;
 export type user_email = string;
 export type user_username = string;
-export type user_avatar = string;
+export type user_avatar = AvatarConfig;
 export type user_fullname = string;
 export type user_bio = string | null;
 export type user_followers = string[];

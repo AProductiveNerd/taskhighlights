@@ -1,7 +1,7 @@
 import { HomeIcon, LogoutIcon } from "@heroicons/react/outline";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
-import Image from "next/image";
+import Avatar from "react-nice-avatar";
 import Link from "next/link";
 import { User } from "@prisma/client";
 import UserContext from "../../contexts/UserContext";
@@ -9,8 +9,6 @@ import { fireAuth } from "../../libs/Firebase";
 import { useContext } from "react";
 
 //! Stories Limit 5 including own
-
-//? https://github.com/chilllab/react-nice-avatar
 
 export const Header = (): JSX.Element => {
   const currentUser: User = useContext(UserContext);
@@ -30,11 +28,7 @@ export const Header = (): JSX.Element => {
           <div className="relative inline-block h-12 w-12 rounded-full ring-2 ring-theme-blueGray-900">
             <Link href={`/p/${currentUser.user_username}`}>
               <a>
-                <Image
-                  alt="user-avatar"
-                  src={currentUser.user_avatar}
-                  layout="fill"
-                />
+                <Avatar className="w-12 h-12" {...currentUser.user_avatar} />
               </a>
             </Link>
           </div>

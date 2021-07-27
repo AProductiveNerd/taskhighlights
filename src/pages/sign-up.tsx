@@ -1,8 +1,7 @@
+import Avatar, { AvatarFullConfig, genConfig } from "react-nice-avatar";
 import { FormEvent, useState } from "react";
 
-import { AvatarGenerator } from "random-avatar-generator";
 import Head from "next/head";
-import Image from "next/image";
 import { Layout } from "../components/layout";
 import Link from "next/link";
 import { LockClosedIcon } from "@heroicons/react/solid";
@@ -11,14 +10,15 @@ import { fireAuth } from "../libs/Firebase";
 import { useRouter } from "next/router";
 
 export default function SignUp(): JSX.Element {
-  const generator = new AvatarGenerator();
   const router = useRouter();
+
+  const config = genConfig();
 
   const [user_username, setUsername] = useState("");
   const [user_fullname, setfullname] = useState("");
   const [user_email, setemailaddress] = useState("");
   const [password, setPassword] = useState("");
-  const [user_avatar, setAvatar] = useState("");
+  const [user_avatar, setAvatar] = useState<Required<AvatarFullConfig>>(config);
   const [error, setError] = useState("");
 
   const isInvalid =
@@ -30,7 +30,7 @@ export default function SignUp(): JSX.Element {
   const handleSignUp = async (event: FormEvent) => {
     event.preventDefault();
 
-    if (user_avatar !== "") {
+    if (JSON.stringify(user_avatar) !== "") {
       try {
         const fireAuthUser = await fireAuth.createUserWithEmailAndPassword(
           user_email,
@@ -40,7 +40,7 @@ export default function SignUp(): JSX.Element {
         await fireAuthUser.user.updateProfile({
           displayName: user_username
         });
-    
+
         await fetch_createUser({
           user_avatar,
           user_email,
@@ -58,7 +58,6 @@ export default function SignUp(): JSX.Element {
       }
     } else {
       setUsername("");
-      user_avatar === "" && setError("Please choose an avatar");
     }
   };
 
@@ -178,25 +177,18 @@ export default function SignUp(): JSX.Element {
               <button
                 type="button"
                 name="Generate avatar"
-                onClick={() => setAvatar(generator.generateRandomAvatar())}
+                onClick={() => setAvatar(genConfig())}
                 className="bg-white text-theme-primary-600 hover:text-theme-primary-700 w-full rounded h-11 font-bold border"
               >
                 Generate avatar
               </button>
 
               <div>
-                {user_avatar !== "" ? (
-                  <Image
-                    alt="avatar"
-                    width={250}
-                    height={250}
-                    src={user_avatar}
-                  />
-                ) : null}
+                <Avatar className="w-32 h-32" {...user_avatar} />
               </div>
             </div>
 
-            {!isInvalid && user_avatar !== "" && (
+            {!isInvalid && JSON.stringify(user_avatar) !== "" && (
               <div>
                 <button
                   aria-label="Sign up"

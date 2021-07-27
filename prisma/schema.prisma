@@ -14,11 +14,11 @@ model User {
   user_username    String    @unique
   user_lastseen    DateTime  @updatedAt
   user_datecreated DateTime  @default(now())
-  user_avatar      String
   user_fullname    String
   user_bio         String?
   user_followers   String[]
   user_following   String[]
+  user_avatar      Json      @db.Json
   User_Page        Page[]
   User_Routine     Routine[]
   User_Story       Story[]

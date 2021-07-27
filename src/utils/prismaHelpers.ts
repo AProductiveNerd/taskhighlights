@@ -52,9 +52,10 @@ export const prisma_createUser = async ({
   user_id,
   user_username
 }: TYPES.User_Request_Body): Promise<User> => {
+  const avatar = JSON.parse(JSON.stringify(user_avatar));
   const createdUser: User = await prisma.user.create({
     data: {
-      user_avatar,
+      user_avatar: avatar,
       user_email,
       user_fullname,
       user_id,
