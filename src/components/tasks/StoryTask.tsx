@@ -12,7 +12,7 @@ export const StoryTask = ({
       className="flex items-center space-x-2 text-left text-xl break-words leading-6 group"
       tabIndex={0}
     >
-      <input type="checkbox" id={todo_id} checked={todo_done} />
+      <input type="checkbox" id={todo_id} checked={todo_done} readOnly={true} />
 
       <p className={`${todo_done && "line-through"} w-full cursor-pointer`}>
         {highlight ? (

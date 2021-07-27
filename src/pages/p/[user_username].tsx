@@ -1,5 +1,9 @@
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import { User_Story_Todo, user_username } from "../../constants/Types";
+import {
+  Useful_Todo,
+  User_Story_Todo,
+  user_username
+} from "../../constants/Types";
 
 import { GetServerSideProps } from "next";
 import Head from "next/head";
@@ -12,6 +16,14 @@ export default function UserProfile({
 }: {
   user: User_Story_Todo;
 }): JSX.Element {
+  const story_and_todos = profileUser.User_Story;
+
+  const main: Useful_Todo[] = [];
+
+  story_and_todos.map((story_with_todo) => {
+    story_with_todo.Story_Todo.map((todo) => main.push(todo));
+  });
+
   return (
     <Layout>
       <Head>
@@ -80,7 +92,7 @@ export default function UserProfile({
 
       <hr className="border-dashed" />
 
-      <StoryCard story_and_todo={profileUser.User_Story[0]} />
+      <StoryCard todos={main} />
     </Layout>
   );
 }
