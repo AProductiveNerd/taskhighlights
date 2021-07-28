@@ -10,6 +10,7 @@ import {
 
 import { PlusCircleIcon } from "@heroicons/react/outline";
 import { fetch_createTodo } from "../../utils/fetchHelpers";
+import { useHotkeys } from "react-hotkeys-hook";
 
 export const AddTask = ({
   page,
@@ -41,6 +42,11 @@ export const AddTask = ({
     setShouldHighlight(false);
     stateReload();
   };
+
+  useHotkeys("ctrl+shift+a", (e) => {
+    e.preventDefault();
+    setIsOpen((isOpen) => !isOpen);
+  });
 
   return (
     <div>
