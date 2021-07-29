@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
 module.exports = {
-  siteUrl: "https://taskhighlights2.vercel.app",
+  siteUrl: "https://taskhighlights.com",
   generateRobotsTxt: true,
 }
