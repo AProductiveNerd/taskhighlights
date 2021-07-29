@@ -96,7 +96,7 @@ export const IndividualTask = ({
             if (event.key === "Enter") {
               onClick_handleTextSubmit({
                 todo_id,
-                todo_description,
+                todo_description: new_title,
                 stateReload,
                 set_display_text_edit
               });
