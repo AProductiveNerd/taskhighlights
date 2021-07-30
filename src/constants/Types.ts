@@ -56,7 +56,8 @@ export type Todo_Body_Task =
   | "updateDescription"
   | "toggleArchive"
   | "makeHighlight"
-  | "create";
+  | "create"
+  | "move";
 
 /*
   Fetch Request Types
@@ -121,6 +122,11 @@ export type User_Story_Todo = User & {
 export type User_And_Routine = User & {
   User_Routine: Useful_Routine[];
 };
+
+export interface moveTasks {
+  old_page_id: page_id;
+  new_page_id: page_id;
+}
 
 /*
   Useful_Todo include object

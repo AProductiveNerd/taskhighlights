@@ -61,6 +61,7 @@ model Todo {
   todo_archived    Boolean  @default(false)
   todo_highlight   Boolean  @default(false)
   todo_story_id    String?
+  todo_details     String?
   Todo_Page        Page     @relation(fields: [todo_page_id], references: [page_id])
   Todo_Story       Story?   @relation(fields: [todo_story_id], references: [story_id])
   Todo_User        User     @relation(fields: [todo_user_id], references: [user_id])

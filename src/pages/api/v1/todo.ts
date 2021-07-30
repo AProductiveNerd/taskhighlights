@@ -1,20 +1,29 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { Todo_Body, Useful_Todo, corsMethods } from "../../../constants/Types";
+import {
+  Todo_Body,
+  Useful_Todo,
+  corsMethods,
+  page_id
+} from "../../../constants/Types";
 import {
   prisma_createTodo,
   prisma_deleteTodo,
   prisma_getTodobyTodoId,
   prisma_makeHighlight,
+  prisma_moveTasks,
   prisma_toggleArchived,
   prisma_toggleTodoDone,
   prisma_updateTodoDescription
 } from "../../../utils/prismaHelpers";
 
 import Cors from "cors";
+import { Prisma } from "@prisma/client";
 import initMiddleware from "../../../libs/InitMiddleware";
 
 interface Query {
   todo_id?: string;
+  old_page_id?: page_id;
+  new_page_id?: page_id;
 }
 const cors = initMiddleware(
   Cors({
@@ -31,7 +40,7 @@ export default async function handler(
 
   const method = req.method;
   const body: Todo_Body = req.body;
-  const { todo_id }: Query = req.query;
+  const { todo_id, old_page_id, new_page_id }: Query = req.query;
 
   switch (method) {
     case "GET": {
@@ -66,6 +75,16 @@ export default async function handler(
       }
 
       break;
+
+    case "PUT": {
+      const todos: Prisma.BatchPayload = await prisma_moveTasks({
+        old_page_id,
+        new_page_id
+      });
+
+      res.status(201).json(todos);
+      break;
+    }
 
     case "DELETE": {
       const deletedTodo: Useful_Todo = await prisma_deleteTodo(todo_id);

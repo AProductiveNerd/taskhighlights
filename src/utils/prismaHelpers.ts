@@ -582,3 +582,24 @@ export const prisma_removeTodoFromStory = async ({
 
   return story;
 };
+
+export const prisma_moveTasks = async ({
+  old_page_id,
+  new_page_id
+}: TYPES.moveTasks): Promise<Prisma.BatchPayload> => {
+  const todos: Prisma.BatchPayload = await prisma.todo.updateMany({
+    where: {
+      AND: {
+        Todo_Page: {
+          page_id: old_page_id
+        },
+        todo_done: false
+      }
+    },
+    data: {
+      todo_page_id: new_page_id
+    }
+  });
+
+  return todos;
+};
