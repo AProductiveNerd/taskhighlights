@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { Layout } from "./../components/layout/index";
+import { Layout } from "../components/layout/index";
 import { TasksCard } from "../components/tasks/TasksCard";
 
 export default function Home(): JSX.Element {

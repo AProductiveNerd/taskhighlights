@@ -49,7 +49,7 @@ export default function SignUp(): JSX.Element {
           user_id: fireAuthUser?.user?.uid
         });
 
-        router.push("/");
+        router.push("/app");
       } catch (error) {
         setfullname("");
         setemailaddress("");

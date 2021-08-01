@@ -20,7 +20,7 @@ export default function SignIn(): JSX.Element {
     event.preventDefault();
     try {
       await fireAuth.signInWithEmailAndPassword(emailAddress, password);
-      router.push("/");
+      router.push("/app");
     } catch (error) {
       setEmailAddress("");
       setPassword("");
