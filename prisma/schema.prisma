@@ -19,6 +19,7 @@ model User {
   user_followers   String[]
   user_following   String[]
   user_avatar      Json      @db.Json
+  user_streak      Int       @default(0)
   User_Page        Page[]
   User_Routine     Routine[]
   User_Story       Story[]
