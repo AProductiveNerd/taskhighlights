@@ -16,7 +16,7 @@ export const Header = (): JSX.Element => {
   return (
     <div className="flex flex-1 flex-row py-3 items-center justify-evenly px-4 sm:space-x-40 md:space-x-60">
       <div>
-        <Link href="/">
+        <Link href="/app">
           <a title="Home" aria-label="Home" className="flex items-center">
             <HomeIcon className="w-7 h-7" />
           </a>

@@ -1,7 +1,7 @@
 {
   "name": "Task Highlights",
   "short_name": "Highlights",
-  "start_url": "/",
+  "start_url": "/app",
   "icons": [
     {
       "src": "/icons/icon-72x72.png",

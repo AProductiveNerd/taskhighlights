@@ -12,6 +12,7 @@ export const Layout = ({ children }: ChildrenProps): JSX.Element => {
   const [currentUser, setCurrentUser] = useState<User_And_Routine>(null);
 
   const [displayHeader, setDisplayHeader] = useState(true);
+  const [index, setIndex] = useState(false);
 
   const router = useRouter();
 
@@ -20,6 +21,7 @@ export const Layout = ({ children }: ChildrenProps): JSX.Element => {
       router.pathname.toString() !== "/sign-up" &&
         router.pathname.toString() !== "/sign-in"
     );
+    setIndex(router.pathname.toString() === "/");
   }, [router.pathname]);
 
   useEffect(() => {
@@ -46,7 +48,7 @@ export const Layout = ({ children }: ChildrenProps): JSX.Element => {
             displayHeader && "border-t-2"
           } border-theme-primary-500 ${
             !displayHeader && "flex justify-center items-center"
-          }`}
+          } ${index && "items-center flex justify-center"}`}
         >
           {children}
         </main>
