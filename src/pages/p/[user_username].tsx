@@ -34,10 +34,7 @@ export default function UserProfile({
         <meta property="description" content={profileUser?.user_bio} />
 
         <meta name="twitter:card" content={profileUser?.user_bio} />
-        <meta
-          name="twitter:site"
-          content={"https://taskhighlights2.vercel.app/"}
-        />
+        <meta name="twitter:site" content={"https://taskhighlights.com"} />
         <meta name="twitter:title" content={profileUser?.user_username} />
         <meta name="twitter:description" content={profileUser?.user_bio} />
         <meta name="twitter:creator" content="@author_handle" />
@@ -49,7 +46,7 @@ export default function UserProfile({
         <meta property="og:type" content="profile" />
         <meta
           property="og:url"
-          content={`https://taskhighlights2.vercel.app/p/${profileUser?.user_username}`}
+          content={`https://taskhighlights.com/p/${profileUser?.user_username}`}
         />
 
         <meta property="og:description" content={profileUser?.user_bio} />

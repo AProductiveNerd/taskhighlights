@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://taskhighlights2.vercel.app
+Host: https://taskhighlights.com
 
 # Sitemaps
-Sitemap: https://taskhighlights2.vercel.app/sitemap.xml
+Sitemap: https://taskhighlights.com/sitemap.xml
