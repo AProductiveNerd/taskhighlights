@@ -108,7 +108,7 @@ export const AddTask = ({
                       <input
                         className="text-xl text-gray-500 w-full p-2"
                         onKeyDown={(event) => {
-                          if (event.key === "Enter") {
+                          if (event.key === "Enter" && task !== "") {
                             taskCreator();
                           } else if (event.key === "Escape") {
                             setIsOpen(false);
