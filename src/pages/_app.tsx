@@ -17,7 +17,8 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
       if (
         !user &&
         router.pathname.toString() !== "/sign-in" &&
-        router.pathname.toString() !== "/sign-up"
+        router.pathname.toString() !== "/sign-up" &&
+        router.pathname.toString() !== "/"
       ) {
         router.push("/sign-in");
       } else {

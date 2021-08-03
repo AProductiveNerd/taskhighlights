@@ -43,7 +43,7 @@ export const AddTask = ({
     stateReload();
   };
 
-  useHotkeys("ctrl+shift+a", (e) => {
+  useHotkeys("ctrl+enter", (e) => {
     e.preventDefault();
     setIsOpen((isOpen) => !isOpen);
   });
