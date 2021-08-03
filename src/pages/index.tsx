@@ -21,10 +21,10 @@ export default function Home(): JSX.Element {
         </h1>
         <p className="text-3xl leading-normal">
           🚧This page is under contruction🚧 <br />
-          Please click
+          Please click{" "}
           <Link href="/app">
             <a className="underline hover:text-theme-primary-500">here</a>
-          </Link>
+          </Link>{" "}
           to go the the main app
         </p>
       </div>
