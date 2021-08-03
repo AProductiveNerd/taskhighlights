@@ -39,7 +39,7 @@ export const AddTask = ({
       task: "create"
     });
     setTask("");
-    setShouldHighlight(false);
+    setShouldHighlight(false);+
     stateReload();
   };
 
