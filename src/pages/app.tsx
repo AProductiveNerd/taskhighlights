@@ -2,16 +2,13 @@ import Head from "next/head";
 import { Layout } from "../components/layout/index";
 import { TasksCard } from "../components/tasks/TasksCard";
 
-export default function Home(): JSX.Element {
+export default function App(): JSX.Element {
   return (
     <Layout>
       <Head>
         <title>Daily Tasks | Task Highlights</title>
 
-        <meta
-          name="description"
-          content="TaskHighlights is a minimalistic Todo app that uses accountability to supercharge your productivity"
-        />
+        <meta name="description" content="Daily Page" />
         <meta property="og:title" content="Daily Tasks | Task Highlights" />
 
         <link rel="icon" href="./favicon.ico" />
