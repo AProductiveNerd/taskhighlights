@@ -69,6 +69,11 @@ export const IndividualTask = ({
           onClick_handleDelete({ stateReload, todo_id });
         } else if (event.key === "Enter") {
           set_display_text_edit(true);
+        } else if (event.key === "h" && highlightCount === 0) {
+          onClick_makeHighlight({
+            stateReload,
+            todo_id
+          });
         }
       }}
     >
