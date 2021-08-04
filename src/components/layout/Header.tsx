@@ -5,7 +5,8 @@ import Avatar from "react-nice-avatar";
 import Link from "next/link";
 import { User } from "@prisma/client";
 import UserContext from "../../contexts/UserContext";
-import { fireAuth } from "../../libs/Firebase";
+import { auth } from "../../libs/Firebase";
+import { signOut } from "@firebase/auth";
 import { useContext } from "react";
 
 //! Stories Limit 5 including own
@@ -44,7 +45,7 @@ export const Header = (): JSX.Element => {
           aria-label="Sign out"
           className="flex items-center"
           title="Sign out"
-          onClick={() => fireAuth.signOut()}
+          onClick={() => signOut(auth)}
         >
           <LogoutIcon className="w-7 h-7" />
         </button>

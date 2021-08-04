@@ -5,8 +5,9 @@ import Head from "next/head";
 import { Layout } from "../components/layout";
 import Link from "next/link";
 import { LockClosedIcon } from "@heroicons/react/solid";
+import { auth } from "../libs/Firebase";
+import { createUserWithEmailAndPassword } from "@firebase/auth";
 import { fetch_createUser } from "../utils/fetchHelpers";
-import { fireAuth } from "../libs/Firebase";
 import { useRouter } from "next/router";
 
 export default function SignUp(): JSX.Element {
@@ -32,14 +33,11 @@ export default function SignUp(): JSX.Element {
 
     if (JSON.stringify(user_avatar) !== "") {
       try {
-        const fireAuthUser = await fireAuth.createUserWithEmailAndPassword(
+        const fireAuthUser = await createUserWithEmailAndPassword(
+          auth,
           user_email,
           password
         );
-
-        await fireAuthUser.user.updateProfile({
-          displayName: user_username
-        });
 
         await fetch_createUser({
           user_avatar,

@@ -4,7 +4,8 @@ import Head from "next/head";
 import { Layout } from "../components/layout";
 import Link from "next/link";
 import { LockClosedIcon } from "@heroicons/react/solid";
-import { fireAuth } from "../libs/Firebase";
+import { auth } from "../libs/Firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/router";
 
 export default function SignIn(): JSX.Element {
@@ -19,7 +20,7 @@ export default function SignIn(): JSX.Element {
   const handleLogin = async (event: FormEvent) => {
     event.preventDefault();
     try {
-      await fireAuth.signInWithEmailAndPassword(emailAddress, password);
+      await signInWithEmailAndPassword(auth, emailAddress, password);
       router.push("/app");
     } catch (error) {
       setEmailAddress("");

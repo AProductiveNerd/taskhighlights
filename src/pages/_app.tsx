@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import type { AppProps } from "next/app";
 import FireUserContext from "../contexts/FireUserContext";
-import { fireAuth } from "../libs/Firebase";
+import { auth } from "../libs/Firebase";
 import { useRouter } from "next/router";
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
@@ -13,7 +13,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   const router = useRouter();
 
   useEffect(() => {
-    fireAuth.onAuthStateChanged((user) => {
+    auth.onAuthStateChanged((user) => {
       if (
         !user &&
         router.pathname.toString() !== "/sign-in" &&
