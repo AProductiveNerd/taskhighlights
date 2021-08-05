@@ -123,7 +123,7 @@ export const IndividualTask = ({
               className="cursor-pointer highlight text-theme-primary-500 leading-7 text-2xl"
               htmlFor={todo_id}
             >
-              <h1>{new_title}</h1>
+              <p>{new_title}</p>
             </label>
           ) : (
             <label className="cursor-pointer" htmlFor={todo_id}>
@@ -133,7 +133,24 @@ export const IndividualTask = ({
         </p>
       )}
 
-      <div className="text-right hidden group-hover:block flex-shrink">
+      <div>
+        {highlightCount === 0 && (
+          <button
+            title="Make Highlight"
+            aria-label="Make Highlight"
+            onClick={() => {
+              onClick_makeHighlight({
+                stateReload,
+                todo_id
+              });
+            }}
+          >
+            ✨
+          </button>
+        )}
+      </div>
+
+      <div className="text-right flex-shrink">
         <Menu as="div" className="inline-block text-left">
           <div>
             <Menu.Button className="inline-flex justify-center px-3 py-2 w-full bg-black rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
@@ -155,27 +172,6 @@ export const IndividualTask = ({
             <Menu.Items className="sticky inline-flex w-max flex-col items-center px-4 py-2 right-0 bg-black rounded-md bg-opacity-20 backdrop-blur hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 space-y-1 overflow-y-hidden mt-1">
               {!highlight && (
                 <>
-                  <div>
-                    <Menu.Item>
-                      <div>
-                        {highlightCount === 0 && (
-                          <button
-                            title="Make Highlight"
-                            aria-label="Make Highlight"
-                            onClick={() => {
-                              onClick_makeHighlight({
-                                stateReload,
-                                todo_id
-                              });
-                            }}
-                          >
-                            ✨
-                          </button>
-                        )}
-                      </div>
-                    </Menu.Item>
-                  </div>
-
                   <div>
                     <Menu.Item>
                       <button
