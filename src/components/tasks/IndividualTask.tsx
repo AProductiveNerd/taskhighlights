@@ -79,6 +79,7 @@ export const IndividualTask = ({
     >
       <input
         type="checkbox"
+        className="cursor-pointer"
         id={todo_id}
         defaultChecked={todo_state}
         onChange={() => {
