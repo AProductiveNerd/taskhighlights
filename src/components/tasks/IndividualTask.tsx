@@ -62,7 +62,7 @@ export const IndividualTask = ({
 
   return (
     <div
-      className="flex items-center space-x-2 text-left text-xl break-words leading-6 group"
+      className="flex items-center space-x-2 text-left text-lg break-words leading-6 group"
       tabIndex={0}
       onKeyDown={(event) => {
         if (event.key === "Delete") {
@@ -120,7 +120,7 @@ export const IndividualTask = ({
         >
           {highlight ? (
             <label
-              className="cursor-pointer highlight text-theme-primary-500 leading-7 text-2xl"
+              className="cursor-pointer highlight text-theme-primary-500 leading-7 text-xl"
               htmlFor={todo_id}
             >
               <p>{new_title}</p>
@@ -153,7 +153,7 @@ export const IndividualTask = ({
       <div className="text-right flex-shrink">
         <Menu as="div" className="inline-block text-left">
           <div>
-            <Menu.Button className="inline-flex justify-center px-3 py-2 w-full bg-black rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+            <Menu.Button className="inline-flex justify-center px-2 py-1.5 w-full bg-black rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
               <DotsVerticalIcon
                 className="w-5 h-5 text-white"
                 aria-hidden="true"
@@ -169,7 +169,7 @@ export const IndividualTask = ({
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="sticky inline-flex w-max flex-col items-center px-4 py-2 right-0 bg-black rounded-md bg-opacity-20 backdrop-blur hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 space-y-1 overflow-y-hidden mt-1">
+            <Menu.Items className="sticky inline-flex w-max flex-col items-center px-2.5 py-2 right-0 bg-black rounded-md bg-opacity-20 backdrop-blur hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 space-y-1 overflow-y-hidden mt-1">
               {!highlight && (
                 <>
                   <div>

@@ -9,7 +9,7 @@ export const StoryTask = ({
 }): JSX.Element => {
   return (
     <div
-      className="flex items-center space-x-2 text-left text-xl break-words leading-6 group"
+      className="flex items-center space-x-2 text-left text-lg break-words leading-6 group"
       tabIndex={0}
     >
       <input type="checkbox" id={todo_id} checked={todo_done} readOnly={true} />
@@ -17,10 +17,10 @@ export const StoryTask = ({
       <p className={`${todo_done && "line-through"} w-full cursor-text`}>
         {highlight ? (
           <label
-            className="cursor-text highlight text-theme-primary-500 leading-7 text-2xl"
+            className="cursor-text highlight text-theme-primary-500 leading-7 text-xl"
             htmlFor={todo_id}
           >
-            <h1>{todo_description}</h1>
+            <p>{todo_description}</p>
           </label>
         ) : (
           <label className="cursor-text" htmlFor={todo_id}>

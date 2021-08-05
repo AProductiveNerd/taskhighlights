@@ -46,7 +46,7 @@ export const IncompleteTask = ({
 
   return (
     <div
-      className="flex items-center space-x-2 text-left text-xl break-words leading-6 group"
+      className="flex items-center space-x-2 text-left text-lg break-words leading-6 group"
       tabIndex={0}
       onKeyDown={(event) => {
         if (event.key === "Delete") {
@@ -98,10 +98,10 @@ export const IncompleteTask = ({
         >
           {todo_highlight ? (
             <label
-              className="cursor-pointer highlight text-theme-primary-500 leading-7 text-2xl"
+              className="cursor-pointer highlight text-theme-primary-500 leading-7 text-xl"
               htmlFor={todo_id}
             >
-              <h1>{new_title}</h1>
+              <p>{new_title}</p>
             </label>
           ) : (
             <label className="cursor-pointer" htmlFor={todo_id}>
