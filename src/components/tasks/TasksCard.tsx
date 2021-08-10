@@ -1,16 +1,11 @@
 import { FastForwardIcon, RewindIcon } from "@heroicons/react/solid";
-import {
-  Page_Story_Todos,
-  Useful_Routine,
-  Useful_Todo,
-  User_And_Routine
-} from "../../constants/Types";
+import { Page_Story_Todos, Useful_Todo } from "../../constants/Types";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import { Story, User } from "@prisma/client";
 import { useContext, useEffect, useState } from "react";
 
 import { AddTask } from "./AddTask";
 import { IndividualTask } from "./IndividualTask";
-import { Story } from "@prisma/client";
 import UserContext from "./../../contexts/UserContext";
 import { fetch_createRetDailyPage } from "../../utils/fetchHelpers";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -25,9 +20,7 @@ export const TasksCard = (): JSX.Element => {
   const [highlight, setHighlight] = useState<Useful_Todo>(null);
   const [story, set_story] = useState<Story>(null);
 
-  const currentUser: User_And_Routine = useContext(UserContext);
-
-  const routines = currentUser?.User_Routine;
+  const currentUser: User = useContext(UserContext);
 
   useEffect(() => {
     (async () => {
@@ -120,11 +113,6 @@ export const TasksCard = (): JSX.Element => {
             highlightCount={1}
           />
         )}
-
-        {routines &&
-          routines.map((routine: Useful_Routine) => (
-            <p key={routine.routine_id}>{routine.routine_description}</p>
-          ))}
 
         {pageTodos && story ? (
           pageTodos?.map((todo: Useful_Todo) => (

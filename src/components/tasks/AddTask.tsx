@@ -146,7 +146,7 @@ export const AddTask = ({
                           setIsOpen(false);
                         }}
                       >
-                        Done!
+                        Cancel!
                       </button>
                     </div>
                   </>

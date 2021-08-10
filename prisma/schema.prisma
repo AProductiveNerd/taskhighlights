@@ -21,6 +21,8 @@ model User {
   user_avatar              Json      @db.Json
   user_streak              Int       @default(0)
   user_highlight_questions String[]
+  user_routine_tasks       String[]
+  User_Habits              Habit[]
   User_Page                Page[]
   User_Routine             Routine[]
   User_Story               Story[]
@@ -38,6 +40,18 @@ model Page {
   Page_Todo          Todo[]
 
   @@unique([page_user_id, page_title], name: "user_title_unique")
+}
+
+model Routine {
+  routine_id            String   @id @default(cuid())
+  routine_datecreated   DateTime @default(now())
+  routine_user_id       String
+  routine_last_accessed DateTime @updatedAt
+  routine_title         String
+  Routine_User          User     @relation(fields: [routine_user_id], references: [user_id])
+  Routine_Routines      Habit[]
+
+  @@unique([routine_user_id, routine_title], name: "user_routine_title_unique")
 }
 
 model Story {
@@ -70,11 +84,13 @@ model Todo {
   Todo_User                User     @relation(fields: [todo_user_id], references: [user_id])
 }
 
-model Routine {
-  routine_id          String   @id @default(cuid())
-  routine_datecreated DateTime @default(now())
-  routine_description String
-  routine_done        Boolean  @default(false)
-  routine_user_id     String
-  routine_User        User     @relation(fields: [routine_user_id], references: [user_id])
+model Habit {
+  habit_id          String   @id @default(cuid())
+  habit_datecreated DateTime @default(now())
+  habit_description String
+  habit_done        Boolean  @default(false)
+  habit_user_id     String
+  habit_routine_id  String
+  Habit_Routine     Routine  @relation(fields: [habit_routine_id], references: [routine_id])
+  Habit_User        User     @relation(fields: [habit_user_id], references: [user_id])
 }

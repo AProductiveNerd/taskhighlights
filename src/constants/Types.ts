@@ -91,6 +91,11 @@ export interface Todo_Body {
   todo_archived?: todo_archived;
 }
 
+export interface Routine_Body {
+  routine_description: routine_description;
+  user_id: user_id;
+}
+
 export interface Useful_Todo {
   todo_archived: todo_archived;
   todo_description: todo_description;

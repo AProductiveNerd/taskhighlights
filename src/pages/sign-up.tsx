@@ -125,9 +125,7 @@ export default function SignUp(): JSX.Element {
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-theme-primary-500 focus:border-theme-primary-500 focus:z-10 sm:text-sm"
                   placeholder="Username"
-                  onChange={({ target }) =>
-                    setUsername(target.value.toLowerCase())
-                  }
+                  onChange={({ target }) => setUsername(target.value)}
                   value={user_username}
                 />
               </div>
