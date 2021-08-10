@@ -41,13 +41,6 @@ export type story_id = string;
 export type story_title = string;
 
 /*
-  Routine Model Types
-*/
-export type routine_id = string;
-export type routine_description = string;
-export type routine_done = boolean;
-
-/*
 Fetch Request Task Types
 */
 export type Story_Body_Task = "add" | "remove";
@@ -91,10 +84,7 @@ export interface Todo_Body {
   todo_archived?: todo_archived;
 }
 
-export interface Routine_Body {
-  routine_description: routine_description;
-  user_id: user_id;
-}
+
 
 export interface Useful_Todo {
   todo_archived: todo_archived;
@@ -105,11 +95,7 @@ export interface Useful_Todo {
   todo_story_id: story_id;
 }
 
-export interface Useful_Routine {
-  routine_id: routine_id;
-  routine_done: routine_done;
-  routine_description: routine_description;
-}
+
 
 export type Page_Story_Todos = Page & {
   Page_Story: Story;
@@ -124,9 +110,6 @@ export type User_Story_Todo = User & {
   User_Story: Story_and_Todos[];
 };
 
-export type User_And_Routine = User & {
-  User_Routine: Useful_Routine[];
-};
 
 export interface moveTasks {
   old_page_id: page_id;
@@ -150,14 +133,6 @@ export const Useful_Todo_Include_Object = {
   todo_user_id: false
 };
 
-/*
-  Useful_Routine include object
-*/
-export const Useful_Routine_Include_Object = {
-  routine_id: true,
-  routine_done: true,
-  routine_description: true
-};
 
 /*
   stateReload function type
