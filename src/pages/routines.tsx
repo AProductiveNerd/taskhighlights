@@ -1,9 +1,12 @@
 import { Layout } from "../components/layout";
+import { RoutineCard } from "../components/routines/RoutineCard";
 
 export default function Routines(): JSX.Element {
   return (
     <Layout>
-      <div>hi from Routines</div>
+      <div className="text-4xl flex-1 items-center text-center mt-5">
+        <RoutineCard />
+      </div>
     </Layout>
   );
 }

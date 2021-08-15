@@ -28,6 +28,7 @@ export const TasksCard = (): JSX.Element => {
       ).toLocaleDateString("en-GB");
 
       const page = await fetch_createRetDailyPage(currentUser?.user_id, today);
+
       if (JSON.stringify(currentPage) !== JSON.stringify(page)) {
         setCurrentPage(page);
 
