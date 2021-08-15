@@ -21,7 +21,7 @@ model User {
   user_avatar              Json      @db.Json
   user_streak              Int       @default(0)
   user_highlight_questions String[]
-  user_routine_tasks       String[]
+  user_routine_templates   Json[]
   User_Habits              Habit[]
   User_Page                Page[]
   User_Routine             Routine[]
