@@ -8,7 +8,6 @@ import { AddTask } from "./AddTask";
 import { IndividualTask } from "./IndividualTask";
 import UserContext from "./../../contexts/UserContext";
 import { fetch_createRetDailyPage } from "../../utils/fetchHelpers";
-import { useHotkeys } from "react-hotkeys-hook";
 
 // ! Limit the number of tasks a user can add to amplify the constraints lead to creativity effect
 
@@ -68,19 +67,6 @@ export const TasksCard = (): JSX.Element => {
   const stateReload = (): void => {
     setAddedCounter(addedCounter + 1);
   };
-
-  useHotkeys("ctrl+left", (e) => {
-    e.preventDefault();
-    setBack_date_num(back_date_num - 1);
-  });
-  useHotkeys("ctrl+right", (e) => {
-    e.preventDefault();
-    setBack_date_num(back_date_num + 1);
-  });
-  useHotkeys("alt+d", (e) => {
-    e.preventDefault();
-    setBack_date_num(0);
-  });
 
   return (
     <div className="noScrollbar relative space-y-5 max-h-[80vh] w-11/12 sm:max-w-md md:max-w-lg py-5 px-[1.6rem] bg-theme-blueGray-800 shadow-lg rounded-lg mx-auto selection:bg-theme-primary-500/60 overflow-y-scroll overflow-x-hidden">
