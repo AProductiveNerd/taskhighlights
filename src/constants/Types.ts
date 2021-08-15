@@ -65,7 +65,7 @@ export type Todo_Body_Task =
   | "create"
   | "move";
 
-export type Habit_Body_Task = "toggleState" | "create";
+export type Habit_Body_Task = "toggleState" | "create" | "createMany";
 
 /**
  * Fetch Request Types
@@ -107,10 +107,11 @@ export interface Todo_Body {
 
 export interface Habit_Body {
   habit_description: habit_description;
+  habits?: habit_description[];
   user_id: user_id;
   routine_id: routine_id;
-  habit_id: habit_id;
-  habit_done: habit_done;
+  habit_id?: habit_id;
+  habit_done?: habit_done;
   task: Habit_Body_Task;
 }
 

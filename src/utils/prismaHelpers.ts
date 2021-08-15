@@ -749,3 +749,49 @@ export const prisma_createHabit = async ({
 
   return todo;
 };
+
+export const prisma_deleteHabit = async (
+  habit_id: TYPES.habit_id
+): Promise<TYPES.Useful_Habit> => {
+  const deletedHabit: TYPES.Useful_Habit = await prisma.habit.delete({
+    where: {
+      habit_id
+    }
+  });
+
+  return deletedHabit;
+};
+
+export const prisma_createManyHabit = async ({
+  habits,
+  routine_id,
+  user_id
+}: TYPES.Habit_Body): Promise<Prisma.BatchPayload> => {
+  const dataArr = habits.map((i) => {
+    return {
+      habit_description: i,
+      habit_routine_id: routine_id,
+      habit_user_id: user_id
+    };
+  });
+
+  const count: Prisma.BatchPayload = await prisma.habit.createMany({
+    data: dataArr
+  });
+
+  // await prisma.routine.update({
+  //   where: {
+  //     routine_id
+  //   },
+  //   data: {
+  //     Routine_Habits: {
+  //       createMany: {
+  //         data: habits,
+  //         skipDuplicates: true
+  //       }
+  //     }
+  //   }
+  // });
+
+  return count;
+};

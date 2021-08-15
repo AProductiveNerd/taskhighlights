@@ -1,17 +1,18 @@
 import {
   Habit_Body,
   Useful_Habit,
-  Useful_Todo,
   corsMethods
 } from "../../../constants/Types";
 import type { NextApiRequest, NextApiResponse } from "next";
 import {
   prisma_createHabit,
-  prisma_deleteTodo,
+  prisma_createManyHabit,
+  prisma_deleteHabit,
   prisma_getHabitbyHabitid
 } from "../../../utils/prismaHelpers";
 
 import Cors from "cors";
+import { Prisma } from "@prisma/client";
 import { habit_id } from "./../../../constants/Types";
 import initMiddleware from "../../../libs/InitMiddleware";
 import { prisma_toggleHabitDone } from "./../../../utils/prismaHelpers";
@@ -54,14 +55,18 @@ export default async function handler(
         const habit: Useful_Habit = await prisma_createHabit(body);
 
         res.status(201).json(habit);
+      } else if (body.task === "createMany") {
+        const habit: Prisma.BatchPayload = await prisma_createManyHabit(body);
+
+        res.status(201).json(habit);
       }
 
       break;
 
     case "DELETE": {
-      const deletedTodo: Useful_Todo = await prisma_deleteTodo(habit_id);
+      const deletedHabit: Useful_Habit = await prisma_deleteHabit(habit_id);
 
-      res.status(200).json(deletedTodo);
+      res.status(200).json(deletedHabit);
 
       break;
     }
