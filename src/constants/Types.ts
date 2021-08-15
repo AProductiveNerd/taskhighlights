@@ -194,6 +194,12 @@ export interface toggleTodoDone {
   todo_id: todo_id;
   todo_done: todo_done;
 }
+
+export interface toggleHabitDone {
+  habit_id: habit_id;
+  habit_done: habit_done;
+}
+
 export interface toggleArchiving {
   stateReload: stateReload;
   todo_id: todo_id;
