@@ -1,6 +1,7 @@
 import * as TYPES from "./../constants/Types";
 
 import {
+  Habit,
   Page,
   Prisma,
   PrismaClient,
@@ -695,4 +696,56 @@ export const prisma_createRoutine = async ({
   });
 
   return createdRoutine;
+};
+
+export const prisma_getHabitbyHabitid = async (
+  habit_id: TYPES.habit_id
+): Promise<TYPES.Useful_Habit> => {
+  const habit: Habit = await prisma.habit.findUnique({
+    where: {
+      habit_id
+    }
+  });
+
+  return habit;
+};
+
+export const prisma_toggleHabitDone = async ({
+  habit_id,
+  habit_done
+}: TYPES.Habit_Body): Promise<TYPES.Useful_Habit> => {
+  const habit: TYPES.Useful_Habit = await prisma.habit.update({
+    where: {
+      habit_id
+    },
+    data: {
+      habit_done
+    }
+  });
+
+  return habit;
+};
+
+export const prisma_createHabit = async ({
+  habit_description,
+  routine_id,
+  user_id
+}: TYPES.Habit_Body): Promise<TYPES.Useful_Habit> => {
+  const todo: TYPES.Useful_Habit = await prisma.habit.create({
+    data: {
+      habit_description,
+      Habit_User: {
+        connect: {
+          user_id
+        }
+      },
+      Habit_Routine: {
+        connect: {
+          routine_id
+        }
+      }
+    }
+  });
+
+  return todo;
 };
