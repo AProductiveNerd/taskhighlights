@@ -1,6 +1,13 @@
 import * as TYPES from "./../constants/Types";
 
-import { Page, Prisma, PrismaClient, Story, User } from "@prisma/client";
+import {
+  Page,
+  Prisma,
+  PrismaClient,
+  Routine,
+  Story,
+  User
+} from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -597,4 +604,95 @@ export const prisma_moveTasks = async ({
   });
 
   return todos;
+};
+
+export const prisma_createRetDailyRoutine = async (
+  user_id: TYPES.user_id,
+  today: TYPES.routine_title
+): Promise<TYPES.Routine_and_Habits> => {
+  if (user_id.toString() !== "undefined") {
+    const page = await prisma.routine.upsert({
+      where: {
+        user_routine_title_unique: {
+          routine_title: today,
+          routine_user_id: user_id
+        }
+      },
+      create: {
+        routine_title: today,
+        Routine_User: {
+          connect: {
+            user_id
+          }
+        }
+      },
+      update: {},
+      include: {
+        Routine_Habits: {
+          select: TYPES.Useful_Habit_Include_Object,
+          orderBy: [{ habit_done: "asc" }, { habit_datecreated: "desc" }]
+        }
+      }
+    });
+
+    return page;
+  }
+};
+
+export const prisma_getRoutineByRoutineid = async (
+  routine_id: TYPES.routine_id
+): Promise<Routine> => {
+  const routine: Routine = await prisma.routine.findUnique({
+    where: {
+      routine_id
+    }
+  });
+
+  return routine;
+};
+
+export const prisma_deleteRoutineByRoutineid = async (
+  routine_id: TYPES.routine_id
+): Promise<Routine> => {
+  const deletedRoutine: Routine = await prisma.routine.delete({
+    where: {
+      routine_id
+    }
+  });
+
+  return deletedRoutine;
+};
+
+export const prisma_getRoutineByRoutineTitle = async (
+  routine_title: TYPES.routine_title,
+  user_id: TYPES.user_id
+): Promise<Routine> => {
+  const Routine: Routine = await prisma.routine.findUnique({
+    where: {
+      user_routine_title_unique: {
+        routine_title,
+        routine_user_id: user_id
+      }
+    }
+  });
+
+  return Routine;
+};
+
+export const prisma_createRoutine = async ({
+  routine_title,
+  user_id
+}: TYPES.Routine_Body): Promise<Routine> => {
+  const createdRoutine: Routine = await prisma.routine.create({
+    data: {
+      routine_title,
+      Routine_User: {
+        connect: {
+          user_id
+        }
+      }
+    }
+  });
+
+  return createdRoutine;
 };

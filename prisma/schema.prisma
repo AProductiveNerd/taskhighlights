@@ -49,7 +49,7 @@ model Routine {
   routine_last_accessed DateTime @updatedAt
   routine_title         String
   Routine_User          User     @relation(fields: [routine_user_id], references: [user_id])
-  Routine_Routines      Habit[]
+  Routine_Habits        Habit[]
 
   @@unique([routine_user_id, routine_title], name: "user_routine_title_unique")
 }
