@@ -2,7 +2,6 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { Prisma, User } from "@prisma/client";
 import { User_Request_Body, User_Story_Todo } from "../../../constants/Types";
 import {
-  prisma_createTemplate,
   prisma_createUser,
   prisma_deleteUserbyuserid,
   prisma_deleteUserbyusername,
@@ -44,15 +43,10 @@ export default async function handler(
     case "POST":
       try {
         const body: User_Request_Body = req.body;
-        if (body.task === "create") {
-          const createdUser: User = await prisma_createUser(body);
 
-          res.status(201).json(JSON.parse(JSON.stringify(createdUser)));
-        } else if (body.task === "createTemplate") {
-          const createdUser: User = await prisma_createTemplate(body);
+        const createdUser: User = await prisma_createUser(body);
 
-          res.status(201).json(JSON.parse(JSON.stringify(createdUser)));
-        }
+        res.status(201).json(JSON.parse(JSON.stringify(createdUser)));
       } catch (e) {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
           res.status(409).json(e.message);

@@ -1,84 +1,59 @@
-import { FastForwardIcon, RewindIcon } from "@heroicons/react/solid";
-import { Routine_and_Habits, Useful_Habit } from "../../constants/Types";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import { Routine_Templates, User } from "@prisma/client";
 import { useContext, useEffect, useState } from "react";
 
-import { IndividualHabit } from "./IndividualHabit";
-import { User } from "@prisma/client";
-import UserContext from "./../../contexts/UserContext";
-import { fetch_createRetDailyRoutine } from "../../utils/fetchHelpers";
-
-// ! Limit the number of tasks a user can add to amplify the constraints lead to creativity effect
+import { ChevronUpIcon } from "@heroicons/react/solid";
+import { Disclosure } from "@headlessui/react";
+import UserContext from "../../contexts/UserContext";
+import { fetch_getAllUserTemplates } from "../../utils/fetchHelpers";
 
 export const RoutineCard = (): JSX.Element => {
-  const [currentRoutine, setCurrentRoutine] =
-    useState<Routine_and_Habits>(null);
-  const [back_date_num, setBack_date_num] = useState<number>(0);
-  const [routineHabits, setRoutineHabits] = useState<Useful_Habit[]>(null);
   const currentUser: User = useContext(UserContext);
+  const [routines, setRoutines] = useState<Routine_Templates[]>(null);
 
   useEffect(() => {
     (async () => {
-      const today: string = new Date(
-        new Date().setDate(new Date().getDate() - back_date_num)
-      ).toLocaleDateString("en-GB");
-
-      const routine = await fetch_createRetDailyRoutine(
-        currentUser?.user_id,
-        today
+      const templates: Routine_Templates[] = await fetch_getAllUserTemplates(
+        currentUser?.user_id
       );
 
-      if (JSON.stringify(routine) !== JSON.stringify(currentRoutine)) {
-        setCurrentRoutine(routine);
-
-        if (
-          JSON.stringify(routineHabits) !==
-          JSON.stringify(routine?.Routine_Habits)
-        ) {
-          setRoutineHabits(routine?.Routine_Habits);
-        }
+      if (JSON.stringify(templates) !== JSON.stringify(routines)) {
+        setRoutines(templates);
       }
     })();
-  }, [back_date_num, currentRoutine, currentUser?.user_id, routineHabits]);
+  }, [currentUser?.user_id, routines]);
 
   return (
     <div className="noScrollbar relative space-y-5 max-h-[80vh] w-11/12 sm:max-w-md md:max-w-lg py-4 px-8 bg-theme-blueGray-800 shadow-lg rounded-lg mx-auto selection:bg-theme-primary-500/60 overflow-y-scroll overflow-x-hidden">
       <div className="flex justify-between items-center">
-        <p className="text-4xl">
-          {currentRoutine?.routine_title ||
-            new Date(
-              new Date().setDate(new Date().getDate() - back_date_num)
-            ).toLocaleDateString("en-GB")}
-        </p>
+        <p className="text-4xl">Routines</p>
       </div>
 
       <hr className="border-dashed" />
 
       <div className="space-y-2">
-        {routineHabits ? (
-          routineHabits?.map((habit: Useful_Habit) => (
-            <IndividualHabit habit={habit} key={habit.habit_id} />
-          ))
-        ) : (
-          <SkeletonTheme color="#0F172A" highlightColor="#1E293B">
-            <Skeleton count={10} height={20} />
-          </SkeletonTheme>
-        )}
-      </div>
-      <div className="flex justify-between">
-        <button
-          aria-label="Go to previous date page"
-          onClick={() => setBack_date_num(back_date_num + 1)}
-        >
-          <RewindIcon className="w-6 h-6" />
-        </button>
+        {routines?.map((routine) => (
+          <Disclosure key={routine.template_id}>
+            {({ open }) => (
+              <>
+                <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left text-purple-900 bg-purple-100 rounded-lg hover:bg-purple-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
+                  <span>{routine.template_title}</span>
 
-        <button
-          aria-label="Go to next date page"
-          onClick={() => setBack_date_num(back_date_num - 1)}
-        >
-          <FastForwardIcon className="w-6 h-6" />
-        </button>
+                  <ChevronUpIcon
+                    className={`${
+                      open && "rotate-[180deg]"
+                    } w-5 h-5 text-purple-500`}
+                  />
+                </Disclosure.Button>
+
+                <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-500">
+                  {routine.template_habits.map((habit) => (
+                    <p key={habit}>{habit}</p>
+                  ))}
+                </Disclosure.Panel>
+              </>
+            )}
+          </Disclosure>
+        ))}
       </div>
     </div>
   );

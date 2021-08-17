@@ -6,6 +6,7 @@ import {
   Prisma,
   PrismaClient,
   Routine,
+  Routine_Templates,
   Story,
   User
 } from "@prisma/client";
@@ -799,23 +800,36 @@ export const prisma_createManyHabit = async ({
 export const prisma_createTemplate = async ({
   template_habits,
   template_id,
-  template_name,
+  template_title,
   user_id
-}: TYPES.User_Request_Body): Promise<User> => {
-  const user: User = await prisma.user.update({
-    where: {
-      user_id
-    },
+}: TYPES.Create_Template_Body): Promise<Routine_Templates> => {
+  const template: Routine_Templates = await prisma.routine_Templates.create({
     data: {
-      user_routine_templates: {
-        push: {
-          template_id,
-          template_name,
-          template_habits
+      template_title,
+      template_id,
+      template_habits,
+      Template_User: {
+        connect: {
+          user_id
         }
       }
     }
   });
 
-  return user;
+  return template;
+};
+
+export const prisma_getAllUserTemplates = async (
+  user_id: TYPES.user_id
+): Promise<Routine_Templates[]> => {
+  const templates: Routine_Templates[] =
+    await prisma.routine_Templates.findMany({
+      where: {
+        Template_User: {
+          user_id
+        }
+      }
+    });
+
+  return templates;
 };

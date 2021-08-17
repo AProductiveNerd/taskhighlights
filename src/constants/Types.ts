@@ -72,8 +72,6 @@ export type Todo_Body_Task =
 
 export type Habit_Body_Task = "toggleState" | "create" | "createMany";
 
-export type User_Body_Task = "create" | "createTemplate";
-
 /**
  * Fetch Request Types
  */
@@ -83,10 +81,6 @@ export interface User_Request_Body {
   user_fullname: user_fullname;
   user_username: user_username;
   user_id: user_id;
-  template_id?: template_id;
-  template_name?: template_name;
-  template_habits?: template_habits;
-  task: User_Body_Task;
 }
 
 export interface Page_Body {
@@ -241,12 +235,17 @@ export const corsMethods = ["GET"];
  * User Routine Templates
  */
 export type template_id = cuid;
-export type template_name = string;
+export type template_title = string;
 export type template_habits = habit_description[];
+
 export interface user_routine_templates_struct {
   template_id: template_id;
-  template_name: template_name;
+  template_title: template_title;
   template_habits: template_habits;
 }
 
 export type user_routine_templates = user_routine_templates_struct[];
+
+export interface Create_Template_Body extends user_routine_templates_struct {
+  user_id: user_id;
+}
