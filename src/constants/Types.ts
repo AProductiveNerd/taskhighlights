@@ -8,6 +8,11 @@ export type ChildrenProps = {
 };
 
 /**
+ * cuid
+ */
+export type cuid = string;
+
+/**
  * User Model Types
  */
 export type user_id = string;
@@ -67,6 +72,8 @@ export type Todo_Body_Task =
 
 export type Habit_Body_Task = "toggleState" | "create" | "createMany";
 
+export type User_Body_Task = "create" | "createTemplate";
+
 /**
  * Fetch Request Types
  */
@@ -76,6 +83,10 @@ export interface User_Request_Body {
   user_fullname: user_fullname;
   user_username: user_username;
   user_id: user_id;
+  template_id?: template_id;
+  template_name?: template_name;
+  template_habits?: template_habits;
+  task: User_Body_Task;
 }
 
 export interface Page_Body {
@@ -225,3 +236,17 @@ export interface removeFromStory extends Story_Body {
 }
 
 export const corsMethods = ["GET"];
+
+/**
+ * User Routine Templates
+ */
+export type template_id = cuid;
+export type template_name = string;
+export type template_habits = habit_description[];
+export interface user_routine_templates_struct {
+  template_id: template_id;
+  template_name: template_name;
+  template_habits: template_habits;
+}
+
+export type user_routine_templates = user_routine_templates_struct[];

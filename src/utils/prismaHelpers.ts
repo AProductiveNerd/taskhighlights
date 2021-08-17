@@ -795,3 +795,27 @@ export const prisma_createManyHabit = async ({
 
   return count;
 };
+
+export const prisma_createTemplate = async ({
+  template_habits,
+  template_id,
+  template_name,
+  user_id
+}: TYPES.User_Request_Body): Promise<User> => {
+  const user: User = await prisma.user.update({
+    where: {
+      user_id
+    },
+    data: {
+      user_routine_templates: {
+        push: {
+          template_id,
+          template_name,
+          template_habits
+        }
+      }
+    }
+  });
+
+  return user;
+};
