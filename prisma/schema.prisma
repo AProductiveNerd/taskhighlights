@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["filterJson"]
 }
 
 datasource db {
@@ -9,22 +10,22 @@ datasource db {
 }
 
 model User {
-  user_id                  String    @id
-  user_email               String    @unique
-  user_username            String    @unique
-  user_lastseen            DateTime  @updatedAt
-  user_datecreated         DateTime  @default(now())
+  user_id                  String              @id
+  user_email               String              @unique
+  user_username            String              @unique
+  user_lastseen            DateTime            @updatedAt
+  user_datecreated         DateTime            @default(now())
   user_fullname            String
   user_bio                 String?
   user_followers           String[]
   user_following           String[]
-  user_avatar              Json      @db.Json
-  user_streak              Int       @default(0)
+  user_avatar              Json                @db.Json
+  user_streak              Int                 @default(0)
   user_highlight_questions String[]
-  user_routine_tasks       String[]
   User_Habits              Habit[]
   User_Page                Page[]
   User_Routine             Routine[]
+  Routine_Templates        Routine_Templates[]
   User_Story               Story[]
   User_Todo                Todo[]
 }
@@ -49,7 +50,7 @@ model Routine {
   routine_last_accessed DateTime @updatedAt
   routine_title         String
   Routine_User          User     @relation(fields: [routine_user_id], references: [user_id])
-  Routine_Routines      Habit[]
+  Routine_Habits        Habit[]
 
   @@unique([routine_user_id, routine_title], name: "user_routine_title_unique")
 }
@@ -93,4 +94,12 @@ model Habit {
   habit_routine_id  String
   Habit_Routine     Routine  @relation(fields: [habit_routine_id], references: [routine_id])
   Habit_User        User     @relation(fields: [habit_user_id], references: [user_id])
+}
+
+model Routine_Templates {
+  template_id      String   @id @default(cuid())
+  template_title   String
+  template_habits  String[]
+  template_user_id String
+  Template_User    User     @relation(fields: [template_user_id], references: [user_id])
 }

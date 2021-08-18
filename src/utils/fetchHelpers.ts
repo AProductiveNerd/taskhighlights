@@ -1,9 +1,10 @@
 import * as TYPES from "../constants/Types";
 
-import { Todo, User } from "@prisma/client";
+import { Routine_Templates, Todo, User } from "@prisma/client";
 import fetch, { Response } from "node-fetch";
 
 import { API_V1 } from "../constants/Routes";
+import { Useful_Habit } from "./../constants/Types";
 
 export const fetch_getUserByUserid = async (
   user_id: TYPES.user_id
@@ -215,6 +216,77 @@ export const fetch_getAllIncompleteTodosByPage = async (
 ): Promise<TYPES.Useful_Todo[]> => {
   if (user_id) {
     const data = await fetch(`${API_V1}allTodos?user_id=${user_id}`);
+
+    return data.json();
+  }
+};
+
+export const fetch_createRetDailyRoutine = async (
+  user_id: TYPES.user_id,
+  today: TYPES.page_title
+): Promise<TYPES.Routine_and_Habits> => {
+  if (user_id && today) {
+    const data = await fetch(
+      `${API_V1}routine?routine_user_id=${user_id}&today=${today}`
+    );
+
+    return data.json();
+  }
+};
+
+export const fetch_createHabit = async (
+  body: TYPES.Habit_Body
+): Promise<TYPES.Useful_Habit> => {
+  if (body) {
+    const data = await fetch(`${API_V1}habit`, {
+      method: "POST",
+      body: JSON.stringify(body),
+      headers: { "Content-Type": "application/json" }
+    });
+
+    return data.json();
+  }
+};
+
+export const fetch_toggleHabitDone = async ({
+  habit_id,
+  habit_done
+}: {
+  habit_id: TYPES.habit_id;
+  habit_done: TYPES.habit_done;
+}): Promise<Useful_Habit> => {
+  const data = await fetch(`${API_V1}habit`, {
+    method: "POST",
+    body: JSON.stringify({
+      task: "toggleState",
+      habit_id,
+      habit_done: !habit_done
+    }),
+    headers: { "Content-Type": "application/json" }
+  });
+
+  return data.json();
+};
+
+export const fetch_createTemplate = async (
+  body: TYPES.Create_Template_Body
+): Promise<Routine_Templates> => {
+  const data = await fetch(`${API_V1}template`, {
+    method: "POST",
+    body: JSON.stringify(JSON.parse(JSON.stringify(body))),
+    headers: { "Content-Type": "application/json" }
+  });
+
+  return data.json();
+};
+
+export const fetch_getAllUserTemplates = async (
+  user_id: TYPES.user_id
+): Promise<Routine_Templates[]> => {
+  if (user_id) {
+    const data = await fetch(
+      `${API_V1}allTemplates?template_user_id=${user_id}`
+    );
 
     return data.json();
   }

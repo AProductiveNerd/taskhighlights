@@ -1,6 +1,15 @@
 import * as TYPES from "./../constants/Types";
 
-import { Page, Prisma, PrismaClient, Story, User } from "@prisma/client";
+import {
+  Habit,
+  Page,
+  Prisma,
+  PrismaClient,
+  Routine,
+  Routine_Templates,
+  Story,
+  User
+} from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -597,4 +606,230 @@ export const prisma_moveTasks = async ({
   });
 
   return todos;
+};
+
+export const prisma_createRetDailyRoutine = async (
+  user_id: TYPES.user_id,
+  today: TYPES.routine_title
+): Promise<TYPES.Routine_and_Habits> => {
+  if (user_id.toString() !== "undefined") {
+    const page = await prisma.routine.upsert({
+      where: {
+        user_routine_title_unique: {
+          routine_title: today,
+          routine_user_id: user_id
+        }
+      },
+      create: {
+        routine_title: today,
+        Routine_User: {
+          connect: {
+            user_id
+          }
+        }
+      },
+      update: {},
+      include: {
+        Routine_Habits: {
+          select: TYPES.Useful_Habit_Include_Object,
+          orderBy: [{ habit_done: "asc" }, { habit_datecreated: "desc" }]
+        }
+      }
+    });
+
+    return page;
+  }
+};
+
+export const prisma_getRoutineByRoutineid = async (
+  routine_id: TYPES.routine_id
+): Promise<Routine> => {
+  const routine: Routine = await prisma.routine.findUnique({
+    where: {
+      routine_id
+    }
+  });
+
+  return routine;
+};
+
+export const prisma_deleteRoutineByRoutineid = async (
+  routine_id: TYPES.routine_id
+): Promise<Routine> => {
+  const deletedRoutine: Routine = await prisma.routine.delete({
+    where: {
+      routine_id
+    }
+  });
+
+  return deletedRoutine;
+};
+
+export const prisma_getRoutineByRoutineTitle = async (
+  routine_title: TYPES.routine_title,
+  user_id: TYPES.user_id
+): Promise<Routine> => {
+  const Routine: Routine = await prisma.routine.findUnique({
+    where: {
+      user_routine_title_unique: {
+        routine_title,
+        routine_user_id: user_id
+      }
+    }
+  });
+
+  return Routine;
+};
+
+export const prisma_createRoutine = async ({
+  routine_title,
+  user_id
+}: TYPES.Routine_Body): Promise<Routine> => {
+  const createdRoutine: Routine = await prisma.routine.create({
+    data: {
+      routine_title,
+      Routine_User: {
+        connect: {
+          user_id
+        }
+      }
+    }
+  });
+
+  return createdRoutine;
+};
+
+export const prisma_getHabitbyHabitid = async (
+  habit_id: TYPES.habit_id
+): Promise<TYPES.Useful_Habit> => {
+  const habit: Habit = await prisma.habit.findUnique({
+    where: {
+      habit_id
+    }
+  });
+
+  return habit;
+};
+
+export const prisma_toggleHabitDone = async ({
+  habit_id,
+  habit_done
+}: TYPES.Habit_Body): Promise<TYPES.Useful_Habit> => {
+  const habit: TYPES.Useful_Habit = await prisma.habit.update({
+    where: {
+      habit_id
+    },
+    data: {
+      habit_done
+    }
+  });
+
+  return habit;
+};
+
+export const prisma_createHabit = async ({
+  habit_description,
+  routine_id,
+  user_id
+}: TYPES.Habit_Body): Promise<TYPES.Useful_Habit> => {
+  const todo: TYPES.Useful_Habit = await prisma.habit.create({
+    data: {
+      habit_description,
+      Habit_User: {
+        connect: {
+          user_id
+        }
+      },
+      Habit_Routine: {
+        connect: {
+          routine_id
+        }
+      }
+    }
+  });
+
+  return todo;
+};
+
+export const prisma_deleteHabit = async (
+  habit_id: TYPES.habit_id
+): Promise<TYPES.Useful_Habit> => {
+  const deletedHabit: TYPES.Useful_Habit = await prisma.habit.delete({
+    where: {
+      habit_id
+    }
+  });
+
+  return deletedHabit;
+};
+
+export const prisma_createManyHabit = async ({
+  habits,
+  routine_id,
+  user_id
+}: TYPES.Habit_Body): Promise<Prisma.BatchPayload> => {
+  const dataArr = habits.map((i) => {
+    return {
+      habit_description: i,
+      habit_routine_id: routine_id,
+      habit_user_id: user_id
+    };
+  });
+
+  const count: Prisma.BatchPayload = await prisma.habit.createMany({
+    data: dataArr
+  });
+
+  // await prisma.routine.update({
+  //   where: {
+  //     routine_id
+  //   },
+  //   data: {
+  //     Routine_Habits: {
+  //       createMany: {
+  //         data: habits,
+  //         skipDuplicates: true
+  //       }
+  //     }
+  //   }
+  // });
+
+  return count;
+};
+
+export const prisma_createTemplate = async ({
+  template_habits,
+  template_id,
+  template_title,
+  user_id
+}: TYPES.Create_Template_Body): Promise<Routine_Templates> => {
+  const template: Routine_Templates = await prisma.routine_Templates.create({
+    data: {
+      template_title,
+      template_id,
+      template_habits,
+      Template_User: {
+        connect: {
+          user_id
+        }
+      }
+    }
+  });
+
+  return template;
+};
+
+export const prisma_getAllUserTemplates = async (
+  user_id: TYPES.user_id
+): Promise<Routine_Templates[]> => {
+  const templates: Routine_Templates[] =
+    await prisma.routine_Templates.findMany({
+      where: {
+        Template_User: {
+          user_id
+        }
+      }
+    });
+
+  return templates;
 };

@@ -5,6 +5,7 @@ import {
   makeHighlight,
   removeFromStory,
   toggleArchiving,
+  toggleHabitDone,
   toggleTodoDone
 } from "./../constants/Types";
 import {
@@ -13,6 +14,7 @@ import {
   fetch_makeHighlight,
   fetch_removeTodoFromStory,
   fetch_toggleArchived,
+  fetch_toggleHabitDone,
   fetch_toggleTodoDone,
   fetch_updateTodoDescription
 } from "./fetchHelpers";
@@ -79,4 +81,11 @@ export const onClick_removeFromStory = async ({
 }: removeFromStory): Promise<void> => {
   await fetch_removeTodoFromStory({ story_id, todo_id });
   stateReload();
+};
+
+export const onClick_toggleHabitDone = async ({
+  habit_id,
+  habit_done
+}: toggleHabitDone): Promise<void> => {
+  await fetch_toggleHabitDone({ habit_id, habit_done });
 };

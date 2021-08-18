@@ -43,6 +43,7 @@ export default async function handler(
     case "POST":
       try {
         const body: User_Request_Body = req.body;
+
         const createdUser: User = await prisma_createUser(body);
 
         res.status(201).json(JSON.parse(JSON.stringify(createdUser)));
