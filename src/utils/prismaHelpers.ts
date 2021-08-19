@@ -799,14 +799,13 @@ export const prisma_createManyHabit = async ({
 
 export const prisma_createTemplate = async ({
   template_habits,
-  template_id,
+
   template_title,
   user_id
 }: TYPES.Create_Template_Body): Promise<Routine_Templates> => {
   const template: Routine_Templates = await prisma.routine_Templates.create({
     data: {
       template_title,
-      template_id,
       template_habits,
       Template_User: {
         connect: {

@@ -1,25 +1,28 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
-import { habit_description, template_id } from "../../constants/Types";
+import { habit_description, user_id } from "../../constants/Types";
 
 import { PlusCircleIcon } from "@heroicons/react/outline";
-import { fetch_addHabitToTemplate } from "../../utils/fetchHelpers";
+import { fetch_createTemplate } from "../../utils/fetchHelpers";
 
-export const AddRoutine = ({
+export const CreateTemplate = ({
   stateReload,
-  template_id
+  user_id
 }: {
-  template_id: template_id;
+  user_id: user_id;
   stateReload: VoidFunction;
 }): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [habit_description, set_habit_description] =
-    useState<habit_description>("");
+  const [template_title, set_template_title] = useState<habit_description>("");
 
   const taskCreator = async () => {
-    await fetch_addHabitToTemplate({ habit_description, template_id });
+    await fetch_createTemplate({
+      template_habits: [],
+      template_title,
+      user_id
+    });
 
-    set_habit_description("");
+    set_template_title("");
     stateReload();
   };
 
@@ -28,7 +31,7 @@ export const AddRoutine = ({
       <div className="flex items-center justify-center">
         <button
           type="button"
-          aria-label="Add a habit to the routine!"
+          aria-label="Create a routine template!"
           onClick={() => setIsOpen(true)}
           className="px-4 py-2 text-sm font-medium text-white bg-black rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
         >
@@ -81,16 +84,14 @@ export const AddRoutine = ({
                   <input
                     className="text-xl text-gray-500 w-full p-2"
                     onKeyDown={(event) => {
-                      if (event.key === "Enter" && habit_description !== "") {
+                      if (event.key === "Enter" && template_title !== "") {
                         taskCreator();
                       } else if (event.key === "Escape") {
                         setIsOpen(false);
                       }
                     }}
-                    onChange={({ target }) =>
-                      set_habit_description(target.value)
-                    }
-                    value={habit_description}
+                    onChange={({ target }) => set_template_title(target.value)}
+                    value={template_title}
                   />
                 </div>
 

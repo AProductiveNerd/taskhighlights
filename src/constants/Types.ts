@@ -246,8 +246,10 @@ export interface user_routine_templates_struct {
 
 export type user_routine_templates = user_routine_templates_struct[];
 
-export interface Create_Template_Body extends user_routine_templates_struct {
+export interface Create_Template_Body {
   user_id: user_id;
+  template_title: template_title;
+  template_habits: template_habits;
 }
 
 export interface Template_Query {

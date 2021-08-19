@@ -1,8 +1,9 @@
 import { Routine_Templates, User } from "@prisma/client";
 import { useContext, useEffect, useState } from "react";
 
-import { AddRoutine } from "./AddRoutine";
+import { AddHabitToRoutine } from "./AddHabitToRoutine";
 import { ChevronUpIcon } from "@heroicons/react/solid";
+import { CreateTemplate } from "./CreateTemplate";
 import { Disclosure } from "@headlessui/react";
 import UserContext from "../../contexts/UserContext";
 import { fetch_getAllUserTemplates } from "../../utils/fetchHelpers";
@@ -31,7 +32,13 @@ export const RoutineCard = (): JSX.Element => {
   return (
     <div className="noScrollbar relative space-y-5 max-h-[80vh] w-11/12 sm:max-w-md md:max-w-lg py-4 px-8 bg-theme-blueGray-800 shadow-lg rounded-lg mx-auto selection:bg-theme-primary-500/60 overflow-y-scroll overflow-x-hidden">
       <div className="flex justify-between items-center">
-        <p className="text-4xl">Routines</p>
+        <p className="text-4xl flex w-full justify-between">
+          Routines{" "}
+          <CreateTemplate
+            stateReload={stateReload}
+            user_id={currentUser?.user_id}
+          />
+        </p>
       </div>
 
       <hr className="border-dashed" />
@@ -44,7 +51,7 @@ export const RoutineCard = (): JSX.Element => {
                 <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left text-purple-900 bg-purple-100 rounded-lg hover:bg-purple-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
                   <div className="flex justify-between w-full">
                     {routine.template_title}
-                    <AddRoutine
+                    <AddHabitToRoutine
                       stateReload={stateReload}
                       template_id={routine.template_id}
                     />
