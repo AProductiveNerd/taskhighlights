@@ -1,6 +1,6 @@
 import * as TYPES from "../constants/Types";
 
-import { Routine_Templates, Todo, User } from "@prisma/client";
+import { Prisma, Routine_Templates, Todo, User } from "@prisma/client";
 import fetch, { Response } from "node-fetch";
 
 import { API_V1 } from "../constants/Routes";
@@ -303,6 +303,28 @@ export const fetch_addHabitToTemplate = async ({
       headers: { "Content-Type": "application/json" }
     }
   );
+
+  return data.json();
+};
+
+export const fetch_createManyHabit = async ({
+  template_id,
+  routine_id,
+  user_id
+}: {
+  user_id: TYPES.user_id;
+  routine_id: TYPES.routine_id;
+  template_id: TYPES.template_id;
+}): Promise<Prisma.BatchPayload> => {
+  const data = await fetch(`${API_V1}habit`, {
+    method: "POST",
+    body: JSON.stringify(
+      JSON.parse(
+        JSON.stringify({ template_id, routine_id, user_id, task: "createMany" })
+      )
+    ),
+    headers: { "Content-Type": "application/json" }
+  });
 
   return data.json();
 };

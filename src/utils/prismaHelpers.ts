@@ -763,11 +763,52 @@ export const prisma_deleteHabit = async (
   return deletedHabit;
 };
 
+// export const prisma_createManyHabit = async ({
+//   habits,
+//   routine_id,
+//   user_id
+// }: TYPES.Habit_Body): Promise<Prisma.BatchPayload> => {
+//   const dataArr = habits.map((i) => {
+//     return {
+//       habit_description: i,
+//       habit_routine_id: routine_id,
+//       habit_user_id: user_id
+//     };
+//   });
+
+//   const count: Prisma.BatchPayload = await prisma.habit.createMany({
+//     data: dataArr
+//   });
+
+//   // await prisma.routine.update({
+//   //   where: {
+//   //     routine_id
+//   //   },
+//   //   data: {
+//   //     Routine_Habits: {
+//   //       createMany: {
+//   //         data: habits,
+//   //         skipDuplicates: true
+//   //       }
+//   //     }
+//   //   }
+//   // });
+
+//   return count;
+// };
 export const prisma_createManyHabit = async ({
-  habits,
+  template_id,
   routine_id,
   user_id
 }: TYPES.Habit_Body): Promise<Prisma.BatchPayload> => {
+  const template = await prisma.routine_Templates.findUnique({
+    where: {
+      template_id
+    }
+  });
+
+  const habits = template.template_habits;
+
   const dataArr = habits.map((i) => {
     return {
       habit_description: i,
@@ -779,20 +820,6 @@ export const prisma_createManyHabit = async ({
   const count: Prisma.BatchPayload = await prisma.habit.createMany({
     data: dataArr
   });
-
-  // await prisma.routine.update({
-  //   where: {
-  //     routine_id
-  //   },
-  //   data: {
-  //     Routine_Habits: {
-  //       createMany: {
-  //         data: habits,
-  //         skipDuplicates: true
-  //       }
-  //     }
-  //   }
-  // });
 
   return count;
 };

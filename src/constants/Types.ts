@@ -112,9 +112,9 @@ export interface Todo_Body {
 
 export interface Habit_Body {
   habit_description: habit_description;
-  habits?: habit_description[];
   user_id: user_id;
   routine_id: routine_id;
+  template_id?: template_id;
   habit_id?: habit_id;
   habit_done?: habit_done;
   task: Habit_Body_Task;
