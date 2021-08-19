@@ -833,3 +833,24 @@ export const prisma_getAllUserTemplates = async (
 
   return templates;
 };
+
+export const prisma_addHabitToTemplate = async ({
+  habit_description,
+  template_id
+}: {
+  template_id: TYPES.template_id;
+  habit_description: TYPES.habit_description;
+}): Promise<Routine_Templates> => {
+  const template: Routine_Templates = await prisma.routine_Templates.update({
+    where: {
+      template_id
+    },
+    data: {
+      template_habits: {
+        push: habit_description
+      }
+    }
+  });
+
+  return template;
+};

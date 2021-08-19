@@ -291,3 +291,18 @@ export const fetch_getAllUserTemplates = async (
     return data.json();
   }
 };
+
+export const fetch_addHabitToTemplate = async ({
+  habit_description,
+  template_id
+}: TYPES.Template_Query): Promise<Routine_Templates> => {
+  const data = await fetch(
+    `${API_V1}template?habit_description=${habit_description}&template_id=${template_id}`,
+    {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" }
+    }
+  );
+
+  return data.json();
+};
