@@ -29,7 +29,6 @@ export const TasksCard = (): JSX.Element => {
 
       const page = await fetch_createRetDailyPage(currentUser?.user_id, today);
 
-      setHighlight(null);
       if (JSON.stringify(currentPage) !== JSON.stringify(page)) {
         setCurrentPage(page);
 
@@ -41,13 +40,16 @@ export const TasksCard = (): JSX.Element => {
         }
 
         setHighlight(null);
+
         const highlightTask = page?.Page_Todo.filter(
-          (todo) => todo?.todo_highlight === true
+          (todo: Useful_Todo) => todo?.todo_highlight === true
         );
+
         if (highlightTask?.length === 0) {
           setHighlight(null);
         } else if (highlightTask) {
-          setHighlight(highlightTask[0]);
+          if (highlight?.todo_story_id !== highlightTask[0].todo_story_id)
+            setHighlight(highlightTask[0]);
         }
       }
     })();
@@ -57,7 +59,8 @@ export const TasksCard = (): JSX.Element => {
     addedCounter,
     pageTodos,
     back_date_num,
-    story
+    story,
+    highlight?.todo_story_id
   ]);
 
   useEffect(() => {
