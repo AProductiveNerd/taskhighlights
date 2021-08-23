@@ -7,6 +7,7 @@ import {
   user_id
 } from "../../constants/Types";
 
+import Link from "next/link";
 import { PlusCircleIcon } from "@heroicons/react/outline";
 import { fetch_createManyHabit } from "../../utils/fetchHelpers";
 
@@ -91,22 +92,53 @@ export const UseTemplate = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden align-middle transition-all transform bg-theme-blueGray-800 shadow-lg border-theme-primary-500 border-2 rounded-lg space-y-5 justify-center items-center flex-col">
-                {template_data?.map((data) => (
-                  <div key={data.template_id}>
-                    <button
-                      onClick={() =>
-                        cloneTemplate({
-                          routine_id,
-                          template_id: data.template_id,
-                          user_id
-                        })
-                      }
+              <div
+                className="
+                text-theme-blueGray-300 inline-block w-full
+                  max-w-md p-6 my-8 overflow-hidden align-middle
+                  transition-all transform bg-theme-blueGray-800
+                  backdrop-blur  shadow-lg border-theme-primary-500
+                  border-2 rounded-lg
+                  space-y-5 justify-center
+                  items-center flex-col
+                  text-sm
+                "
+              >
+                {template_data ? (
+                  template_data?.map((data) => (
+                    <div
+                      className="flex items-center justify-center"
+                      key={data.template_id}
                     >
-                      {data.template_title}
-                    </button>
-                  </div>
-                ))}
+                      <button
+                        type="button"
+                        aria-label="Add a task!"
+                        onClick={() =>
+                          cloneTemplate({
+                            routine_id,
+                            template_id: data.template_id,
+                            user_id
+                          })
+                        }
+                        className="
+                       leading-7 px-4 py-2 text-white bg-black rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75
+                        "
+                      >
+                        {data.template_title}
+                      </button>
+                    </div>
+                  ))
+                ) : (
+                  <p>
+                    {"You don't have any templates! Click "}
+                    <Link href="/routines">
+                      <a className="underline hover:text-theme-primary-500">
+                        here
+                      </a>
+                    </Link>{" "}
+                    to go the templates page
+                  </p>
+                )}
               </div>
             </Transition.Child>
           </div>

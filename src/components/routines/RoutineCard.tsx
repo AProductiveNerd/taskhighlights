@@ -1,10 +1,8 @@
 import { Routine_Templates, User } from "@prisma/client";
 import { useContext, useEffect, useState } from "react";
 
-import { AddHabitToRoutine } from "./AddHabitToRoutine";
-import { ChevronUpIcon } from "@heroicons/react/solid";
 import { CreateTemplate } from "./CreateTemplate";
-import { Disclosure } from "@headlessui/react";
+import { IndividualRoutine } from "./IndividualRoutine";
 import UserContext from "../../contexts/UserContext";
 import { fetch_getAllUserTemplates } from "../../utils/fetchHelpers";
 
@@ -43,35 +41,13 @@ export const RoutineCard = (): JSX.Element => {
 
       <hr className="border-dashed" />
 
-      <div className="space-y-2">
+      <div className="space-y-2 flex flex-col">
         {routines?.map((routine) => (
-          <Disclosure key={routine.template_id}>
-            {({ open }) => (
-              <>
-                <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left text-purple-900 bg-purple-100 rounded-lg hover:bg-purple-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
-                  <div className="flex justify-between w-full">
-                    {routine.template_title}
-                    <AddHabitToRoutine
-                      stateReload={stateReload}
-                      template_id={routine.template_id}
-                    />
-                  </div>
-
-                  <ChevronUpIcon
-                    className={`${
-                      open && "rotate-[180deg]"
-                    } w-5 h-5 text-purple-500`}
-                  />
-                </Disclosure.Button>
-
-                <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-500">
-                  {routine.template_habits.map((habit) => (
-                    <p key={habit}>{habit}</p>
-                  ))}
-                </Disclosure.Panel>
-              </>
-            )}
-          </Disclosure>
+          <IndividualRoutine
+            routine={routine}
+            key={routine.template_id}
+            stateReload={stateReload}
+          />
         ))}
       </div>
     </div>
