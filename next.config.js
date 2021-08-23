@@ -1,5 +1,6 @@
 const withPWA = require('next-pwa')
 
+const withPreact = require('next-plugin-preact');
 
 // const securityHeaders = [
 //   {
@@ -21,7 +22,7 @@ const withPWA = require('next-pwa')
 // ]
 
 // eslint-disable-next-line no-undef
-module.exports = withPWA({
+module.exports = withPWA(withPreact({
   // async headers() {
   //   return [
   //     {
@@ -31,18 +32,18 @@ module.exports = withPWA({
   //     },
   //   ]
   // },
-  webpack: (config, { dev, isServer }) => {
-    // Replace React with Preact only in client production build
-    if (!dev && !isServer) {
-      Object.assign(config.resolve.alias, {
-        react: 'preact/compat',
-        'react-dom/test-utils': 'preact/test-utils',
-        'react-dom': 'preact/compat',
-      });
-    }
+  // webpack: (config, { dev, isServer }) => {
+  //   // Replace React with Preact only in client production build
+  //   if (!dev && !isServer) {
+  //     Object.assign(config.resolve.alias, {
+  //       react: 'preact/compat',
+  //       'react-dom/test-utils': 'preact/test-utils',
+  //       'react-dom': 'preact/compat',
+  //     });
+  //   }
 
-    return config;
-  },
+  //   return config;
+  // },
   reactStrictMode: true,
   images: {
     domains: ["avataaars.io"],
@@ -55,4 +56,4 @@ module.exports = withPWA({
   pwa: {
     dest: 'public'
   }
-})
+}))
