@@ -19,7 +19,7 @@ export const fetch_getUserByUserid = async (
 export const fetch_getUserByUsername = async (
   user_username: TYPES.user_username
 ): Promise<Response> => {
-  if (user_username) {
+  if (user_username && typeof user_username === "string") {
     const data = await fetch(`${API_V1}user?user_username=${user_username}`);
 
     return data;
@@ -42,7 +42,12 @@ export const fetch_createRetDailyPage = async (
   user_id: TYPES.user_id,
   today: TYPES.page_title
 ): Promise<TYPES.Page_Story_Todos> => {
-  if (user_id && today) {
+  if (
+    user_id &&
+    typeof user_id === "string" &&
+    today &&
+    typeof today === "string"
+  ) {
     const data = await fetch(
       `${API_V1}page?page_user_id=${user_id}&today=${today}`
     );
@@ -69,7 +74,12 @@ export const fetch_getAllTodosByPage = async (
   page_id: TYPES.page_id,
   user_id: TYPES.user_id
 ): Promise<Todo[]> => {
-  if (page_id && user_id) {
+  if (
+    page_id &&
+    typeof page_id === "string" &&
+    user_id &&
+    typeof user_id === "string"
+  ) {
     const data = await fetch(
       `${API_V1}allTodos?page_id=${page_id}&user_id=${user_id}`
     );
@@ -170,7 +180,7 @@ export const fetch_makeHighlight = async (
 export const fetch_getStoryByStoryId = async (
   story_id: TYPES.story_id
 ): Promise<TYPES.Story_and_Todos> => {
-  if (story_id) {
+  if (story_id && typeof story_id === "string") {
     const data = await fetch(`${API_V1}story?story_id=${story_id}`);
 
     return data.json();
@@ -214,7 +224,7 @@ export const fetch_removeTodoFromStory = async ({
 export const fetch_getAllIncompleteTodosByPage = async (
   user_id: TYPES.user_id
 ): Promise<TYPES.Useful_Todo[]> => {
-  if (user_id) {
+  if (user_id && typeof user_id === "string") {
     const data = await fetch(`${API_V1}allTodos?user_id=${user_id}`);
 
     return data.json();
@@ -225,7 +235,12 @@ export const fetch_createRetDailyRoutine = async (
   user_id: TYPES.user_id,
   today: TYPES.page_title
 ): Promise<TYPES.Routine_and_Habits> => {
-  if (user_id && today) {
+  if (
+    user_id &&
+    typeof user_id === "string" &&
+    today &&
+    typeof today === "string"
+  ) {
     const data = await fetch(
       `${API_V1}routine?routine_user_id=${user_id}&today=${today}`
     );
@@ -283,7 +298,7 @@ export const fetch_createTemplate = async (
 export const fetch_getAllUserTemplates = async (
   user_id: TYPES.user_id
 ): Promise<Routine_Templates[]> => {
-  if (user_id) {
+  if (user_id && typeof user_id === "string") {
     const data = await fetch(
       `${API_V1}allTemplates?template_user_id=${user_id}`
     );
