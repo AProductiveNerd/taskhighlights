@@ -5,6 +5,7 @@ import {
   user_username
 } from "../../constants/Types";
 
+import { API_V1 } from "../../constants/Routes";
 import Avatar from "react-nice-avatar";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
@@ -93,13 +94,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const getUserByUsername = async (
       user_username: user_username
     ): Promise<globalThis.Response> => {
-      const data = await fetch(
-        `${
-          process.env.VERCEL_URL
-            ? `https://${process.env.VERCEL_URL}`
-            : "http://localhost:3000"
-        }/api/v1/user?user_username=${user_username}`
-      );
+      const data = await fetch(`${API_V1}user?user_username=${user_username}`);
 
       return data;
     };
