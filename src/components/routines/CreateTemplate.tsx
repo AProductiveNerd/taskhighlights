@@ -15,7 +15,7 @@ export const CreateTemplate = ({
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [template_title, set_template_title] = useState<habit_description>("");
 
-  const taskCreator = async () => {
+  const templateCreator = async () => {
     await fetch_createTemplate({
       template_habits: [],
       template_title,
@@ -78,14 +78,14 @@ export const CreateTemplate = ({
                   as="h3"
                   className="text-2xl font-medium leading-6 text-white"
                 >
-                  Add a task
+                  Create template
                 </Dialog.Title>
                 <div className="mt-2">
                   <input
                     className="text-xl text-gray-500 w-full p-2"
                     onKeyDown={(event) => {
                       if (event.key === "Enter" && template_title !== "") {
-                        taskCreator();
+                        templateCreator();
                       } else if (event.key === "Escape") {
                         setIsOpen(false);
                       }
@@ -95,7 +95,7 @@ export const CreateTemplate = ({
                   />
                 </div>
 
-                <div className="mt-4">
+                <div className="mt-4 flex justify-center space-x-6">
                   <button
                     type="button"
                     aria-label="Close add tasks popup"
@@ -105,6 +105,17 @@ export const CreateTemplate = ({
                     }}
                   >
                     Cancel!
+                  </button>
+
+                  <button
+                    type="button"
+                    aria-label="Close add tasks popup"
+                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-theme-fuchsia-200 bg-theme-primary-500/60 border border-transparent rounded-md hover:bg-theme-primary-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                    onClick={() => {
+                      templateCreator();
+                    }}
+                  >
+                    Submit!
                   </button>
                 </div>
               </div>

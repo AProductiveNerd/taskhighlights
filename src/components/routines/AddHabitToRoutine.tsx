@@ -75,7 +75,7 @@ export const AddHabitToRoutine = ({
                   as="h3"
                   className="text-2xl font-medium leading-6 text-white"
                 >
-                  Add a task
+                  Add habit to routine
                 </Dialog.Title>
                 <div className="mt-2">
                   <input
@@ -94,7 +94,7 @@ export const AddHabitToRoutine = ({
                   />
                 </div>
 
-                <div className="mt-4">
+                <div className="mt-4 flex justify-center space-x-6">
                   <button
                     type="button"
                     aria-label="Close add tasks popup"
@@ -104,6 +104,17 @@ export const AddHabitToRoutine = ({
                     }}
                   >
                     Cancel!
+                  </button>
+
+                  <button
+                    type="button"
+                    aria-label="Close add tasks popup"
+                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-theme-fuchsia-200 bg-theme-primary-500/60 border border-transparent rounded-md hover:bg-theme-primary-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                    onClick={() => {
+                      taskCreator();
+                    }}
+                  >
+                    Submit!
                   </button>
                 </div>
               </div>

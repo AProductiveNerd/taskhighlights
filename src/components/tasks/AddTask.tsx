@@ -131,7 +131,7 @@ export const AddTask = ({
                       </span>
                     )}
 
-                    <div className="mt-4">
+                    <div className="mt-4 flex justify-center space-x-6">
                       <button
                         type="button"
                         aria-label="Close add tasks popup"
@@ -141,6 +141,16 @@ export const AddTask = ({
                         }}
                       >
                         Cancel!
+                      </button>
+                      <button
+                        type="button"
+                        aria-label="Close add tasks popup"
+                        className="inline-flex justify-center px-4 py-2 text-sm font-medium text-theme-fuchsia-200 bg-theme-primary-500/60 border border-transparent rounded-md hover:bg-theme-primary-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                        onClick={() => {
+                          taskCreator();
+                        }}
+                      >
+                        Submit!
                       </button>
                     </div>
                   </>
@@ -152,6 +162,7 @@ export const AddTask = ({
                     >
                       {`Don't overload yourself! You already have 10 tasks`}
                     </Dialog.Title>
+
                     <div className="mt-4">
                       <button
                         type="button"
@@ -161,7 +172,7 @@ export const AddTask = ({
                           setIsOpen(false);
                         }}
                       >
-                        Done!
+                        Cancel!
                       </button>
                     </div>
                   </>

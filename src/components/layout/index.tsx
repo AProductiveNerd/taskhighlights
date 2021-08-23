@@ -23,7 +23,6 @@ export const Layout = ({ children }: ChildrenProps): JSX.Element => {
   }, [router.pathname]);
 
   useEffect(() => {
-    console.log("location", location);
     if (NO_HEADER.indexOf(location) !== -1) {
       setDisplayHeader(false);
     }
