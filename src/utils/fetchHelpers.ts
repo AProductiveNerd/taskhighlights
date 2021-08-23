@@ -31,7 +31,7 @@ export const fetch_createUser = async (
 ): Promise<User> => {
   const data = await fetch(`${API_V1}user`, {
     method: "POST",
-    body: JSON.stringify(JSON.parse(JSON.stringify(body))),
+    body: JSON.stringify(body),
     headers: { "Content-Type": "application/json" }
   });
 
@@ -288,7 +288,7 @@ export const fetch_createTemplate = async (
 ): Promise<Routine_Templates> => {
   const data = await fetch(`${API_V1}template`, {
     method: "POST",
-    body: JSON.stringify(JSON.parse(JSON.stringify(body))),
+    body: JSON.stringify(body),
     headers: { "Content-Type": "application/json" }
   });
 
@@ -333,11 +333,13 @@ export const fetch_createManyHabit = async ({
 }): Promise<Prisma.BatchPayload> => {
   const data = await fetch(`${API_V1}habit`, {
     method: "POST",
-    body: JSON.stringify(
-      JSON.parse(
-        JSON.stringify({ template_id, routine_id, user_id, task: "createMany" })
-      )
-    ),
+    body: JSON.stringify({
+      template_id,
+      routine_id,
+      user_id,
+      task: "createMany"
+    }),
+
     headers: { "Content-Type": "application/json" }
   });
 
