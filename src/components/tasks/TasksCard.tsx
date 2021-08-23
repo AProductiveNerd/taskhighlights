@@ -29,6 +29,7 @@ export const TasksCard = (): JSX.Element => {
 
       const page = await fetch_createRetDailyPage(currentUser?.user_id, today);
 
+      setHighlight(null);
       if (JSON.stringify(currentPage) !== JSON.stringify(page)) {
         setCurrentPage(page);
 
