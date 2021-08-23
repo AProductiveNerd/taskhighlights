@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { IncompleteCard } from "../components/tasks/IncompleteCard";
+import { IncompleteCard } from "../components/incomplete/IncompleteCard";
 import { Layout } from "./../components/layout/index";
 
 export default function Incomplete(): JSX.Element {

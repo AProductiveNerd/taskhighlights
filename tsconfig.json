@@ -36,6 +36,8 @@
   ],
   "exclude": [
     "node_modules",
-    "public"
+    "public",
+    "next.config.js",
+    "postcss.config.js"
   ]
 }

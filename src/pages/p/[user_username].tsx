@@ -9,7 +9,7 @@ import Avatar from "react-nice-avatar";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { Layout } from "../../components/layout/index";
-import { StoryCard } from "../../components/tasks/StoryCard";
+import { StoryCard } from "../../components/stories/StoryCard";
 
 export default function UserProfile({
   user: profileUser
