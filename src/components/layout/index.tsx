@@ -10,7 +10,7 @@ import { fetch_getUserByUserid } from "../../utils/fetchHelpers";
 import { useRouter } from "next/router";
 
 export const Layout = ({ children }: ChildrenProps): JSX.Element => {
-  const { fireId } = useContext(FireUserContext);
+  const fireId = useContext(FireUserContext);
   const [currentUser, setCurrentUser] = useState<User>(null);
   const [location, setLocation] = useState("");
   const [displayHeader, setDisplayHeader] = useState(true);

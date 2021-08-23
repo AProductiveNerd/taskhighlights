@@ -2,19 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  font-family: "Inter", sans-serif;
+/* @import url(""); */
+
+:root {
+  font-family: "Inter var", sans-serif;
 }
 
-@supports (font-variation-settings: normal) {
-  html {
-    font-family: "Inter var", sans-serif;
-  }
-}
-
-* {
+/* * {
   letter-spacing: 0.3px;
-}
+} */
 
 ::-webkit-scrollbar {
   width: 5px;

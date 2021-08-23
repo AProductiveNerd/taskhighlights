@@ -8,7 +8,7 @@ import { auth } from "../libs/Firebase";
 import { useRouter } from "next/router";
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
-  const [fireId, setFireId] = useState({});
+  const [fireId, setFireId] = useState(null);
 
   const router = useRouter();
 
@@ -28,7 +28,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   }, [router, fireId]);
 
   return (
-    <FireUserContext.Provider value={{ fireId }}>
+    <FireUserContext.Provider value={fireId}>
       <Component {...pageProps} />
     </FireUserContext.Provider>
   );
