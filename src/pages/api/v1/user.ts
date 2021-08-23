@@ -27,13 +27,13 @@ export default async function handler(
       if (user_id) {
         const requested_user: User = await prisma_getUserByUserid(user_id);
 
-        res.status(200).json(requested_user);
+        res.status(200).json(JSON.stringify(requested_user));
       } else if (user_username) {
         const requested_user: User_Story_Todo = await prisma_getUserByUsername(
           user_username
         );
         if (requested_user !== null) {
-          res.status(200).json(requested_user);
+          res.status(200).json(JSON.stringify(requested_user));
         } else {
           res.status(501).json(null);
         }
@@ -49,7 +49,7 @@ export default async function handler(
         res.status(201).json(JSON.stringify(createdUser));
       } catch (e) {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
-          res.status(409).json(e.message);
+          res.status(409).json(JSON.stringify(e.message));
         }
       }
       break;
@@ -57,13 +57,13 @@ export default async function handler(
       if (user_id) {
         const deletedUser: User = await prisma_deleteUserbyuserid(user_id);
 
-        res.status(200).json(deletedUser);
+        res.status(200).json(JSON.stringify(deletedUser));
       } else if (user_username) {
         const deletedUser: User = await prisma_deleteUserbyusername(
           user_username
         );
 
-        res.status(200).json(deletedUser);
+        res.status(200).json(JSON.stringify(deletedUser));
       }
       break;
   }

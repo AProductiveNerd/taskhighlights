@@ -32,14 +32,14 @@ export default async function handler(
       if (story_id) {
         const story: Story_and_Todos = await prisma_getStoryByStoryId(story_id);
 
-        res.status(200).json(story);
+        res.status(200).json(JSON.stringify(story));
       } else if (story_title) {
         const story: Story_and_Todos = await prisma_getStoryByStoryTitle(
           story_title,
           story_user_id
         );
 
-        res.status(200).json(story);
+        res.status(200).json(JSON.stringify(story));
       } else {
         if (typeof story_user_id === "string") {
           const story: Story = await prisma_createUpdateStory({
@@ -48,7 +48,7 @@ export default async function handler(
             page_id
           });
 
-          res.status(200).json(story);
+          res.status(200).json(JSON.stringify(story));
         }
       }
 
@@ -60,16 +60,16 @@ export default async function handler(
 
         if (body.task === "add") {
           const story: Story_and_Todos = await prisma_addTodoToStory(body);
-          res.status(201).json(story);
+          res.status(201).json(JSON.stringify(story));
         } else if (body.task === "remove") {
           const story: Story_and_Todos = await prisma_removeTodoFromStory(body);
-          res.status(201).json(story);
+          res.status(201).json(JSON.stringify(story));
         } else {
-          res.status(501).json({ Error: "bad req" });
+          res.status(501).json(JSON.stringify({ Error: "bad req" }));
         }
       } catch (e) {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
-          res.status(409).json(e.message);
+          res.status(409).json(JSON.stringify(e.message));
         }
       }
 
@@ -79,7 +79,7 @@ export default async function handler(
       if (story_id) {
         const deletedPage: Story = await prisma_deleteStoryByStoryid(story_id);
 
-        res.status(200).json(deletedPage);
+        res.status(200).json(JSON.stringify(deletedPage));
       }
 
       break;

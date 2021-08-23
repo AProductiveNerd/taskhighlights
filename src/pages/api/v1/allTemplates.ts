@@ -19,10 +19,10 @@ export default async function handler(
           template_user_id
         );
 
-        res.status(201).json(JSON.parse(JSON.stringify(templates)));
+        res.status(201).json(JSON.stringify(templates));
       } catch (e) {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
-          res.status(409).json(e.message);
+          res.status(409).json(JSON.stringify(e.message));
         }
       }
       break;

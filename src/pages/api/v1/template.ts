@@ -20,10 +20,10 @@ export default async function handler(
 
         const template: Routine_Templates = await prisma_createTemplate(body);
 
-        res.status(201).json(JSON.parse(JSON.stringify(template)));
+        res.status(201).json(JSON.stringify(template));
       } catch (e) {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
-          res.status(409).json(e.message);
+          res.status(409).json(JSON.stringify(e.message));
         }
       }
       break;
@@ -36,7 +36,7 @@ export default async function handler(
         template_id
       });
 
-      res.status(201).json(template);
+      res.status(201).json(JSON.stringify(template));
       break;
     }
   }

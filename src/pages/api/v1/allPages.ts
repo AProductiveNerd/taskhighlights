@@ -22,7 +22,7 @@ export default async function handler(
     case "GET": {
       const pages: Page[] = await prisma_getAllPagesByUserid(user_id);
 
-      res.status(200).json(pages);
+      res.status(200).json(JSON.stringify(pages));
 
       break;
     }
@@ -31,9 +31,11 @@ export default async function handler(
       const deletedPages: Prisma.BatchPayload =
         await prisma_deleteAllPagesByUserid(user_id);
 
-      res.status(200).json({
-        Success: `Deleted ${deletedPages.count} pages`
-      });
+      res.status(200).json(
+        JSON.stringify({
+          Success: `Deleted ${deletedPages.count} pages`
+        })
+      );
 
       break;
     }

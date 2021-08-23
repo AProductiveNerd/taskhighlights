@@ -41,7 +41,7 @@ export default async function handler(
     case "GET": {
       const habit: Useful_Habit = await prisma_getHabitbyHabitid(habit_id);
 
-      res.status(200).json(habit);
+      res.status(200).json(JSON.stringify(habit));
 
       break;
     }
@@ -50,15 +50,15 @@ export default async function handler(
       if (body.task === "toggleState") {
         const habit: Useful_Habit = await prisma_toggleHabitDone(body);
 
-        res.status(201).json(habit);
+        res.status(201).json(JSON.stringify(habit));
       } else if (body.task === "create") {
         const habit: Useful_Habit = await prisma_createHabit(body);
 
-        res.status(201).json(habit);
+        res.status(201).json(JSON.stringify(habit));
       } else if (body.task === "createMany") {
         const habit: Prisma.BatchPayload = await prisma_createManyHabit(body);
 
-        res.status(201).json(habit);
+        res.status(201).json(JSON.stringify(habit));
       }
 
       break;
@@ -66,7 +66,7 @@ export default async function handler(
     case "DELETE": {
       const deletedHabit: Useful_Habit = await prisma_deleteHabit(habit_id);
 
-      res.status(200).json(deletedHabit);
+      res.status(200).json(JSON.stringify(deletedHabit));
 
       break;
     }

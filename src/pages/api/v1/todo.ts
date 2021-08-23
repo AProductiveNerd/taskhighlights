@@ -46,7 +46,7 @@ export default async function handler(
     case "GET": {
       const todo: Useful_Todo = await prisma_getTodobyTodoId(todo_id);
 
-      res.status(200).json(todo);
+      res.status(200).json(JSON.stringify(todo));
 
       break;
     }
@@ -55,23 +55,23 @@ export default async function handler(
       if (body.task === "toggleState") {
         const todo: Useful_Todo = await prisma_toggleTodoDone(body);
 
-        res.status(201).json(todo);
+        res.status(201).json(JSON.stringify(todo));
       } else if (body.task === "updateDescription") {
         const todo: Useful_Todo = await prisma_updateTodoDescription(body);
 
-        res.status(201).json(todo);
+        res.status(201).json(JSON.stringify(todo));
       } else if (body.task === "toggleArchive") {
         const todo: Useful_Todo = await prisma_toggleArchived(body);
 
-        res.status(201).json(todo);
+        res.status(201).json(JSON.stringify(todo));
       } else if (body.task === "makeHighlight") {
         const todo: Useful_Todo = await prisma_makeHighlight(body.todo_id);
 
-        res.status(201).json(todo);
+        res.status(201).json(JSON.stringify(todo));
       } else if (body.task === "create") {
         const todo: Useful_Todo = await prisma_createTodo(body);
 
-        res.status(201).json(todo);
+        res.status(201).json(JSON.stringify(todo));
       }
 
       break;
@@ -82,14 +82,14 @@ export default async function handler(
         new_page_id
       });
 
-      res.status(201).json(todos);
+      res.status(201).json(JSON.stringify(todos));
       break;
     }
 
     case "DELETE": {
       const deletedTodo: Useful_Todo = await prisma_deleteTodo(todo_id);
 
-      res.status(200).json(deletedTodo);
+      res.status(200).json(JSON.stringify(deletedTodo));
 
       break;
     }

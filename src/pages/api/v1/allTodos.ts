@@ -22,7 +22,7 @@ export default async function handler(
         user_id
       );
 
-      res.status(200).json(todos);
+      res.status(200).json(JSON.stringify(todos));
     }
   }
 }

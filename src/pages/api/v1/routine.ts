@@ -47,20 +47,20 @@ export default async function handler(
       if (routine_id) {
         const routine: Routine = await prisma_getRoutineByRoutineid(routine_id);
 
-        res.status(200).json(routine);
+        res.status(200).json(JSON.stringify(routine));
       } else if (routine_title) {
         const routine: Routine = await prisma_getRoutineByRoutineTitle(
           routine_title,
           routine_user_id
         );
 
-        res.status(200).json(routine);
+        res.status(200).json(JSON.stringify(routine));
       } else {
         if (typeof routine_user_id === "string") {
           const routine: Routine_and_Habits =
             await prisma_createRetDailyRoutine(routine_user_id, today);
 
-          res.status(200).json(routine);
+          res.status(200).json(JSON.stringify(routine));
         }
       }
 
@@ -72,10 +72,10 @@ export default async function handler(
 
         const createdRoutine: Routine = await prisma_createRoutine(body);
 
-        res.status(201).json(createdRoutine);
+        res.status(201).json(JSON.stringify(createdRoutine));
       } catch (e) {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
-          res.status(409).json(e.message);
+          res.status(409).json(JSON.stringify(e.message));
         }
       }
 
@@ -87,7 +87,7 @@ export default async function handler(
           routine_id
         );
 
-        res.status(200).json(deletedRoutine);
+        res.status(200).json(JSON.stringify(deletedRoutine));
       }
 
       break;

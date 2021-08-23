@@ -43,14 +43,14 @@ export default async function handler(
       if (page_id) {
         const page: Page = await prisma_getPageByPageid(page_id);
 
-        res.status(200).json(page);
+        res.status(200).json(JSON.stringify(page));
       } else if (page_title) {
         const page: Page = await prisma_getPageByPageTitle(
           page_title,
           page_user_id
         );
 
-        res.status(200).json(page);
+        res.status(200).json(JSON.stringify(page));
       } else {
         if (typeof page_user_id === "string") {
           const page: Page_Story_Todos = await prisma_createRetDailyPage(
@@ -58,7 +58,7 @@ export default async function handler(
             today
           );
 
-          res.status(200).json(page);
+          res.status(200).json(JSON.stringify(page));
         }
       }
 
@@ -70,10 +70,10 @@ export default async function handler(
 
         const createdPage: Page = await prisma_createPage(body);
 
-        res.status(201).json(createdPage);
+        res.status(201).json(JSON.stringify(createdPage));
       } catch (e) {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
-          res.status(409).json(e.message);
+          res.status(409).json(JSON.stringify(e.message));
         }
       }
 
@@ -83,7 +83,7 @@ export default async function handler(
       if (page_id) {
         const deletedPage: Page = await prisma_deletePageByPageid(page_id);
 
-        res.status(200).json(deletedPage);
+        res.status(200).json(JSON.stringify(deletedPage));
       }
 
       break;
