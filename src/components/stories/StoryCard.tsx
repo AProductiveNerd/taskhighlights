@@ -2,6 +2,7 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { Useful_Todo, todo_id } from "../../constants/Types";
 
 import { StoryTask } from "./StoryTask";
+import { useState } from "react";
 
 export const StoryCard = ({
   todos,
@@ -10,23 +11,30 @@ export const StoryCard = ({
   todos: Useful_Todo[];
   loggedInSame: boolean;
 }): JSX.Element => {
-  const highlights = todos.filter((todo) => todo.todo_highlight === true);
+  const [highlights, setHighlights] = useState(null);
+  const [normalTodos, setNormalTodos] = useState(null);
 
-  const normalTodos = todos.filter((todo) => todo.todo_highlight === false);
+  setHighlights(todos.filter((todo) => todo.todo_highlight === true));
+  setNormalTodos(todos.filter((todo) => todo.todo_highlight === false));
 
   const stateReload = (todo_id: todo_id): void => {
-    
-    for (let i = 0; i < normalTodos.length; i++) {
-      if (normalTodos[i].todo_id === todo_id) {
-        normalTodos.splice(i, 1);
+    const newNormal = [...normalTodos];
+    const newHighlight = [...highlights];
+
+    for (let i = 0; i < newNormal.length; i++) {
+      if (newNormal[i].todo_id === todo_id) {
+        newNormal.splice(i, 1);
       }
     }
 
-    for (let i = 0; i < highlights.length; i++) {
-      if (highlights[i].todo_id === todo_id) {
-        highlights.splice(i, 1);
+    setNormalTodos(newNormal);
+
+    for (let i = 0; i < newHighlight.length; i++) {
+      if (newHighlight[i].todo_id === todo_id) {
+        newHighlight.splice(i, 1);
       }
     }
+    setHighlights(newHighlight);
   };
 
   return (
