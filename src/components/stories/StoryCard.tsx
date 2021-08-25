@@ -15,11 +15,13 @@ export const StoryCard = ({
   const normalTodos = todos.filter((todo) => todo.todo_highlight === false);
 
   const stateReload = (todo_id: todo_id): void => {
+    
     for (let i = 0; i < normalTodos.length; i++) {
       if (normalTodos[i].todo_id === todo_id) {
         normalTodos.splice(i, 1);
       }
     }
+
     for (let i = 0; i < highlights.length; i++) {
       if (highlights[i].todo_id === todo_id) {
         highlights.splice(i, 1);

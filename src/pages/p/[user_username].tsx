@@ -1,27 +1,23 @@
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import {
-  Useful_Todo,
-  User_Story_Todo,
-  user_username
-} from "../../constants/Types";
+import { Useful_Todo, User_Story_Todo } from "../../constants/Types";
 import { useContext, useEffect, useState } from "react";
 
 import Avatar from "react-nice-avatar";
+import FireUserContext from "../../contexts/FireUserContext";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { Layout } from "../../components/layout/index";
 import { StoryCard } from "../../components/stories/StoryCard";
-import UserContext from "../../contexts/UserContext";
+import { prisma_getUserByUsername } from "../../utils/prismaHelpers";
 
 export default function UserProfile({
   user: profileUser
 }: {
   user: User_Story_Todo;
 }): JSX.Element {
-  const loggedInUser = useContext(UserContext);
   const story_and_todos = profileUser.User_Story;
+  const fireId = useContext(FireUserContext);
   const [loggedInSame, setLoggedInSame] = useState(false);
-
   const main: Useful_Todo[] = [];
 
   story_and_todos.map((story_with_todo) => {
@@ -29,10 +25,10 @@ export default function UserProfile({
   });
 
   useEffect(() => {
-    if (profileUser.user_id === loggedInUser.user_id) {
+    if (fireId === profileUser.user_id) {
       setLoggedInSame(true);
     }
-  }, [loggedInUser.user_id, profileUser.user_id]);
+  }, [fireId, profileUser.user_id]);
 
   return (
     <Layout>
@@ -99,28 +95,16 @@ export default function UserProfile({
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const reqUsername = context.query.user_username?.toString();
+
   if (reqUsername !== undefined) {
-    const getUserByUsername = async (
-      user_username: user_username
-    ): Promise<globalThis.Response> => {
-      const data = await fetch(
-        `${
-          process.env.VERCEL_URL
-            ? `https://${process.env.VERCEL_URL}`
-            : "http://localhost:3000"
-        }/api/v1/user?user_username=${user_username}`
-      );
-
-      return data;
-    };
-
-    const fetchedUser: globalThis.Response = await getUserByUsername(
+    const fetchedUser: User_Story_Todo = await prisma_getUserByUsername(
       reqUsername
     );
 
-    if (fetchedUser.status !== 501) {
-      const user: User_Story_Todo = await fetchedUser.json();
-      return { props: { user } };
+    if (fetchedUser) {
+      return {
+        props: { user: JSON.parse(JSON.stringify(fetchedUser)) }
+      };
     } else {
       return {
         redirect: {

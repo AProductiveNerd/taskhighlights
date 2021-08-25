@@ -80,7 +80,7 @@ export const onClick_removeFromStory = async ({
   todo_id
 }: removeFromStory): Promise<void> => {
   await fetch_removeTodoFromStory({ story_id, todo_id });
-  stateReload();
+  stateReload(todo_id);
 };
 
 export const onClick_toggleHabitDone = async ({

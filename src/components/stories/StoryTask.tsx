@@ -25,7 +25,11 @@ export const StoryTask = ({
     >
       <input type="checkbox" id={todo_id} checked={todo_done} readOnly={true} />
 
-      <p className={`${todo_done && "line-through"} w-full cursor-text`}>
+      <div
+        className={`${
+          todo_done && "line-through"
+        } w-full cursor-text flex justify-between items-center`}
+      >
         {highlight ? (
           <label
             className="cursor-text highlight text-theme-primary-500 leading-7 text-xl"
@@ -57,7 +61,7 @@ export const StoryTask = ({
             />
           </button>
         )}
-      </p>
+      </div>
     </div>
   );
 };
