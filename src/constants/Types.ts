@@ -183,7 +183,7 @@ export const Useful_Habit_Include_Object = {
 /**
  * stateReload function type
  */
-export type stateReload = VoidFunction;
+export type stateReload = VoidFunction | ((todo_id?: todo_id) => void);
 
 /**
  * onClickHelpers types

@@ -1,11 +1,22 @@
-import { Useful_Todo, todo_highlight } from "../../constants/Types";
+import {
+  Useful_Todo,
+  stateReload,
+  todo_highlight
+} from "../../constants/Types";
+
+import { EyeIcon } from "@heroicons/react/solid";
+import { onClick_removeFromStory } from "../../utils/onClickHelpers";
 
 export const StoryTask = ({
-  todo: { todo_description, todo_done, todo_id },
-  highlight
+  todo: { todo_description, todo_done, todo_id, todo_story_id },
+  highlight,
+  loggedInSame,
+  stateReload
 }: {
   todo: Useful_Todo;
   highlight?: todo_highlight;
+  loggedInSame: boolean;
+  stateReload: stateReload;
 }): JSX.Element => {
   return (
     <div
@@ -26,6 +37,25 @@ export const StoryTask = ({
           <label className="cursor-text" htmlFor={todo_id}>
             <p>{todo_description}</p>
           </label>
+        )}
+
+        {loggedInSame && (
+          <button
+            title="Remove from story"
+            aria-label="Remove from story"
+            className="flex items-center"
+          >
+            <EyeIcon
+              className="w-6 h-6"
+              onClick={() =>
+                onClick_removeFromStory({
+                  story_id: todo_story_id,
+                  todo_id,
+                  stateReload
+                })
+              }
+            />
+          </button>
         )}
       </p>
     </div>

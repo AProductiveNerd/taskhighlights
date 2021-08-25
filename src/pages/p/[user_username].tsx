@@ -4,25 +4,35 @@ import {
   User_Story_Todo,
   user_username
 } from "../../constants/Types";
+import { useContext, useEffect, useState } from "react";
 
 import Avatar from "react-nice-avatar";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { Layout } from "../../components/layout/index";
 import { StoryCard } from "../../components/stories/StoryCard";
+import UserContext from "../../contexts/UserContext";
 
 export default function UserProfile({
   user: profileUser
 }: {
   user: User_Story_Todo;
 }): JSX.Element {
+  const loggedInUser = useContext(UserContext);
   const story_and_todos = profileUser.User_Story;
+  const [loggedInSame, setLoggedInSame] = useState(false);
 
   const main: Useful_Todo[] = [];
 
   story_and_todos.map((story_with_todo) => {
     story_with_todo.Story_Todo.map((todo) => main.push(todo));
   });
+
+  useEffect(() => {
+    if (profileUser.user_id === loggedInUser.user_id) {
+      setLoggedInSame(true);
+    }
+  }, [loggedInUser.user_id, profileUser.user_id]);
 
   return (
     <Layout>
@@ -82,7 +92,7 @@ export default function UserProfile({
 
       <hr className="border-dashed" />
 
-      <StoryCard todos={main} />
+      <StoryCard todos={main} loggedInSame={loggedInSame} />
     </Layout>
   );
 }
