@@ -47,7 +47,7 @@ export const Layout = ({ children }: ChildrenProps): JSX.Element => {
       <div className="bg-theme-blueGray-900 min-h-screen flex flex-col text-theme-blueGray-400 selection:bg-theme-blueGray-800 selection:text-theme-blueGray-400">
         {displayHeader && (
           <header className="flex justify-center">
-            <Header />
+            <Header currentUser={currentUser} />
           </header>
         )}
 

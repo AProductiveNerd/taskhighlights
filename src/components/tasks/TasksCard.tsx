@@ -1,12 +1,12 @@
 import { FastForwardIcon, RewindIcon } from "@heroicons/react/solid";
-import { Page_Story_Todos, Useful_Todo } from "../../constants/Types";
+import { Page_Story_Todos, Useful_Todo, user_id } from "../../constants/Types";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import { Story, User } from "@prisma/client";
 import { useContext, useEffect, useState } from "react";
 
 import { AddTask } from "./AddTask";
+import FireUserContext from "../../contexts/FireUserContext";
 import { IndividualTask } from "./IndividualTask";
-import UserContext from "./../../contexts/UserContext";
+import { Story } from "@prisma/client";
 import { fetch_createRetDailyPage } from "../../utils/fetchHelpers";
 
 // ! Limit the number of tasks a user can add to amplify the constraints lead to creativity effect
@@ -19,7 +19,7 @@ export const TasksCard = (): JSX.Element => {
   const [highlight, setHighlight] = useState<Useful_Todo>(null);
   const [story, set_story] = useState<Story>(null);
 
-  const currentUser: User = useContext(UserContext);
+  const fireId: user_id = useContext(FireUserContext);
 
   useEffect(() => {
     (async () => {
@@ -27,7 +27,7 @@ export const TasksCard = (): JSX.Element => {
         new Date().setDate(new Date().getDate() - back_date_num)
       ).toLocaleDateString("en-GB");
 
-      const page = await fetch_createRetDailyPage(currentUser?.user_id, today);
+      const page = await fetch_createRetDailyPage(fireId, today);
 
       if (JSON.stringify(currentPage) !== JSON.stringify(page)) {
         setCurrentPage(page);
@@ -55,12 +55,12 @@ export const TasksCard = (): JSX.Element => {
     })();
   }, [
     currentPage,
-    currentUser?.user_id,
     addedCounter,
     pageTodos,
     back_date_num,
     story,
-    highlight?.todo_story_id
+    highlight?.todo_story_id,
+    fireId
   ]);
 
   useEffect(() => {
@@ -84,7 +84,7 @@ export const TasksCard = (): JSX.Element => {
         </p>
 
         <AddTask
-          user={currentUser?.user_id}
+          user={fireId}
           page={currentPage?.page_id}
           count={pageTodos?.length}
           highlight={highlight}

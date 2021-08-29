@@ -4,16 +4,12 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import Avatar from "react-nice-avatar";
 import Link from "next/link";
 import { User } from "@prisma/client";
-import UserContext from "../../contexts/UserContext";
 import { auth } from "../../libs/Firebase";
 import { signOut } from "@firebase/auth";
-import { useContext } from "react";
 
 //! Stories Limit 5 including own
 
-export const Header = (): JSX.Element => {
-  const currentUser: User = useContext(UserContext);
-
+export const Header = ({ currentUser }: { currentUser: User }): JSX.Element => {
   return (
     <div className="flex flex-1 flex-row py-3 items-center justify-evenly px-4 sm:space-x-40 md:space-x-60">
       <div>

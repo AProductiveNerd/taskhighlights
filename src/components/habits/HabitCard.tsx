@@ -1,10 +1,10 @@
 import { FastForwardIcon, RewindIcon } from "@heroicons/react/solid";
-import { Routine_Templates, User } from "@prisma/client";
 import {
   Routine_and_Habits,
   Useful_Habit,
   template_id,
-  template_title
+  template_title,
+  user_id
 } from "../../constants/Types";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import {
@@ -13,14 +13,15 @@ import {
 } from "../../utils/fetchHelpers";
 import { useContext, useEffect, useState } from "react";
 
+import FireUserContext from "../../contexts/FireUserContext";
 import { IndividualHabit } from "./IndividualHabit";
+import { Routine_Templates } from "@prisma/client";
 import { UseTemplate } from "./UseTemplate";
-import UserContext from "../../contexts/UserContext";
 
 // ! Limit the number of tasks a user can add to amplify the constraints lead to creativity effect
 
 export const HabitCard = (): JSX.Element => {
-  const currentUser: User = useContext(UserContext);
+  const fireId: user_id = useContext(FireUserContext);
   const [addedCounter, setAddedCounter] = useState<number>(0);
   const [currentRoutine, setCurrentRoutine] =
     useState<Routine_and_Habits>(null);
@@ -40,10 +41,7 @@ export const HabitCard = (): JSX.Element => {
         new Date().setDate(new Date().getDate() - back_date_num)
       ).toLocaleDateString("en-GB");
 
-      const routine = await fetch_createRetDailyRoutine(
-        currentUser?.user_id,
-        today
-      );
+      const routine = await fetch_createRetDailyRoutine(fireId, today);
 
       if (JSON.stringify(routine) !== JSON.stringify(currentRoutine)) {
         setCurrentRoutine(routine);
@@ -56,19 +54,13 @@ export const HabitCard = (): JSX.Element => {
         }
       }
     })();
-  }, [
-    back_date_num,
-    currentRoutine,
-    currentUser?.user_id,
-    routineHabits,
-    addedCounter
-  ]);
+  }, [back_date_num, currentRoutine, routineHabits, addedCounter, fireId]);
 
   // FETCHES THE TEMPLATES
   useEffect(() => {
     (async () => {
       const templates: Routine_Templates[] = await fetch_getAllUserTemplates(
-        currentUser?.user_id
+        fireId
       );
 
       if (templates) {
@@ -91,7 +83,7 @@ export const HabitCard = (): JSX.Element => {
         }
       }
     })();
-  }, [currentUser?.user_id, my_template_data]);
+  }, [fireId, my_template_data]);
 
   const stateReload = (): void => {
     setAddedCounter(addedCounter + 1);
@@ -110,7 +102,7 @@ export const HabitCard = (): JSX.Element => {
             stateReload={stateReload}
             routine_id={currentRoutine?.routine_id}
             template_data={my_template_data}
-            user_id={currentUser?.user_id}
+            user_id={fireId}
           />
         </p>
       </div>

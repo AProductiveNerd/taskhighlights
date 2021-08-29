@@ -1,10 +1,9 @@
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { useContext, useEffect, useState } from "react";
 
+import FireUserContext from "../../contexts/FireUserContext";
 import { IncompleteTask } from "./IncompleteTask";
 import { Useful_Todo } from "../../constants/Types";
-import { User } from "@prisma/client";
-import UserContext from "./../../contexts/UserContext";
 import { fetch_getAllIncompleteTodosByPage } from "../../utils/fetchHelpers";
 
 // ! Limit the number of tasks a user can add to amplify the constraints lead to creativity effect
@@ -13,18 +12,16 @@ export const IncompleteCard = (): JSX.Element => {
   const [todos, setTodos] = useState<Useful_Todo[]>(null);
   const [addedCounter, setAddedCounter] = useState<number>(0);
 
-  const currentUser: User = useContext(UserContext);
+  const fireId = useContext(FireUserContext);
 
   useEffect(() => {
     (async () => {
-      const fetchedTodos = await fetch_getAllIncompleteTodosByPage(
-        currentUser?.user_id
-      );
+      const fetchedTodos = await fetch_getAllIncompleteTodosByPage(fireId);
       if (JSON.stringify(fetchedTodos) !== JSON.stringify(todos)) {
         setTodos(fetchedTodos);
       }
     })();
-  }, [currentUser?.user_id, todos, addedCounter]);
+  }, [todos, addedCounter, fireId]);
 
   const stateReload = (): void => {
     setAddedCounter(addedCounter + 1);
