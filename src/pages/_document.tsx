@@ -13,6 +13,7 @@ class MyDocument extends Document {
             rel="preload"
             href="https://rsms.me/inter/inter.css"
             as="stylesheet"
+            type="text/css"
           />
         </Head>
         <body>

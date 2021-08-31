@@ -13,10 +13,10 @@ import { fetch_createRetDailyPage } from "../../utils/fetchHelpers";
 
 export const TasksCard = (): JSX.Element => {
   const [currentPage, setCurrentPage] = useState<Page_Story_Todos>(null);
-  const [pageTodos, setPageTodos] = useState<Useful_Todo[]>(null);
+  const [currentTodos, setCurrentTodos] = useState<Useful_Todo[]>(null);
   const [addedCounter, setAddedCounter] = useState<number>(0);
   const [back_date_num, setBack_date_num] = useState<number>(0);
-  const [highlight, setHighlight] = useState<Useful_Todo>(null);
+  const [currentHighlight, setCurrentHighlight] = useState<Useful_Todo>(null);
   const [story, set_story] = useState<Story>(null);
 
   const fireId: user_id = useContext(FireUserContext);
@@ -31,43 +31,37 @@ export const TasksCard = (): JSX.Element => {
 
       if (JSON.stringify(currentPage) !== JSON.stringify(page)) {
         setCurrentPage(page);
-
-        if (JSON.stringify(pageTodos) !== JSON.stringify(page?.Page_Todo)) {
-          const noHighlight = page?.Page_Todo.filter(
-            (todo) => todo.todo_highlight === false
-          );
-          setPageTodos(noHighlight);
-        }
-
-        setHighlight(null);
-
-        const highlightTask = page?.Page_Todo.filter(
-          (todo: Useful_Todo) => todo?.todo_highlight === true
-        );
-
-        if (highlightTask?.length === 0) {
-          setHighlight(null);
-        } else if (highlightTask) {
-          if (highlight?.todo_story_id !== highlightTask[0].todo_story_id)
-            setHighlight(highlightTask[0]);
-        }
       }
     })();
-  }, [
-    currentPage,
-    addedCounter,
-    pageTodos,
-    back_date_num,
-    story,
-    highlight?.todo_story_id,
-    fireId
-  ]);
+  }, [addedCounter, back_date_num, currentPage, fireId]);
+
+  useEffect(() => {
+    const fetchedTodos = currentPage?.Page_Todo;
+
+    if (JSON.stringify(currentTodos) !== JSON.stringify(fetchedTodos)) {
+      const noHighlight = fetchedTodos?.filter(
+        (todo) => todo.todo_highlight === false
+      );
+
+      setCurrentTodos(noHighlight);
+    }
+
+    const highlightTask = fetchedTodos?.filter(
+      (todo: Useful_Todo) => todo?.todo_highlight === true
+    );
+
+    if (highlightTask) {
+      setCurrentHighlight(highlightTask[0]);
+    } else {
+      setCurrentHighlight(null);
+    }
+  }, [currentPage?.Page_Todo, currentTodos, setCurrentHighlight]);
 
   useEffect(() => {
     if (JSON.stringify(story) !== JSON.stringify(currentPage?.Page_Story)) {
       set_story(currentPage?.Page_Story);
     }
-  }, [addedCounter, pageTodos, currentPage, story]);
+  }, [addedCounter, currentTodos, currentPage, story]);
 
   const stateReload = (): void => {
     setAddedCounter(addedCounter + 1);
@@ -86,8 +80,8 @@ export const TasksCard = (): JSX.Element => {
         <AddTask
           user={fireId}
           page={currentPage?.page_id}
-          count={pageTodos?.length}
-          highlight={highlight}
+          count={currentTodos?.length}
+          highlight={currentHighlight}
           stateReload={stateReload}
         />
       </div>
@@ -95,9 +89,9 @@ export const TasksCard = (): JSX.Element => {
       <hr className="border-dashed" />
 
       <div className="space-y-2">
-        {highlight && story && (
+        {currentHighlight && story && (
           <IndividualTask
-            todo={highlight}
+            todo={currentHighlight}
             highlight={true}
             story={story}
             stateReload={stateReload}
@@ -105,14 +99,14 @@ export const TasksCard = (): JSX.Element => {
           />
         )}
 
-        {pageTodos && story ? (
-          pageTodos?.map((todo: Useful_Todo) => (
+        {currentTodos && story ? (
+          currentTodos?.map((todo: Useful_Todo) => (
             <IndividualTask
               todo={todo}
               story={story}
               key={todo.todo_id}
               stateReload={stateReload}
-              highlightCount={highlight ? 1 : 0}
+              highlightCount={currentHighlight ? 1 : 0}
             />
           ))
         ) : (
