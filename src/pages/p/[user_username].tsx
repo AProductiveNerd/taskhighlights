@@ -57,6 +57,7 @@ export default function UserProfile({
 
         <meta property="og:description" content={profileUser?.user_bio} />
       </Head>
+
       <SkeletonTheme color="#0F172A" highlightColor="#1E293B">
         <div className="flex-1 flex justify-center mt-5 pb-4">
           <div className="flex items-center space-x-3">
@@ -67,14 +68,17 @@ export default function UserProfile({
                 <Skeleton circle={true} height={44} width={44} />
               )}
             </div>
+
             <div>
               {profileUser ? (
                 <>
                   <h1 className="text-4xl">{profileUser.user_username}</h1>
+
                   <section className="flex justify-center space-x-3">
                     <p>{profileUser.user_followers.length} Followers</p>
                     <p>{profileUser.user_following.length} Following</p>
                   </section>
+
                   <p>{profileUser.user_fullname}</p>
                   <p>{profileUser.user_bio}</p>
                 </>
@@ -85,8 +89,6 @@ export default function UserProfile({
           </div>
         </div>
       </SkeletonTheme>
-
-      <hr className="border-dashed" />
 
       <StoryCard todos={main} loggedInSame={loggedInSame} />
     </Layout>
@@ -102,7 +104,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     ).toLocaleDateString("en-GB");
 
     const fetchedUser: User_Story_Todo = await prisma_getUserByUsername(
-      reqUsername,today
+      reqUsername,
+      today
     );
 
     if (fetchedUser) {

@@ -347,6 +347,25 @@ export const prisma_toggleTodoDone = async ({
     }
   });
 
+  if (todo.todo_highlight && todo.todo_done) {
+    const if_todo: TYPES.Useful_Todo = await prisma.todo.update({
+      where: {
+        todo_id
+      },
+      data: {
+        Todo_User: {
+          update: {
+            user_streak: {
+              increment: 1
+            }
+          }
+        }
+      }
+    });
+
+    return if_todo;
+  }
+
   return todo;
 };
 
