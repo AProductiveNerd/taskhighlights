@@ -97,8 +97,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const reqUsername = context.query.user_username?.toString();
 
   if (reqUsername !== undefined) {
+    const today: string = new Date(
+      new Date().setDate(new Date().getDate())
+    ).toLocaleDateString("en-GB");
+
     const fetchedUser: User_Story_Todo = await prisma_getUserByUsername(
-      reqUsername
+      reqUsername,today
     );
 
     if (fetchedUser) {

@@ -14,7 +14,8 @@ import {
 const prisma = new PrismaClient();
 
 export const prisma_getUserByUsername = async (
-  user_username: TYPES.user_username
+  user_username: TYPES.user_username,
+  today: string
 ): Promise<TYPES.User_Story_Todo> => {
   const user: TYPES.User_Story_Todo = await prisma.user.findUnique({
     where: {
@@ -22,6 +23,9 @@ export const prisma_getUserByUsername = async (
     },
     include: {
       User_Story: {
+        where: {
+          story_title: today
+        },
         include: {
           Story_Todo: {
             select: TYPES.Useful_Todo_Include_Object
