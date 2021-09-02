@@ -21,7 +21,7 @@
     "cors": "^2.8.5",
     "cuid": "^2.1.8",
     "firebase": "^9.0.0-beta.8",
-    "next": "^11.1.0",
+    "next": "^11.1.2",
     "next-plugin-preact": "^3.0.6",
     "node-fetch": "^2.6.1",
     "preact": "^10.5.14",
