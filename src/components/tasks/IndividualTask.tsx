@@ -64,7 +64,7 @@ export const IndividualTask = ({
     <div
       className="flex items-center space-x-2 text-left text-lg break-words leading-6 group"
       tabIndex={0}
-      onKeyDown={(event) => {
+      onKeyDownCapture={(event) => {
         if (event.key === "Delete") {
           onClick_handleDelete({ stateReload, todo_id });
         } else if (event.key === "Enter") {

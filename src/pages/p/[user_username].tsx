@@ -7,6 +7,7 @@ import FireUserContext from "../../contexts/FireUserContext";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { Layout } from "../../components/layout/index";
+import { SEO_component } from "../../components/seo";
 import { StoryCard } from "../../components/stories/StoryCard";
 import { prisma_getUserByUsername } from "../../utils/prismaHelpers";
 
@@ -33,29 +34,27 @@ export default function UserProfile({
   return (
     <Layout>
       <Head>
-        <title>
-          {`${profileUser?.user_fullname} (${profileUser?.user_username})`}
-        </title>
-
-        <meta property="description" content={profileUser?.user_bio} />
-
-        <meta name="twitter:card" content={profileUser?.user_bio} />
-        <meta name="twitter:site" content={"https://taskhighlights.com"} />
-        <meta name="twitter:title" content={profileUser?.user_username} />
-        <meta name="twitter:description" content={profileUser?.user_bio} />
-        <meta name="twitter:creator" content="@author_handle" />
-
-        <meta
-          property="og:title"
-          content={`${profileUser?.user_fullname} (${profileUser?.user_username})`}
+        <SEO_component
+          title={profileUser.user_username}
+          description={profileUser.user_bio}
+          openGraph={{
+            profile: {
+              firstName: profileUser.user_fullname
+                .split(" ")
+                .slice(0, -1)
+                .join(" "),
+              lastName: profileUser.user_fullname
+                .split(" ")
+                .slice(-1)
+                .join(" "),
+              username: profileUser.user_username
+            }
+          }}
+          twitter={{
+            cardType: "app",
+            handle: profileUser.user_twitter_handle
+          }}
         />
-        <meta property="og:type" content="profile" />
-        <meta
-          property="og:url"
-          content={`https://taskhighlights.com/p/${profileUser?.user_username}`}
-        />
-
-        <meta property="og:description" content={profileUser?.user_bio} />
       </Head>
 
       <SkeletonTheme color="#0F172A" highlightColor="#1E293B">

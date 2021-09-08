@@ -23,6 +23,7 @@ model User {
   user_streak              Int                 @default(0)
   user_highlight_questions String[]
   user_api_token           String              @default(cuid())
+  user_twitter_handle      String?
   User_Habits              Habit[]
   User_Page                Page[]
   User_Routine             Routine[]

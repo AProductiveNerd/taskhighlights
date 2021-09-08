@@ -4,6 +4,7 @@ import Head from "next/head";
 import { Layout } from "../components/layout";
 import Link from "next/link";
 import { LockClosedIcon } from "@heroicons/react/solid";
+import { SEO_component } from "../components/seo";
 import { auth } from "../libs/Firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/router";
@@ -33,10 +34,13 @@ export default function SignIn(): JSX.Element {
     <Layout>
       <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <Head>
-          <title>Sign In | Task Highlights</title>
-          <meta name="description" content="Sign in to Task Highlights" />
-          <meta property="og:title" content="Sign in | Task Highlights" />
-          <link rel="icon" href="./favicon.ico" />
+          <SEO_component
+            title="Sign In"
+            description="Sign in to Task Highlights"
+            twitter={{
+              cardType: "app"
+            }}
+          />
         </Head>
 
         <div className="max-w-md w-full space-y-8">
