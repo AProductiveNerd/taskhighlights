@@ -267,8 +267,9 @@ export interface SEO_interface {
     cardType: "summary" | "summary_large" | "app";
     handle?: string;
   };
-  openGraph?: {
-    profile: {
+  openGraph: {
+    title: string;
+    profile?: {
       firstName: string;
       lastName: string;
       username: string;

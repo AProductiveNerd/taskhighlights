@@ -6,7 +6,7 @@ import type { AppProps } from "next/app";
 import { DefaultSeo } from "next-seo";
 import FireUserContext from "../contexts/FireUserContext";
 import { auth } from "../libs/Firebase";
-import { seo_default } from "../../next-seo.config";
+import { default_seo } from "../../next-seo.config";
 import { useRouter } from "next/router";
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
@@ -31,7 +31,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
 
   return (
     <FireUserContext.Provider value={fireId}>
-      <DefaultSeo {...seo_default} />
+      <DefaultSeo {...default_seo(router.pathname.toString())} />
       <Component {...pageProps} />
     </FireUserContext.Provider>
   );

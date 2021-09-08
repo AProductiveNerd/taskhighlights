@@ -5,7 +5,6 @@ import { useContext, useEffect, useState } from "react";
 import Avatar from "react-nice-avatar";
 import FireUserContext from "../../contexts/FireUserContext";
 import { GetServerSideProps } from "next";
-import Head from "next/head";
 import { Layout } from "../../components/layout/index";
 import { SEO_component } from "../../components/seo";
 import { StoryCard } from "../../components/stories/StoryCard";
@@ -33,29 +32,25 @@ export default function UserProfile({
 
   return (
     <Layout>
-      <Head>
-        <SEO_component
-          title={profileUser.user_username}
-          description={profileUser.user_bio}
-          openGraph={{
-            profile: {
-              firstName: profileUser.user_fullname
-                .split(" ")
-                .slice(0, -1)
-                .join(" "),
-              lastName: profileUser.user_fullname
-                .split(" ")
-                .slice(-1)
-                .join(" "),
-              username: profileUser.user_username
-            }
-          }}
-          twitter={{
-            cardType: "app",
-            handle: profileUser.user_twitter_handle
-          }}
-        />
-      </Head>
+      <SEO_component
+        title={profileUser.user_username}
+        description={profileUser.user_bio}
+        openGraph={{
+          title: profileUser.user_username,
+          profile: {
+            firstName: profileUser.user_fullname
+              .split(" ")
+              .slice(0, -1)
+              .join(" "),
+            lastName: profileUser.user_fullname.split(" ").slice(-1).join(" "),
+            username: profileUser.user_username
+          }
+        }}
+        twitter={{
+          cardType: "app",
+          handle: profileUser.user_twitter_handle
+        }}
+      />
 
       <SkeletonTheme color="#0F172A" highlightColor="#1E293B">
         <div className="flex-1 flex justify-center mt-5 pb-4">

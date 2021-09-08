@@ -1,6 +1,5 @@
 import { FormEvent, useState } from "react";
 
-import Head from "next/head";
 import { Layout } from "../components/layout";
 import Link from "next/link";
 import { LockClosedIcon } from "@heroicons/react/solid";
@@ -33,15 +32,16 @@ export default function SignIn(): JSX.Element {
   return (
     <Layout>
       <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <Head>
-          <SEO_component
-            title="Sign In"
-            description="Sign in to Task Highlights"
-            twitter={{
-              cardType: "app"
-            }}
-          />
-        </Head>
+        <SEO_component
+          title="Sign In"
+          description="Sign in to Task Highlights"
+          twitter={{
+            cardType: "app"
+          }}
+          openGraph={{
+            title: "Sign In"
+          }}
+        />
 
         <div className="max-w-md w-full space-y-8">
           <div className="text-center">
