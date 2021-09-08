@@ -256,3 +256,23 @@ export interface Template_Query {
   habit_description?: habit_description;
   template_id?: template_id;
 }
+
+/**
+ * SEO interface
+ */
+export interface SEO_interface {
+  title: string;
+  description: string;
+  twitter: {
+    cardType: "summary" | "summary_large" | "app";
+    handle?: string;
+  };
+  openGraph: {
+    profile?: {
+      firstName: string;
+      lastName: string;
+      username: string;
+    };
+  };
+  nosnippet?: boolean;
+}
