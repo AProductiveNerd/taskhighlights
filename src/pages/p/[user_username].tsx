@@ -35,6 +35,7 @@ export default function UserProfile({
     <Layout>
       <Head>
         <SEO_component
+          title={profileUser.user_username}
           description={profileUser.user_bio}
           openGraph={{
             profile: {
@@ -49,7 +50,6 @@ export default function UserProfile({
               username: profileUser.user_username
             }
           }}
-          title={profileUser.user_username}
           twitter={{
             cardType: "app",
             handle: profileUser.user_twitter_handle

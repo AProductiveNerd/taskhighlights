@@ -5,6 +5,7 @@ import Head from "next/head";
 import { Layout } from "../components/layout";
 import Link from "next/link";
 import { LockClosedIcon } from "@heroicons/react/solid";
+import { SEO_component } from "../components/seo";
 import { auth } from "../libs/Firebase";
 import { createUserWithEmailAndPassword } from "@firebase/auth";
 import { fetch_createUser } from "../utils/fetchHelpers";
@@ -63,10 +64,13 @@ export default function SignUp(): JSX.Element {
     <Layout>
       <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <Head>
-          <title>Sign up | Task Highlights</title>
-          <meta name="description" content="Sign up for Task Highlights" />
-          <meta property="og:title" content="Sign up | Task Highlights" />
-          <link rel="icon" href="./favicon.ico" />
+          <SEO_component
+            title="Sign Up"
+            description="Create an account"
+            twitter={{
+              cardType: "app"
+            }}
+          />
         </Head>
 
         <div className="max-w-md w-full space-y-8">

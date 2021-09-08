@@ -1,23 +1,19 @@
 import Head from "next/head";
 import { IncompleteCard } from "../components/incomplete/IncompleteCard";
 import { Layout } from "./../components/layout/index";
+import { SEO_component } from "../components/seo";
 
 export default function Incomplete(): JSX.Element {
   return (
     <Layout>
       <Head>
-        <title>Incomplete Tasks | Task Highlights</title>
-
-        <meta
-          name="description"
-          content="TaskHighlights is a minimalistic Todo app that uses accountability to supercharge your productivity"
+        <SEO_component
+          title="Incomplete Tasks"
+          description="Your incomplete tasks"
+          twitter={{
+            cardType: "app"
+          }}
         />
-        <meta
-          property="og:title"
-          content="Incomplete Tasks | Task Highlights"
-        />
-
-        <link rel="icon" href="./favicon.ico" />
       </Head>
 
       <div className="text-4xl flex-1 items-center text-center mt-5">
