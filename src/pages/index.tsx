@@ -1,8 +1,7 @@
 import { Layout } from "../components/layout";
-import Link from "next/link";
 import { SEO_component } from "../components/seo";
 
-export default function Home(): JSX.Element {
+const Home = (): JSX.Element => {
   return (
     <Layout>
       <SEO_component
@@ -16,20 +15,17 @@ export default function Home(): JSX.Element {
         }}
       />
 
-      <div className="space-y-7 text-center">
-        <h1 className="text-8xl w-full h-full flex items-center justify-center">
-          Hi! <span className="font-mono">👋🏼</span>
-        </h1>
+      <div className=" space-y-10 mx-auto px-7 sm:max-w-3xl tracking-tight">
+        <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold">
+          Task Highlights
+        </h2>
 
-        <p className="text-3xl leading-normal">
-          🚧This page is under contruction🚧 <br />
-          <Link href="/app">
-            <a className="underline hover:text-theme-primary-500">
-              Please go to the main app
-            </a>
-          </Link>{" "}
-        </p>
+        <h1 className="text-theme-primary-500 text-4xl sm:text-6xl lg:text-7xl font-extrabold leading-normal">
+          Supercharge your productivity fgds
+        </h1>
       </div>
     </Layout>
   );
-}
+};
+
+export default Home;

@@ -2,11 +2,11 @@ import { useContext, useEffect, useState } from "react";
 
 import { CreateTemplate } from "./CreateTemplate";
 import FireUserContext from "../../contexts/FireUserContext";
-import { IndividualRoutine } from "./IndividualRoutine";
+import { IndividualTemplateItem } from "./IndividualTemplateItem";
 import { Routine_Templates } from "@prisma/client";
 import { fetch_getAllUserTemplates } from "../../utils/fetchHelpers";
 
-export const RoutineCard = (): JSX.Element => {
+export const TemplateCard = (): JSX.Element => {
   const fireId = useContext(FireUserContext);
   const [routines, setRoutines] = useState<Routine_Templates[]>(null);
   const [addedCounter, setAddedCounter] = useState<number>(0);
@@ -39,7 +39,7 @@ export const RoutineCard = (): JSX.Element => {
 
       <div className="space-y-2 flex flex-col">
         {routines?.map((routine) => (
-          <IndividualRoutine
+          <IndividualTemplateItem
             routine={routine}
             key={routine.template_id}
             stateReload={stateReload}

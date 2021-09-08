@@ -1,9 +1,9 @@
-import { AddHabitToRoutine } from "./AddHabitToRoutine";
+import { AddItemToTemplate } from "./AddItemToTemplate";
 import { ChevronUpIcon } from "@heroicons/react/outline";
 import { Disclosure } from "@headlessui/react";
 import { Routine_Templates } from "@prisma/client";
 
-export const IndividualRoutine = ({
+export const IndividualTemplateItem = ({
   routine,
   stateReload
 }: {
@@ -18,7 +18,7 @@ export const IndividualRoutine = ({
             <div className="flex justify-between w-full items-center text-lg text-theme-blueGray-300">
               {routine.template_title}
 
-              <AddHabitToRoutine
+              <AddItemToTemplate
                 stateReload={stateReload}
                 template_id={routine.template_id}
               />
