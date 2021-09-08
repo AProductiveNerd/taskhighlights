@@ -37,13 +37,15 @@ export const Layout = ({ children }: ChildrenProps): JSX.Element => {
   return (
     <UserContext.Provider value={currentUser}>
       <div className="bg-theme-blueGray-900 text-theme-blueGray-400 min-h-screen flex flex-col">
-        {displayHeader ? (
+        {displayHeader && (
           <header className="flex justify-center border-b-2 border-theme-primary-500">
             <Header currentUser={currentUser} />
           </header>
-        ) : (
-          <main className="flex items-center flex-1">{children}</main>
         )}
+
+        <main className={`flex ${!displayHeader && "items-center"} flex-1`}>
+          {children}
+        </main>
       </div>
     </UserContext.Provider>
   );
