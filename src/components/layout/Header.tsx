@@ -58,20 +58,20 @@ export const Header = ({ currentUser }: { currentUser: User }): JSX.Element => {
               <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-black filter backdrop-blur-3xl bg-opacity-40 divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <div className="px-1 py-1 ">
                   {/* Daily Page */}
-                  <Menu.Item>
-                    {({ active }) => (
-                      <button
-                        className={`${
-                          active
-                            ? "bg-theme-primary-500 text-theme-blueGray-300"
-                            : "text-theme-blueGray-500"
-                        } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
-                      >
-                        <Link href="/app">
-                          <a
-                            title="Daily Page"
-                            aria-label="Daily Page"
-                            className="flex items-center"
+                  <Link href="/app">
+                    <a
+                      title="Daily Page"
+                      aria-label="Daily Page"
+                      className="flex items-center"
+                    >
+                      <Menu.Item>
+                        {({ active }) => (
+                          <button
+                            className={`${
+                              active
+                                ? "bg-theme-primary-500 text-theme-blueGray-300"
+                                : "text-theme-blueGray-500"
+                            } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                           >
                             <CalendarIcon
                               className={`w-6 h-6 ${
@@ -79,27 +79,27 @@ export const Header = ({ currentUser }: { currentUser: User }): JSX.Element => {
                               } mr-2`}
                             />
                             Daily Page
-                          </a>
-                        </Link>
-                      </button>
-                    )}
-                  </Menu.Item>
+                          </button>
+                        )}
+                      </Menu.Item>
+                    </a>
+                  </Link>
 
                   {/* Habits */}
-                  <Menu.Item>
-                    {({ active }) => (
-                      <button
-                        className={`${
-                          active
-                            ? "bg-theme-primary-500 text-theme-blueGray-300"
-                            : "text-theme-blueGray-500"
-                        } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
-                      >
-                        <Link href="/habits">
-                          <a
-                            title="Habits"
-                            aria-label="Habits"
-                            className="flex items-center"
+                  <Link href="/habits">
+                    <a
+                      title="Habits"
+                      aria-label="Habits"
+                      className="flex items-center"
+                    >
+                      <Menu.Item>
+                        {({ active }) => (
+                          <button
+                            className={`${
+                              active
+                                ? "bg-theme-primary-500 text-theme-blueGray-300"
+                                : "text-theme-blueGray-500"
+                            } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                           >
                             <RefreshIcon
                               className={`w-6 h-6 ${
@@ -107,28 +107,29 @@ export const Header = ({ currentUser }: { currentUser: User }): JSX.Element => {
                               } mr-2`}
                             />
                             Habits
-                          </a>
-                        </Link>
-                      </button>
-                    )}
-                  </Menu.Item>
+                          </button>
+                        )}
+                      </Menu.Item>
+                    </a>
+                  </Link>
                 </div>
+
                 <div className="px-1 py-1">
                   {/* Templates */}
-                  <Menu.Item>
-                    {({ active }) => (
-                      <button
-                        className={`${
-                          active
-                            ? "bg-theme-primary-500 text-theme-blueGray-300"
-                            : "text-theme-blueGray-500"
-                        } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
-                      >
-                        <Link href="/templates" passHref>
-                          <a
-                            title="Templates"
-                            aria-label="Templates"
-                            className="flex items-center"
+                  <Link href="/templates" passHref>
+                    <a
+                      title="Templates"
+                      aria-label="Templates"
+                      className="flex items-center"
+                    >
+                      <Menu.Item>
+                        {({ active }) => (
+                          <button
+                            className={`${
+                              active
+                                ? "bg-theme-primary-500 text-theme-blueGray-300"
+                                : "text-theme-blueGray-500"
+                            } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                           >
                             <TemplateIcon
                               className={`w-6 h-6 ${
@@ -136,27 +137,27 @@ export const Header = ({ currentUser }: { currentUser: User }): JSX.Element => {
                               } mr-2`}
                             />
                             Templates
-                          </a>
-                        </Link>
-                      </button>
-                    )}
-                  </Menu.Item>
+                          </button>
+                        )}
+                      </Menu.Item>
+                    </a>
+                  </Link>
 
                   {/* Incompletes */}
-                  <Menu.Item>
-                    {({ active }) => (
-                      <button
-                        className={`${
-                          active
-                            ? "bg-theme-primary-500 text-theme-blueGray-300"
-                            : "text-theme-blueGray-500"
-                        } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
-                      >
-                        <Link href="/incomplete">
-                          <a
-                            title="Incomplete"
-                            aria-label="Incomplete"
-                            className="flex items-center"
+                  <Link href="/incomplete">
+                    <a
+                      title="Incomplete"
+                      aria-label="Incomplete"
+                      className="flex items-center"
+                    >
+                      <Menu.Item>
+                        {({ active }) => (
+                          <button
+                            className={`${
+                              active
+                                ? "bg-theme-primary-500 text-theme-blueGray-300"
+                                : "text-theme-blueGray-500"
+                            } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                           >
                             <EmptyCircleIcon
                               className={`w-6 h-6 ${
@@ -164,11 +165,11 @@ export const Header = ({ currentUser }: { currentUser: User }): JSX.Element => {
                               } mr-2`}
                             />
                             Incomplete
-                          </a>
-                        </Link>
-                      </button>
-                    )}
-                  </Menu.Item>
+                          </button>
+                        )}
+                      </Menu.Item>
+                    </a>
+                  </Link>
                 </div>
 
                 {/* Sign Out */}
@@ -176,24 +177,20 @@ export const Header = ({ currentUser }: { currentUser: User }): JSX.Element => {
                   <Menu.Item>
                     {({ active }) => (
                       <button
+                        aria-label="Sign out"
                         className={`${
                           active
                             ? "bg-theme-primary-500 text-theme-blueGray-300"
                             : "text-theme-blueGray-500"
                         } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                        title="Sign out"
+                        onClick={() => signOut(auth)}
                       >
-                        <button
-                          aria-label="Sign out"
-                          className="flex items-center"
-                          title="Sign out"
-                          onClick={() => signOut(auth)}
-                        >
-                          <LogoutIcon
-                            className={`w-6 h-6 ${
-                              !active && "text-theme-primary-500"
-                            } mr-2`}
-                          />
-                        </button>
+                        <LogoutIcon
+                          className={`w-6 h-6 ${
+                            !active && "text-theme-primary-500"
+                          } mr-2`}
+                        />
                         Sign Out
                       </button>
                     )}
