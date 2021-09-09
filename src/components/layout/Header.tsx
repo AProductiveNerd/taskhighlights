@@ -22,7 +22,7 @@ export const Header = ({ currentUser }: { currentUser: User }): JSX.Element => {
       <div className="w-11/12 sm:max-w-md md:max-w-lg flex items-center justify-between flex-1 mx-auto">
         {currentUser?.user_avatar ? (
           <Link href={`/p/${currentUser.user_username}`}>
-            <a>
+            <a title="Your profile" aria-label="Your profile">
               <Avatar className="w-12 h-12" {...currentUser.user_avatar} />
             </a>
           </Link>
@@ -38,7 +38,12 @@ export const Header = ({ currentUser }: { currentUser: User }): JSX.Element => {
             className="relative inline-block text-left text-theme-blueGray-300 z-50"
           >
             <div>
-              <Menu.Button className="inline-flex justify-center w-full px-3.5 py-3.5 text-sm font-medium rounded-md bg-black bg-opacity-[0.20] filter backdrop-blur-3xl hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+              <Menu.Button
+                as="button"
+                title="Menu"
+                aria-label="Menu"
+                className="inline-flex justify-center w-full px-3.5 py-3.5 text-sm font-medium rounded-md bg-black bg-opacity-[0.20] filter backdrop-blur-3xl hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+              >
                 <DotsVerticalIcon
                   className="w-5 h-5 text-violet-200 hover:text-violet-100"
                   aria-hidden="true"
