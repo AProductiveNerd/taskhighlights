@@ -42,10 +42,18 @@ export const Header = ({ currentUser }: { currentUser: User }): JSX.Element => {
                 as="button"
                 title="Menu"
                 aria-label="Menu"
-                className="inline-flex justify-center w-full px-3.5 py-3.5 text-sm font-medium rounded-md bg-black bg-opacity-[0.20] filter backdrop-blur-3xl hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+                className="
+                  inline-flex justify-center
+                  w-full px-3.5 py-3.5
+                  text-sm font-medium
+                  rounded-md
+                  bg-black bg-opacity-20 filter backdrop-blur-3xl
+                  hover:bg-opacity-30 focus:outline-none focus-visible:ring-2
+                  focus-visible:ring-white focus-visible:ring-opacity-75
+                "
               >
                 <DotsVerticalIcon
-                  className="w-5 h-5 text-violet-200 hover:text-violet-100"
+                  className="w-5 h-5 text-theme-primary-50"
                   aria-hidden="true"
                 />
               </Menu.Button>

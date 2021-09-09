@@ -155,7 +155,7 @@ export const IndividualTask = ({
           <div>
             <Menu.Button className="inline-flex justify-center px-2 py-1.5 w-full bg-black rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
               <DotsVerticalIcon
-                className="w-5 h-5 text-white"
+                className="w-5 h-5 text-theme-primary-50"
                 aria-hidden="true"
               />
             </Menu.Button>
