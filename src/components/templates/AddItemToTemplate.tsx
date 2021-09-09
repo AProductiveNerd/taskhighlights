@@ -5,7 +5,7 @@ import { habit_description, template_id } from "../../constants/Types";
 import { PlusCircleIcon } from "@heroicons/react/outline";
 import { fetch_addHabitToTemplate } from "../../utils/fetchHelpers";
 
-export const AddHabitToRoutine = ({
+export const AddItemToTemplate = ({
   stateReload,
   template_id
 }: {

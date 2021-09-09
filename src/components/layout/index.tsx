@@ -12,25 +12,17 @@ import { useRouter } from "next/router";
 export const Layout = ({ children }: ChildrenProps): JSX.Element => {
   const fireId = useContext(FireUserContext);
   const [currentUser, setCurrentUser] = useState<User>(null);
-  const [location, setLocation] = useState("");
   const [displayHeader, setDisplayHeader] = useState(true);
-  const [index, setIndex] = useState(false);
 
   const router = useRouter();
 
   useEffect(() => {
-    setLocation(router.pathname.toString());
-  }, [router.pathname]);
+    const location = router.pathname.toString();
 
-  useEffect(() => {
     if (NO_HEADER.indexOf(location) !== -1) {
       setDisplayHeader(false);
     }
-
-    if (location === "/") {
-      setIndex(true);
-    }
-  }, [location]);
+  }, [router.pathname]);
 
   useEffect(() => {
     (async () => {
@@ -44,20 +36,14 @@ export const Layout = ({ children }: ChildrenProps): JSX.Element => {
 
   return (
     <UserContext.Provider value={currentUser}>
-      <div className="bg-theme-blueGray-900 min-h-screen flex flex-col text-theme-blueGray-400 selection:bg-theme-blueGray-800 selection:text-theme-blueGray-400">
+      <div className="bg-theme-blueGray-900 text-theme-blueGray-400 min-h-screen flex flex-col">
         {displayHeader && (
-          <header className="flex justify-center">
+          <header className="flex justify-center border-b-2 border-theme-primary-500">
             <Header currentUser={currentUser} />
           </header>
         )}
 
-        <main
-          className={`flex-1 ${
-            displayHeader && "border-t-2"
-          } border-theme-primary-500 ${
-            !displayHeader && "flex justify-center items-center"
-          } ${index && "items-center flex justify-center"}`}
-        >
+        <main className={`flex ${!displayHeader && "items-center"} flex-1`}>
           {children}
         </main>
       </div>

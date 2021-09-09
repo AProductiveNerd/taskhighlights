@@ -31,7 +31,7 @@ export default function SignIn(): JSX.Element {
 
   return (
     <Layout>
-      <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="flex flex-1 items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <SEO_component
           title="Sign In"
           description="Sign in to Task Highlights"
