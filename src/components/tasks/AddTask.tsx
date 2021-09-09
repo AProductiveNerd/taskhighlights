@@ -49,9 +49,17 @@ export const AddTask = ({
           type="button"
           aria-label="Add a task!"
           onClick={() => setIsOpen(true)}
-          className="px-4 py-2 text-sm font-medium text-theme-primary-50 bg-black rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+          className="
+            inline-flex justify-center
+            w-full px-3.5 py-3.5
+            text-sm font-medium
+            rounded-md
+            bg-black bg-opacity-30 filter backdrop-blur-3xl
+            hover:bg-opacity-40 focus:outline-none focus-visible:ring-2
+            focus-visible:ring-white focus-visible:ring-opacity-75
+          "
         >
-          <PlusCircleIcon className="w-6 h-6" />
+          <PlusCircleIcon className="w-5 h-5 text-theme-primary-50" />
         </button>
       </div>
 

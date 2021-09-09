@@ -97,7 +97,7 @@ export const TasksCard = (): JSX.Element => {
 
       <hr className="border-dashed" />
 
-      <div className="spacj-y-2">
+      <div className="space-y-1">
         {currentHighlight && story && (
           <IndividualTask
             todo={currentHighlight}
