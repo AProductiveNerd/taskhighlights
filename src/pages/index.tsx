@@ -7,7 +7,7 @@ const Home = (): JSX.Element => {
     <Layout>
       <SEO_component
         title="Task Highlights"
-        description="A minimalist to-do app that uses accountability to supercharge your productivity"
+        description="A to-do app that uses accountability to supercharge your productivity"
         openGraph={{
           title: "Task Highlights"
         }}
