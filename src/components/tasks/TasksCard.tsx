@@ -68,7 +68,16 @@ export const TasksCard = (): JSX.Element => {
   };
 
   return (
-    <div className="noScrollbar relative space-y-5 max-h-[80vh] w-11/12 sm:max-w-md md:max-w-lg py-5 px-[1.6rem] bg-theme-blueGray-800 shadow-lg rounded-lg mx-auto selection:bg-theme-primary-500/60 overflow-y-scroll overflow-x-hidden">
+    <div
+      className="
+        noScrollbar relative space-y-5 max-h-[80vh] w-11/12
+        sm:max-w-md md:max-w-lg py-5 px-[1.6rem]
+        bg-theme-blueGray-800 shadow-lg rounded-lg mx-auto
+        selection:bg-theme-primary-500/60
+        overflow-y-scroll overflow-x-hidden
+        filter backdrop-blur-3xl bg-opacity-40
+      "
+    >
       <div className="flex justify-between items-center">
         <p className="text-4xl">
           {currentPage?.page_title ||
@@ -88,7 +97,7 @@ export const TasksCard = (): JSX.Element => {
 
       <hr className="border-dashed" />
 
-      <div className="space-y-2">
+      <div className="space-y-1">
         {currentHighlight && story && (
           <IndividualTask
             todo={currentHighlight}
