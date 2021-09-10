@@ -11,7 +11,7 @@
       "esnext"
     ],
     "sourceMap": true,
-    "rootDir": "src",
+    "rootDir": ".",
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
@@ -31,8 +31,8 @@
   },
   "include": [
     "next-env.d.ts",
-    "./src/**/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
+    "./src/**/**/**/*.{ts,tsx}",
+    "./components/**/**/*.{ts,tsx}",
   ],
   "exclude": [
     "node_modules",

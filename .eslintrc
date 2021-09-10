@@ -6,12 +6,8 @@
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended"
   ],
-  "ignorePatterns": [
-    "*.config.js"
-  ],
+  "ignorePatterns": ["*.config.js"],
   "root": true,
   "parser": "@typescript-eslint/parser",
-  "plugins": [
-    "@typescript-eslint"
-  ]
+  "plugins": ["@typescript-eslint"]
 }
