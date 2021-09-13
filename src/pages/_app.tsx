@@ -18,11 +18,11 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
     auth.onAuthStateChanged((user) => {
       if (
         !user &&
-        router.pathname.toString() !== "/sign-in" &&
+        router.pathname.toString() !== "/log-in" &&
         router.pathname.toString() !== "/sign-up" &&
         router.pathname.toString() !== "/"
       ) {
-        router.push("/sign-in");
+        router.push("/");
       } else {
         setFireId(user?.uid);
       }

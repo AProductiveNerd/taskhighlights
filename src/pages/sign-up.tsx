@@ -219,8 +219,8 @@ export default function SignUp(): JSX.Element {
               {`Already have an account? `}
 
               <span className="font-medium hover:border-b-2 border-theme-primary-500 w-max relative cursor-pointer">
-                <Link href="/sign-in">
-                  <a>Sign In</a>
+                <Link href="/log-in">
+                  <a>Log In</a>
                 </Link>
               </span>
             </div>

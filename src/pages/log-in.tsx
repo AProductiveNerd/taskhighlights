@@ -9,7 +9,7 @@ import { auth } from "../libs/Firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/router";
 
-export default function SignIn(): JSX.Element {
+export default function LogIn(): JSX.Element {
   const fireId = useContext(FireUserContext);
   const router = useRouter();
 
@@ -41,13 +41,13 @@ export default function SignIn(): JSX.Element {
     <Layout>
       <div className="flex flex-1 items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <SEO_component
-          title="Sign In"
-          description="Sign in to Task Highlights"
+          title="Log In"
+          description="Log In to Task Highlights"
           twitter={{
             cardType: "app"
           }}
           openGraph={{
-            title: "Sign In"
+            title: "Log In"
           }}
         />
 
@@ -58,7 +58,7 @@ export default function SignIn(): JSX.Element {
             </h1>
 
             <h2 className="mt-6 text-center text-xl sm:text-3xl font-semibold text-theme-blueGray-400">
-              Sign in to your account
+              Log In to your account
             </h2>
           </div>
 
@@ -113,7 +113,7 @@ export default function SignIn(): JSX.Element {
               <div>
                 <button
                   type="submit"
-                  aria-label="Sign in"
+                  aria-label="Log In"
                   className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-base font-medium rounded-md text-white bg-theme-primary-500 hover:bg-theme-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-theme-primary-500"
                 >
                   <span className="absolute left-0 inset-y-0 flex items-center pl-3">
@@ -124,7 +124,7 @@ export default function SignIn(): JSX.Element {
                       aria-hidden="true"
                     />
                   </span>
-                  Sign in
+                  Log In
                 </button>
               </div>
             )}

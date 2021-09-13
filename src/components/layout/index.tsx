@@ -3,7 +3,6 @@ import { useContext, useEffect, useState } from "react";
 import { ChildrenProps } from "../../constants/Types";
 import FireUserContext from "../../contexts/FireUserContext";
 import { Header } from "./Header";
-import { INDEX_HEADER } from "../../constants/Routes";
 import { User } from "@prisma/client";
 import UserContext from "./../../contexts/UserContext";
 import { fetch_getUserByUserid } from "../../utils/fetchHelpers";
@@ -37,13 +36,7 @@ export const Layout = ({ children }: ChildrenProps): JSX.Element => {
           <Header currentUser={currentUser} path={path} />
         </header>
 
-        <main
-          className={`flex ${
-            INDEX_HEADER.includes(path) && "items-center"
-          } flex-1`}
-        >
-          {children}
-        </main>
+        <main className="flex flex-1">{children}</main>
       </div>
     </UserContext.Provider>
   );
