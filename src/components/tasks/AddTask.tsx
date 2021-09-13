@@ -30,16 +30,18 @@ export const AddTask = ({
     useState<todo_highlight>(false);
 
   const taskCreator = async () => {
-    await fetch_createTodo({
-      page_id: page,
-      todo_description: task,
-      user_id: user,
-      todo_highlight: should_highlight,
-      task: "create"
-    });
-    setTask("");
-    setShouldHighlight(false);
-    stateReload();
+    if (task !== "") {
+      await fetch_createTodo({
+        page_id: page,
+        todo_description: task,
+        user_id: user,
+        todo_highlight: should_highlight,
+        task: "create"
+      });
+      setTask("");
+      setShouldHighlight(false);
+      stateReload();
+    }
   };
 
   return (
@@ -152,7 +154,7 @@ export const AddTask = ({
                       <button
                         type="button"
                         aria-label="Close add tasks popup"
-                        className="inline-flex justify-center px-4 py-2 text-sm font-medium bg-theme-primary-500/60 border border-transparent rounded-md hover:bg-theme-primary-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                        className="inline-flex justify-center px-4 py-2 text-sm font-medium bg-theme-primary-500/60 border border-transparent rounded-md hover:bg-theme-primary-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 text-theme-blueGray-50"
                         onClick={() => {
                           setIsOpen(false);
                         }}
