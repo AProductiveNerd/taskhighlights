@@ -64,7 +64,11 @@ export const TasksCard = (): JSX.Element => {
   }, [addedCounter, currentTodos, currentPage, story]);
 
   const stateReload = (): void => {
-    setAddedCounter(addedCounter + 1);
+    if (addedCounter < 50) {
+      setAddedCounter(addedCounter + 1);
+    } else {
+      setAddedCounter(0);
+    }
   };
 
   return (

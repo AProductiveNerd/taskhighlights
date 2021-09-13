@@ -86,7 +86,11 @@ export const HabitCard = (): JSX.Element => {
   }, [fireId, my_template_data]);
 
   const stateReload = (): void => {
-    setAddedCounter(addedCounter + 1);
+    if (addedCounter < 50) {
+      setAddedCounter(addedCounter + 1);
+    } else {
+      setAddedCounter(0);
+    }
   };
 
   return (
