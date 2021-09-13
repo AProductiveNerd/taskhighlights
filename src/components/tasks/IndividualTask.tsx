@@ -5,7 +5,7 @@ import {
   EyeOffIcon,
   TrashIcon
 } from "@heroicons/react/solid";
-import { Fragment, useState } from "react";
+import { Dispatch, Fragment, SetStateAction, useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import {
   Useful_Todo,
@@ -33,16 +33,19 @@ export const IndividualTask = ({
     todo_description,
     todo_done: db_done,
     todo_id,
+    todo_highlight,
     todo_archived: db_archive,
     todo_story_id
   },
   story: { story_id: storyid },
   stateReload,
   highlight,
+  set_party_display,
   highlightCount
 }: {
   todo: Useful_Todo;
   story: Story;
+  set_party_display?: Dispatch<SetStateAction<boolean>>;
   stateReload: VoidFunction;
   highlightCount: number;
   highlight?: todo_highlight;
@@ -84,6 +87,9 @@ export const IndividualTask = ({
         defaultChecked={todo_state}
         onChange={() => {
           set_todo_state(!db_done);
+          if (todo_highlight && !todo_state) {
+            set_party_display(true);
+          }
           onClick_toggleTodoDone({
             todo_done: todo_state,
             todo_id

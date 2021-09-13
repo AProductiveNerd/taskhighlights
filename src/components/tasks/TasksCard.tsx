@@ -18,6 +18,7 @@ export const TasksCard = (): JSX.Element => {
   const [back_date_num, setBack_date_num] = useState<number>(0);
   const [currentHighlight, setCurrentHighlight] = useState<Useful_Todo>(null);
   const [story, set_story] = useState<Story>(null);
+  const [party_display, set_party_display] = useState(false);
 
   const fireId: user_id = useContext(FireUserContext);
 
@@ -71,6 +72,12 @@ export const TasksCard = (): JSX.Element => {
     }
   };
 
+  useEffect(() => {
+    setTimeout(() => {
+      set_party_display(false);
+    }, 5000);
+  }, [party_display]);
+
   return (
     <div
       className="
@@ -103,13 +110,18 @@ export const TasksCard = (): JSX.Element => {
 
       <div className="space-y-1">
         {currentHighlight && story && (
-          <IndividualTask
-            todo={currentHighlight}
-            highlight={true}
-            story={story}
-            stateReload={stateReload}
-            highlightCount={1}
-          />
+          <>
+            <IndividualTask
+              todo={currentHighlight}
+              highlight={true}
+              story={story}
+              set_party_display={set_party_display}
+              stateReload={stateReload}
+              highlightCount={1}
+            />
+
+            {party_display && <p>Wohoo you completed your highlight!🎉</p>}
+          </>
         )}
 
         {currentTodos && story ? (
