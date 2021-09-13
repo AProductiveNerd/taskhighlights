@@ -103,7 +103,7 @@ export const AddItemToTemplate = ({
                       setIsOpen(false);
                     }}
                   >
-                    Cancel!
+                    Cancel
                   </button>
 
                   <button
@@ -114,7 +114,7 @@ export const AddItemToTemplate = ({
                       taskCreator();
                     }}
                   >
-                    Submit!
+                    Submit
                   </button>
                 </div>
               </div>

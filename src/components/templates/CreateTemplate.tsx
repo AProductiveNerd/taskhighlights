@@ -104,7 +104,7 @@ export const CreateTemplate = ({
                       setIsOpen(false);
                     }}
                   >
-                    Cancel!
+                    Cancel
                   </button>
 
                   <button
@@ -115,7 +115,7 @@ export const CreateTemplate = ({
                       templateCreator();
                     }}
                   >
-                    Submit!
+                    Submit
                   </button>
                 </div>
               </div>

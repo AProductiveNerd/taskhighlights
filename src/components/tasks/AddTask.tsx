@@ -148,7 +148,7 @@ export const AddTask = ({
                           setIsOpen(false);
                         }}
                       >
-                        Cancel!
+                        Cancel
                       </button>
                       <button
                         type="button"
@@ -158,7 +158,7 @@ export const AddTask = ({
                           taskCreator();
                         }}
                       >
-                        Submit!
+                        Submit
                       </button>
                     </div>
                   </>
@@ -180,7 +180,7 @@ export const AddTask = ({
                           setIsOpen(false);
                         }}
                       >
-                        Cancel!
+                        Cancel
                       </button>
                     </div>
                   </>
