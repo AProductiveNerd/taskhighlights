@@ -1,5 +1,6 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useContext, useEffect, useState } from "react";
 
+import FireUserContext from "../contexts/FireUserContext";
 import { Layout } from "../components/layout";
 import Link from "next/link";
 import { LockClosedIcon } from "@heroicons/react/solid";
@@ -9,6 +10,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/router";
 
 export default function SignIn(): JSX.Element {
+  const fireId = useContext(FireUserContext);
   const router = useRouter();
 
   const [emailAddress, setEmailAddress] = useState("");
@@ -28,6 +30,12 @@ export default function SignIn(): JSX.Element {
       setError(error.message);
     }
   };
+
+  useEffect(() => {
+    if (fireId) {
+      router.push("/app");
+    }
+  }, [fireId, router]);
 
   return (
     <Layout>
@@ -125,12 +133,9 @@ export default function SignIn(): JSX.Element {
           <div className="text-base text-center text-theme-blueGray-400">
             {`Don't have an account? `}
 
-            <span className="font-medium hover:text-theme-primary-500 w-max relative cursor-pointer group">
+            <span className="font-medium hover:border-b-2 border-theme-primary-500 w-max relative cursor-pointer">
               <Link href="/sign-up">
-                <a>
-                  Sign Up
-                  <div className="-right-1 bottom-0 absolute w-16 h-2 bg-theme-primary-500/40 group-hover:bg-transparent"></div>
-                </a>
+                <a>Sign Up</a>
               </Link>
             </span>
           </div>

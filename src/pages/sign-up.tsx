@@ -1,6 +1,7 @@
 import Avatar, { AvatarFullConfig, genConfig } from "react-nice-avatar";
-import { FormEvent, useState } from "react";
+import { FormEvent, useContext, useEffect, useState } from "react";
 
+import FireUserContext from "../contexts/FireUserContext";
 import { Layout } from "../components/layout";
 import Link from "next/link";
 import { LockClosedIcon } from "@heroicons/react/solid";
@@ -12,6 +13,7 @@ import { useRouter } from "next/router";
 
 export default function SignUp(): JSX.Element {
   const router = useRouter();
+  const fireId = useContext(FireUserContext);
 
   const config = genConfig();
 
@@ -58,6 +60,12 @@ export default function SignUp(): JSX.Element {
       setUsername("");
     }
   };
+
+  useEffect(() => {
+    if (fireId) {
+      router.push("/app");
+    }
+  }, [fireId, router]);
 
   return (
     <Layout>
@@ -210,12 +218,9 @@ export default function SignUp(): JSX.Element {
             <div className="text-base text-center text-theme-blueGray-400">
               {`Already have an account? `}
 
-              <span className="font-medium hover:text-theme-primary-500 w-max relative cursor-pointer group">
+              <span className="font-medium hover:border-b-2 border-theme-primary-500 w-max relative cursor-pointer">
                 <Link href="/sign-in">
-                  <a>
-                    Sign In
-                    <div className="-right-1 bottom-0 absolute w-14 h-2 bg-theme-primary-500/40 group-hover:bg-transparent"></div>
-                  </a>
+                  <a>Sign In</a>
                 </Link>
               </span>
             </div>
