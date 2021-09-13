@@ -84,7 +84,6 @@ export const TasksCard = (): JSX.Element => {
         noScrollbar relative space-y-5 max-h-[80vh] w-11/12
         sm:max-w-md md:max-w-lg py-5 px-[1.6rem]
         bg-theme-blueGray-800 shadow-lg rounded-lg mx-auto
-        selection:bg-theme-primary-500/60
         overflow-y-scroll overflow-x-hidden
         filter backdrop-blur-3xl bg-opacity-40
       "

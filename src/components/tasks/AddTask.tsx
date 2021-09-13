@@ -59,7 +59,7 @@ export const AddTask = ({
             focus-visible:ring-white focus-visible:ring-opacity-75
           "
         >
-          <PlusCircleIcon className="w-5 h-5 text-theme-primary-50" />
+          <PlusCircleIcon className="w-5 h-5 text-theme-blueGray-50" />
         </button>
       </div>
 
@@ -97,18 +97,30 @@ export const AddTask = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden align-middle transition-all transform bg-theme-blueGray-800 shadow-lg border-theme-primary-500 border-2 rounded-lg space-y-5 justify-center items-center flex-col">
+              <div
+                className="
+                  inline-block w-full
+                  max-w-md p-6 my-8
+                  overflow-hidden align-middle
+                  transition-all transform
+                  bg-theme-blueGray-800 shadow-lg
+                  border-theme-primary-500
+                  border-2 rounded-lg space-y-5
+                  justify-center items-center flex-col
+                  filter backdrop-blur-3xl bg-opacity-40
+                "
+              >
                 {count <= 10 ? (
                   <>
                     <Dialog.Title
                       as="h3"
-                      className="text-2xl font-medium leading-6 text-white"
+                      className="text-2xl font-medium leading-6 text-theme-blueGray-300 selection:bg-theme-primary-500/60"
                     >
                       Add a task
                     </Dialog.Title>
                     <div className="mt-2">
                       <input
-                        className="text-xl text-gray-500 w-full p-2"
+                        className="text-xl w-full p-2 selection:bg-theme-primary-500/60"
                         onKeyDown={(event) => {
                           if (event.key === "Enter" && task !== "") {
                             taskCreator();
@@ -123,10 +135,7 @@ export const AddTask = ({
 
                     {!highlight && (
                       <span className="flex items-center justify-center space-x-2">
-                        <label
-                          htmlFor="should_highlight"
-                          className="text-theme-blueGray-400"
-                        >
+                        <label htmlFor="should_highlight">
                           {`Make it a Highlight? `}
                         </label>
 
@@ -139,21 +148,22 @@ export const AddTask = ({
                       </span>
                     )}
 
-                    <div className="mt-4 flex justify-center space-x-6">
+                    <div className="mt-4 flex justify-center space-x-6 text-theme-blueGray-300 selection:bg-theme-primary-500/60">
                       <button
                         type="button"
                         aria-label="Close add tasks popup"
-                        className="inline-flex justify-center px-4 py-2 text-sm font-medium text-theme-fuchsia-200 bg-theme-primary-500/60 border border-transparent rounded-md hover:bg-theme-primary-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                        className="inline-flex justify-center px-4 py-2 text-sm font-medium bg-theme-primary-500/60 border border-transparent rounded-md hover:bg-theme-primary-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                         onClick={() => {
                           setIsOpen(false);
                         }}
                       >
                         Cancel
                       </button>
+
                       <button
                         type="button"
                         aria-label="Close add tasks popup"
-                        className="inline-flex justify-center px-4 py-2 text-sm font-medium text-theme-fuchsia-200 bg-theme-primary-500/60 border border-transparent rounded-md hover:bg-theme-primary-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                        className="inline-flex justify-center px-4 py-2 text-sm font-medium bg-theme-primary-500/60 border border-transparent rounded-md hover:bg-theme-primary-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                         onClick={() => {
                           taskCreator();
                         }}
@@ -166,7 +176,7 @@ export const AddTask = ({
                   <>
                     <Dialog.Title
                       as="h3"
-                      className="text-2xl font-medium leading-6 text-white"
+                      className="text-2xl font-medium leading-6 text-theme-blueGray-300"
                     >
                       {`Don't overload yourself! You already have 10 tasks`}
                     </Dialog.Title>
@@ -175,7 +185,7 @@ export const AddTask = ({
                       <button
                         type="button"
                         aria-label="Close add tasks popup"
-                        className="inline-flex justify-center px-4 py-2 text-sm font-medium text-theme-fuchsia-200 bg-theme-primary-500/60 border border-transparent rounded-md hover:bg-theme-primary-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                        className="inline-flex justify-center px-4 py-2 text-sm font-medium bg-theme-primary-500/60 border border-transparent rounded-md hover:bg-theme-primary-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                         onClick={() => {
                           setIsOpen(false);
                         }}

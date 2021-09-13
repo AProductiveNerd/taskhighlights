@@ -31,7 +31,14 @@ export const Layout = ({ children }: ChildrenProps): JSX.Element => {
 
   return (
     <UserContext.Provider value={currentUser}>
-      <div className="bg-theme-blueGray-900 text-theme-blueGray-400 min-h-screen flex flex-col">
+      <div
+        className="
+          bg-theme-blueGray-900 text-theme-blueGray-300
+          min-h-screen
+          flex flex-col
+          selection:bg-theme-primary-500/60
+        "
+      >
         <header className="flex justify-center border-b-2 border-theme-primary-500">
           <Header currentUser={currentUser} path={path} />
         </header>
