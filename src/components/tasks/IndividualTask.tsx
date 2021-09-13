@@ -160,6 +160,9 @@ export const IndividualTask = ({
         <Menu as="div" className="inline-block text-left">
           <div>
             <Menu.Button
+              title="Menu"
+              aria-label="Menu"
+              as="button"
               className="
                 inline-flex justify-center
                 w-full px-2 py-2
