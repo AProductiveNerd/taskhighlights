@@ -136,7 +136,7 @@ export const AddTask = ({
                     </div>
 
                     {!highlight && (
-                      <span className="flex items-center justify-center space-x-2">
+                      <span className="flex items-center justify-center space-x-2 text-theme-blueGray-300">
                         <label htmlFor="should_highlight">
                           {`Make it a Highlight? `}
                         </label>
