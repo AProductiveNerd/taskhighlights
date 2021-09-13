@@ -6,7 +6,7 @@ import { user_id } from "./../../../constants/Types";
 
 export default async function handler(
   req: NextApiRequest,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   res: NextApiResponse<any>
 ): Promise<void> {
   const method = req.method;

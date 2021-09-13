@@ -31,7 +31,7 @@ const cors = initMiddleware(
 
 export default async function handler(
   req: NextApiRequest,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   res: NextApiResponse<any>
 ): Promise<void> {
   await cors(req, res);
