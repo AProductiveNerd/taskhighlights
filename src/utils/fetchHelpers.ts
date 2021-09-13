@@ -1,10 +1,10 @@
 import * as TYPES from "../constants/Types";
 
-import { Prisma, Routine_Templates, Todo, User } from "@prisma/client";
-import fetch, { Response } from "node-fetch";
+import { Prisma, Template, Todo, User } from "@prisma/client";
 
 import { API_V1 } from "../constants/Routes";
 import { Useful_Habit } from "./../constants/Types";
+import fetch from "node-fetch";
 
 export const fetch_getUserByUserid = async (
   user_id: TYPES.user_id
@@ -16,15 +16,6 @@ export const fetch_getUserByUserid = async (
   }
 };
 
-export const fetch_getUserByUsername = async (
-  user_username: TYPES.user_username
-): Promise<Response> => {
-  if (user_username && typeof user_username === "string") {
-    const data = await fetch(`${API_V1}user?user_username=${user_username}`);
-
-    return data;
-  }
-};
 
 export const fetch_createUser = async (
   body: TYPES.User_Request_Body
@@ -285,7 +276,7 @@ export const fetch_toggleHabitDone = async ({
 
 export const fetch_createTemplate = async (
   body: TYPES.Create_Template_Body
-): Promise<Routine_Templates> => {
+): Promise<Template> => {
   const data = await fetch(`${API_V1}template`, {
     method: "POST",
     body: JSON.stringify(body),
@@ -297,7 +288,7 @@ export const fetch_createTemplate = async (
 
 export const fetch_getAllUserTemplates = async (
   user_id: TYPES.user_id
-): Promise<Routine_Templates[]> => {
+): Promise<Template[]> => {
   if (user_id && typeof user_id === "string") {
     const data = await fetch(
       `${API_V1}allTemplates?template_user_id=${user_id}`
@@ -310,7 +301,7 @@ export const fetch_getAllUserTemplates = async (
 export const fetch_addHabitToTemplate = async ({
   habit_description,
   template_id
-}: TYPES.Template_Query): Promise<Routine_Templates> => {
+}: TYPES.Template_Query): Promise<Template> => {
   const data = await fetch(
     `${API_V1}template?habit_description=${habit_description}&template_id=${template_id}`,
     {

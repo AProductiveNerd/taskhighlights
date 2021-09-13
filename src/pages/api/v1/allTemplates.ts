@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { Prisma, Routine_Templates } from "@prisma/client";
+import { Prisma, Template } from "@prisma/client";
 
 import { prisma_getAllUserTemplates } from "../../../utils/prismaHelpers";
 import { user_id } from "./../../../constants/Types";
@@ -15,7 +15,7 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
-        const templates: Routine_Templates[] = await prisma_getAllUserTemplates(
+        const templates: Template[] = await prisma_getAllUserTemplates(
           template_user_id
         );
 

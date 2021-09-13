@@ -1,14 +1,14 @@
 import { AddItemToTemplate } from "./AddItemToTemplate";
 import { ChevronUpIcon } from "@heroicons/react/outline";
 import { Disclosure } from "@headlessui/react";
-import { Routine_Templates } from "@prisma/client";
+import { Template } from "@prisma/client";
 
 export const IndividualTemplateItem = ({
   routine,
   stateReload
 }: {
   stateReload: VoidFunction;
-  routine: Routine_Templates;
+  routine: Template;
 }): JSX.Element => {
   return (
     <Disclosure key={routine.template_id}>

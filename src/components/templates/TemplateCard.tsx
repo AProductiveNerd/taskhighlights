@@ -3,19 +3,17 @@ import { useContext, useEffect, useState } from "react";
 import { CreateTemplate } from "./CreateTemplate";
 import FireUserContext from "../../contexts/FireUserContext";
 import { IndividualTemplateItem } from "./IndividualTemplateItem";
-import { Routine_Templates } from "@prisma/client";
+import { Template } from "@prisma/client";
 import { fetch_getAllUserTemplates } from "../../utils/fetchHelpers";
 
 export const TemplateCard = (): JSX.Element => {
   const fireId = useContext(FireUserContext);
-  const [templates, setTemplates] = useState<Routine_Templates[]>(null);
+  const [templates, setTemplates] = useState<Template[]>(null);
   const [addedCounter, setAddedCounter] = useState<number>(0);
 
   useEffect(() => {
     (async () => {
-      const templates: Routine_Templates[] = await fetch_getAllUserTemplates(
-        fireId
-      );
+      const templates: Template[] = await fetch_getAllUserTemplates(fireId);
 
       if (JSON.stringify(templates) !== JSON.stringify(templates)) {
         setTemplates(templates);

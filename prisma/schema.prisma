@@ -10,25 +10,25 @@ datasource db {
 }
 
 model User {
-  user_id                  String              @id
-  user_email               String              @unique
-  user_username            String              @unique
-  user_lastseen            DateTime            @updatedAt
-  user_datecreated         DateTime            @default(now())
+  user_id                  String     @id
+  user_email               String     @unique
+  user_username            String     @unique
+  user_lastseen            DateTime   @updatedAt
+  user_datecreated         DateTime   @default(now())
   user_fullname            String
   user_bio                 String?
   user_followers           String[]
   user_following           String[]
-  user_avatar              Json                @db.Json
-  user_streak              Int                 @default(0)
+  user_avatar              Json       @db.Json
+  user_streak              Int        @default(0)
   user_highlight_questions String[]
-  user_api_token           String              @default(cuid())
+  user_api_token           String     @default(cuid())
   user_twitter_handle      String?
   User_Habits              Habit[]
   User_Page                Page[]
   User_Routine             Routine[]
-  Routine_Templates        Routine_Templates[]
   User_Story               Story[]
+  User_Templates           Template[]
   User_Todo                Todo[]
 }
 
@@ -98,7 +98,7 @@ model Habit {
   Habit_User        User     @relation(fields: [habit_user_id], references: [user_id])
 }
 
-model Routine_Templates {
+model Template {
   template_id      String   @id @default(cuid())
   template_title   String
   template_habits  String[]

@@ -6,8 +6,8 @@ import {
   Prisma,
   PrismaClient,
   Routine,
-  Routine_Templates,
   Story,
+  Template,
   User
 } from "@prisma/client";
 
@@ -824,7 +824,7 @@ export const prisma_createManyHabit = async ({
   routine_id,
   user_id
 }: TYPES.Habit_Body): Promise<Prisma.BatchPayload> => {
-  const template = await prisma.routine_Templates.findUnique({
+  const template = await prisma.template.findUnique({
     where: {
       template_id
     }
@@ -852,8 +852,8 @@ export const prisma_createTemplate = async ({
 
   template_title,
   user_id
-}: TYPES.Create_Template_Body): Promise<Routine_Templates> => {
-  const template: Routine_Templates = await prisma.routine_Templates.create({
+}: TYPES.Create_Template_Body): Promise<Template> => {
+  const template: Template = await prisma.template.create({
     data: {
       template_title,
       template_habits,
@@ -870,15 +870,14 @@ export const prisma_createTemplate = async ({
 
 export const prisma_getAllUserTemplates = async (
   user_id: TYPES.user_id
-): Promise<Routine_Templates[]> => {
-  const templates: Routine_Templates[] =
-    await prisma.routine_Templates.findMany({
-      where: {
-        Template_User: {
-          user_id
-        }
+): Promise<Template[]> => {
+  const templates: Template[] = await prisma.template.findMany({
+    where: {
+      Template_User: {
+        user_id
       }
-    });
+    }
+  });
 
   return templates;
 };
@@ -889,8 +888,8 @@ export const prisma_addHabitToTemplate = async ({
 }: {
   template_id: TYPES.template_id;
   habit_description: TYPES.habit_description;
-}): Promise<Routine_Templates> => {
-  const template: Routine_Templates = await prisma.routine_Templates.update({
+}): Promise<Template> => {
+  const template: Template = await prisma.template.update({
     where: {
       template_id
     },

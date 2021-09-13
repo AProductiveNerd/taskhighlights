@@ -15,7 +15,7 @@ import { useContext, useEffect, useState } from "react";
 
 import FireUserContext from "../../contexts/FireUserContext";
 import { IndividualHabit } from "./IndividualHabit";
-import { Routine_Templates } from "@prisma/client";
+import { Template } from "@prisma/client";
 import { UseTemplate } from "./UseTemplate";
 
 // ! Limit the number of tasks a user can add to amplify the constraints lead to creativity effect
@@ -59,9 +59,7 @@ export const HabitCard = (): JSX.Element => {
   // FETCHES THE TEMPLATES
   useEffect(() => {
     (async () => {
-      const templates: Routine_Templates[] = await fetch_getAllUserTemplates(
-        fireId
-      );
+      const templates: Template[] = await fetch_getAllUserTemplates(fireId);
 
       if (templates) {
         templates.sort();

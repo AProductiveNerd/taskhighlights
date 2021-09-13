@@ -1,13 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Prisma, User } from "@prisma/client";
-import { User_Request_Body, User_Story_Todo } from "../../../constants/Types";
 import {
   prisma_createUser,
   prisma_deleteUserbyuserid,
   prisma_deleteUserbyusername,
-  prisma_getUserByUserid,
-  prisma_getUserByUsername
+  prisma_getUserByUserid
 } from "../../../utils/prismaHelpers";
+
+import { User_Request_Body } from "../../../constants/Types";
 
 interface Query {
   user_id?: string;
@@ -28,15 +28,6 @@ export default async function handler(
         const requested_user: User = await prisma_getUserByUserid(user_id);
 
         res.status(200).json(JSON.stringify(requested_user));
-      } else if (user_username) {
-        const requested_user: User_Story_Todo = await prisma_getUserByUsername(
-          user_username
-        );
-        if (requested_user !== null) {
-          res.status(200).json(JSON.stringify(requested_user));
-        } else {
-          res.status(501).json(null);
-        }
       }
 
       break;
