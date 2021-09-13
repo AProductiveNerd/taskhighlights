@@ -13,10 +13,12 @@ export const TemplateCard = (): JSX.Element => {
 
   useEffect(() => {
     (async () => {
-      const templates: Template[] = await fetch_getAllUserTemplates(fireId);
+      const fetched_templates: Template[] = await fetch_getAllUserTemplates(
+        fireId
+      );
 
-      if (JSON.stringify(templates) !== JSON.stringify(templates)) {
-        setTemplates(templates);
+      if (JSON.stringify(fetched_templates) !== JSON.stringify(templates)) {
+        setTemplates(fetched_templates);
       }
     })();
   }, [templates, addedCounter, fireId]);
