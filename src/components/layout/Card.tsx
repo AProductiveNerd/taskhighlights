@@ -31,7 +31,7 @@ export const Card = ({
 
       <div className="space-y-1">{spaced_elements}</div>
 
-      <div className="flex justify-between">{buttons}</div>
+      {buttons && <div className="flex justify-between">{buttons}</div>}
     </div>
   );
 };
