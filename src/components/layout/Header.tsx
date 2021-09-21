@@ -247,9 +247,7 @@ export const Header = ({
                     />
                   </span>
 
-                  <span className="group-hover:border-b-2 border-theme-primary-500">
-                    Task Highlights
-                  </span>
+                  <span>Task Highlights</span>
                 </a>
               </Link>
             </div>

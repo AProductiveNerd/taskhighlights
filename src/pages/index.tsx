@@ -18,7 +18,7 @@ const Home = (): JSX.Element => {
       />
 
       <div className="flex-1 flex flex-col mx-auto sm:max-w-3xl mt-5 px-7 text-center space-y-10">
-        <h1 className="text-theme-blueGray-300 mt-20 break-words text-4xl tracking-tight sm:text-7xl font-extrabold leading-tight">
+        <h1 className="text-theme-blueGray-300 mt-20 break-words text-5xl tracking-tight sm:text-7xl font-extrabold leading-none">
           Supercharge productivity
         </h1>
 
@@ -37,13 +37,12 @@ const Home = (): JSX.Element => {
               title="Get Started"
               aria-label="Get Started"
               className="
-
               inline-flex justify-center
               px-3.5 py-3.5
-              text-theme-primary-500
+              text-theme-blueGray-900
               rounded-md
-              bg-black bg-opacity-20 filter backdrop-blur-3xl
-              hover:bg-opacity-30 focus:outline-none focus-visible:ring-2
+              bg-theme-primary-500
+              hover:bg-opacity-90 focus:outline-none focus-visible:ring-2
               focus-visible:ring-white focus-visible:ring-opacity-75
               font-bold
               "

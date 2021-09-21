@@ -11,19 +11,21 @@ import {
 import { PlusCircleIcon } from "@heroicons/react/outline";
 import { fetch_createTodo } from "../../utils/fetchHelpers";
 
+interface AddTask_Props {
+  page: page_title;
+  user: user_id;
+  count: number;
+  stateReload: VoidFunction;
+  highlight: Useful_Todo;
+}
+
 export const AddTask = ({
   page,
   user,
   stateReload,
   count,
   highlight
-}: {
-  page: page_title;
-  user: user_id;
-  count: number;
-  stateReload: VoidFunction;
-  highlight: Useful_Todo;
-}): JSX.Element => {
+}: AddTask_Props): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [task, setTask] = useState<todo_description>("");
   const [should_highlight, setShouldHighlight] =
