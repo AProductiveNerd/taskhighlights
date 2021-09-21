@@ -1,6 +1,7 @@
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { useContext, useEffect, useState } from "react";
 
+import { Card } from "../layout/Card";
 import FireUserContext from "../../contexts/FireUserContext";
 import { IncompleteTask } from "./IncompleteTask";
 import { Useful_Todo } from "../../constants/Types";
@@ -32,28 +33,25 @@ export const IncompleteCard = (): JSX.Element => {
   };
 
   return (
-    <div className="noScrollbar relative space-y-5 max-h-[80vh] w-11/12 sm:max-w-md md:max-w-lg py-4 px-8 bg-theme-blueGray-800 shadow-lg rounded-lg mx-auto overflow-y-scroll overflow-x-hidden">
-      <div className="flex justify-between items-center">
-        <p className="text-4xl">Incomplete Todos</p>
-      </div>
-
-      <hr className="border-dashed" />
-
-      <div className="space-y-2">
-        {todos ? (
-          todos?.map((todo: Useful_Todo) => (
-            <IncompleteTask
-              todo={todo}
-              key={todo.todo_id}
-              stateReload={stateReload}
-            />
-          ))
-        ) : (
-          <SkeletonTheme color="#0F172A" highlightColor="#1E293B">
-            <Skeleton count={10} height={20} />
-          </SkeletonTheme>
-        )}
-      </div>
-    </div>
+    <Card
+      spaced_elements={
+        <>
+          {todos ? (
+            todos?.map((todo: Useful_Todo) => (
+              <IncompleteTask
+                todo={todo}
+                key={todo.todo_id}
+                stateReload={stateReload}
+              />
+            ))
+          ) : (
+            <SkeletonTheme color="#0F172A" highlightColor="#1E293B">
+              <Skeleton count={10} height={20} />
+            </SkeletonTheme>
+          )}
+        </>
+      }
+      title="Incomplete Todos"
+    />
   );
 };

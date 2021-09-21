@@ -1,7 +1,7 @@
 interface Card_Props {
   title: string;
-  action_component: JSX.Element;
   spaced_elements: JSX.Element;
+  action_component?: JSX.Element;
   buttons?: JSX.Element;
 }
 
