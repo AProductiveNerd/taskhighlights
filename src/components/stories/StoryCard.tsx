@@ -1,7 +1,9 @@
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { Useful_Todo, todo_id } from "../../constants/Types";
 import { useEffect, useState } from "react";
 
+import { Card } from "../layout/Card";
+import Skeleton from "react-loading-skeleton";
+import { SkeletonTheme } from "react-loading-skeleton";
 import { StoryTask } from "./StoryTask";
 
 export const StoryCard = ({
@@ -40,34 +42,37 @@ export const StoryCard = ({
   };
 
   return (
-    <div className="noScrollbar relative space-y-5 max-h-[80vh] w-11/12 sm:max-w-md md:max-w-lg py-4 px-8 bg-theme-blueGray-800 shadow-lg rounded-lg mx-auto overflow-y-scroll overflow-x-hidden">
-      <div className="space-y-2">
-        {highlights &&
-          highlights.map((highlight: Useful_Todo) => (
-            <StoryTask
-              key={highlight.todo_id}
-              todo={highlight}
-              highlight={true}
-              loggedInSame={loggedInSame}
-              stateReload={stateReload}
-            />
-          ))}
+    <Card
+      spaced_elements={
+        <>
+          {highlights &&
+            highlights.map((highlight: Useful_Todo) => (
+              <StoryTask
+                key={highlight.todo_id}
+                todo={highlight}
+                highlight={true}
+                loggedInSame={loggedInSame}
+                stateReload={stateReload}
+              />
+            ))}
 
-        {normalTodos ? (
-          normalTodos.map((todo: Useful_Todo) => (
-            <StoryTask
-              todo={todo}
-              key={todo.todo_id}
-              loggedInSame={loggedInSame}
-              stateReload={stateReload}
-            />
-          ))
-        ) : (
-          <SkeletonTheme color="#0F172A" highlightColor="#1E293B">
-            <Skeleton count={10} height={20} />
-          </SkeletonTheme>
-        )}
-      </div>
-    </div>
+          {normalTodos ? (
+            normalTodos.map((todo: Useful_Todo) => (
+              <StoryTask
+                todo={todo}
+                key={todo.todo_id}
+                loggedInSame={loggedInSame}
+                stateReload={stateReload}
+              />
+            ))
+          ) : (
+            <SkeletonTheme color="#0F172A" highlightColor="#1E293B">
+              <Skeleton count={10} height={20} />
+            </SkeletonTheme>
+          )}
+        </>
+      }
+      title="Story"
+    />
   );
 };
