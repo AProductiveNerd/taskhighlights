@@ -13,6 +13,7 @@ import {
 } from "../../utils/fetchHelpers";
 import { useContext, useEffect, useState } from "react";
 
+import { Card } from "../layout/Card";
 import FireUserContext from "../../contexts/FireUserContext";
 import { IndividualHabit } from "./IndividualHabit";
 import { Template } from "@prisma/client";
@@ -92,51 +93,51 @@ export const HabitCard = (): JSX.Element => {
   };
 
   return (
-    <div className="noScrollbar relative space-y-5 max-h-[80vh] w-11/12 sm:max-w-md md:max-w-lg py-4 px-8 bg-theme-blueGray-800 shadow-lg rounded-lg mx-auto overflow-y-scroll overflow-x-hidden">
-      <div className="flex justify-between items-center">
-        <p className="text-4xl flex justify-between w-full">
-          {currentRoutine?.routine_title ||
-            new Date(
-              new Date().setDate(new Date().getDate() - back_date_num)
-            ).toLocaleDateString("en-GB")}
+    <Card
+      action_component={
+        <UseTemplate
+          stateReload={stateReload}
+          routine_id={currentRoutine?.routine_id}
+          template_data={my_template_data}
+          user_id={fireId}
+        />
+      }
+      spaced_elements={
+        <>
+          {routineHabits ? (
+            routineHabits?.map((habit: Useful_Habit) => (
+              <IndividualHabit habit={habit} key={habit.habit_id} />
+            ))
+          ) : (
+            <SkeletonTheme color="#0F172A" highlightColor="#1E293B">
+              <Skeleton count={10} height={20} />
+            </SkeletonTheme>
+          )}
+        </>
+      }
+      title={
+        currentRoutine?.routine_title ||
+        new Date(
+          new Date().setDate(new Date().getDate() - back_date_num)
+        ).toLocaleDateString("en-GB")
+      }
+      buttons={
+        <>
+          <button
+            aria-label="Go to previous date page"
+            onClick={() => setBack_date_num(back_date_num + 1)}
+          >
+            <RewindIcon className="w-6 h-6" />
+          </button>
 
-          <UseTemplate
-            stateReload={stateReload}
-            routine_id={currentRoutine?.routine_id}
-            template_data={my_template_data}
-            user_id={fireId}
-          />
-        </p>
-      </div>
-
-      <hr className="border-dashed" />
-
-      <div className="space-y-2">
-        {routineHabits ? (
-          routineHabits?.map((habit: Useful_Habit) => (
-            <IndividualHabit habit={habit} key={habit.habit_id} />
-          ))
-        ) : (
-          <SkeletonTheme color="#0F172A" highlightColor="#1E293B">
-            <Skeleton count={10} height={20} />
-          </SkeletonTheme>
-        )}
-      </div>
-      <div className="flex justify-between">
-        <button
-          aria-label="Go to previous date page"
-          onClick={() => setBack_date_num(back_date_num + 1)}
-        >
-          <RewindIcon className="w-6 h-6" />
-        </button>
-
-        <button
-          aria-label="Go to next date page"
-          onClick={() => setBack_date_num(back_date_num - 1)}
-        >
-          <FastForwardIcon className="w-6 h-6" />
-        </button>
-      </div>
-    </div>
+          <button
+            aria-label="Go to next date page"
+            onClick={() => setBack_date_num(back_date_num - 1)}
+          >
+            <FastForwardIcon className="w-6 h-6" />
+          </button>
+        </>
+      }
+    />
   );
 };
