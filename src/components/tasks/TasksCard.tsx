@@ -4,6 +4,7 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { useContext, useEffect, useState } from "react";
 
 import { AddTask } from "./AddTask";
+import { Card } from "../layout/Card";
 import FireUserContext from "../../contexts/FireUserContext";
 import { IndividualTask } from "./IndividualTask";
 import { Story } from "@prisma/client";
@@ -79,23 +80,8 @@ export const TasksCard = (): JSX.Element => {
   }, [party_display]);
 
   return (
-    <div
-      className="
-        noScrollbar relative space-y-5 max-h-[80vh] w-11/12
-        sm:max-w-md md:max-w-lg py-5 px-[1.6rem]
-        bg-theme-blueGray-800 shadow-lg rounded-lg mx-auto
-        overflow-y-scroll overflow-x-hidden
-        filter backdrop-blur-3xl bg-opacity-40
-      "
-    >
-      <div className="flex justify-between items-center">
-        <p className="text-4xl">
-          {currentPage?.page_title ||
-            new Date(
-              new Date().setDate(new Date().getDate() - back_date_num)
-            ).toLocaleDateString("en-GB")}
-        </p>
-
+    <Card
+      action_component={
         <AddTask
           user={fireId}
           page={currentPage?.page_id}
@@ -103,58 +89,64 @@ export const TasksCard = (): JSX.Element => {
           highlight={currentHighlight}
           stateReload={stateReload}
         />
-      </div>
+      }
+      spaced_elements={
+        <>
+          {currentHighlight && story && (
+            <>
+              <IndividualTask
+                todo={currentHighlight}
+                highlight={true}
+                story={story}
+                set_party_display={set_party_display}
+                stateReload={stateReload}
+                highlightCount={1}
+              />
 
-      <hr className="border-dashed" />
+              {party_display && <p>Wohoo you completed your highlight!🎉</p>}
+            </>
+          )}
 
-      <div className="space-y-1">
-        {currentHighlight && story && (
-          <>
-            <IndividualTask
-              todo={currentHighlight}
-              highlight={true}
-              story={story}
-              set_party_display={set_party_display}
-              stateReload={stateReload}
-              highlightCount={1}
-            />
+          {currentTodos && story ? (
+            currentTodos?.map((todo: Useful_Todo) => (
+              <IndividualTask
+                todo={todo}
+                story={story}
+                key={todo.todo_id}
+                stateReload={stateReload}
+                highlightCount={currentHighlight ? 1 : 0}
+              />
+            ))
+          ) : (
+            <SkeletonTheme color="#0F172A" highlightColor="#1E293B">
+              <Skeleton count={10} height={20} />
+            </SkeletonTheme>
+          )}
+        </>
+      }
+      title={
+        currentPage?.page_title ||
+        new Date(
+          new Date().setDate(new Date().getDate() - back_date_num)
+        ).toLocaleDateString("en-GB")
+      }
+      buttons={
+        <>
+          <button
+            aria-label="Go to previous date page"
+            onClick={() => setBack_date_num(back_date_num + 1)}
+          >
+            <RewindIcon className="w-6 h-6" />
+          </button>
 
-            {party_display && <p>Wohoo you completed your highlight!🎉</p>}
-          </>
-        )}
-
-        {currentTodos && story ? (
-          currentTodos?.map((todo: Useful_Todo) => (
-            <IndividualTask
-              todo={todo}
-              story={story}
-              key={todo.todo_id}
-              stateReload={stateReload}
-              highlightCount={currentHighlight ? 1 : 0}
-            />
-          ))
-        ) : (
-          <SkeletonTheme color="#0F172A" highlightColor="#1E293B">
-            <Skeleton count={10} height={20} />
-          </SkeletonTheme>
-        )}
-      </div>
-
-      <div className="flex justify-between">
-        <button
-          aria-label="Go to previous date page"
-          onClick={() => setBack_date_num(back_date_num + 1)}
-        >
-          <RewindIcon className="w-6 h-6" />
-        </button>
-
-        <button
-          aria-label="Go to next date page"
-          onClick={() => setBack_date_num(back_date_num - 1)}
-        >
-          <FastForwardIcon className="w-6 h-6" />
-        </button>
-      </div>
-    </div>
+          <button
+            aria-label="Go to next date page"
+            onClick={() => setBack_date_num(back_date_num - 1)}
+          >
+            <FastForwardIcon className="w-6 h-6" />
+          </button>
+        </>
+      }
+    />
   );
 };
