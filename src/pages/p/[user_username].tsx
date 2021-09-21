@@ -52,39 +52,41 @@ export default function UserProfile({
         }}
       />
 
-      <SkeletonTheme color="#0F172A" highlightColor="#1E293B">
-        <div className="flex-1 flex justify-center mt-5 pb-4">
-          <div className="flex items-center space-x-3">
-            <div className="relative w-28 h-28">
-              {profileUser ? (
-                <Avatar className="w-28 h-28" {...profileUser.user_avatar} />
-              ) : (
-                <Skeleton circle={true} height={44} width={44} />
-              )}
-            </div>
+      <div className="flex flex-col flex-1">
+        <SkeletonTheme color="#0F172A" highlightColor="#1E293B">
+          <div className="flex-1 flex justify-center mt-5 pb-4">
+            <div className="flex items-center space-x-3">
+              <div className="relative w-28 h-28">
+                {profileUser ? (
+                  <Avatar className="w-28 h-28" {...profileUser.user_avatar} />
+                ) : (
+                  <Skeleton circle={true} height={44} width={44} />
+                )}
+              </div>
 
-            <div>
-              {profileUser ? (
-                <>
-                  <h1 className="text-4xl">{profileUser.user_username}</h1>
+              <div>
+                {profileUser ? (
+                  <>
+                    <h1 className="text-4xl">{profileUser.user_username}</h1>
 
-                  <section className="flex justify-center space-x-3">
-                    <p>{profileUser.user_followers.length} Followers</p>
-                    <p>{profileUser.user_following.length} Following</p>
-                  </section>
+                    <section className="flex justify-center space-x-3">
+                      <p>{profileUser.user_followers.length} Followers</p>
+                      <p>{profileUser.user_following.length} Following</p>
+                    </section>
 
-                  <p>{profileUser.user_fullname}</p>
-                  <p>{profileUser.user_bio}</p>
-                </>
-              ) : (
-                <Skeleton count={10} height={20} />
-              )}
+                    <p>{profileUser.user_fullname}</p>
+                    <p>{profileUser.user_bio}</p>
+                  </>
+                ) : (
+                  <Skeleton count={10} height={20} />
+                )}
+              </div>
             </div>
           </div>
-        </div>
-      </SkeletonTheme>
+        </SkeletonTheme>
 
-      <StoryCard todos={main} loggedInSame={loggedInSame} />
+        <StoryCard todos={main} loggedInSame={loggedInSame} />
+      </div>
     </Layout>
   );
 }
