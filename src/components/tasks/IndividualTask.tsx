@@ -189,44 +189,42 @@ export const IndividualTask = ({
             leaveTo="transform opacity-0 scale-95"
           >
             <Menu.Items className="sticky inline-flex w-max flex-col items-center px-2.5 py-2 right-0 bg-black rounded-md bg-opacity-20 backdrop-blur hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 space-y-1 overflow-y-hidden mt-1">
-              {!highlight && (
-                <>
-                  <div>
-                    <Menu.Item>
-                      <button
-                        aria-label="Permanently Delete Task"
-                        title="Permanently Delete"
-                        onClick={() =>
-                          onClick_handleDelete({
-                            stateReload,
-                            todo_id
-                          })
-                        }
-                      >
-                        <TrashIcon className="w-6 h-6" />
-                      </button>
-                    </Menu.Item>
-                  </div>
+              <div>
+                <Menu.Item>
+                  <button
+                    aria-label="Permanently Delete Task"
+                    title="Permanently Delete"
+                    onClick={() =>
+                      onClick_handleDelete({
+                        stateReload,
+                        todo_id
+                      })
+                    }
+                  >
+                    <TrashIcon className="w-6 h-6" />
+                  </button>
+                </Menu.Item>
+              </div>
 
-                  <div>
-                    <Menu.Item>
-                      <button
-                        title="Archive"
-                        aria-label="Archive Task"
-                        onClick={() => {
-                          set_todo_archive_state(!db_archive);
-                          onClick_toggleArchiving({
-                            stateReload,
-                            todo_archived: todo_archive_state,
-                            todo_id
-                          });
-                        }}
-                      >
-                        <ArchiveIcon className="w-6 h-6" />
-                      </button>
-                    </Menu.Item>
-                  </div>
-                </>
+              {!highlight && (
+                <div>
+                  <Menu.Item>
+                    <button
+                      title="Archive"
+                      aria-label="Archive Task"
+                      onClick={() => {
+                        set_todo_archive_state(!db_archive);
+                        onClick_toggleArchiving({
+                          stateReload,
+                          todo_archived: todo_archive_state,
+                          todo_id
+                        });
+                      }}
+                    >
+                      <ArchiveIcon className="w-6 h-6" />
+                    </button>
+                  </Menu.Item>
+                </div>
               )}
 
               <div>
