@@ -6,10 +6,10 @@ export default function Incomplete(): JSX.Element {
   return (
     <Layout>
       <SEO_component
-        title="Incomplete Tasks"
+        title="Incomplete Tasks | Task Highlights"
         description="Your incomplete tasks"
         openGraph={{
-          title: "Incomplete Tasks"
+          title: "Incomplete Tasks | Task Highlights"
         }}
         twitter={{
           cardType: "app"

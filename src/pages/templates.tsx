@@ -6,9 +6,9 @@ export default function Routine(): JSX.Element {
   return (
     <Layout>
       <SEO_component
-        title="Templates"
+        title="Templates | Task Highlights"
         openGraph={{
-          title: "Templates"
+          title: "Templates | Task Highlights"
         }}
         description="Your templates"
         twitter={{

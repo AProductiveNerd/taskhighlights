@@ -3,7 +3,6 @@ import { NextSeoProps } from "next-seo";
 export const default_seo = (pathname: string): NextSeoProps => {
   const config: NextSeoProps = {
     defaultTitle: "Task Highlights",
-    titleTemplate: `${pathname === "/" ? "" : "%s | Task Highlights"}`,
     description:
       "A to-do app that uses accountability to supercharge your productivity",
     openGraph: {

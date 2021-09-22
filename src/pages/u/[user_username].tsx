@@ -33,10 +33,10 @@ export default function UserProfile({
   return (
     <Layout>
       <SEO_component
-        title={profileUser.user_username}
+        title={`${profileUser.user_username} | Task Highlights`}
         description={profileUser.user_bio}
         openGraph={{
-          title: profileUser.user_username,
+          title: `${profileUser.user_username} | Task Highlights`,
           profile: {
             firstName: profileUser.user_fullname
               .split(" ")

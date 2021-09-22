@@ -6,10 +6,10 @@ export default function Routines(): JSX.Element {
   return (
     <Layout>
       <SEO_component
-        title="Habits"
+        title="Habits | Task Highlights"
         description="Your habits"
         openGraph={{
-          title: "Habits"
+          title: "Habits | Task Highlights"
         }}
         twitter={{
           cardType: "app"

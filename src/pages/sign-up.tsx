@@ -71,10 +71,10 @@ export default function SignUp(): JSX.Element {
     <Layout>
       <div className="flex flex-1 items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <SEO_component
-          title="Sign Up"
+          title="Sign Up | Task Highlights"
           description="Create an account"
           openGraph={{
-            title: "Sign Up"
+            title: "Sign Up | Task Highlights"
           }}
           twitter={{
             cardType: "app"

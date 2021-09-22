@@ -41,13 +41,13 @@ export default function LogIn(): JSX.Element {
     <Layout>
       <div className="flex flex-1 items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <SEO_component
-          title="Log In"
+          title="Log In | Task Highlights"
           description="Log In to Task Highlights"
           twitter={{
             cardType: "app"
           }}
           openGraph={{
-            title: "Log In"
+            title: "Log In | Task Highlights"
           }}
         />
 
