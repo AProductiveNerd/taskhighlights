@@ -112,7 +112,7 @@ export const IncompleteTask = ({
         </p>
       )}
 
-      <div className="text-right hidden group-hover:block flex-shrink">
+      <div className="text-right flex-shrink">
         <Menu as="div" className="inline-block text-left">
           <div>
             <Menu.Button className="inline-flex justify-center px-3 py-2 w-full bg-black rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">

@@ -1,9 +1,11 @@
 import {
   ArchiveIcon,
+  CalendarIcon,
   DotsVerticalIcon,
   EyeIcon,
   EyeOffIcon,
-  TrashIcon
+  TrashIcon,
+  UploadIcon
 } from "@heroicons/react/solid";
 import { Dispatch, Fragment, SetStateAction, useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
@@ -65,7 +67,7 @@ export const IndividualTask = ({
 
   return (
     <div
-      className="flex items-center space-x-2 text-left text-lg break-words leading-6 group"
+      className="flex items-center space-x-2 text-left text-lg break-words leading-6 group relative"
       tabIndex={0}
       onKeyDownCapture={(event) => {
         if (event.key === "Delete") {
@@ -157,29 +159,11 @@ export const IndividualTask = ({
         )}
       </div>
 
-      <div className="text-right flex-shrink">
-        <Menu as="div" className="inline-block text-left">
-          <div>
-            <Menu.Button
-              title="Menu"
-              aria-label="Menu"
-              as="button"
-              className="
-                inline-flex justify-center
-                w-full px-2 py-2
-                text-sm font-medium
-                rounded-md
-                bg-black bg-opacity-30 filter backdrop-blur-3xl
-                hover:bg-opacity-40 focus:outline-none focus-visible:ring-2
-                focus-visible:ring-white focus-visible:ring-opacity-75
-              "
-            >
-              <DotsVerticalIcon
-                className="w-4 h-4 text-theme-primary-50"
-                aria-hidden="true"
-              />
-            </Menu.Button>
-          </div>
+      <div>
+        <Menu
+          as="div"
+          className="relative inline-block text-left text-theme-blueGray-300"
+        >
           <Transition
             as={Fragment}
             enter="transition ease-out duration-100"
@@ -189,29 +173,106 @@ export const IndividualTask = ({
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="sticky inline-flex w-max flex-col items-center px-2.5 py-2 right-0 bg-black rounded-md bg-opacity-20 backdrop-blur hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 space-y-1 overflow-y-hidden mt-1">
-              <div>
-                <Menu.Item>
-                  <button
-                    aria-label="Permanently Delete Task"
-                    title="Permanently Delete"
-                    onClick={() =>
-                      onClick_handleDelete({
-                        stateReload,
-                        todo_id
-                      })
-                    }
-                  >
-                    <TrashIcon className="w-6 h-6" />
-                  </button>
-                </Menu.Item>
-              </div>
-
-              {!highlight && (
-                <div>
+            <Menu.Items
+              className="
+                absolute right-0 w-56 mr-10 -mt-9 origin-bottom-left
+                bg-black bg-opacity-70 filter backdrop-blur-3xl
+                divide-gray-100 rounded-md
+                shadow-lg ring-1 ring-black ring-opacity-5
+                focus:outline-none
+                z-50
+              "
+            >
+              <div className="px-1 py-1">
+                {storyid === todo_story_id ? (
                   <Menu.Item>
+                    {({ active }) => (
+                      <button
+                        title="Remove from story"
+                        aria-label="Remove from story"
+                        onClick={() =>
+                          onClick_removeFromStory({
+                            stateReload,
+                            story_id: storyid,
+                            todo_id
+                          })
+                        }
+                        className={`${
+                          active
+                            ? "bg-theme-primary-500 text-theme-blueGray-300"
+                            : "text-theme-blueGray-500"
+                        } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                      >
+                        <EyeIcon
+                          className={`w-6 h-6 ${
+                            !active && "text-theme-primary-500"
+                          } mr-2`}
+                        />
+                        Remove from story
+                      </button>
+                    )}
+                  </Menu.Item>
+                ) : (
+                  <Menu.Item>
+                    {({ active }) => (
+                      <button
+                        title="Add to story"
+                        aria-label="Add to story"
+                        onClick={() =>
+                          onClick_addToStory({
+                            stateReload,
+                            story_id: storyid,
+                            todo_id
+                          })
+                        }
+                        className={`${
+                          active
+                            ? "bg-theme-primary-500 text-theme-blueGray-300"
+                            : "text-theme-blueGray-500"
+                        } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                      >
+                        <EyeOffIcon
+                          className={`w-6 h-6 ${
+                            !active && "text-theme-primary-500"
+                          } mr-2`}
+                        />
+                        Add to story
+                      </button>
+                    )}
+                  </Menu.Item>
+                )}
+
+                <Menu.Item>
+                  {({ active }) => (
                     <button
-                      title="Archive"
+                      aria-label="Permanently Delete Task"
+                      title="Permanently Delete"
+                      onClick={() =>
+                        onClick_handleDelete({
+                          stateReload,
+                          todo_id
+                        })
+                      }
+                      className={`${
+                        active
+                          ? "bg-theme-primary-500 text-theme-blueGray-300"
+                          : "text-theme-blueGray-500"
+                      } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                    >
+                      <TrashIcon
+                        className={`w-6 h-6 ${
+                          !active && "text-theme-primary-500"
+                        } mr-2`}
+                      />
+                      Permanently Delete
+                    </button>
+                  )}
+                </Menu.Item>
+
+                <Menu.Item>
+                  {({ active }) => (
+                    <button
+                      title="Archive Task"
                       aria-label="Archive Task"
                       onClick={() => {
                         set_todo_archive_state(!db_archive);
@@ -221,58 +282,270 @@ export const IndividualTask = ({
                           todo_id
                         });
                       }}
+                      className={`${
+                        active
+                          ? "bg-theme-primary-500 text-theme-blueGray-300"
+                          : "text-theme-blueGray-500"
+                      } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                     >
-                      <ArchiveIcon className="w-6 h-6" />
+                      <ArchiveIcon
+                        className={`w-6 h-6 ${
+                          !active && "text-theme-primary-500"
+                        } mr-2`}
+                      />
+                      Archive Task
                     </button>
-                  </Menu.Item>
-                </div>
-              )}
-
-              <div>
-                <Menu.Item>
-                  <div>
-                    {storyid === todo_story_id ? (
-                      <button
-                        title="Remove from story"
-                        aria-label="Remove from story"
-                        className="flex items-center"
-                      >
-                        <EyeIcon
-                          className="w-6 h-6"
-                          onClick={() =>
-                            onClick_removeFromStory({
-                              stateReload,
-                              story_id: storyid,
-                              todo_id
-                            })
-                          }
-                        />
-                      </button>
-                    ) : (
-                      <button
-                        title="Add to story"
-                        aria-label="Add to story"
-                        className="flex items-center"
-                      >
-                        <EyeOffIcon
-                          className="w-6 h-6"
-                          onClick={() =>
-                            onClick_addToStory({
-                              stateReload,
-                              story_id: storyid,
-                              todo_id
-                            })
-                          }
-                        />
-                      </button>
-                    )}
-                  </div>
+                  )}
                 </Menu.Item>
               </div>
             </Menu.Items>
           </Transition>
+
+          <div>
+            <Menu.Button
+              as="button"
+              title="Menu"
+              aria-label="Menu"
+              className="
+                  inline-flex justify-center
+                  w-full px-2 py-2
+                  text-sm font-medium
+                  rounded-md
+                  bg-black bg-opacity-20 filter backdrop-blur-3xl
+                  hover:bg-opacity-30 focus:outline-none focus-visible:ring-2
+                  focus-visible:ring-white focus-visible:ring-opacity-75
+                "
+            >
+              <DotsVerticalIcon
+                className="w-5 h-5 text-theme-primary-50"
+                aria-hidden="true"
+              />
+            </Menu.Button>
+          </div>
         </Menu>
       </div>
     </div>
   );
 };
+
+function EditInactiveIcon(props) {
+  return (
+    <svg
+      {...props}
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M4 13V16H7L16 7L13 4L4 13Z"
+        fill="#EDE9FE"
+        stroke="#A78BFA"
+        strokeWidth="2"
+      />
+    </svg>
+  );
+}
+
+function EditActiveIcon(props) {
+  return (
+    <svg
+      {...props}
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M4 13V16H7L16 7L13 4L4 13Z"
+        fill="#8B5CF6"
+        stroke="#C4B5FD"
+        strokeWidth="2"
+      />
+    </svg>
+  );
+}
+
+function DuplicateInactiveIcon(props) {
+  return (
+    <svg
+      {...props}
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M4 4H12V12H4V4Z"
+        fill="#EDE9FE"
+        stroke="#A78BFA"
+        strokeWidth="2"
+      />
+      <path
+        d="M8 8H16V16H8V8Z"
+        fill="#EDE9FE"
+        stroke="#A78BFA"
+        strokeWidth="2"
+      />
+    </svg>
+  );
+}
+
+function DuplicateActiveIcon(props) {
+  return (
+    <svg
+      {...props}
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M4 4H12V12H4V4Z"
+        fill="#8B5CF6"
+        stroke="#C4B5FD"
+        strokeWidth="2"
+      />
+      <path
+        d="M8 8H16V16H8V8Z"
+        fill="#8B5CF6"
+        stroke="#C4B5FD"
+        strokeWidth="2"
+      />
+    </svg>
+  );
+}
+
+function ArchiveInactiveIcon(props) {
+  return (
+    <svg
+      {...props}
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect
+        x="5"
+        y="8"
+        width="10"
+        height="8"
+        fill="#EDE9FE"
+        stroke="#A78BFA"
+        strokeWidth="2"
+      />
+      <rect
+        x="4"
+        y="4"
+        width="12"
+        height="4"
+        fill="#EDE9FE"
+        stroke="#A78BFA"
+        strokeWidth="2"
+      />
+      <path d="M8 12H12" stroke="#A78BFA" strokeWidth="2" />
+    </svg>
+  );
+}
+
+function ArchiveActiveIcon(props) {
+  return (
+    <svg
+      {...props}
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect
+        x="5"
+        y="8"
+        width="10"
+        height="8"
+        fill="#8B5CF6"
+        stroke="#C4B5FD"
+        strokeWidth="2"
+      />
+      <rect
+        x="4"
+        y="4"
+        width="12"
+        height="4"
+        fill="#8B5CF6"
+        stroke="#C4B5FD"
+        strokeWidth="2"
+      />
+      <path d="M8 12H12" stroke="#A78BFA" strokeWidth="2" />
+    </svg>
+  );
+}
+
+function MoveInactiveIcon(props) {
+  return (
+    <svg
+      {...props}
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M10 4H16V10" stroke="#A78BFA" strokeWidth="2" />
+      <path d="M16 4L8 12" stroke="#A78BFA" strokeWidth="2" />
+      <path d="M8 6H4V16H14V12" stroke="#A78BFA" strokeWidth="2" />
+    </svg>
+  );
+}
+
+function MoveActiveIcon(props) {
+  return (
+    <svg
+      {...props}
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M10 4H16V10" stroke="#C4B5FD" strokeWidth="2" />
+      <path d="M16 4L8 12" stroke="#C4B5FD" strokeWidth="2" />
+      <path d="M8 6H4V16H14V12" stroke="#C4B5FD" strokeWidth="2" />
+    </svg>
+  );
+}
+
+function DeleteInactiveIcon(props) {
+  return (
+    <svg
+      {...props}
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect
+        x="5"
+        y="6"
+        width="10"
+        height="10"
+        fill="#EDE9FE"
+        stroke="#A78BFA"
+        strokeWidth="2"
+      />
+      <path d="M3 6H17" stroke="#A78BFA" strokeWidth="2" />
+      <path d="M8 6V4H12V6" stroke="#A78BFA" strokeWidth="2" />
+    </svg>
+  );
+}
+
+function DeleteActiveIcon(props) {
+  return (
+    <svg
+      {...props}
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect
+        x="5"
+        y="6"
+        width="10"
+        height="10"
+        fill="#8B5CF6"
+        stroke="#C4B5FD"
+        strokeWidth="2"
+      />
+      <path d="M3 6H17" stroke="#C4B5FD" strokeWidth="2" />
+      <path d="M8 6V4H12V6" stroke="#C4B5FD" strokeWidth="2" />
+    </svg>
+  );
+}
