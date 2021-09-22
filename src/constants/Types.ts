@@ -199,6 +199,7 @@ export interface handleTextSubmit {
 }
 
 export interface toggleTodoDone {
+  stateReload: stateReload;
   todo_id: todo_id;
   todo_done: todo_done;
 }

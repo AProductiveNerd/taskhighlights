@@ -64,7 +64,8 @@ export const IncompleteTask = ({
           set_todo_state(!db_done);
           onClick_toggleTodoDone({
             todo_done: todo_state,
-            todo_id
+            todo_id,
+            stateReload
           });
         }}
       />

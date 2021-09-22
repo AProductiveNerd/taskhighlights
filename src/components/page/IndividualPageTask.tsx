@@ -65,7 +65,8 @@ export const IndividualPageTask = ({
 
           onClick_toggleTodoDone({
             todo_done: todo_state,
-            todo_id
+            todo_id,
+            stateReload
           });
         }}
       />
