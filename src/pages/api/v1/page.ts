@@ -14,7 +14,10 @@ import {
 } from "../../../utils/prismaHelpers";
 
 import Cors from "cors";
+import { Page_and_Todos } from "../../../constants/Types";
+import { date_time_EN_GB } from "../../../constants/Regexes";
 import initMiddleware from "../../../libs/InitMiddleware";
+import { prisma_createRetPageByTitle } from "../../../utils/prismaHelpers";
 
 interface Query {
   page_id?: string;
@@ -53,12 +56,19 @@ export default async function handler(
         res.status(200).json(JSON.stringify(page));
       } else {
         if (typeof page_user_id === "string") {
-          const page: Page_Story_Todos = await prisma_createRetDailyPage(
-            page_user_id,
-            today
-          );
-
-          res.status(200).json(JSON.stringify(page));
+          if (date_time_EN_GB.test(today)) {
+            const page: Page_Story_Todos = await prisma_createRetDailyPage(
+              page_user_id,
+              today
+            );
+            res.status(200).json(JSON.stringify(page));
+          } else {
+            const page: Page_and_Todos = await prisma_createRetPageByTitle(
+              page_user_id,
+              today
+            );
+            res.status(200).json(JSON.stringify(page));
+          }
         }
       }
 

@@ -16,7 +16,6 @@ export const fetch_getUserByUserid = async (
   }
 };
 
-
 export const fetch_createUser = async (
   body: TYPES.User_Request_Body
 ): Promise<User> => {
@@ -41,6 +40,24 @@ export const fetch_createRetDailyPage = async (
   ) {
     const data = await fetch(
       `${API_V1}page?page_user_id=${user_id}&today=${today}`
+    );
+
+    return data.json();
+  }
+};
+
+export const fetch_createRetPageByTitle = async (
+  user_id: TYPES.user_id,
+  title: TYPES.page_title
+): Promise<TYPES.Page_and_Todos> => {
+  if (
+    user_id &&
+    typeof user_id === "string" &&
+    title &&
+    typeof title === "string"
+  ) {
+    const data = await fetch(
+      `${API_V1}page?page_user_id=${user_id}&today=${title}`
     );
 
     return data.json();

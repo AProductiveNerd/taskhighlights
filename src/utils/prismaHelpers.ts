@@ -902,3 +902,40 @@ export const prisma_addHabitToTemplate = async ({
 
   return template;
 };
+
+export const prisma_createRetPageByTitle = async (
+  user_id: TYPES.user_id,
+  page_title: TYPES.page_title
+): Promise<TYPES.Page_and_Todos> => {
+  if (user_id.toString() !== "undefined") {
+    const page = await prisma.page.upsert({
+      where: {
+        user_title_unique: {
+          page_title,
+          page_user_id: user_id
+        }
+      },
+      create: {
+        page_title,
+        Page_User: {
+          connect: {
+            user_id
+          }
+        }
+      },
+      update: {},
+      include: {
+        Page_Story: true,
+        Page_Todo: {
+          select: TYPES.Useful_Todo_Include_Object,
+          where: {
+            todo_archived: false
+          },
+          orderBy: [{ todo_done: "asc" }, { todo_datecreated: "desc" }]
+        }
+      }
+    });
+
+    return page;
+  }
+};

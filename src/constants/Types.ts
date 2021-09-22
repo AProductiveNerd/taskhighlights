@@ -139,6 +139,9 @@ export type Page_Story_Todos = Page & {
   Page_Story: Story;
   Page_Todo: Useful_Todo[];
 };
+export type Page_and_Todos = Page & {
+  Page_Todo: Useful_Todo[];
+};
 
 export type Story_and_Todos = Story & {
   Story_Todo: Useful_Todo[];

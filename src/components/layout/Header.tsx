@@ -38,7 +38,7 @@ export const Header = ({
       {!INDEX_HEADER.includes(path) ? (
         <div className="w-11/12 sm:max-w-md md:max-w-lg flex items-center justify-between flex-1 mx-auto">
           {currentUser?.user_avatar ? (
-            <Link href={`/p/${currentUser.user_username}`}>
+            <Link href={`/u/${currentUser.user_username}`}>
               <a title="Your profile" aria-label="Your profile">
                 <Avatar className="w-12 h-12" {...currentUser.user_avatar} />
               </a>
