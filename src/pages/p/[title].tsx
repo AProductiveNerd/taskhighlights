@@ -21,12 +21,12 @@ export default function Page(): JSX.Element {
   return (
     <Layout>
       <SEO_component
-        title={`${par_title ? "par_title" : "Daily Tasks"} | Task Highlights`}
+        title={`${par_title ? par_title : "Daily Tasks"} | Task Highlights`}
         description={
           par_title ? `Tasks in ${par_title}` : "Your tasks for the day"
         }
         openGraph={{
-          title: `${par_title ? "par_title" : "Daily Tasks"} | Task Highlights`
+          title: `${par_title ? par_title : "Daily Tasks"} | Task Highlights`
         }}
         twitter={{
           cardType: "app"
