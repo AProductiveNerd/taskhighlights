@@ -11,6 +11,8 @@ import {
   User
 } from "@prisma/client";
 
+import { Useful_Todo_Include_Object } from "../constants/Types";
+
 const prisma = new PrismaClient();
 
 export const prisma_getUserByUsername = async (
@@ -938,4 +940,28 @@ export const prisma_createRetPageByTitle = async (
 
     return page;
   }
+};
+
+export const prisma_getAllArchivedTodosByPage = async (
+  user_id: TYPES.user_id
+): Promise<TYPES.Useful_Todo[]> => {
+  const todos: TYPES.Useful_Todo[] = await prisma.todo.findMany({
+    orderBy: [
+      { todo_done: "asc" },
+      { todo_description: "asc" },
+      { todo_archived: "asc" }
+    ],
+    where: {
+      AND: {
+        Todo_User: {
+          is: {
+            user_id
+          }
+        },
+        todo_archived: true
+      }
+    }
+  });
+
+  return todos;
 };

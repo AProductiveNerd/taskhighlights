@@ -21,6 +21,7 @@
     "cors": "^2.8.5",
     "cuid": "^2.1.8",
     "firebase": "^9.0.0-beta.8",
+    "fuse.js": "^6.4.6",
     "next": "^11.1.2",
     "next-plugin-preact": "^3.0.6",
     "next-seo": "^4.26.0",

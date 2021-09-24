@@ -233,7 +233,31 @@ export const fetch_getAllIncompleteTodosByPage = async (
   user_id: TYPES.user_id
 ): Promise<TYPES.Useful_Todo[]> => {
   if (user_id && typeof user_id === "string") {
-    const data = await fetch(`${API_V1}allTodos?user_id=${user_id}`);
+    const data = await fetch(
+      `${API_V1}allTodos?user_id=${user_id}&work=incomplete`
+    );
+
+    return data.json();
+  }
+};
+
+export const fetch_getAllPageNamesByUserid = async (
+  user_id: TYPES.user_id
+): Promise<TYPES.page_title[]> => {
+  if (user_id && typeof user_id === "string") {
+    const data = await fetch(`${API_V1}allPages?user_id=${user_id}&work=names`);
+
+    return data.json();
+  }
+};
+
+export const fetch_getAllArchivedTodosByPage = async (
+  user_id: TYPES.user_id
+): Promise<TYPES.Useful_Todo[]> => {
+  if (user_id && typeof user_id === "string") {
+    const data = await fetch(
+      `${API_V1}allTodos?user_id=${user_id}&work=archived`
+    );
 
     return data.json();
   }
