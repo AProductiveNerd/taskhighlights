@@ -11,17 +11,19 @@ import {
   LoginIcon,
   LogoutIcon,
   RefreshIcon,
+  SearchCircleIcon,
   TemplateIcon,
   UploadIcon
 } from "@heroicons/react/outline";
+import { Fragment, useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 import Avatar from "react-nice-avatar";
 import { EmptyCircleIcon } from "../../constants/customIcons";
-import { Fragment } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { PageSearch } from "../page/PageSearch";
 import { User } from "@prisma/client";
 import { auth } from "../../libs/Firebase";
 import { signOut } from "@firebase/auth";
@@ -33,6 +35,8 @@ export const Header = ({
   currentUser: User;
   path: string;
 }): JSX.Element => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
   return (
     <div className="py-3 px-6 sm:px-0 flex-1 max-w-7xl flex justify-between items-center">
       {!INDEX_HEADER.includes(path) ? (
@@ -54,7 +58,31 @@ export const Header = ({
               as="div"
               className="relative inline-block text-left text-theme-blueGray-300 z-50"
             >
-              <div>
+              <div className="flex space-x-1.5">
+                <button
+                  type="button"
+                  aria-label="Add a task!"
+                  onClick={() => setIsOpen(true)}
+                  className="
+                    inline-flex justify-center
+                    w-full px-3.5 py-3.5
+                    text-sm font-medium
+                    rounded-md
+                    bg-black bg-opacity-20 filter backdrop-blur-3xl
+                    hover:bg-opacity-30 focus:outline-none focus-visible:ring-2
+                    focus-visible:ring-white focus-visible:ring-opacity-75
+                  "
+                >
+                  <SearchCircleIcon
+                    className="w-5 h-5 text-theme-primary-50"
+                    aria-hidden="true"
+                  />
+                  <PageSearch
+                    user={currentUser?.user_id}
+                    isOpen={isOpen}
+                    setIsOpen={setIsOpen}
+                  />
+                </button>
                 <Menu.Button
                   as="button"
                   title="Menu"
@@ -289,7 +317,6 @@ export const Header = ({
               >
                 <Menu.Items className="absolute right-0 w-32 mt-2 origin-top-right bg-black filter backdrop-blur-3xl bg-opacity-40 divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                   <div className="px-1 py-1 ">
-                    {/* Daily Page */}
                     <Link href="/log-in">
                       <a
                         title="Log In"
@@ -317,7 +344,6 @@ export const Header = ({
                       </a>
                     </Link>
 
-                    {/* Habits */}
                     <Link href="/sign-up">
                       <a
                         title="Sign Up"
