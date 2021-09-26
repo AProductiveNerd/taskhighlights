@@ -67,7 +67,7 @@ export const PageCard = ({ title }: { title: string }): JSX.Element => {
           )}
         </>
       }
-      title={currentPage?.page_title || new Date().toLocaleDateString("en-GB")}
+      title={currentPage?.page_title || "Page"}
     />
   );
 };

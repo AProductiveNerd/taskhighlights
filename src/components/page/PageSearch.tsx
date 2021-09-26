@@ -109,8 +109,8 @@ export const PageSearch = ({
                     <Link
                       href={
                         isDailyPage(result.item)
-                          ? `/app?date=${result.item}`
-                          : `/p/${result.item}`
+                          ? encodeURI(`/app?date=${result.item}`)
+                          : encodeURI(`/p/${result.item}`)
                       }
                       key={result.item}
                     >
