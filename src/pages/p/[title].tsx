@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Layout } from "../../components/layout/index";
 import { PageCard } from "../../components/page/PageCard";
 import { SEO_component } from "../../components/seo";
-import { date_time_EN_GB } from "../../constants/Regexes";
+import { isDailyPage } from "../../utils/generalHelpers";
 import { useRouter } from "next/router";
 
 export default function Page(): JSX.Element {
@@ -11,7 +11,7 @@ export default function Page(): JSX.Element {
   const [par_title, setParTitle] = useState("");
   useEffect(() => {
     const title = router.query.title?.toString();
-    if (date_time_EN_GB.test(title)) {
+    if (isDailyPage(title)) {
       router.push("/app");
     } else {
       setParTitle(title);

@@ -4,8 +4,8 @@ import { page_title, user_id } from "../../constants/Types";
 
 import Fuse from "fuse.js";
 import Link from "next/link";
-import { date_time_EN_GB } from "../../constants/Regexes";
 import { fetch_getAllPageNamesByUserid } from "../../utils/fetchHelpers";
+import { isDailyPage } from "../../utils/generalHelpers";
 
 interface PageSearch_Props {
   user: user_id;
@@ -87,49 +87,28 @@ export const PageSearch = ({
                   as="h3"
                   className="text-2xl font-medium leading-6 text-theme-blueGray-300 selection:bg-theme-primary-500/60"
                 >
-                  Add a task
+                  Search
                 </Dialog.Title>
-                <div className="mt-2">
-                  <input
-                    className="w-full bg-theme-blueGray-800 cursor-pointer text-theme-blueGray-300"
-                    onKeyDown={(event) => {
-                      if (event.key === "Escape") {
-                        setIsOpen(false);
-                      }
-                    }}
-                    onChange={({ target }) => {
-                      const fuse = new Fuse(page_names, options);
-                      setResults(fuse.search(target.value));
-                    }}
-                  />
-                </div>
-
-                <div className="mt-4 flex justify-center space-x-6 text-theme-blueGray-300 selection:bg-theme-primary-500/60">
-                  <button
-                    type="button"
-                    aria-label="Close add tasks popup"
-                    className="inline-flex justify-center px-4 py-2 text-sm font-medium bg-theme-primary-500/60 border border-transparent rounded-md hover:bg-theme-primary-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 text-theme-blueGray-50"
-                    onClick={() => {
+                <input
+                  className="w-full bg-theme-blueGray-800 cursor-pointer text-theme-blueGray-300 mt-2"
+                  onKeyDown={(event) => {
+                    if (event.key === "Escape") {
                       setIsOpen(false);
-                    }}
-                  >
-                    Cancel
-                  </button>
+                    }
+                  }}
+                  onChange={({ target }) => {
+                    const fuse = new Fuse(page_names, options);
+                    const res = fuse.search(target.value);
+                    res.slice(0, 5);
+                    setResults(res);
+                  }}
+                />
 
-                  <button
-                    type="button"
-                    aria-label="Close add tasks popup"
-                    className="inline-flex justify-center px-4 py-2 text-sm font-medium bg-theme-primary-500/60 border border-transparent rounded-md hover:bg-theme-primary-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                  >
-                    Submit
-                  </button>
-                </div>
-
-                <div className="flex">
+                <div className="flex flex-col space-y-2">
                   {results.map((result) => (
                     <Link
                       href={
-                        date_time_EN_GB.test(result.item)
+                        isDailyPage(result.item)
                           ? `/app?date=${result.item}`
                           : `/p/${result.item}`
                       }

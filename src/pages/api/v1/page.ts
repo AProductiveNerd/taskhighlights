@@ -3,21 +3,21 @@ import { Page, Prisma } from "@prisma/client";
 import {
   Page_Body,
   Page_Story_Todos,
+  Page_and_Todos,
   corsMethods
 } from "../../../constants/Types";
 import {
   prisma_createPage,
   prisma_createRetDailyPage,
+  prisma_createRetPageByTitle,
   prisma_deletePageByPageid,
   prisma_getPageByPageTitle,
   prisma_getPageByPageid
 } from "../../../utils/prismaHelpers";
 
 import Cors from "cors";
-import { Page_and_Todos } from "../../../constants/Types";
-import { date_time_EN_GB } from "../../../constants/Regexes";
 import initMiddleware from "../../../libs/InitMiddleware";
-import { prisma_createRetPageByTitle } from "../../../utils/prismaHelpers";
+import { isDailyPage } from "../../../utils/generalHelpers";
 
 interface Query {
   page_id?: string;
@@ -56,7 +56,7 @@ export default async function handler(
         res.status(200).json(JSON.stringify(page));
       } else {
         if (typeof page_user_id === "string") {
-          if (date_time_EN_GB.test(today)) {
+          if (isDailyPage(today)) {
             const page: Page_Story_Todos = await prisma_createRetDailyPage(
               page_user_id,
               today
