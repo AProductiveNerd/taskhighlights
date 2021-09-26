@@ -19,7 +19,9 @@ export const PageSearch = ({
   setIsOpen
 }: PageSearch_Props): JSX.Element => {
   const [page_names, set_page_names] = useState<page_title[]>(null);
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState<{ isCreate: boolean; item: string }[]>(
+    []
+  );
 
   const options = {
     includeScore: true
@@ -99,7 +101,23 @@ export const PageSearch = ({
                   onChange={({ target }) => {
                     const fuse = new Fuse(page_names, options);
                     const res = fuse.search(target.value);
-                    setResults(res.slice(0, 5));
+                    const max_five = res.slice(0, 5).map((result) => {
+                      return {
+                        isCreate: false,
+                        item: result.item
+                      };
+                    });
+
+                    if (
+                      max_five.length <= 4 &&
+                      !max_five.toString().includes(target.value)
+                    ) {
+                      max_five.unshift({
+                        isCreate: true,
+                        item: target.value
+                      });
+                    }
+                    setResults(max_five);
                   }}
                 />
 
@@ -113,7 +131,9 @@ export const PageSearch = ({
                       }
                       key={result.item}
                     >
-                      <a>{result.item}</a>
+                      <a>
+                        {result.isCreate && "Create"} {result.item}
+                      </a>
                     </Link>
                   ))}
                 </div>
