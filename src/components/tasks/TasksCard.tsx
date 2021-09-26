@@ -9,6 +9,8 @@ import FireUserContext from "../../contexts/FireUserContext";
 import { IndividualTask } from "./IndividualTask";
 import { Story } from "@prisma/client";
 import { fetch_createRetDailyPage } from "../../utils/fetchHelpers";
+import { isDailyPage } from "../../utils/generalHelpers";
+import { useRouter } from "next/dist/client/router";
 
 // ! Limit the number of tasks a user can add to amplify the constraints lead to creativity effect
 
@@ -23,19 +25,26 @@ export const TasksCard = (): JSX.Element => {
 
   const fireId: user_id = useContext(FireUserContext);
 
+  const router = useRouter();
+
   useEffect(() => {
     (async () => {
+      const para_date = router.query?.date?.toString();
+
       const today: string = new Date(
         new Date().setDate(new Date().getDate() - back_date_num)
       ).toLocaleDateString("en-GB");
 
-      const page = await fetch_createRetDailyPage(fireId, today);
+      const page = await fetch_createRetDailyPage(
+        fireId,
+        para_date && isDailyPage(para_date) ? para_date : today
+      );
 
       if (JSON.stringify(currentPage) !== JSON.stringify(page)) {
         setCurrentPage(page);
       }
     })();
-  }, [addedCounter, back_date_num, currentPage, fireId]);
+  }, [addedCounter, back_date_num, currentPage, fireId, router.query?.date]);
 
   useEffect(() => {
     const fetchedTodos = currentPage?.Page_Todo;
