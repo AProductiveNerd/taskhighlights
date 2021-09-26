@@ -99,8 +99,7 @@ export const PageSearch = ({
                   onChange={({ target }) => {
                     const fuse = new Fuse(page_names, options);
                     const res = fuse.search(target.value);
-                    res.slice(0, 5);
-                    setResults(res);
+                    setResults(res.slice(0, 5));
                   }}
                 />
 
