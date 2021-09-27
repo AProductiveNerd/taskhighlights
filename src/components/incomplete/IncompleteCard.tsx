@@ -52,6 +52,7 @@ export const IncompleteCard = (): JSX.Element => {
         </>
       }
       title="Incomplete Todos"
+      // title={`Incomplete Todos (${todos ? todos.length : null})`}
     />
   );
 };

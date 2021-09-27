@@ -131,7 +131,7 @@ export const PageSearch = ({
                       }
                       key={result.item}
                     >
-                      <a>
+                      <a className="text-theme-blueGray-300">
                         {result.isCreate && "Create"} {result.item}
                       </a>
                     </Link>
