@@ -72,6 +72,7 @@ export default function UserProfile({
                     <section className="flex justify-center space-x-3">
                       <p>{profileUser.user_followers.length} Followers</p>
                       <p>{profileUser.user_following.length} Following</p>
+                      <p>Streak {profileUser.user_streak} </p>
                     </section>
 
                     <p>{profileUser.user_fullname}</p>
