@@ -24,6 +24,7 @@ model User {
   user_highlight_questions String[]
   user_api_token           String     @default(cuid())
   user_twitter_handle      String?
+  user_level               User_Level @default(None)
   User_Habits              Habit[]
   User_Page                Page[]
   User_Routine             Routine[]
@@ -104,4 +105,18 @@ model Template {
   template_habits  String[]
   template_user_id String
   Template_User    User     @relation(fields: [template_user_id], references: [user_id])
+}
+
+enum User_Level {
+  None
+  Bronze
+  Silver
+  Gold
+  Sapphire
+  Ruby
+  Emerald
+  Amethyst
+  Pearl
+  Obsidian
+  Diamond
 }
