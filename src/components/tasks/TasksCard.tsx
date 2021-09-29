@@ -35,6 +35,10 @@ export const TasksCard = (): JSX.Element => {
         new Date().setDate(new Date().getDate() - back_date_num)
       ).toLocaleDateString("en-GB");
 
+      if (para_date !== today) {
+        router.push(`/app?date=${today}`);
+      }
+
       const page = await fetch_createRetDailyPage(
         fireId,
         para_date && isDailyPage(para_date) ? para_date : today
@@ -44,7 +48,7 @@ export const TasksCard = (): JSX.Element => {
         setCurrentPage(page);
       }
     })();
-  }, [addedCounter, back_date_num, currentPage, fireId, router.query?.date]);
+  }, [addedCounter, back_date_num, currentPage, fireId, router]);
 
   useEffect(() => {
     const fetchedTodos = currentPage?.Page_Todo;

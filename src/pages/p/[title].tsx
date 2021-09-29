@@ -3,19 +3,14 @@ import { useEffect, useState } from "react";
 import { Layout } from "../../components/layout/index";
 import { PageCard } from "../../components/page/PageCard";
 import { SEO_component } from "../../components/seo";
-import { isDailyPage } from "../../utils/generalHelpers";
 import { useRouter } from "next/router";
 
 export default function Page(): JSX.Element {
   const router = useRouter();
   const [par_title, setParTitle] = useState("");
+
   useEffect(() => {
-    const title = router.query.title?.toString();
-    if (isDailyPage(title)) {
-      router.push("/app");
-    } else {
-      setParTitle(title);
-    }
+    setParTitle(router.query.title?.toString());
   }, [router]);
 
   return (
