@@ -11,8 +11,6 @@ import {
   User
 } from "@prisma/client";
 
-import { Useful_Todo_Include_Object } from "../constants/Types";
-
 const prisma = new PrismaClient();
 
 export const prisma_getUserByUsername = async (
@@ -349,23 +347,42 @@ export const prisma_toggleTodoDone = async ({
     }
   });
 
-  if (todo.todo_highlight && todo.todo_done) {
-    const if_todo: TYPES.Useful_Todo = await prisma.todo.update({
-      where: {
-        todo_id
-      },
-      data: {
-        Todo_User: {
-          update: {
-            user_streak: {
-              increment: 1
+  if (todo.todo_highlight) {
+    if (todo.todo_done) {
+      const if_todo: TYPES.Useful_Todo = await prisma.todo.update({
+        where: {
+          todo_id
+        },
+        data: {
+          Todo_User: {
+            update: {
+              user_streak: {
+                increment: 1
+              }
             }
           }
         }
-      }
-    });
+      });
 
-    return if_todo;
+      return if_todo;
+    } else {
+      const if_todo: TYPES.Useful_Todo = await prisma.todo.update({
+        where: {
+          todo_id
+        },
+        data: {
+          Todo_User: {
+            update: {
+              user_streak: {
+                decrement: 1
+              }
+            }
+          }
+        }
+      });
+
+      return if_todo;
+    }
   }
 
   return todo;
