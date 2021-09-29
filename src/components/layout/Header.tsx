@@ -61,7 +61,8 @@ export const Header = ({
               <div className="flex space-x-1.5">
                 <button
                   type="button"
-                  aria-label="Add a task!"
+                  aria-label="Search Pages"
+                  title="Search Pages"
                   onClick={() => setIsOpen(true)}
                   className="
                     inline-flex justify-center

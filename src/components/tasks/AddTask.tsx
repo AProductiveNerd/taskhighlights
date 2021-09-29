@@ -52,6 +52,7 @@ export const AddTask = ({
         <button
           type="button"
           aria-label="Add a task!"
+          title="Add a task!"
           onClick={() => setIsOpen(true)}
           className="
             inline-flex justify-center
