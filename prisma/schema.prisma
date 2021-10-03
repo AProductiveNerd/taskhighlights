@@ -25,6 +25,8 @@ model User {
   user_api_token           String     @default(cuid())
   user_twitter_handle      String?
   user_level               User_Level @default(None)
+  user_streak_last_updated DateTime   @default(now())
+  user_streak_prev         Int        @default(0)
   User_Habits              Habit[]
   User_Page                Page[]
   User_Routine             Routine[]
