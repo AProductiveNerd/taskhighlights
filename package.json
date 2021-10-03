@@ -8,6 +8,7 @@
     "postbuild": "yarn next-sitemap",
     "start": "next start",
     "lint": "next lint",
+    "prod": "yarn lint && yarn build && yarn postbuild && yarn start",
     "devMigrate": "yarn prisma migrate dev",
     "prodMigrate": "yarn prisma migrate deploy",
     "introspect": "yarn prisma db pull",
@@ -33,7 +34,8 @@
     "react-dom": "npm:@preact/compat",
     "react-loading-skeleton": "^2.2.0",
     "react-nice-avatar": "^1.2.2",
-    "react-ssr-prepass": "npm:preact-ssr-prepass"
+    "react-ssr-prepass": "npm:preact-ssr-prepass",
+    "stripe": "^8.178.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",
