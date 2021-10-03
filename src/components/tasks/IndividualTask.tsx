@@ -185,7 +185,7 @@ export const IndividualTask = ({
                   set_todo_archive_state(!db_archive);
                   onClick_toggleArchiving({
                     stateReload,
-                    todo_archived: todo_archive_state,
+                    todo_archived: !todo_archive_state,
                     todo_id
                   });
                 }}

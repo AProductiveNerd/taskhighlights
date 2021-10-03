@@ -155,13 +155,13 @@ export const ArchivedTask = ({
           <Menu.Item>
             {({ active }) => (
               <button
-                title="Archive"
-                aria-label="Archive Task"
+                title="Unarchive"
+                aria-label="Unarchive Task"
                 onClick={() => {
                   set_todo_archive_state(!db_archive);
                   onClick_toggleArchiving({
                     stateReload,
-                    todo_archived: todo_archive_state,
+                    todo_archived: !todo_archive_state,
                     todo_id
                   });
                 }}
@@ -176,7 +176,7 @@ export const ArchivedTask = ({
                     !active && "text-theme-primary-500"
                   } mr-2`}
                 />
-                Permanently Delete
+                Unarchive
               </button>
             )}
           </Menu.Item>
