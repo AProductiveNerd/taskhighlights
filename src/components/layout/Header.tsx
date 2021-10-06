@@ -6,6 +6,7 @@ import {
   SIGN_UP
 } from "../../constants/Routes";
 import {
+  ArchiveIcon,
   CalendarIcon,
   DotsVerticalIcon,
   LoginIcon,
@@ -224,6 +225,34 @@ export const Header = ({
                                 } mr-2`}
                               />
                               Incomplete
+                            </button>
+                          )}
+                        </Menu.Item>
+                      </a>
+                    </Link>
+
+                    {/* Archived */}
+                    <Link href="/archived">
+                      <a
+                        title="Archived"
+                        aria-label="Archived"
+                        className="flex items-center"
+                      >
+                        <Menu.Item>
+                          {({ active }) => (
+                            <button
+                              className={`${
+                                active
+                                  ? "bg-theme-primary-500 text-theme-blueGray-300"
+                                  : "text-theme-blueGray-500"
+                              } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                            >
+                              <ArchiveIcon
+                                className={`w-6 h-6 ${
+                                  !active && "text-theme-primary-500"
+                                } mr-2`}
+                              />
+                              Archived
                             </button>
                           )}
                         </Menu.Item>
