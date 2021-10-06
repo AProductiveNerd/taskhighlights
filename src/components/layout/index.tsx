@@ -2,17 +2,19 @@ import { useContext, useEffect, useState } from "react";
 
 import { ChildrenProps } from "../../constants/Types";
 import FireUserContext from "../../contexts/FireUserContext";
+import { GlobalMenu } from "./GlobalMenu";
 import { Header } from "./Header";
 import { User } from "@prisma/client";
 import UserContext from "./../../contexts/UserContext";
 import { fetch_getUserByUserid } from "../../utils/fetchHelpers";
+import { useHotkeys } from "react-hotkeys-hook";
 import { useRouter } from "next/router";
 
 export const Layout = ({ children }: ChildrenProps): JSX.Element => {
   const fireId = useContext(FireUserContext);
   const [currentUser, setCurrentUser] = useState<User>(null);
   const [path, setPath] = useState<string>(null);
-
+  const [globalMenuIsOpen, setGlobalMenuIsOpen] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -29,6 +31,13 @@ export const Layout = ({ children }: ChildrenProps): JSX.Element => {
     })();
   }, [fireId, currentUser]);
 
+  useHotkeys("ctrl+p, command+p", (event) => {
+    event.preventDefault();
+    setGlobalMenuIsOpen(true);
+
+    return false;
+  });
+
   return (
     <UserContext.Provider value={currentUser}>
       <div
@@ -42,6 +51,11 @@ export const Layout = ({ children }: ChildrenProps): JSX.Element => {
         <header className="flex justify-center border-b-2 border-theme-primary-500">
           <Header currentUser={currentUser} path={path} />
         </header>
+
+        <GlobalMenu
+          globalMenuIsOpen={globalMenuIsOpen}
+          setGlobalMenuIsOpen={setGlobalMenuIsOpen}
+        />
 
         <main className="flex flex-1">{children}</main>
       </div>

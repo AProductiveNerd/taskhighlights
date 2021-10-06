@@ -32,6 +32,7 @@
     "prisma": "3.1.1",
     "react": "npm:@preact/compat",
     "react-dom": "npm:@preact/compat",
+    "react-hotkeys-hook": "^3.4.3",
     "react-loading-skeleton": "^2.2.0",
     "react-nice-avatar": "^1.2.2",
     "react-ssr-prepass": "npm:preact-ssr-prepass",
