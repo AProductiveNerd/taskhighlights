@@ -37,7 +37,7 @@ export const Layout = ({ children }: ChildrenProps): JSX.Element => {
     })();
   }, [fireId, currentUser]);
 
-  useHotkeys("ctrl+p, command+p", (event, handler) => {
+  useHotkeys("ctrl+p, command+p, ctrl+shift+f", (event, handler) => {
     event.preventDefault();
     switch (handler.key) {
       case "ctrl+p":
