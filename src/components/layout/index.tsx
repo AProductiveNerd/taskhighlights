@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react";
 
 import { ChildrenProps } from "../../constants/Types";
 import FireUserContext from "../../contexts/FireUserContext";
-import { Header } from "./Header";
 import PageSearchContext from "../../contexts/PageSearchContext";
 import { User } from "@prisma/client";
 import UserContext from "./../../contexts/UserContext";
@@ -14,6 +13,7 @@ import { useRouter } from "next/router";
 // import { GlobalMenu } from "./GlobalMenu";
 
 const DynamicGlobalMenu = dynamic(() => import("./GlobalMenu"));
+const DynamicHeader = dynamic(() => import("./Header"));
 
 export const Layout = ({ children }: ChildrenProps): JSX.Element => {
   const fireId = useContext(FireUserContext);
@@ -66,7 +66,7 @@ export const Layout = ({ children }: ChildrenProps): JSX.Element => {
           <PageSearchContext.Provider
             value={{ pageSearchIsOpen, setPageSearchIsOpen }}
           >
-            <Header currentUser={currentUser} path={path} />
+            <DynamicHeader currentUser={currentUser} path={path} />
           </PageSearchContext.Provider>
         </header>
 
