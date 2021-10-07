@@ -3,14 +3,18 @@ import { Page_Story_Todos, Useful_Todo, user_id } from "../../constants/Types";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { useContext, useEffect, useState } from "react";
 
-import { AddTask } from "./AddTask";
 import { Card } from "../layout/Card";
 import FireUserContext from "../../contexts/FireUserContext";
 import { IndividualTask } from "./IndividualTask";
 import { Story } from "@prisma/client";
+import dynamic from "next/dynamic";
 import { fetch_createRetDailyPage } from "../../utils/fetchHelpers";
 import { isDailyPage } from "../../utils/generalHelpers";
 import { useRouter } from "next/dist/client/router";
+
+// import { AddTask } from "./AddTask";
+
+const DynamicAddTask = dynamic(() => import("./AddTask"));
 
 // ! Limit the number of tasks a user can add to amplify the constraints lead to creativity effect
 
@@ -95,7 +99,7 @@ export const TasksCard = (): JSX.Element => {
   return (
     <Card
       action_component={
-        <AddTask
+        <DynamicAddTask
           user={fireId}
           page={currentPage?.page_id}
           count={currentTodos?.length}

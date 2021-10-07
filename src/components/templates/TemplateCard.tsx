@@ -1,12 +1,15 @@
 import { useContext, useEffect, useState } from "react";
 
 import { Card } from "../layout/Card";
-import { CreateTemplate } from "./CreateTemplate";
 import FireUserContext from "../../contexts/FireUserContext";
 import { IndividualTemplateItem } from "./IndividualTemplateItem";
 import { Template } from "@prisma/client";
+import dynamic from "next/dynamic";
 import { fetch_getAllUserTemplates } from "../../utils/fetchHelpers";
 
+// import { CreateTemplate } from "./CreateTemplate";
+
+const DynamicCreateTemplate = dynamic(() => import("./CreateTemplate"));
 export const TemplateCard = (): JSX.Element => {
   const fireId = useContext(FireUserContext);
   const [templates, setTemplates] = useState<Template[]>(null);
@@ -35,7 +38,7 @@ export const TemplateCard = (): JSX.Element => {
   return (
     <Card
       action_component={
-        <CreateTemplate stateReload={stateReload} user_id={fireId} />
+        <DynamicCreateTemplate stateReload={stateReload} user_id={fireId} />
       }
       spaced_elements={
         <>

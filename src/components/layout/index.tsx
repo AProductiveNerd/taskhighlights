@@ -2,19 +2,25 @@ import { useContext, useEffect, useState } from "react";
 
 import { ChildrenProps } from "../../constants/Types";
 import FireUserContext from "../../contexts/FireUserContext";
-import { GlobalMenu } from "./GlobalMenu";
 import { Header } from "./Header";
+import PageSearchContext from "../../contexts/PageSearchContext";
 import { User } from "@prisma/client";
 import UserContext from "./../../contexts/UserContext";
+import dynamic from "next/dynamic";
 import { fetch_getUserByUserid } from "../../utils/fetchHelpers";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useRouter } from "next/router";
+
+// import { GlobalMenu } from "./GlobalMenu";
+
+const DynamicGlobalMenu = dynamic(() => import("./GlobalMenu"));
 
 export const Layout = ({ children }: ChildrenProps): JSX.Element => {
   const fireId = useContext(FireUserContext);
   const [currentUser, setCurrentUser] = useState<User>(null);
   const [path, setPath] = useState<string>(null);
   const [globalMenuIsOpen, setGlobalMenuIsOpen] = useState(false);
+  const [pageSearchIsOpen, setPageSearchIsOpen] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -31,9 +37,17 @@ export const Layout = ({ children }: ChildrenProps): JSX.Element => {
     })();
   }, [fireId, currentUser]);
 
-  useHotkeys("ctrl+p, command+p", (event) => {
+  useHotkeys("ctrl+p, command+p", (event, handler) => {
     event.preventDefault();
-    setGlobalMenuIsOpen(true);
+    switch (handler.key) {
+      case "ctrl+p":
+      case "command+p":
+        setGlobalMenuIsOpen(true);
+        break;
+      case "ctrl+shift+f":
+        setPageSearchIsOpen(true);
+        break;
+    }
 
     return false;
   });
@@ -49,10 +63,14 @@ export const Layout = ({ children }: ChildrenProps): JSX.Element => {
         "
       >
         <header className="flex justify-center border-b-2 border-theme-primary-500">
-          <Header currentUser={currentUser} path={path} />
+          <PageSearchContext.Provider
+            value={{ pageSearchIsOpen, setPageSearchIsOpen }}
+          >
+            <Header currentUser={currentUser} path={path} />
+          </PageSearchContext.Provider>
         </header>
 
-        <GlobalMenu
+        <DynamicGlobalMenu
           globalMenuIsOpen={globalMenuIsOpen}
           setGlobalMenuIsOpen={setGlobalMenuIsOpen}
         />

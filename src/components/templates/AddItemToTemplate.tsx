@@ -125,3 +125,5 @@ export const AddItemToTemplate = ({
     </div>
   );
 };
+
+export default AddItemToTemplate;

@@ -1,8 +1,11 @@
-import { AddItemToTemplate } from "./AddItemToTemplate";
+// import { AddItemToTemplate } from "./AddItemToTemplate";
+
 import { ChevronUpIcon } from "@heroicons/react/outline";
 import { Disclosure } from "@headlessui/react";
 import { Template } from "@prisma/client";
+import dynamic from "next/dynamic";
 
+const DynamicAddItemToTemplate = dynamic(() => import("./AddItemToTemplate"));
 export const IndividualTemplateItem = ({
   routine,
   stateReload
@@ -18,7 +21,7 @@ export const IndividualTemplateItem = ({
             <div className="flex flex-1 justify-between w-full items-center text-lg text-theme-blueGray-300">
               {routine.template_title}
 
-              <AddItemToTemplate
+              <DynamicAddItemToTemplate
                 stateReload={stateReload}
                 template_id={routine.template_id}
               />

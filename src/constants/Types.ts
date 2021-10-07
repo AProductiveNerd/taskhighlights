@@ -233,7 +233,7 @@ export interface removeFromStory extends Story_Body {
   stateReload: stateReload;
 }
 
-export const corsMethods = ["GET"];
+export const corsMethods = [];
 
 /**
  * User Routine Templates

@@ -16,7 +16,7 @@ import {
   TemplateIcon,
   UploadIcon
 } from "@heroicons/react/outline";
-import { Fragment, useState } from "react";
+import { Fragment, useContext } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
@@ -24,10 +24,15 @@ import Avatar from "react-nice-avatar";
 import { EmptyCircleIcon } from "../../constants/customIcons";
 import Image from "next/image";
 import Link from "next/link";
-import { PageSearch } from "../page/PageSearch";
+import PageSearchContext from "../../contexts/PageSearchContext";
 import { User } from "@prisma/client";
 import { auth } from "../../libs/Firebase";
+import dynamic from "next/dynamic";
 import { signOut } from "@firebase/auth";
+
+// import { PageSearch } from "../page/PageSearch";
+
+const DynamicPageSearch = dynamic(() => import("../page/PageSearch"));
 
 export const Header = ({
   currentUser,
@@ -36,7 +41,8 @@ export const Header = ({
   currentUser: User;
   path: string;
 }): JSX.Element => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { pageSearchIsOpen: isOpen, setPageSearchIsOpen: setIsOpen } =
+    useContext(PageSearchContext);
 
   return (
     <div className="py-3 px-6 sm:px-0 flex-1 max-w-7xl flex justify-between items-center">
@@ -79,7 +85,7 @@ export const Header = ({
                     className="w-5 h-5 text-theme-primary-50"
                     aria-hidden="true"
                   />
-                  <PageSearch
+                  <DynamicPageSearch
                     user={currentUser?.user_id}
                     isOpen={isOpen}
                     setIsOpen={setIsOpen}

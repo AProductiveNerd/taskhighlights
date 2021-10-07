@@ -147,3 +147,5 @@ export const UseTemplate = ({
     </div>
   );
 };
+
+export default UseTemplate;

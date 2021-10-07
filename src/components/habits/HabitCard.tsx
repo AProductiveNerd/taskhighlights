@@ -17,8 +17,11 @@ import { Card } from "../layout/Card";
 import FireUserContext from "../../contexts/FireUserContext";
 import { IndividualHabit } from "./IndividualHabit";
 import { Template } from "@prisma/client";
-import { UseTemplate } from "./UseTemplate";
+import dynamic from "next/dynamic";
 
+// import { UseTemplate } from "./UseTemplate";
+
+const DynamicUseTemplate = dynamic(() => import("./UseTemplate"));
 // ! Limit the number of tasks a user can add to amplify the constraints lead to creativity effect
 
 export const HabitCard = (): JSX.Element => {
@@ -95,7 +98,7 @@ export const HabitCard = (): JSX.Element => {
   return (
     <Card
       action_component={
-        <UseTemplate
+        <DynamicUseTemplate
           stateReload={stateReload}
           routine_id={currentRoutine?.routine_id}
           template_data={my_template_data}

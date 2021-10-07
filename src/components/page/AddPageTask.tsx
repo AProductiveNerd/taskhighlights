@@ -161,3 +161,5 @@ export const AddPageTask = ({
     </div>
   );
 };
+
+export default AddPageTask;

@@ -1,10 +1,10 @@
+import { Dialog, Menu, Transition } from "@headlessui/react";
+import { Dispatch, Fragment, SetStateAction } from "react";
+
 interface GlobalMenu_Props {
   globalMenuIsOpen: boolean;
   setGlobalMenuIsOpen: Dispatch<SetStateAction<boolean>>;
 }
-
-import { Dialog, Transition } from "@headlessui/react";
-import { Dispatch, Fragment, SetStateAction } from "react";
 
 export const GlobalMenu = ({
   globalMenuIsOpen,
@@ -66,21 +66,24 @@ export const GlobalMenu = ({
                 >
                   Payment successful
                 </Dialog.Title>
-                <div className="mt-2">
-                  <p className="text-sm text-gray-500">
-                    Your payment has been successfully submitted. We’ve sent you
-                    an email with all of the details of your order.
-                  </p>
-                </div>
 
-                <div className="mt-4">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                    onClick={() => setGlobalMenuIsOpen(false)}
-                  >
-                    Got it, thanks!
-                  </button>
+                <div className="mt-2">
+                  <Menu as="div" className="mt-4">
+                    <Menu.Items
+                      static
+                      as="div"
+                      className="
+                        w-full mt-2
+                        bg-black filter backdrop-blur-3xl bg-opacity-40
+                        divide-gray-100 rounded-md shadow-lg ring-1
+                        ring-black ring-opacity-5 focus:outline-none
+                      "
+                    >
+                      <Menu.Item>
+                        <p>WIP</p>
+                      </Menu.Item>
+                    </Menu.Items>
+                  </Menu>
                 </div>
               </div>
             </Transition.Child>
@@ -90,3 +93,5 @@ export const GlobalMenu = ({
     </>
   );
 };
+
+export default GlobalMenu;

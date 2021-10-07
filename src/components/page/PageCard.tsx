@@ -2,11 +2,15 @@ import { Page_and_Todos, Useful_Todo, user_id } from "../../constants/Types";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { useContext, useEffect, useState } from "react";
 
-import { AddPageTask } from "./AddPageTask";
 import { Card } from "../layout/Card";
 import FireUserContext from "../../contexts/FireUserContext";
 import { IndividualPageTask } from "./IndividualPageTask";
+import dynamic from "next/dynamic";
 import { fetch_createRetPageByTitle } from "../../utils/fetchHelpers";
+
+// import { AddPageTask } from "./AddPageTask";
+
+const DynamicAddPageTask = dynamic(() => import("./AddPageTask"));
 
 export const PageCard = ({ title }: { title: string }): JSX.Element => {
   const [currentPage, setCurrentPage] = useState<Page_and_Todos>(null);
@@ -44,7 +48,7 @@ export const PageCard = ({ title }: { title: string }): JSX.Element => {
   return (
     <Card
       action_component={
-        <AddPageTask
+        <DynamicAddPageTask
           user={fireId}
           page={currentPage?.page_id}
           stateReload={stateReload}
