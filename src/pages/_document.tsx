@@ -9,12 +9,12 @@ class MyDocument extends Document {
           <link rel="apple-touch-icon" href="/icon.png" />
           <meta name="theme-color" content="#fff" />
 
-          <link
+          {/* <link
             rel="preload"
             href="https://rsms.me/inter/inter.css"
             as="style"
             type="text/css"
-          />
+          /> */}
         </Head>
         <body>
           <Main />
