@@ -318,11 +318,7 @@ export const prisma_getAllIncompleteTodosByPage = async (
   user_id: TYPES.user_id
 ): Promise<TYPES.Useful_Todo[]> => {
   const todos: TYPES.Useful_Todo[] = await prisma.todo.findMany({
-    orderBy: [
-      { todo_done: "asc" },
-      { todo_description: "asc" },
-      { todo_archived: "asc" }
-    ],
+    orderBy: [{ todo_datecreated: "desc" }, { todo_archived: "asc" }],
     where: {
       AND: {
         Todo_User: {
