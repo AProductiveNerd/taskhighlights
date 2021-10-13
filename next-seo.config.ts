@@ -12,7 +12,7 @@ export const default_seo = (pathname: string): NextSeoProps => {
         "A to-do app that uses accountability to supercharge your productivity",
       images: [
         {
-          url: "/icon.png",
+          url: "https://www.taskhighlights.com/icon.png",
           alt: "Task Highlights"
         }
       ],
