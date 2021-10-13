@@ -13,10 +13,7 @@ export const SEO_component = (seo_props: SEO_interface): JSX.Element => {
         {seo_props.twitter.handle && (
           <meta name="twitter:author" content={seo_props.twitter.handle} />
         )}
-        <meta
-          name="twitter:image"
-          content="https://www.taskhighlights.com/_next/image?url=%2Ficon.png&w=828&q=75"
-        />
+        <meta name="twitter:image" content="/images/icon.jpg" />
         <meta name="twitter:image:alt" content="Task Highlights" />
       </Head>
       <NextSeo {...seo_props} />
