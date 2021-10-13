@@ -176,7 +176,7 @@ export const IncompleteTask = ({
                     !active && "text-theme-primary-500"
                   } mr-2`}
                 />
-                Permanently Delete
+                Archive Task
               </button>
             )}
           </Menu.Item>

@@ -124,7 +124,11 @@ export const Header = ({
                 <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-black filter backdrop-blur-3xl bg-opacity-40 divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                   <div className="px-1 py-1 ">
                     {/* Daily Page */}
-                    <Link href="/app">
+                    <Link
+                      href={`/app?date=${new Date().toLocaleDateString(
+                        "en-GB"
+                      )}`}
+                    >
                       <a
                         title="Daily Page"
                         aria-label="Daily Page"
