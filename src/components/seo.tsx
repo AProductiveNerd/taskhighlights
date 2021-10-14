@@ -15,7 +15,7 @@ export const SEO_component = (seo_props: SEO_interface): JSX.Element => {
         )}
         <meta
           name="twitter:image"
-          content="https://www.taskhighlights.com/icon.png"
+          content="https://www.taskhighlights.com/images/icon.jpg"
         />
         <meta name="twitter:image:alt" content="Task Highlights" />
       </Head>
