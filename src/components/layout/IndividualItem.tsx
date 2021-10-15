@@ -50,7 +50,7 @@ export const IndividualItem = ({
             >
               <Menu.Items
                 className="
-                  absolute right-0 w-56 mr-10 -mt-9 origin-bottom-left
+                  absolute right-0 w-56 mr-10 -mt-24 origin-bottom-left
                   bg-black bg-opacity-70 filter backdrop-blur-3xl
                   divide-gray-100 rounded-md
                   shadow-lg ring-1 ring-black ring-opacity-5
