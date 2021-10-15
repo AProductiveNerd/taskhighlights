@@ -44,6 +44,7 @@ export type todo_description = string;
 export type todo_done = boolean;
 export type todo_archived = boolean;
 export type todo_highlight = boolean;
+export type todo_details = string;
 
 /**
  * Habit Model Types
@@ -68,7 +69,8 @@ export type Todo_Body_Task =
   | "toggleArchive"
   | "makeHighlight"
   | "create"
-  | "move";
+  | "move"
+  | "updateDetails";
 
 export type Habit_Body_Task = "toggleState" | "create" | "createMany";
 
@@ -108,6 +110,7 @@ export interface Todo_Body {
   todo_id?: todo_id;
   todo_done?: todo_done;
   todo_archived?: todo_archived;
+  todo_details?: todo_details;
 }
 
 export interface Habit_Body {

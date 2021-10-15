@@ -13,7 +13,8 @@ import {
   prisma_moveTasks,
   prisma_toggleArchived,
   prisma_toggleTodoDone,
-  prisma_updateTodoDescription
+  prisma_updateTodoDescription,
+  prisma_updateTodoDetails
 } from "../../../utils/prismaHelpers";
 
 import Cors from "cors";
@@ -58,6 +59,10 @@ export default async function handler(
         res.status(201).json(JSON.stringify(todo));
       } else if (body.task === "updateDescription") {
         const todo: Useful_Todo = await prisma_updateTodoDescription(body);
+
+        res.status(201).json(JSON.stringify(todo));
+      } else if (body.task === "updateDetails") {
+        const todo: Useful_Todo = await prisma_updateTodoDetails(body);
 
         res.status(201).json(JSON.stringify(todo));
       } else if (body.task === "toggleArchive") {

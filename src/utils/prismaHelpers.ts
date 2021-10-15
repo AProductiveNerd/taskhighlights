@@ -982,3 +982,19 @@ export const prisma_getAllArchivedTodosByPage = async (
 
   return todos;
 };
+
+export const prisma_updateTodoDetails = async ({
+  todo_id,
+  todo_details
+}: TYPES.Todo_Body): Promise<TYPES.Useful_Todo> => {
+  const todo: TYPES.Useful_Todo = await prisma.todo.update({
+    where: {
+      todo_id
+    },
+    data: {
+      todo_details
+    }
+  });
+
+  return todo;
+};

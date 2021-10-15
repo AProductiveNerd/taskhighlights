@@ -377,3 +377,25 @@ export const fetch_createManyHabit = async ({
 
   return data.json();
 };
+
+export const fetch_updateTodoDetails = async ({
+  todo_id,
+  todo_details
+}: {
+  todo_id: TYPES.todo_id;
+  todo_details: TYPES.todo_details;
+}): Promise<Todo> => {
+  if (todo_id && todo_details) {
+    const data = await fetch(`${API_V1}todo`, {
+      method: "POST",
+      body: JSON.stringify({
+        task: "updateDetails",
+        todo_id,
+        todo_details
+      }),
+      headers: { "Content-Type": "application/json" }
+    });
+
+    return data.json();
+  }
+};
