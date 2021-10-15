@@ -30,8 +30,6 @@ import { auth } from "../../libs/Firebase";
 import dynamic from "next/dynamic";
 import { signOut } from "@firebase/auth";
 
-// import { PageSearch } from "../page/PageSearch";
-
 const DynamicPageSearch = dynamic(() => import("../page/PageSearch"));
 
 export const Header = ({

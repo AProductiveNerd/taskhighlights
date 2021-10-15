@@ -32,6 +32,9 @@ import {
 import { IndividualItem } from "../layout/IndividualItem";
 import { Menu } from "@headlessui/react";
 import { Story } from "@prisma/client";
+import dynamic from "next/dynamic";
+
+const DynamicAddDetails = dynamic(() => import("./AddDetails"));
 
 export const IndividualTask = ({
   todo: {
@@ -62,6 +65,7 @@ export const IndividualTask = ({
   const [todo_archive_state, set_todo_archive_state] =
     useState<todo_archived>(db_archive);
 
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const editTaskRef = useRef(null);
 
   useLayoutEffect(() => {
@@ -203,6 +207,14 @@ export const IndividualTask = ({
                 Archive Task
               </button>
             )}
+          </Menu.Item>
+          <Menu.Item>
+            <DynamicAddDetails
+              stateReload={stateReload}
+              todo_id={todo_id}
+              isOpen={isOpen}
+              setIsOpen={setIsOpen}
+            />
           </Menu.Item>
         </div>
       }
