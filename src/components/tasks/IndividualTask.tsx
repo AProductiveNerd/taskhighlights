@@ -65,7 +65,6 @@ export const IndividualTask = ({
   const [todo_archive_state, set_todo_archive_state] =
     useState<todo_archived>(db_archive);
 
-  const [isOpen, setIsOpen] = useState<boolean>(false);
   const editTaskRef = useRef(null);
 
   useLayoutEffect(() => {
@@ -212,8 +211,8 @@ export const IndividualTask = ({
             <DynamicAddDetails
               stateReload={stateReload}
               todo_id={todo_id}
-              isOpen={isOpen}
-              setIsOpen={setIsOpen}
+              // isOpen={isOpen}
+              // setIsOpen={setIsOpen}
             />
           </Menu.Item>
         </div>

@@ -8,17 +8,18 @@ import { fetch_updateTodoDetails } from "../../utils/fetchHelpers";
 interface AddDetails_Props {
   stateReload: VoidFunction;
   todo_id: todo_id;
-  isOpen: boolean;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  // isOpen: boolean;
+  // setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 export const AddDetails = ({
   stateReload,
-  todo_id,
-  isOpen,
-  setIsOpen
-}: AddDetails_Props): JSX.Element => {
+  todo_id
+}: // isOpen,
+// setIsOpen
+AddDetails_Props): JSX.Element => {
   const [details, setDetails] = useState<todo_details>("");
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const detailsAdder = async () => {
     console.log(details);
@@ -38,8 +39,8 @@ export const AddDetails = ({
       <div className="flex items-center justify-center">
         <button
           type="button"
-          aria-label="Add a task!"
-          title="Add a task!"
+          aria-label="Add details!"
+          title="Add details!"
           onClick={() => setIsOpen(true)}
           className="
             inline-flex justify-center
@@ -55,11 +56,10 @@ export const AddDetails = ({
         </button>
       </div>
 
-      <Transition appear show={true} as={Fragment}>
+      <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"
           className="fixed inset-0 z-10 overflow-y-auto"
-          static
           onClose={() => setIsOpen(false)}
         >
           <div className="min-h-screen px-4 text-center">
@@ -127,7 +127,7 @@ export const AddDetails = ({
                 <div className="mt-4 flex justify-center space-x-6 text-theme-blueGray-300 selection:bg-theme-primary-500/60">
                   <button
                     type="button"
-                    aria-label="Close add tasks popup"
+                    aria-label="Close add details popup"
                     className="inline-flex justify-center px-4 py-2 text-sm font-medium bg-theme-primary-500/60 border border-transparent rounded-md hover:bg-theme-primary-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 text-theme-blueGray-50"
                     onClick={() => {
                       setIsOpen(false);
@@ -138,11 +138,9 @@ export const AddDetails = ({
 
                   <button
                     type="button"
-                    aria-label="Close add tasks popup"
+                    aria-label="Close add details popup"
                     className="inline-flex justify-center px-4 py-2 text-sm font-medium bg-theme-primary-500/60 border border-transparent rounded-md hover:bg-theme-primary-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                     onClick={() => {
-                      console.log("I was clicked");
-
                       detailsAdder();
                     }}
                   >
