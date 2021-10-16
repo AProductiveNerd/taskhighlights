@@ -1,30 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { Page, Prisma } from "@prisma/client";
-import {
-  Page_Body,
-  Page_Story_Todos,
-  Page_and_Todos,
-  corsMethods
-} from "../../../constants/Types";
-import {
-  prisma_createPage,
-  prisma_createRetDailyPage,
-  prisma_createRetPageByTitle,
-  prisma_deletePageByPageid,
-  prisma_getPageByPageTitle,
-  prisma_getPageByPageid
-} from "../../../utils/prismaHelpers";
+import { Page_Body, corsMethods } from "../../../constants/Types";
 
 import Cors from "cors";
 import initMiddleware from "../../../libs/InitMiddleware";
-import { isDailyPage } from "../../../utils/generalHelpers";
-
-interface Query {
-  page_id?: string;
-  page_title?: string;
-  page_user_id?: string;
-  today?: string;
-}
+import { make_json_string } from "../../../utils/generalHelpers";
+import { page_delete_handler } from "../../../apiHandlers/page/DELETE";
+import { page_get_handler } from "../../../apiHandlers/page/GET";
+import { page_post_handler } from "../../../apiHandlers/page/POST";
+import { type_page_query } from "../../../types/api/page";
 
 const cors = initMiddleware(
   Cors({
@@ -34,67 +17,34 @@ const cors = initMiddleware(
 
 export default async function handler(
   req: NextApiRequest,
-
   res: NextApiResponse<any>
 ): Promise<void> {
   await cors(req, res);
 
   const method = req.method;
-  const { page_id, page_title, page_user_id, today }: Query = req.query;
+  const query: type_page_query = req.query;
+
   switch (method) {
     case "GET":
-      if (page_id) {
-        const page: Page = await prisma_getPageByPageid(page_id);
-
-        res.status(200).json(JSON.stringify(page));
-      } else if (page_title) {
-        const page: Page = await prisma_getPageByPageTitle(
-          page_title,
-          page_user_id
-        );
-
-        res.status(200).json(JSON.stringify(page));
-      } else {
-        if (typeof page_user_id === "string") {
-          if (isDailyPage(today)) {
-            const page: Page_Story_Todos = await prisma_createRetDailyPage(
-              page_user_id,
-              today
-            );
-            res.status(200).json(JSON.stringify(page));
-          } else {
-            const page: Page_and_Todos = await prisma_createRetPageByTitle(
-              page_user_id,
-              today
-            );
-            res.status(200).json(JSON.stringify(page));
-          }
-        }
-      }
+      page_get_handler({ query, res });
 
       break;
 
     case "POST":
-      try {
-        const body: Page_Body = req.body;
-
-        const createdPage: Page = await prisma_createPage(body);
-
-        res.status(201).json(JSON.stringify(createdPage));
-      } catch (e) {
-        if (e instanceof Prisma.PrismaClientKnownRequestError) {
-          res.status(409).json(JSON.stringify(e.message));
-        }
-      }
+      const body: Page_Body = req.body;
+      page_post_handler({ body, res });
 
       break;
 
     case "DELETE":
-      if (page_id) {
-        const deletedPage: Page = await prisma_deletePageByPageid(page_id);
+      page_delete_handler({ query, res });
 
-        res.status(200).json(JSON.stringify(deletedPage));
-      }
+      break;
+
+    default:
+      res
+        .status(406)
+        .json(make_json_string({ Error: "Method is not allowed" }));
 
       break;
   }
