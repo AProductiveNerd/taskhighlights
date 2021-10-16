@@ -22,8 +22,6 @@ AddDetails_Props): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const detailsAdder = async () => {
-    console.log(details);
-
     if (details !== "") {
       await fetch_updateTodoDetails({
         todo_id,

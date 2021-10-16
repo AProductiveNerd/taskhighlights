@@ -20,6 +20,7 @@ export const Card = ({
       overflow-y-scroll overflow-x-hidden
       filter backdrop-blur-3xl bg-opacity-40
     "
+      id="Card"
     >
       <div className="flex justify-between items-center">
         <p className="text-4xl">{title}</p>
