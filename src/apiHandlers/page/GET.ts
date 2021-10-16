@@ -1,5 +1,4 @@
 import { Page, Prisma } from ".prisma/client";
-import { Page_Story_Todos, Page_and_Todos } from "../../constants/Types";
 import { isDailyPage, make_json_string } from "../../utils/generalHelpers";
 import {
   prisma_createRetDailyPage,
@@ -9,6 +8,7 @@ import {
 } from "../../utils/prismaHelpers";
 
 import { NextApiResponse } from "next";
+import { Page_Story_Todos } from "../../constants/Types";
 import { is_valid_prop } from "../../utils/validationHelpers";
 import { type_page_query } from "../../types/api/page";
 
@@ -34,21 +34,24 @@ export const page_get_handler = async ({
       } else {
         page = await prisma_createRetPageByTitle(page_user_id, today);
       }
+    } else {
+      res
+        .status(406)
+        .json(make_json_string({ Error: "Please enter valid parameters" }));
+
+      return;
     }
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       res.status(500).json(e.message);
+    } else {
+      res.status(500).json(
+        make_json_string({
+          Error: "Could not do the operation"
+        })
+      );
     }
 
-    return;
-  }
-
-  if (!page) {
-    res.status(404).json(
-      make_json_string({
-        Error: "Could not find the page you are looking for"
-      })
-    );
     return;
   }
 

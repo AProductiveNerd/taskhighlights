@@ -24,10 +24,20 @@ export const page_delete_handler = async ({
   try {
     const deletedPage: Page = await prisma_deletePageByPageid(page_id);
 
-    res.status(200).json(make_json_string(deletedPage));
+    if (deletedPage) {
+      res.status(200).json(make_json_string(deletedPage));
+    } else {
+      res
+        .status(404)
+        .json(make_json_string({ Error: "Could not delete the page" }));
+    }
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
-      res.status(500).json(JSON.stringify(e.message));
+      res.status(500).json(e.message);
+    } else {
+      res
+        .status(500)
+        .json(make_json_string({ Error: "Could not delete the user" }));
     }
   }
 

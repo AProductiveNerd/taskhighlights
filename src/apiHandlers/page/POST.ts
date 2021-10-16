@@ -30,10 +30,20 @@ export const page_post_handler = async ({
   try {
     const created_page: Page = await prisma_createPage({ page_title, user_id });
 
-    res.status(200).json(make_json_string(created_page));
+    if (created_page) {
+      res.status(200).json(make_json_string(created_page));
+    } else {
+      res
+        .status(400)
+        .json(make_json_string({ Error: "Coud not create the page" }));
+    }
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       res.status(500).json(e.message);
+    } else {
+      res
+        .status(500)
+        .json(make_json_string({ Error: "Could not create the page" }));
     }
   }
 

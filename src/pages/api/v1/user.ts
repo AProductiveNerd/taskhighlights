@@ -1,18 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { Prisma, User } from "@prisma/client";
-import {
-  prisma_createUser,
-  prisma_deleteUserbyuserid,
-  prisma_deleteUserbyusername,
-  prisma_getUserByUserid
-} from "../../../utils/prismaHelpers";
 
 import { User_Request_Body } from "../../../constants/Types";
-
-interface Query {
-  user_id?: string;
-  user_username?: string;
-}
+import { make_json_string } from "../../../utils/generalHelpers";
+import { type_user_query } from "../../../types/api/user";
+import { user_delete_handler } from "../../../apiHandlers/user/DELETE";
+import { user_get_handler } from "../../../apiHandlers/user/GET";
+import { user_post_handler } from "../../../apiHandlers/user/POST";
 
 export default async function handler(
   req: NextApiRequest,
@@ -20,42 +13,27 @@ export default async function handler(
   res: NextApiResponse<any>
 ): Promise<void> {
   const method = req.method;
-  const { user_id, user_username }: Query = req.query;
+  const query: type_user_query = req.query;
 
   switch (method) {
     case "GET":
-      if (user_id) {
-        const requested_user: User = await prisma_getUserByUserid(user_id);
-
-        res.status(200).json(JSON.stringify(requested_user));
-      }
-
+      user_get_handler({ query, res });
       break;
+
     case "POST":
-      try {
-        const body: User_Request_Body = req.body;
+      const body: User_Request_Body = req.body;
 
-        const createdUser: User = await prisma_createUser(body);
-
-        res.status(201).json(JSON.stringify(createdUser));
-      } catch (e) {
-        if (e instanceof Prisma.PrismaClientKnownRequestError) {
-          res.status(409).json(JSON.stringify(e.message));
-        }
-      }
+      user_post_handler({ body, res });
       break;
+
     case "DELETE":
-      if (user_id) {
-        const deletedUser: User = await prisma_deleteUserbyuserid(user_id);
+      user_delete_handler({ query, res });
+      break;
 
-        res.status(200).json(JSON.stringify(deletedUser));
-      } else if (user_username) {
-        const deletedUser: User = await prisma_deleteUserbyusername(
-          user_username
-        );
-
-        res.status(200).json(JSON.stringify(deletedUser));
-      }
+    default:
+      res
+        .status(406)
+        .json(make_json_string({ Error: "Method is not allowed" }));
       break;
   }
 }
