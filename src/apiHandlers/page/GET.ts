@@ -54,6 +54,12 @@ export const page_get_handler = async ({
 
     return;
   }
+  if (!page) {
+    res
+      .status(404)
+      .json(make_json_string({ Error: "Could not find the page" }));
+    return;
+  }
 
   res.status(200).json(make_json_string(page));
 
