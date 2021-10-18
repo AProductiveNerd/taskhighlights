@@ -31,7 +31,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
 
   return (
     <FireUserContext.Provider value={fireId}>
-      <DefaultSeo {...default_seo(router.pathname.toString())} />
+      <DefaultSeo {...default_seo()} />
       <Component {...pageProps} />
     </FireUserContext.Provider>
   );

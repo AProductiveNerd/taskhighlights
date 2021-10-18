@@ -1,5 +1,5 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Dispatch, Fragment, SetStateAction, useState } from "react";
+import { Fragment, useState } from "react";
 import { type_todo_details, type_todo_id } from "../../constants/Types";
 
 import { PencilAltIcon } from "@heroicons/react/solid";

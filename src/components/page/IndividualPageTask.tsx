@@ -3,8 +3,6 @@ import {
   DotsVerticalIcon,
   TrashIcon,
 } from "@heroicons/react/solid";
-import { Fragment, useLayoutEffect, useRef, useState } from "react";
-import { Menu, Transition } from "@headlessui/react";
 import {
   onClick_handleDelete,
   onClick_handleTextSubmit,
@@ -17,8 +15,10 @@ import {
   type_todo_description,
   type_todo_done,
 } from "../../constants/Types";
+import { useLayoutEffect, useRef, useState } from "react";
 
 import { IndividualItem } from "../layout/IndividualItem";
+import { Menu } from "@headlessui/react";
 
 export const IndividualPageTask = ({
   todo: {

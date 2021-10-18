@@ -9,6 +9,7 @@ interface IndividualMenu_Props {
   non_menu_button?: JSX.Element | JSX.Element[];
   menu_show_button_icon?: JSX.Element;
   onkeydowncapture_callback: (
+    // eslint-disable-next-line no-unused-vars
     event: React.KeyboardEvent<HTMLDivElement>
   ) => void | null;
 }

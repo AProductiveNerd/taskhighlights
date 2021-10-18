@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "prett": "prettier -w .",
-    "es": "eslint src --ignore-path .eslintignore",
+    "es": "eslint * --ignore-path .eslintignore",
     "prod": "yarn prett && yarn es && yarn lint && yarn build && yarn postbuild && yarn start",
     "final": "yarn prett && yarn es && yarn lint && yarn build && yarn postbuild",
     "devMigrate": "yarn prisma migrate dev",

@@ -69,7 +69,6 @@ export type type_Todo_Body_Task =
   | "toggleArchive"
   | "makeHighlight"
   | "create"
-  | "move"
   | "updateDetails";
 
 export type type_Habit_Body_Task = "toggleState" | "create" | "createMany";
@@ -191,6 +190,7 @@ export const Useful_Habit_Include_Object = {
  */
 export type type_stateReload =
   | VoidFunction
+  // eslint-disable-next-line no-unused-vars
   | ((todo_id?: type_todo_id) => void);
 
 /**

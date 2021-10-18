@@ -1,6 +1,6 @@
 import { NextSeoProps } from "next-seo";
 
-export const default_seo = (pathname: string): NextSeoProps => {
+export const default_seo = (): NextSeoProps => {
   const config: NextSeoProps = {
     defaultTitle: "Task Highlights",
     description:
@@ -23,5 +23,6 @@ export const default_seo = (pathname: string): NextSeoProps => {
       site: "@taskhighlights",
     },
   };
+
   return config;
 };

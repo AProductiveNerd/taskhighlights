@@ -1,10 +1,8 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import {
-  type_Useful_Todo,
   type_page_title,
   type_todo_description,
-  type_todo_highlight,
   type_user_id,
 } from "../../constants/Types";
 
