@@ -1,7 +1,7 @@
 import {
-  Useful_Todo,
-  stateReload,
-  todo_highlight
+  type_Useful_Todo,
+  type_stateReload,
+  type_todo_highlight,
 } from "../../constants/Types";
 
 import { EyeIcon } from "@heroicons/react/solid";
@@ -11,12 +11,12 @@ export const StoryTask = ({
   todo: { todo_description, todo_done, todo_id, todo_story_id },
   highlight,
   loggedInSame,
-  stateReload
+  stateReload,
 }: {
-  todo: Useful_Todo;
-  highlight?: todo_highlight;
+  todo: type_Useful_Todo;
+  highlight?: type_todo_highlight;
   loggedInSame: boolean;
-  stateReload: stateReload;
+  stateReload: type_stateReload;
 }): JSX.Element => {
   return (
     <div
@@ -55,7 +55,7 @@ export const StoryTask = ({
                 onClick_removeFromStory({
                   story_id: todo_story_id,
                   todo_id,
-                  stateReload
+                  stateReload,
                 })
               }
             />

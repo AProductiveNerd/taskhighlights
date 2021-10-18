@@ -19,7 +19,7 @@ export const IndividualItem = ({
   text_input_p,
   non_menu_button,
   onkeydowncapture_callback,
-  menu_show_button_icon
+  menu_show_button_icon,
 }: IndividualMenu_Props): JSX.Element => {
   return (
     <div

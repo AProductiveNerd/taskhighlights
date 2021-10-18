@@ -15,55 +15,55 @@ export type cuid = string;
 /**
  * User Model Types
  */
-export type user_id = string;
-export type user_email = string;
-export type user_username = string;
-export type user_avatar = AvatarConfig;
-export type user_fullname = string;
-export type user_bio = string | null;
-export type user_followers = string[];
-export type user_following = string[];
+export type type_user_id = string;
+export type type_user_email = string;
+export type type_user_username = string;
+export type type_user_avatar = AvatarConfig;
+export type type_user_fullname = string;
+export type type_user_bio = string | null;
+export type type_user_followers = string[];
+export type type_user_following = string[];
 
 /**
  * Page Model Types
  */
-export type page_id = string;
-export type page_title = string;
+export type type_page_id = string;
+export type type_page_title = string;
 
 /**
  * Routine Model Types
  */
-export type routine_id = string;
-export type routine_title = string;
+export type type_routine_id = string;
+export type type_routine_title = string;
 
 /**
  * Todo Model Types
  */
-export type todo_id = string;
-export type todo_description = string;
-export type todo_done = boolean;
-export type todo_archived = boolean;
-export type todo_highlight = boolean;
-export type todo_details = string;
+export type type_todo_id = string;
+export type type_todo_description = string;
+export type type_todo_done = boolean;
+export type type_todo_archived = boolean;
+export type type_todo_highlight = boolean;
+export type type_todo_details = string;
 
 /**
  * Habit Model Types
  */
-export type habit_id = string;
-export type habit_description = string;
-export type habit_done = boolean;
+export type type_habit_id = string;
+export type type_habit_description = string;
+export type type_habit_done = boolean;
 
 /**
  * Story Model Types
  */
-export type story_id = string;
-export type story_title = string;
+export type type_story_id = string;
+export type type_story_title = string;
 
 /**
  * Fetch Request Task Types
  */
-export type Story_Body_Task = "add" | "remove";
-export type Todo_Body_Task =
+export type type_Story_Body_Task = "add" | "remove";
+export type type_Todo_Body_Task =
   | "toggleState"
   | "updateDescription"
   | "toggleArchive"
@@ -72,95 +72,95 @@ export type Todo_Body_Task =
   | "move"
   | "updateDetails";
 
-export type Habit_Body_Task = "toggleState" | "create" | "createMany";
+export type type_Habit_Body_Task = "toggleState" | "create" | "createMany";
 
 /**
  * Fetch Request Types
  */
-export interface User_Request_Body {
-  user_avatar: user_avatar;
-  user_email: user_email;
-  user_fullname: user_fullname;
-  user_username: user_username;
-  user_id: user_id;
+export interface type_User_Request_Body {
+  user_avatar: type_user_avatar;
+  user_email: type_user_email;
+  user_fullname: type_user_fullname;
+  user_username: type_user_username;
+  user_id: type_user_id;
 }
 
-export interface Page_Body {
-  page_title: page_title;
-  user_id: user_id;
+export interface type_Page_Body {
+  page_title: type_page_title;
+  user_id: type_user_id;
 }
 
-export interface Routine_Body {
-  routine_title: routine_title;
-  user_id: user_id;
+export interface type_Routine_Body {
+  routine_title: type_routine_title;
+  user_id: type_user_id;
 }
 
-export interface Story_Body {
-  todo_id: todo_id;
-  story_id: story_id;
-  task?: Story_Body_Task;
+export interface type_Story_Body {
+  todo_id: type_todo_id;
+  story_id: type_story_id;
+  task?: type_Story_Body_Task;
 }
 
-export interface Todo_Body {
-  todo_description?: todo_description;
-  user_id: user_id;
-  page_id: page_id;
-  task: Todo_Body_Task;
-  todo_highlight: todo_highlight;
-  todo_id?: todo_id;
-  todo_done?: todo_done;
-  todo_archived?: todo_archived;
-  todo_details?: todo_details;
+export interface type_Todo_Body {
+  todo_description?: type_todo_description;
+  user_id: type_user_id;
+  page_id: type_page_id;
+  task: type_Todo_Body_Task;
+  todo_highlight: type_todo_highlight;
+  todo_id?: type_todo_id;
+  todo_done?: type_todo_done;
+  todo_archived?: type_todo_archived;
+  todo_details?: type_todo_details;
 }
 
 export interface Habit_Body {
-  habit_description: habit_description;
-  user_id: user_id;
-  routine_id: routine_id;
-  template_id?: template_id;
-  habit_id?: habit_id;
-  habit_done?: habit_done;
-  task: Habit_Body_Task;
+  habit_description: type_habit_description;
+  user_id: type_user_id;
+  routine_id: type_routine_id;
+  template_id?: type_template_id;
+  habit_id?: type_habit_id;
+  habit_done?: type_habit_done;
+  task: type_Habit_Body_Task;
 }
 
-export interface Useful_Todo {
-  todo_archived: todo_archived;
-  todo_description: todo_description;
-  todo_done: todo_done;
-  todo_highlight: todo_highlight;
-  todo_id: todo_id;
-  todo_story_id: story_id;
+export interface type_Useful_Todo {
+  todo_archived: type_todo_archived;
+  todo_description: type_todo_description;
+  todo_done: type_todo_done;
+  todo_highlight: type_todo_highlight;
+  todo_id: type_todo_id;
+  todo_story_id: type_story_id;
 }
 
-export interface Useful_Habit {
-  habit_description: habit_description;
-  habit_done: habit_done;
-  habit_id: habit_id;
+export interface type_Useful_Habit {
+  habit_description: type_habit_description;
+  habit_done: type_habit_done;
+  habit_id: type_habit_id;
 }
 
-export type Page_Story_Todos = Page & {
+export type type_Page_Story_Todos = Page & {
   Page_Story: Story;
-  Page_Todo: Useful_Todo[];
+  Page_Todo: type_Useful_Todo[];
 };
-export type Page_and_Todos = Page & {
-  Page_Todo: Useful_Todo[];
+export type type_Page_and_Todos = Page & {
+  Page_Todo: type_Useful_Todo[];
 };
 
-export type Story_and_Todos = Story & {
-  Story_Todo: Useful_Todo[];
+export type type_Story_and_Todos = Story & {
+  Story_Todo: type_Useful_Todo[];
 };
 
 export type User_Story_Todo = User & {
-  User_Story: Story_and_Todos[];
+  User_Story: type_Story_and_Todos[];
 };
 
-export type Routine_and_Habits = Routine & {
-  Routine_Habits: Useful_Habit[];
+export type type_Routine_and_Habits = Routine & {
+  Routine_Habits: type_Useful_Habit[];
 };
 
-export interface moveTasks {
-  old_page_id: page_id;
-  new_page_id: page_id;
+export interface type_moveTasks {
+  old_page_id: type_page_id;
+  new_page_id: type_page_id;
 }
 
 /**
@@ -177,91 +177,91 @@ export const Useful_Todo_Include_Object = {
   Todo_User: false,
   todo_datecreated: false,
   todo_page_id: false,
-  todo_user_id: false
+  todo_user_id: false,
 };
 
 export const Useful_Habit_Include_Object = {
   habit_description: true,
   habit_done: true,
-  habit_id: true
+  habit_id: true,
 };
 
 /**
  * stateReload function type
  */
-export type stateReload = VoidFunction | ((todo_id?: todo_id) => void);
+export type type_stateReload =
+  | VoidFunction
+  | ((todo_id?: type_todo_id) => void);
 
 /**
  * onClickHelpers types
  */
-export interface handleTextSubmit {
-  stateReload: stateReload;
+export interface type_handleTextSubmit {
+  stateReload: type_stateReload;
   set_display_text_edit: Dispatch<SetStateAction<boolean>>;
-  todo_id: todo_id;
-  todo_description: todo_description;
+  todo_id: type_todo_id;
+  todo_description: type_todo_description;
 }
 
-export interface toggleTodoDone {
-  stateReload: stateReload;
-  todo_id: todo_id;
-  todo_done: todo_done;
+export interface type_toggleTodoDone {
+  stateReload: type_stateReload;
+  todo_id: type_todo_id;
+  todo_done: type_todo_done;
 }
 
-export interface toggleHabitDone {
-  habit_id: habit_id;
-  habit_done: habit_done;
+export interface type_toggleHabitDone {
+  habit_id: type_habit_id;
+  habit_done: type_habit_done;
 }
 
-export interface toggleArchiving {
-  stateReload: stateReload;
-  todo_id: todo_id;
-  todo_archived: todo_archived;
+export interface type_toggleArchiving {
+  stateReload: type_stateReload;
+  todo_id: type_todo_id;
+  todo_archived: type_todo_archived;
 }
 
-export interface makeHighlight {
-  stateReload: stateReload;
-  todo_id: todo_id;
+export interface type_makeHighlight {
+  stateReload: type_stateReload;
+  todo_id: type_todo_id;
 }
 
-export interface handleDelete {
-  stateReload: stateReload;
-  todo_id: todo_id;
+export interface type_handleDelete {
+  stateReload: type_stateReload;
+  todo_id: type_todo_id;
 }
 
-export interface addToStory extends Story_Body {
-  stateReload: stateReload;
+export interface type_addToStory extends type_Story_Body {
+  stateReload: type_stateReload;
 }
 
-export interface removeFromStory extends Story_Body {
-  stateReload: stateReload;
+export interface type_removeFromStory extends type_Story_Body {
+  stateReload: type_stateReload;
 }
-
-export const corsMethods = [];
 
 /**
  * User Routine Templates
  */
-export type template_id = cuid;
-export type template_title = string;
-export type template_habits = habit_description[];
+export type type_template_id = cuid;
+export type type_template_title = string;
+export type type_template_habits = type_habit_description[];
 
-export interface user_routine_templates_struct {
-  template_id: template_id;
-  template_title: template_title;
-  template_habits: template_habits;
+export interface type_user_routine_templates_struct {
+  template_id: type_template_id;
+  template_title: type_template_title;
+  template_habits: type_template_habits;
 }
 
-export type user_routine_templates = user_routine_templates_struct[];
+export type type_user_routine_templates = type_user_routine_templates_struct[];
 
-export interface Create_Template_Body {
-  user_id: user_id;
-  template_title: template_title;
-  template_habits: template_habits;
+export interface type_Create_Template_Body {
+  user_id: type_user_id;
+  template_title: type_template_title;
+  template_habits: type_template_habits;
 }
 
-export interface Template_Query {
-  habit_description?: habit_description;
-  template_id?: template_id;
+export interface type_Template_Query {
+  habit_description?: type_habit_description;
+  template_id?: type_template_id;
 }
 
 /**

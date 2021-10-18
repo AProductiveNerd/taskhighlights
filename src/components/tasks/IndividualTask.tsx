@@ -3,22 +3,15 @@ import {
   DotsVerticalIcon,
   EyeIcon,
   EyeOffIcon,
-  TrashIcon
+  TrashIcon,
 } from "@heroicons/react/solid";
 import {
   Dispatch,
   SetStateAction,
   useLayoutEffect,
   useRef,
-  useState
+  useState,
 } from "react";
-import {
-  Useful_Todo,
-  todo_archived,
-  todo_description,
-  todo_done,
-  todo_highlight
-} from "../../constants/Types";
 import {
   onClick_addToStory,
   onClick_handleDelete,
@@ -26,8 +19,15 @@ import {
   onClick_makeHighlight,
   onClick_removeFromStory,
   onClick_toggleArchiving,
-  onClick_toggleTodoDone
+  onClick_toggleTodoDone,
 } from "../../utils/onClickHelpers";
+import {
+  type_Useful_Todo,
+  type_todo_archived,
+  type_todo_description,
+  type_todo_done,
+  type_todo_highlight,
+} from "../../constants/Types";
 
 import { IndividualItem } from "../layout/IndividualItem";
 import { Menu } from "@headlessui/react";
@@ -43,27 +43,27 @@ export const IndividualTask = ({
     todo_id,
     todo_highlight,
     todo_archived: db_archive,
-    todo_story_id
+    todo_story_id,
   },
   story: { story_id: storyid },
   stateReload,
   highlight,
   set_party_display,
-  highlightCount
+  highlightCount,
 }: {
-  todo: Useful_Todo;
+  todo: type_Useful_Todo;
   story: Story;
   set_party_display?: Dispatch<SetStateAction<boolean>>;
   stateReload: VoidFunction;
   highlightCount: number;
-  highlight?: todo_highlight;
+  highlight?: type_todo_highlight;
 }): JSX.Element => {
   const [display_text_edit, set_display_text_edit] = useState<boolean>(false);
-  const [todo_state, set_todo_state] = useState<todo_done>(db_done);
+  const [todo_state, set_todo_state] = useState<type_todo_done>(db_done);
   const [new_title, set_new_title] =
-    useState<todo_description>(todo_description);
+    useState<type_todo_description>(todo_description);
   const [todo_archive_state, set_todo_archive_state] =
-    useState<todo_archived>(db_archive);
+    useState<type_todo_archived>(db_archive);
 
   const editTaskRef = useRef(null);
 
@@ -87,7 +87,7 @@ export const IndividualTask = ({
             onClick_toggleTodoDone({
               todo_done: todo_state,
               todo_id,
-              stateReload
+              stateReload,
             });
           }}
         />
@@ -104,7 +104,7 @@ export const IndividualTask = ({
                     onClick_removeFromStory({
                       stateReload,
                       story_id: storyid,
-                      todo_id
+                      todo_id,
                     })
                   }
                   className={`${
@@ -132,7 +132,7 @@ export const IndividualTask = ({
                     onClick_addToStory({
                       stateReload,
                       story_id: storyid,
-                      todo_id
+                      todo_id,
                     })
                   }
                   className={`${
@@ -160,7 +160,7 @@ export const IndividualTask = ({
                 onClick={() =>
                   onClick_handleDelete({
                     stateReload,
-                    todo_id
+                    todo_id,
                   })
                 }
                 className={`${
@@ -189,7 +189,7 @@ export const IndividualTask = ({
                   onClick_toggleArchiving({
                     stateReload,
                     todo_archived: !todo_archive_state,
-                    todo_id
+                    todo_id,
                   });
                 }}
                 className={`${
@@ -231,7 +231,7 @@ export const IndividualTask = ({
         } else if (event.key === "h" && highlightCount === 0) {
           onClick_makeHighlight({
             stateReload,
-            todo_id
+            todo_id,
           });
         }
       }}
@@ -250,7 +250,7 @@ export const IndividualTask = ({
                     todo_id,
                     todo_description: new_title,
                     stateReload,
-                    set_display_text_edit
+                    set_display_text_edit,
                   });
                   set_display_text_edit(false);
                 } else if (event.key === "Escape") {
@@ -291,7 +291,7 @@ export const IndividualTask = ({
               onClick={() => {
                 onClick_makeHighlight({
                   stateReload,
-                  todo_id
+                  todo_id,
                 });
               }}
             >

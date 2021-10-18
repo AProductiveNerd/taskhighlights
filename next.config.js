@@ -1,6 +1,6 @@
-const withPWA = require('next-pwa')
+const withPWA = require("next-pwa");
 
-const withPreact = require('next-plugin-preact');
+const withPreact = require("next-plugin-preact");
 
 // const securityHeaders = [
 //   {
@@ -22,35 +22,38 @@ const withPreact = require('next-plugin-preact');
 // ]
 
 // eslint-disable-next-line no-undef
-module.exports = withPWA(withPreact({
-  // async headers() {
-  //   return [
-  //     {
-  //       // Apply these headers to all routes in your application.
-  //       source: '/(.*)',
-  //       headers: securityHeaders,
-  //     },
-  //   ]
-  // },
-  // webpack: (config, { dev, isServer }) => {
-  //   // Replace React with Preact only in client production build
-  //   if (!dev && !isServer) {
-  //     Object.assign(config.resolve.alias, {
-  //       react: 'preact/compat',
-  //       'react-dom/test-utils': 'preact/test-utils',
-  //       'react-dom': 'preact/compat',
-  //     });
-  //   }
+module.exports = withPWA(
+  withPreact({
+    // async headers() {
+    //   return [
+    //     {
+    //       // Apply these headers to all routes in your application.
+    //       source: '/(.*)',
+    //       headers: securityHeaders,
+    //     },
+    //   ]
+    // },
+    // webpack: (config, { dev, isServer }) => {
+    //   // Replace React with Preact only in client production build
+    //   if (!dev && !isServer) {
+    //     Object.assign(config.resolve.alias, {
+    //       react: 'preact/compat',
+    //       'react-dom/test-utils': 'preact/test-utils',
+    //       'react-dom': 'preact/compat',
+    //     });
+    //   }
 
-  //   return config;
-  // },
-  reactStrictMode: true,
+    //   return config;
+    // },
+    reactStrictMode: true,
 
-  i18n: {
-    locales: ["en"],
-    defaultLocale: "en",
-  },
-  pwa: {
-    dest: 'public'
-  }
-}))
+    i18n: {
+      locales: ["en"],
+      defaultLocale: "en",
+    },
+    pwa: {
+      dest: "public",
+    },
+    ignoreBuildErrors: true,
+  })
+);

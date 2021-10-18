@@ -9,10 +9,10 @@ export default function App(): JSX.Element {
         title="Daily Tasks | Task Highlights"
         description="Your tasks for the day"
         openGraph={{
-          title: "Daily Tasks | Task Highlights"
+          title: "Daily Tasks | Task Highlights",
         }}
         twitter={{
-          cardType: "app"
+          cardType: "app",
         }}
       />
 

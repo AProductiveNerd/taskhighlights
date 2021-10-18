@@ -2,4 +2,4 @@
 module.exports = {
   siteUrl: "https://taskhighlights.com",
   generateRobotsTxt: true,
-}
+};

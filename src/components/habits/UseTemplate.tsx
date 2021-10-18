@@ -1,10 +1,10 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import {
-  routine_id,
-  template_id,
-  template_title,
-  user_id
+  type_routine_id,
+  type_template_id,
+  type_template_title,
+  type_user_id,
 } from "../../constants/Types";
 
 import Link from "next/link";
@@ -15,31 +15,31 @@ export const UseTemplate = ({
   user_id,
   template_data,
   stateReload,
-  routine_id
+  routine_id,
 }: {
-  user_id: user_id;
-  routine_id: routine_id;
+  user_id: type_user_id;
+  routine_id: type_routine_id;
   template_data: {
-    template_title: template_title;
-    template_id: template_id;
+    template_title: type_template_title;
+    template_id: type_template_id;
   }[];
   stateReload: VoidFunction;
 }): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const cloneTemplate = async ({
-    template_id,
-    routine_id,
-    user_id
+    cloneTemplate_template_id,
+    cloneTemplate_routine_id,
+    cloneTemplate_user_id,
   }: {
-    user_id: user_id;
-    routine_id: routine_id;
-    template_id: template_id;
+    cloneTemplate_user_id: type_user_id;
+    cloneTemplate_routine_id: type_routine_id;
+    cloneTemplate_template_id: type_template_id;
   }) => {
     await fetch_createManyHabit({
-      template_id: template_id,
-      user_id: user_id,
-      routine_id
+      template_id: cloneTemplate_template_id,
+      user_id: cloneTemplate_user_id,
+      routine_id: cloneTemplate_routine_id,
     });
 
     stateReload();
@@ -115,9 +115,9 @@ export const UseTemplate = ({
                         aria-label="Add a task!"
                         onClick={() =>
                           cloneTemplate({
-                            routine_id,
-                            template_id: data.template_id,
-                            user_id
+                            cloneTemplate_routine_id: routine_id,
+                            cloneTemplate_template_id: data.template_id,
+                            cloneTemplate_user_id: user_id,
                           })
                         }
                         className="

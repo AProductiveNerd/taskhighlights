@@ -1,15 +1,15 @@
-import { Useful_Habit, todo_done } from "../../constants/Types";
+import { type_Useful_Habit, type_todo_done } from "../../constants/Types";
 
 import { IndividualItem } from "../layout/IndividualItem";
 import { onClick_toggleHabitDone } from "../../utils/onClickHelpers";
 import { useState } from "react";
 
 export const IndividualHabit = ({
-  habit: { habit_description, habit_done: db_done, habit_id }
+  habit: { habit_description, habit_done: db_done, habit_id },
 }: {
-  habit: Useful_Habit;
+  habit: type_Useful_Habit;
 }): JSX.Element => {
-  const [habit_state, setHabitState] = useState<todo_done>(db_done);
+  const [habit_state, setHabitState] = useState<type_todo_done>(db_done);
 
   return (
     <IndividualItem
@@ -22,7 +22,7 @@ export const IndividualHabit = ({
             setHabitState(!db_done);
             onClick_toggleHabitDone({
               habit_done: habit_state,
-              habit_id
+              habit_id,
             });
           }}
         />

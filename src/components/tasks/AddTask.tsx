@@ -1,22 +1,22 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import {
-  Useful_Todo,
-  page_title,
-  todo_description,
-  todo_highlight,
-  user_id
+  type_Useful_Todo,
+  type_page_title,
+  type_todo_description,
+  type_todo_highlight,
+  type_user_id,
 } from "../../constants/Types";
 
 import { PlusCircleIcon } from "@heroicons/react/outline";
 import { fetch_createTodo } from "../../utils/fetchHelpers";
 
 interface AddTask_Props {
-  page: page_title;
-  user: user_id;
+  page: type_page_title;
+  user: type_user_id;
   count: number;
   stateReload: VoidFunction;
-  highlight: Useful_Todo;
+  highlight: type_Useful_Todo;
 }
 
 export const AddTask = ({
@@ -24,12 +24,12 @@ export const AddTask = ({
   user,
   stateReload,
   count,
-  highlight
+  highlight,
 }: AddTask_Props): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [task, setTask] = useState<todo_description>("");
+  const [task, setTask] = useState<type_todo_description>("");
   const [should_highlight, setShouldHighlight] =
-    useState<todo_highlight>(false);
+    useState<type_todo_highlight>(false);
 
   const taskCreator = async () => {
     if (task !== "") {
@@ -38,7 +38,7 @@ export const AddTask = ({
         todo_description: task,
         user_id: user,
         todo_highlight: should_highlight,
-        task: "create"
+        task: "create",
       });
       setTask("");
       setShouldHighlight(false);

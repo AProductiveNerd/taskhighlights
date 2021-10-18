@@ -1,5 +1,9 @@
-import { Page_and_Todos, Useful_Todo, user_id } from "../../constants/Types";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import {
+  type_Page_and_Todos,
+  type_Useful_Todo,
+  type_user_id,
+} from "../../constants/Types";
 import { useContext, useEffect, useState } from "react";
 
 import { Card } from "../layout/Card";
@@ -13,11 +17,11 @@ import { fetch_createRetPageByTitle } from "../../utils/fetchHelpers";
 const DynamicAddPageTask = dynamic(() => import("./AddPageTask"));
 
 export const PageCard = ({ title }: { title: string }): JSX.Element => {
-  const [currentPage, setCurrentPage] = useState<Page_and_Todos>(null);
-  const [currentTodos, setCurrentTodos] = useState<Useful_Todo[]>(null);
+  const [currentPage, setCurrentPage] = useState<type_Page_and_Todos>(null);
+  const [currentTodos, setCurrentTodos] = useState<type_Useful_Todo[]>(null);
   const [addedCounter, setAddedCounter] = useState<number>(0);
 
-  const fireId: user_id = useContext(FireUserContext);
+  const fireId: type_user_id = useContext(FireUserContext);
 
   useEffect(() => {
     (async () => {
@@ -57,7 +61,7 @@ export const PageCard = ({ title }: { title: string }): JSX.Element => {
       spaced_elements={
         <>
           {currentTodos ? (
-            currentTodos?.map((todo: Useful_Todo) => (
+            currentTodos?.map((todo: type_Useful_Todo) => (
               <IndividualPageTask
                 todo={todo}
                 key={todo.todo_id}

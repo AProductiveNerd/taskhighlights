@@ -24,10 +24,10 @@ export default function LogIn(): JSX.Element {
     try {
       await signInWithEmailAndPassword(auth, emailAddress, password);
       router.push("/app");
-    } catch (error) {
+    } catch (e: any) {
       setEmailAddress("");
       setPassword("");
-      setError(error.message);
+      setError(e.message);
     }
   };
 
@@ -44,10 +44,10 @@ export default function LogIn(): JSX.Element {
           title="Log In | Task Highlights"
           description="Log In to Task Highlights"
           twitter={{
-            cardType: "app"
+            cardType: "app",
           }}
           openGraph={{
-            title: "Log In | Task Highlights"
+            title: "Log In | Task Highlights",
           }}
         />
 
@@ -118,9 +118,7 @@ export default function LogIn(): JSX.Element {
                 >
                   <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                     <LockClosedIcon
-                      className="h-5 w-5
-										text-theme-coolGray-400
-										group-hover:text-theme-coolGray-900"
+                      className="h-5 w-5 text-theme-coolGray-400 group-hover:text-theme-coolGray-900"
                       aria-hidden="true"
                     />
                   </span>

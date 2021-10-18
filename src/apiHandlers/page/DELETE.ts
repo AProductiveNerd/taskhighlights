@@ -13,7 +13,7 @@ interface type_page_delete_handler {
 
 export const page_delete_handler = async ({
   query: { page_id },
-  res
+  res,
 }: type_page_delete_handler): Promise<void> => {
   if (!is_valid_prop(page_id)) {
     res.status(400).json({ Error: "Please enter a valid page title" });
@@ -40,6 +40,4 @@ export const page_delete_handler = async ({
         .json(make_json_string({ Error: "Could not delete the user" }));
     }
   }
-
-  return;
 };

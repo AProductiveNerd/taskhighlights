@@ -3,7 +3,7 @@ import {
   INDEX,
   INDEX_HEADER,
   LOG_IN,
-  SIGN_UP
+  SIGN_UP,
 } from "../../constants/Routes";
 import {
   ArchiveIcon,
@@ -14,7 +14,7 @@ import {
   RefreshIcon,
   SearchCircleIcon,
   TemplateIcon,
-  UploadIcon
+  UploadIcon,
 } from "@heroicons/react/outline";
 import { Fragment, useContext } from "react";
 import { Menu, Transition } from "@headlessui/react";
@@ -34,7 +34,7 @@ const DynamicPageSearch = dynamic(() => import("../page/PageSearch"));
 
 export const Header = ({
   currentUser,
-  path
+  path,
 }: {
   currentUser: User;
   path: string;

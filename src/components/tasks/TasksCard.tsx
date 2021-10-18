@@ -1,6 +1,10 @@
 import { FastForwardIcon, RewindIcon } from "@heroicons/react/solid";
-import { Page_Story_Todos, Useful_Todo, user_id } from "../../constants/Types";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import {
+  type_Page_Story_Todos,
+  type_Useful_Todo,
+  type_user_id,
+} from "../../constants/Types";
 import { useContext, useEffect, useState } from "react";
 
 import { Card } from "../layout/Card";
@@ -19,15 +23,16 @@ const DynamicAddTask = dynamic(() => import("./AddTask"));
 // ! Limit the number of tasks a user can add to amplify the constraints lead to creativity effect
 
 export const TasksCard = (): JSX.Element => {
-  const [currentPage, setCurrentPage] = useState<Page_Story_Todos>(null);
-  const [currentTodos, setCurrentTodos] = useState<Useful_Todo[]>(null);
+  const [currentPage, setCurrentPage] = useState<type_Page_Story_Todos>(null);
+  const [currentTodos, setCurrentTodos] = useState<type_Useful_Todo[]>(null);
   const [addedCounter, setAddedCounter] = useState<number>(0);
   const [back_date_num, setBack_date_num] = useState<number>(0);
-  const [currentHighlight, setCurrentHighlight] = useState<Useful_Todo>(null);
+  const [currentHighlight, setCurrentHighlight] =
+    useState<type_Useful_Todo>(null);
   const [story, set_story] = useState<Story>(null);
   const [party_display, set_party_display] = useState(false);
 
-  const fireId: user_id = useContext(FireUserContext);
+  const fireId: type_user_id = useContext(FireUserContext);
 
   const router = useRouter();
 
@@ -66,7 +71,7 @@ export const TasksCard = (): JSX.Element => {
     }
 
     const highlightTask = fetchedTodos?.filter(
-      (todo: Useful_Todo) => todo?.todo_highlight === true
+      (todo: type_Useful_Todo) => todo?.todo_highlight === true
     );
 
     if (highlightTask) {
@@ -125,7 +130,7 @@ export const TasksCard = (): JSX.Element => {
           )}
 
           {currentTodos && story ? (
-            currentTodos?.map((todo: Useful_Todo) => (
+            currentTodos?.map((todo: type_Useful_Todo) => (
               <IndividualTask
                 todo={todo}
                 story={story}

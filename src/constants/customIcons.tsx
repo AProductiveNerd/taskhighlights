@@ -1,5 +1,5 @@
 export const EmptyCircleIcon = ({
-  className: classes
+  className: classes,
 }: {
   className: string;
 }): JSX.Element => {

@@ -1,31 +1,31 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Dispatch, Fragment, SetStateAction, useState } from "react";
-import { todo_details, todo_id } from "../../constants/Types";
+import { type_todo_details, type_todo_id } from "../../constants/Types";
 
 import { PencilAltIcon } from "@heroicons/react/solid";
 import { fetch_updateTodoDetails } from "../../utils/fetchHelpers";
 
 interface AddDetails_Props {
   stateReload: VoidFunction;
-  todo_id: todo_id;
+  todo_id: type_todo_id;
   // isOpen: boolean;
   // setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 export const AddDetails = ({
   stateReload,
-  todo_id
+  todo_id,
 }: // isOpen,
 // setIsOpen
 AddDetails_Props): JSX.Element => {
-  const [details, setDetails] = useState<todo_details>("");
+  const [details, setDetails] = useState<type_todo_details>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const detailsAdder = async () => {
     if (details !== "") {
       await fetch_updateTodoDetails({
         todo_id,
-        todo_details: details
+        todo_details: details,
       });
       setDetails("");
       stateReload();

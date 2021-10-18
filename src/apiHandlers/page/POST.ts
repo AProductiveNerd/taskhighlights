@@ -1,19 +1,19 @@
 import { Page, Prisma } from ".prisma/client";
 
 import { NextApiResponse } from "next";
-import { Page_Body } from "../../constants/Types";
 import { is_valid_prop } from "../../utils/validationHelpers";
 import { make_json_string } from "../../utils/generalHelpers";
 import { prisma_createPage } from "../../utils/prismaHelpers";
+import { type_Page_Body } from "../../constants/Types";
 
 interface type_page_post_handler {
-  body: Page_Body;
+  body: type_Page_Body;
   res: NextApiResponse<any>;
 }
 
 export const page_post_handler = async ({
   body: { page_title, user_id },
-  res
+  res,
 }: type_page_post_handler): Promise<void> => {
   if (!is_valid_prop(page_title)) {
     res.status(400).json({ Error: "Please enter a valid page title" });
@@ -46,6 +46,4 @@ export const page_post_handler = async ({
         .json(make_json_string({ Error: "Could not create the page" }));
     }
   }
-
-  return;
 };

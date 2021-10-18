@@ -1,10 +1,13 @@
-import { Create_Template_Body, Template_Query } from "../../../constants/Types";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Prisma, Template } from "@prisma/client";
 import {
   prisma_addHabitToTemplate,
-  prisma_createTemplate
+  prisma_createTemplate,
 } from "../../../utils/prismaHelpers";
+import {
+  type_Create_Template_Body,
+  type_Template_Query,
+} from "../../../constants/Types";
 
 export default async function handler(
   req: NextApiRequest,
@@ -16,7 +19,7 @@ export default async function handler(
   switch (method) {
     case "POST":
       try {
-        const body: Create_Template_Body = req.body;
+        const body: type_Create_Template_Body = req.body;
 
         const template: Template = await prisma_createTemplate(body);
 
@@ -29,11 +32,11 @@ export default async function handler(
       break;
 
     case "PUT": {
-      const { habit_description, template_id }: Template_Query = req.query;
+      const { habit_description, template_id }: type_Template_Query = req.query;
 
       const template: Template = await prisma_addHabitToTemplate({
         habit_description,
-        template_id
+        template_id,
       });
 
       res.status(201).json(JSON.stringify(template));

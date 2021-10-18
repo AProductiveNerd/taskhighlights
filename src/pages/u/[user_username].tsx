@@ -1,5 +1,5 @@
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import { Useful_Todo, User_Story_Todo } from "../../constants/Types";
+import { User_Story_Todo, type_Useful_Todo } from "../../constants/Types";
 import { useContext, useEffect, useState } from "react";
 
 import Avatar from "react-nice-avatar";
@@ -11,16 +11,16 @@ import { StoryCard } from "../../components/stories/StoryCard";
 import { prisma_getUserByUsername } from "../../utils/prismaHelpers";
 
 export default function UserProfile({
-  user: profileUser
+  user: profileUser,
 }: {
   user: User_Story_Todo;
 }): JSX.Element {
-  const story_and_todos = profileUser.User_Story;
+  const type_Story_and_Todos = profileUser.User_Story;
   const fireId = useContext(FireUserContext);
   const [loggedInSame, setLoggedInSame] = useState(false);
-  const main: Useful_Todo[] = [];
+  const main: type_Useful_Todo[] = [];
 
-  story_and_todos.map((story_with_todo) => {
+  type_Story_and_Todos.map((story_with_todo) => {
     story_with_todo.Story_Todo.map((todo) => main.push(todo));
   });
 
@@ -43,12 +43,12 @@ export default function UserProfile({
               .slice(0, -1)
               .join(" "),
             lastName: profileUser.user_fullname.split(" ").slice(-1).join(" "),
-            username: profileUser.user_username
-          }
+            username: profileUser.user_username,
+          },
         }}
         twitter={{
           cardType: "app",
-          handle: profileUser.user_twitter_handle
+          handle: profileUser.user_twitter_handle,
         }}
       />
 
@@ -107,14 +107,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     if (fetchedUser) {
       return {
-        props: { user: JSON.parse(JSON.stringify(fetchedUser)) }
+        props: { user: JSON.parse(JSON.stringify(fetchedUser)) },
       };
     } else {
       return {
         redirect: {
           destination: "/404",
-          permanent: false
-        }
+          permanent: false,
+        },
       };
     }
   }

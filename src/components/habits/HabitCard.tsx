@@ -1,16 +1,16 @@
 import { FastForwardIcon, RewindIcon } from "@heroicons/react/solid";
-import {
-  Routine_and_Habits,
-  Useful_Habit,
-  template_id,
-  template_title,
-  user_id
-} from "../../constants/Types";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import {
   fetch_createRetDailyRoutine,
-  fetch_getAllUserTemplates
+  fetch_getAllUserTemplates,
 } from "../../utils/fetchHelpers";
+import {
+  type_Routine_and_Habits,
+  type_Useful_Habit,
+  type_template_id,
+  type_template_title,
+  type_user_id,
+} from "../../constants/Types";
 import { useContext, useEffect, useState } from "react";
 
 import { Card } from "../layout/Card";
@@ -25,16 +25,16 @@ const DynamicUseTemplate = dynamic(() => import("./UseTemplate"));
 // ! Limit the number of tasks a user can add to amplify the constraints lead to creativity effect
 
 export const HabitCard = (): JSX.Element => {
-  const fireId: user_id = useContext(FireUserContext);
+  const fireId: type_user_id = useContext(FireUserContext);
   const [addedCounter, setAddedCounter] = useState<number>(0);
   const [currentRoutine, setCurrentRoutine] =
-    useState<Routine_and_Habits>(null);
+    useState<type_Routine_and_Habits>(null);
   const [back_date_num, setBack_date_num] = useState<number>(0);
-  const [routineHabits, setRoutineHabits] = useState<Useful_Habit[]>(null);
+  const [routineHabits, setRoutineHabits] = useState<type_Useful_Habit[]>(null);
   const [my_template_data, set_my_template_data] = useState<
     {
-      template_title: template_title;
-      template_id: template_id;
+      template_title: type_template_title;
+      template_id: type_template_id;
     }[]
   >(null);
 
@@ -69,12 +69,12 @@ export const HabitCard = (): JSX.Element => {
         templates.sort();
 
         const template_data: {
-          template_title: template_title;
-          template_id: template_id;
+          template_title: type_template_title;
+          template_id: type_template_id;
         }[] = templates.map((t) => {
           return {
             template_title: t.template_title,
-            template_id: t.template_id
+            template_id: t.template_id,
           };
         });
 
@@ -108,7 +108,7 @@ export const HabitCard = (): JSX.Element => {
       spaced_elements={
         <>
           {routineHabits ? (
-            routineHabits?.map((habit: Useful_Habit) => (
+            routineHabits?.map((habit: type_Useful_Habit) => (
               <IndividualHabit habit={habit} key={habit.habit_id} />
             ))
           ) : (

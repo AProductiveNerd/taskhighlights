@@ -9,7 +9,7 @@ export const Card = ({
   title,
   action_component,
   spaced_elements,
-  buttons
+  buttons,
 }: Card_Props): JSX.Element => {
   return (
     <div

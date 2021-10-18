@@ -46,15 +46,15 @@ export default function SignUp(): JSX.Element {
           user_email,
           user_fullname,
           user_username,
-          user_id: fireAuthUser?.user?.uid
+          user_id: fireAuthUser?.user?.uid,
         });
 
         router.push("/app");
-      } catch (error) {
+      } catch (e: any) {
         setfullname("");
         setemailaddress("");
         setPassword("");
-        setError(error.message);
+        setError(e.message);
       }
     } else {
       setUsername("");
@@ -74,10 +74,10 @@ export default function SignUp(): JSX.Element {
           title="Sign Up | Task Highlights"
           description="Create an account"
           openGraph={{
-            title: "Sign Up | Task Highlights"
+            title: "Sign Up | Task Highlights",
           }}
           twitter={{
-            cardType: "app"
+            cardType: "app",
           }}
         />
         <div className="max-w-md w-full space-y-8">
@@ -204,9 +204,7 @@ export default function SignUp(): JSX.Element {
                 >
                   <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                     <LockClosedIcon
-                      className="h-5 w-5
-										text-theme-coolGray-400
-										group-hover:text-theme-coolGray-900"
+                      className="h-5 w-5 text-theme-coolGray-400 group-hover:text-theme-coolGray-900"
                       aria-hidden="true"
                     />
                   </span>

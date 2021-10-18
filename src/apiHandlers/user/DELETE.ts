@@ -1,7 +1,7 @@
 import { Prisma, User } from ".prisma/client";
 import {
   prisma_deleteUserbyuserid,
-  prisma_deleteUserbyusername
+  prisma_deleteUserbyusername,
 } from "../../utils/prismaHelpers";
 
 import { NextApiResponse } from "next";
@@ -16,7 +16,7 @@ interface type_user_delete_handler {
 
 export const user_delete_handler = async ({
   query: { user_id, user_username },
-  res
+  res,
 }: type_user_delete_handler): Promise<void> => {
   let user: User = null;
 
@@ -38,13 +38,11 @@ export const user_delete_handler = async ({
     } else {
       res.status(500).json(
         make_json_string({
-          Error: "Could not fetch the user you are looking for"
+          Error: "Could not fetch the user you are looking for",
         })
       );
     }
   }
 
   res.status(200).json(make_json_string(user));
-
-  return;
 };

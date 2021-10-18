@@ -1,20 +1,23 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
-import { habit_description, template_id } from "../../constants/Types";
+import {
+  type_habit_description,
+  type_template_id,
+} from "../../constants/Types";
 
 import { PlusCircleIcon } from "@heroicons/react/outline";
 import { fetch_addHabitToTemplate } from "../../utils/fetchHelpers";
 
 export const AddItemToTemplate = ({
   stateReload,
-  template_id
+  template_id,
 }: {
-  template_id: template_id;
+  template_id: type_template_id;
   stateReload: VoidFunction;
 }): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [habit_description, set_habit_description] =
-    useState<habit_description>("");
+    useState<type_habit_description>("");
 
   const taskCreator = async () => {
     await fetch_addHabitToTemplate({ habit_description, template_id });

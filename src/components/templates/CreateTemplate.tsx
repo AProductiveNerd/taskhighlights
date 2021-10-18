@@ -1,25 +1,26 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
-import { habit_description, user_id } from "../../constants/Types";
+import { type_habit_description, type_user_id } from "../../constants/Types";
 
 import { PlusCircleIcon } from "@heroicons/react/outline";
 import { fetch_createTemplate } from "../../utils/fetchHelpers";
 
 export const CreateTemplate = ({
   stateReload,
-  user_id
+  user_id,
 }: {
-  user_id: user_id;
+  user_id: type_user_id;
   stateReload: VoidFunction;
 }): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [template_title, set_template_title] = useState<habit_description>("");
+  const [template_title, set_template_title] =
+    useState<type_habit_description>("");
 
   const templateCreator = async () => {
     await fetch_createTemplate({
       template_habits: [],
       template_title,
-      user_id
+      user_id,
     });
 
     set_template_title("");

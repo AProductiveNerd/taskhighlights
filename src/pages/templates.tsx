@@ -8,11 +8,11 @@ export default function Routine(): JSX.Element {
       <SEO_component
         title="Templates | Task Highlights"
         openGraph={{
-          title: "Templates | Task Highlights"
+          title: "Templates | Task Highlights",
         }}
         description="Your templates"
         twitter={{
-          cardType: "app"
+          cardType: "app",
         }}
       />
       <div className="text-4xl flex-1 items-center text-center mt-5">

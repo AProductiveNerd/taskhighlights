@@ -1,6 +1,6 @@
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import { Dispatch, Fragment, useEffect, useRef, useState } from "react";
-import { page_title, user_id } from "../../constants/Types";
+import { type_page_title, type_user_id } from "../../constants/Types";
 
 import Fuse from "fuse.js";
 import Link from "next/link";
@@ -8,7 +8,7 @@ import { fetch_getAllPageNamesByUserid } from "../../utils/fetchHelpers";
 import { isDailyPage } from "../../utils/generalHelpers";
 
 interface PageSearch_Props {
-  user: user_id;
+  user: type_user_id;
   isOpen: boolean;
   setIsOpen: Dispatch<React.SetStateAction<boolean>>;
 }
@@ -16,11 +16,11 @@ interface PageSearch_Props {
 export const PageSearch = ({
   user,
   isOpen,
-  setIsOpen
+  setIsOpen,
 }: PageSearch_Props): JSX.Element => {
-  let focusRef = useRef(null);
+  const focusRef = useRef(null);
 
-  const [page_names, set_page_names] = useState<page_title[]>(null);
+  const [page_names, set_page_names] = useState<type_page_title[]>(null);
   const [query, setQuery] = useState("");
   const [results, setResults] =
     useState<{ isCreate: boolean; item: string }[]>(null);
@@ -37,21 +37,21 @@ export const PageSearch = ({
   useEffect(() => {
     if (page_names) {
       const options = {
-        includeScore: true
+        includeScore: true,
       };
       const fuse = new Fuse(page_names, options);
       const res = fuse.search(query);
       const max_five = res.slice(0, 5).map((result) => {
         return {
           isCreate: false,
-          item: result.item
+          item: result.item,
         };
       });
 
       if (max_five?.length <= 4 && !max_five.toString().includes(query)) {
         max_five.unshift({
           isCreate: true,
-          item: query
+          item: query,
         });
       }
       setResults(max_five);

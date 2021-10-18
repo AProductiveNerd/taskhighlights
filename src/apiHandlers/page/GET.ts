@@ -4,12 +4,12 @@ import {
   prisma_createRetDailyPage,
   prisma_createRetPageByTitle,
   prisma_getPageByPageTitle,
-  prisma_getPageByPageid
+  prisma_getPageByPageid,
 } from "../../utils/prismaHelpers";
 
 import { NextApiResponse } from "next";
-import { Page_Story_Todos } from "../../constants/Types";
 import { is_valid_prop } from "../../utils/validationHelpers";
+import { type_Page_Story_Todos } from "../../constants/Types";
 import { type_page_query } from "../../types/api/page";
 
 interface type_page_get_handler {
@@ -19,9 +19,9 @@ interface type_page_get_handler {
 
 export const page_get_handler = async ({
   query: { page_id, page_title, page_user_id, today },
-  res
+  res,
 }: type_page_get_handler): Promise<void> => {
-  let page: Page | Page_Story_Todos = null;
+  let page: Page | type_Page_Story_Todos = null;
 
   try {
     if (is_valid_prop(page_id)) {
@@ -47,7 +47,7 @@ export const page_get_handler = async ({
     } else {
       res.status(500).json(
         make_json_string({
-          Error: "Could not do the operation"
+          Error: "Could not do the operation",
         })
       );
     }
@@ -62,6 +62,4 @@ export const page_get_handler = async ({
   }
 
   res.status(200).json(make_json_string(page));
-
-  return;
 };

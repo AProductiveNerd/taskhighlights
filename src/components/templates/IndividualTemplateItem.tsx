@@ -8,7 +8,7 @@ import dynamic from "next/dynamic";
 const DynamicAddItemToTemplate = dynamic(() => import("./AddItemToTemplate"));
 export const IndividualTemplateItem = ({
   routine,
-  stateReload
+  stateReload,
 }: {
   stateReload: VoidFunction;
   routine: Template;

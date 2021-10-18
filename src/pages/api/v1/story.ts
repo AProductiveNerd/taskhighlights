@@ -1,14 +1,17 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Prisma, Story } from "@prisma/client";
-import { Story_Body, Story_and_Todos } from "../../../constants/Types";
 import {
   prisma_addTodoToStory,
   prisma_createUpdateStory,
   prisma_deleteStoryByStoryid,
   prisma_getStoryByStoryId,
   prisma_getStoryByStoryTitle,
-  prisma_removeTodoFromStory
+  prisma_removeTodoFromStory,
 } from "../../../utils/prismaHelpers";
+import {
+  type_Story_Body,
+  type_Story_and_Todos,
+} from "../../../constants/Types";
 
 interface Query {
   story_id?: string;
@@ -30,39 +33,41 @@ export default async function handler(
   switch (method) {
     case "GET":
       if (story_id) {
-        const story: Story_and_Todos = await prisma_getStoryByStoryId(story_id);
+        const story: type_Story_and_Todos = await prisma_getStoryByStoryId(
+          story_id
+        );
 
         res.status(200).json(JSON.stringify(story));
       } else if (story_title) {
-        const story: Story_and_Todos = await prisma_getStoryByStoryTitle(
+        const story: type_Story_and_Todos = await prisma_getStoryByStoryTitle(
           story_title,
           story_user_id
         );
 
         res.status(200).json(JSON.stringify(story));
       } else {
-        if (typeof story_user_id === "string") {
-          const story: Story = await prisma_createUpdateStory({
-            story_user_id,
-            today,
-            page_id
-          });
+        const story: Story = await prisma_createUpdateStory({
+          story_user_id,
+          today,
+          page_id,
+        });
 
-          res.status(200).json(JSON.stringify(story));
-        }
+        res.status(200).json(JSON.stringify(story));
       }
 
       break;
 
     case "POST":
       try {
-        const body: Story_Body = req.body;
+        const body: type_Story_Body = req.body;
 
         if (body.task === "add") {
-          const story: Story_and_Todos = await prisma_addTodoToStory(body);
+          const story: type_Story_and_Todos = await prisma_addTodoToStory(body);
           res.status(201).json(JSON.stringify(story));
         } else if (body.task === "remove") {
-          const story: Story_and_Todos = await prisma_removeTodoFromStory(body);
+          const story: type_Story_and_Todos = await prisma_removeTodoFromStory(
+            body
+          );
           res.status(201).json(JSON.stringify(story));
         } else {
           res.status(501).json(JSON.stringify({ Error: "bad req" }));

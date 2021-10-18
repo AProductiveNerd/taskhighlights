@@ -1,44 +1,33 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Prisma, Routine } from "@prisma/client";
 import {
-  Routine_Body,
-  Routine_and_Habits,
-  corsMethods,
-  routine_title,
-  user_id
-} from "../../../constants/Types";
-import {
   prisma_createRetDailyRoutine,
   prisma_createRoutine,
   prisma_deleteRoutineByRoutineid,
   prisma_getRoutineByRoutineTitle,
-  prisma_getRoutineByRoutineid
+  prisma_getRoutineByRoutineid,
 } from "../../../utils/prismaHelpers";
+import {
+  type_Routine_Body,
+  type_Routine_and_Habits,
+  type_routine_title,
+  type_user_id,
+} from "../../../constants/Types";
 
-import Cors from "cors";
-import initMiddleware from "../../../libs/InitMiddleware";
-import { routine_id } from "./../../../constants/Types";
+import { type_routine_id } from "./../../../constants/Types";
 
 interface Query {
-  routine_id?: routine_id;
-  routine_title?: routine_title;
-  routine_user_id?: user_id;
+  routine_id?: type_routine_id;
+  routine_title?: type_routine_title;
+  routine_user_id?: type_user_id;
   today?: string;
 }
-
-const cors = initMiddleware(
-  Cors({
-    methods: corsMethods
-  })
-);
 
 export default async function handler(
   req: NextApiRequest,
 
   res: NextApiResponse<any>
 ): Promise<void> {
-  await cors(req, res);
-
   const method = req.method;
   const { routine_id, routine_title, routine_user_id, today }: Query =
     req.query;
@@ -56,19 +45,17 @@ export default async function handler(
 
         res.status(200).json(JSON.stringify(routine));
       } else {
-        if (typeof routine_user_id === "string") {
-          const routine: Routine_and_Habits =
-            await prisma_createRetDailyRoutine(routine_user_id, today);
+        const routine: type_Routine_and_Habits =
+          await prisma_createRetDailyRoutine(routine_user_id, today);
 
-          res.status(200).json(JSON.stringify(routine));
-        }
+        res.status(200).json(JSON.stringify(routine));
       }
 
       break;
 
     case "POST":
       try {
-        const body: Routine_Body = req.body;
+        const body: type_Routine_Body = req.body;
 
         const createdRoutine: Routine = await prisma_createRoutine(body);
 

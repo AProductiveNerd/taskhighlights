@@ -1,16 +1,15 @@
-import { Useful_Todo, todo_id } from "../../constants/Types";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import { type_Useful_Todo, type_todo_id } from "../../constants/Types";
 import { useEffect, useState } from "react";
 
 import { Card } from "../layout/Card";
-import Skeleton from "react-loading-skeleton";
-import { SkeletonTheme } from "react-loading-skeleton";
 import { StoryTask } from "./StoryTask";
 
 export const StoryCard = ({
   todos,
-  loggedInSame
+  loggedInSame,
 }: {
-  todos: Useful_Todo[];
+  todos: type_Useful_Todo[];
   loggedInSame: boolean;
 }): JSX.Element => {
   const [highlights, setHighlights] = useState(null);
@@ -21,7 +20,7 @@ export const StoryCard = ({
     setNormalTodos(todos.filter((todo) => todo.todo_highlight === false));
   }, [todos]);
 
-  const stateReload = (todo_id: todo_id): void => {
+  const stateReload = (todo_id: type_todo_id): void => {
     const newHigh = [...highlights];
     const newNorm = [...normalTodos];
 
@@ -46,7 +45,7 @@ export const StoryCard = ({
       spaced_elements={
         <>
           {highlights &&
-            highlights.map((highlight: Useful_Todo) => (
+            highlights.map((highlight: type_Useful_Todo) => (
               <StoryTask
                 key={highlight.todo_id}
                 todo={highlight}
@@ -57,7 +56,7 @@ export const StoryCard = ({
             ))}
 
           {normalTodos ? (
-            normalTodos.map((todo: Useful_Todo) => (
+            normalTodos.map((todo: type_Useful_Todo) => (
               <StoryTask
                 todo={todo}
                 key={todo.todo_id}

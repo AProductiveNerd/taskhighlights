@@ -13,7 +13,7 @@ interface type_user_get_handler {
 
 export const user_get_handler = async ({
   query: { user_id },
-  res
+  res,
 }: type_user_get_handler): Promise<void> => {
   if (!is_valid_prop(user_id)) {
     res.status(400).json({ Error: "Please enter a valid user id" });
@@ -29,7 +29,7 @@ export const user_get_handler = async ({
     } else {
       res.status(404).json(
         make_json_string({
-          Error: "Could not find the user you are looking for"
+          Error: "Could not find the user you are looking for",
         })
       );
     }
@@ -41,11 +41,9 @@ export const user_get_handler = async ({
     } else {
       res.status(500).json(
         make_json_string({
-          Error: "Could not fetch the user you are looking for"
+          Error: "Could not fetch the user you are looking for",
         })
       );
     }
   }
-
-  return;
 };

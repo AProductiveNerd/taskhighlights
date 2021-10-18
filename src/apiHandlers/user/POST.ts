@@ -1,19 +1,19 @@
 import { Prisma, User } from ".prisma/client";
 
 import { NextApiResponse } from "next";
-import { User_Request_Body } from "../../constants/Types";
 import { is_valid_prop } from "../../utils/validationHelpers";
 import { make_json_string } from "../../utils/generalHelpers";
 import { prisma_createUser } from "../../utils/prismaHelpers";
+import { type_User_Request_Body } from "../../constants/Types";
 
 interface type_user_post_handler {
-  body: User_Request_Body;
+  body: type_User_Request_Body;
   res: NextApiResponse<any>;
 }
 
 export const user_post_handler = async ({
   body: { user_id, user_avatar, user_email, user_fullname, user_username },
-  res
+  res,
 }: type_user_post_handler): Promise<void> => {
   if (!is_valid_prop(user_id)) {
     res.status(400).json({ Error: "Please enter a valid user id" });
@@ -51,14 +51,14 @@ export const user_post_handler = async ({
       user_email,
       user_fullname,
       user_id,
-      user_username
+      user_username,
     });
     if (user) {
       res.status(200).json(make_json_string(user));
     } else {
       res.status(404).json(
         make_json_string({
-          Error: "Could not create the user"
+          Error: "Could not create the user",
         })
       );
     }
@@ -71,6 +71,4 @@ export const user_post_handler = async ({
         .json(make_json_string({ Error: "Could not create user" }));
     }
   }
-
-  return;
 };

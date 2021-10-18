@@ -9,10 +9,10 @@ export default function Incomplete(): JSX.Element {
         title="Incomplete Tasks | Task Highlights"
         description="Your incomplete tasks"
         openGraph={{
-          title: "Incomplete Tasks | Task Highlights"
+          title: "Incomplete Tasks | Task Highlights",
         }}
         twitter={{
-          cardType: "app"
+          cardType: "app",
         }}
       />
 

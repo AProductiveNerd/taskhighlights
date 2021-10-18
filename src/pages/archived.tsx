@@ -9,10 +9,10 @@ export default function Archived(): JSX.Element {
         title="Archived Tasks | Task Highlights"
         description="Your incomplete tasks"
         openGraph={{
-          title: "Archived Tasks | Task Highlights"
+          title: "Archived Tasks | Task Highlights",
         }}
         twitter={{
-          cardType: "app"
+          cardType: "app",
         }}
       />
 

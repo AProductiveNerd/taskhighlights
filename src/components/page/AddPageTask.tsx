@@ -1,29 +1,29 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import {
-  Useful_Todo,
-  page_title,
-  todo_description,
-  todo_highlight,
-  user_id
+  type_Useful_Todo,
+  type_page_title,
+  type_todo_description,
+  type_todo_highlight,
+  type_user_id,
 } from "../../constants/Types";
 
 import { PlusCircleIcon } from "@heroicons/react/outline";
 import { fetch_createTodo } from "../../utils/fetchHelpers";
 
 interface AddPageTask_Props {
-  page: page_title;
-  user: user_id;
+  page: type_page_title;
+  user: type_user_id;
   stateReload: VoidFunction;
 }
 
 export const AddPageTask = ({
   page,
   user,
-  stateReload
+  stateReload,
 }: AddPageTask_Props): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [task, setTask] = useState<todo_description>("");
+  const [task, setTask] = useState<type_todo_description>("");
 
   const taskCreator = async () => {
     if (task !== "") {
@@ -32,7 +32,7 @@ export const AddPageTask = ({
         todo_description: task,
         user_id: user,
         todo_highlight: false,
-        task: "create"
+        task: "create",
       });
       setTask("");
       stateReload();

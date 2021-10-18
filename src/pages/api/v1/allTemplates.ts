@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { Prisma, Template } from "@prisma/client";
 
 import { prisma_getAllUserTemplates } from "../../../utils/prismaHelpers";
-import { user_id } from "./../../../constants/Types";
+import { type_user_id } from "./../../../constants/Types";
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,7 +10,7 @@ export default async function handler(
   res: NextApiResponse<any>
 ): Promise<void> {
   const method = req.method;
-  const template_user_id: user_id = req.query.template_user_id.toString();
+  const template_user_id: type_user_id = req.query.template_user_id.toString();
 
   switch (method) {
     case "GET":

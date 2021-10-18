@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { Page, Prisma } from "@prisma/client";
 import {
   prisma_deleteAllPagesByUserid,
-  prisma_getAllPagesByUserid
+  prisma_getAllPagesByUserid,
 } from "../../../utils/prismaHelpers";
 
 interface Query {
@@ -39,7 +39,7 @@ export default async function handler(
 
       res.status(200).json(
         JSON.stringify({
-          Success: `Deleted ${deletedPages.count} pages`
+          Success: `Deleted ${deletedPages.count} pages`,
         })
       );
 

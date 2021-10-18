@@ -1,20 +1,20 @@
 import {
   ArchiveIcon,
   DotsVerticalIcon,
-  TrashIcon
+  TrashIcon,
 } from "@heroicons/react/solid";
-import {
-  Useful_Todo,
-  todo_archived,
-  todo_description,
-  todo_done
-} from "../../constants/Types";
 import {
   onClick_handleDelete,
   onClick_handleTextSubmit,
   onClick_toggleArchiving,
-  onClick_toggleTodoDone
+  onClick_toggleTodoDone,
 } from "../../utils/onClickHelpers";
+import {
+  type_Useful_Todo,
+  type_todo_archived,
+  type_todo_description,
+  type_todo_done,
+} from "../../constants/Types";
 import { useLayoutEffect, useRef, useState } from "react";
 
 import { IndividualItem } from "../layout/IndividualItem";
@@ -26,19 +26,19 @@ export const ArchivedTask = ({
     todo_done: db_done,
     todo_id,
     todo_archived: db_archive,
-    todo_highlight
+    todo_highlight,
   },
-  stateReload
+  stateReload,
 }: {
-  todo: Useful_Todo;
+  todo: type_Useful_Todo;
   stateReload: VoidFunction;
 }): JSX.Element => {
   const [display_text_edit, set_display_text_edit] = useState<boolean>(false);
-  const [todo_state, set_todo_state] = useState<todo_done>(db_done);
+  const [todo_state, set_todo_state] = useState<type_todo_done>(db_done);
   const [new_title, set_new_title] =
-    useState<todo_description>(todo_description);
+    useState<type_todo_description>(todo_description);
   const [todo_archive_state, set_todo_archive_state] =
-    useState<todo_archived>(db_archive);
+    useState<type_todo_archived>(db_archive);
 
   const editTaskRef = useRef(null);
 
@@ -58,7 +58,7 @@ export const ArchivedTask = ({
             onClick_toggleTodoDone({
               todo_done: todo_state,
               todo_id,
-              stateReload
+              stateReload,
             });
           }}
         />
@@ -85,7 +85,7 @@ export const ArchivedTask = ({
                     todo_id,
                     todo_description,
                     stateReload,
-                    set_display_text_edit
+                    set_display_text_edit,
                   });
                   set_display_text_edit(false);
                 } else if (event.key === "Escape") {
@@ -133,7 +133,7 @@ export const ArchivedTask = ({
                 onClick={() =>
                   onClick_handleDelete({
                     stateReload,
-                    todo_id
+                    todo_id,
                   })
                 }
                 className={`${
@@ -162,7 +162,7 @@ export const ArchivedTask = ({
                   onClick_toggleArchiving({
                     stateReload,
                     todo_archived: !todo_archive_state,
-                    todo_id
+                    todo_id,
                   });
                 }}
                 className={`${

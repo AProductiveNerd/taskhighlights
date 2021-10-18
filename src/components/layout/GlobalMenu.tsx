@@ -8,7 +8,7 @@ interface GlobalMenu_Props {
 
 export const GlobalMenu = ({
   globalMenuIsOpen,
-  setGlobalMenuIsOpen
+  setGlobalMenuIsOpen,
 }: GlobalMenu_Props) => {
   return (
     <>

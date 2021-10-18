@@ -10,10 +10,10 @@ const Home = (): JSX.Element => {
         title="Task Highlights"
         description="A to-do app that uses accountability to supercharge your productivity"
         openGraph={{
-          title: "Task Highlights"
+          title: "Task Highlights",
         }}
         twitter={{
-          cardType: "app"
+          cardType: "app",
         }}
       />
 

@@ -1,11 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import {
-  Todo_Body,
-  Useful_Todo,
-  corsMethods,
-  page_id
-} from "../../../constants/Types";
-import {
   prisma_createTodo,
   prisma_deleteTodo,
   prisma_getTodobyTodoId,
@@ -14,38 +8,34 @@ import {
   prisma_toggleArchived,
   prisma_toggleTodoDone,
   prisma_updateTodoDescription,
-  prisma_updateTodoDetails
+  prisma_updateTodoDetails,
 } from "../../../utils/prismaHelpers";
+import {
+  type_Todo_Body,
+  type_Useful_Todo,
+  type_page_id,
+} from "../../../constants/Types";
 
-import Cors from "cors";
 import { Prisma } from "@prisma/client";
-import initMiddleware from "../../../libs/InitMiddleware";
 
 interface Query {
   todo_id?: string;
-  old_page_id?: page_id;
-  new_page_id?: page_id;
+  old_page_id?: type_page_id;
+  new_page_id?: type_page_id;
 }
-const cors = initMiddleware(
-  Cors({
-    methods: corsMethods
-  })
-);
 
 export default async function handler(
   req: NextApiRequest,
 
   res: NextApiResponse<any>
 ): Promise<void> {
-  await cors(req, res);
-
   const method = req.method;
-  const body: Todo_Body = req.body;
+  const body: type_Todo_Body = req.body;
   const { todo_id, old_page_id, new_page_id }: Query = req.query;
 
   switch (method) {
     case "GET": {
-      const todo: Useful_Todo = await prisma_getTodobyTodoId(todo_id);
+      const todo: type_Useful_Todo = await prisma_getTodobyTodoId(todo_id);
 
       res.status(200).json(JSON.stringify(todo));
 
@@ -54,27 +44,27 @@ export default async function handler(
 
     case "POST":
       if (body.task === "toggleState") {
-        const todo: Useful_Todo = await prisma_toggleTodoDone(body);
+        const todo: type_Useful_Todo = await prisma_toggleTodoDone(body);
 
         res.status(201).json(JSON.stringify(todo));
       } else if (body.task === "updateDescription") {
-        const todo: Useful_Todo = await prisma_updateTodoDescription(body);
+        const todo: type_Useful_Todo = await prisma_updateTodoDescription(body);
 
         res.status(201).json(JSON.stringify(todo));
       } else if (body.task === "updateDetails") {
-        const todo: Useful_Todo = await prisma_updateTodoDetails(body);
+        const todo: type_Useful_Todo = await prisma_updateTodoDetails(body);
 
         res.status(201).json(JSON.stringify(todo));
       } else if (body.task === "toggleArchive") {
-        const todo: Useful_Todo = await prisma_toggleArchived(body);
+        const todo: type_Useful_Todo = await prisma_toggleArchived(body);
 
         res.status(201).json(JSON.stringify(todo));
       } else if (body.task === "makeHighlight") {
-        const todo: Useful_Todo = await prisma_makeHighlight(body.todo_id);
+        const todo: type_Useful_Todo = await prisma_makeHighlight(body.todo_id);
 
         res.status(201).json(JSON.stringify(todo));
       } else if (body.task === "create") {
-        const todo: Useful_Todo = await prisma_createTodo(body);
+        const todo: type_Useful_Todo = await prisma_createTodo(body);
 
         res.status(201).json(JSON.stringify(todo));
       }
@@ -84,7 +74,7 @@ export default async function handler(
     case "PUT": {
       const todos: Prisma.BatchPayload = await prisma_moveTasks({
         old_page_id,
-        new_page_id
+        new_page_id,
       });
 
       res.status(201).json(JSON.stringify(todos));
@@ -92,7 +82,7 @@ export default async function handler(
     }
 
     case "DELETE": {
-      const deletedTodo: Useful_Todo = await prisma_deleteTodo(todo_id);
+      const deletedTodo: type_Useful_Todo = await prisma_deleteTodo(todo_id);
 
       res.status(200).json(JSON.stringify(deletedTodo));
 
