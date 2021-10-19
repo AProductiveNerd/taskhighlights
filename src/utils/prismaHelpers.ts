@@ -282,7 +282,12 @@ export const prisma_createTodo = async ({
   page_id,
   user_id,
   todo_highlight,
-}: TYPES.type_Todo_Body): Promise<TYPES.type_Useful_Todo> => {
+}: {
+  todo_description: TYPES.type_todo_description;
+  page_id: TYPES.type_page_id;
+  user_id: TYPES.type_user_id;
+  todo_highlight: TYPES.type_todo_highlight;
+}): Promise<TYPES.type_Useful_Todo> => {
   const todo: TYPES.type_Useful_Todo = await prisma.todo.create({
     data: {
       todo_description,
@@ -338,7 +343,10 @@ export const prisma_getAllIncompleteTodosByPage = async (
 export const prisma_toggleTodoDone = async ({
   todo_id,
   todo_done,
-}: TYPES.type_Todo_Body): Promise<TYPES.type_Useful_Todo> => {
+}: {
+  todo_id: TYPES.type_todo_id;
+  todo_done: TYPES.type_todo_done;
+}): Promise<TYPES.type_Useful_Todo> => {
   const todo: TYPES.type_Useful_Todo = await prisma.todo.update({
     where: {
       todo_id,
@@ -392,7 +400,10 @@ export const prisma_toggleTodoDone = async ({
 export const prisma_updateTodoDescription = async ({
   todo_id,
   todo_description,
-}: TYPES.type_Todo_Body): Promise<TYPES.type_Useful_Todo> => {
+}: {
+  todo_id: TYPES.type_todo_id;
+  todo_description: TYPES.type_todo_description;
+}): Promise<TYPES.type_Useful_Todo> => {
   const todo: TYPES.type_Useful_Todo = await prisma.todo.update({
     where: {
       todo_id,
@@ -408,7 +419,10 @@ export const prisma_updateTodoDescription = async ({
 export const prisma_toggleArchived = async ({
   todo_id,
   todo_archived,
-}: TYPES.type_Todo_Body): Promise<TYPES.type_Useful_Todo> => {
+}: {
+  todo_id: TYPES.type_todo_id;
+  todo_archived: TYPES.type_todo_archived;
+}): Promise<TYPES.type_Useful_Todo> => {
   const todo: TYPES.type_Useful_Todo = await prisma.todo.update({
     where: {
       todo_id,
@@ -987,7 +1001,10 @@ export const prisma_getAllArchivedTodosByPage = async (
 export const prisma_updateTodoDetails = async ({
   todo_id,
   todo_details,
-}: TYPES.type_Todo_Body): Promise<TYPES.type_Useful_Todo> => {
+}: {
+  todo_id: TYPES.type_todo_id;
+  todo_details: TYPES.type_todo_details;
+}): Promise<TYPES.type_Useful_Todo> => {
   const todo: TYPES.type_Useful_Todo = await prisma.todo.update({
     where: {
       todo_id,

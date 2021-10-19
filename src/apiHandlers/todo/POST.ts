@@ -19,41 +19,150 @@ interface type_todo_post_handler {
 }
 
 export const todo_post_handler = async ({
-  body,
+  body: {
+    page_id,
+    task,
+    todo_highlight,
+    user_id,
+    todo_archived,
+    todo_description,
+    todo_details,
+    todo_done,
+    todo_id,
+  },
   res,
 }: type_todo_post_handler): Promise<void> => {
   let todo: type_Useful_Todo = null;
 
   try {
-    switch (body.task) {
+    switch (task) {
       case "create":
-        todo = await prisma_createTodo(body);
+        if (!is_valid_prop(page_id)) {
+          res
+            .status(400)
+            .json(make_json_string({ Error: "Please enter a valid page id" }));
+          return;
+        }
+        if (!is_valid_prop(todo_description)) {
+          res.status(400).json(
+            make_json_string({
+              Error: "Please enter a valid todo description",
+            })
+          );
+          return;
+        }
+        if (!is_valid_prop(todo_highlight, "boolean")) {
+          res
+            .status(400)
+            .json(
+              make_json_string({ Error: "Please enter a valid todo highlight" })
+            );
+          return;
+        }
+        if (!is_valid_prop(user_id)) {
+          res
+            .status(400)
+            .json(make_json_string({ Error: "Please enter a valid user id" }));
+          return;
+        }
+
+        todo = await prisma_createTodo({
+          page_id,
+          todo_description,
+          todo_highlight,
+          user_id,
+        });
         break;
 
       case "makeHighlight":
-        if (is_valid_prop(body.todo_id)) {
-          todo = await prisma_makeHighlight(body.todo_id);
+        if (is_valid_prop(todo_id)) {
+          todo = await prisma_makeHighlight(todo_id);
         } else {
           res
             .status(400)
             .json(make_json_string({ Error: "Please enter a valid todo id" }));
+
+          return;
         }
-        return;
+        break;
 
       case "toggleArchive":
-        todo = await prisma_toggleArchived(body);
+        if (!is_valid_prop(todo_id)) {
+          res
+            .status(400)
+            .json(make_json_string({ Error: "Please enter a valid todo id" }));
+          return;
+        }
+        if (!is_valid_prop(todo_archived, "boolean")) {
+          res.status(400).json(
+            make_json_string({
+              Error: "Please enter a valid todo archived",
+            })
+          );
+          return;
+        }
+
+        todo = await prisma_toggleArchived({ todo_archived, todo_id });
         break;
 
       case "toggleState":
-        todo = await prisma_toggleTodoDone(body);
+        if (!is_valid_prop(todo_id)) {
+          res
+            .status(400)
+            .json(make_json_string({ Error: "Please enter a valid todo id" }));
+          return;
+        }
+        if (!is_valid_prop(todo_done, "boolean")) {
+          res.status(400).json(
+            make_json_string({
+              Error: "Please enter a valid todo done",
+            })
+          );
+          return;
+        }
+
+        todo = await prisma_toggleTodoDone({ todo_done, todo_id });
         break;
 
       case "updateDescription":
-        todo = await prisma_updateTodoDescription(body);
+        if (!is_valid_prop(todo_id)) {
+          res
+            .status(400)
+            .json(make_json_string({ Error: "Please enter a valid todo id" }));
+          return;
+        }
+        if (!is_valid_prop(todo_description)) {
+          res.status(400).json(
+            make_json_string({
+              Error: "Please enter a valid todo description",
+            })
+          );
+          return;
+        }
+
+        todo = await prisma_updateTodoDescription({
+          todo_description,
+          todo_id,
+        });
         break;
 
       case "updateDetails":
-        todo = await prisma_updateTodoDetails(body);
+        if (!is_valid_prop(todo_id)) {
+          res
+            .status(400)
+            .json(make_json_string({ Error: "Please enter a valid todo id" }));
+          return;
+        }
+        if (!is_valid_prop(todo_details)) {
+          res.status(400).json(
+            make_json_string({
+              Error: "Please enter a valid todo details",
+            })
+          );
+          return;
+        }
+
+        todo = await prisma_updateTodoDetails({ todo_details, todo_id });
         break;
 
       default:
