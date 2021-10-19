@@ -224,7 +224,12 @@ export const IndividualTask = ({
         />
       }
       onkeydowncapture_callback={(event) => {
-        if (event.key === "Delete") {
+        event.preventDefault();
+        if (
+          event.key === "Delete" &&
+          event.shiftKey === true &&
+          event.ctrlKey === true
+        ) {
           onClick_handleDelete({ stateReload, todo_id });
         } else if (event.key === "Enter") {
           set_display_text_edit(true);
@@ -234,6 +239,7 @@ export const IndividualTask = ({
             todo_id,
           });
         }
+        return false;
       }}
       text_input_p={
         <>
