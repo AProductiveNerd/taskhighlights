@@ -1,1 +1,9 @@
+.eslintignore 
 .eslintignore
+node_modules/
+.next/
+.github/
+.vscode/
+prisma/migrations/
+yarn.lock
+yarn-error.log
