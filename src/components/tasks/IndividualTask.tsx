@@ -3,6 +3,7 @@ import {
   DotsVerticalIcon,
   EyeIcon,
   EyeOffIcon,
+  SparklesIcon,
   TrashIcon,
 } from "@heroicons/react/solid";
 import {
@@ -288,6 +289,7 @@ export const IndividualTask = ({
             <button
               title="Make Highlight"
               aria-label="Make Highlight"
+              className="flex items-center"
               onClick={() => {
                 onClick_makeHighlight({
                   stateReload,
@@ -295,7 +297,7 @@ export const IndividualTask = ({
                 });
               }}
             >
-              ✨
+              <SparklesIcon className="text-yellow-400 w-5 h-5" />
             </button>
           )}
         </>
