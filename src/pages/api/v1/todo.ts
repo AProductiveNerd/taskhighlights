@@ -27,9 +27,11 @@ export default function handler(
       break;
     }
 
-    case "PUT":
-      todo_put_handler({ query, res });
+    case "PUT": {
+      const body: type_Todo_Body = req.body;
+      todo_put_handler({ body, res });
       break;
+    }
 
     case "DELETE":
       todo_delete_handler({ query, res });

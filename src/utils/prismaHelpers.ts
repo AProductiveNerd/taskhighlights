@@ -1016,3 +1016,33 @@ export const prisma_updateTodoDetails = async ({
 
   return todo;
 };
+
+export const prisma_moveTasksToToday = async ({
+  todo_id,
+  today,
+  user_id,
+}: {
+  todo_id: TYPES.type_todo_id;
+  today: TYPES.type_page_title;
+  user_id: TYPES.type_user_id;
+}): Promise<TYPES.type_Useful_Todo> => {
+  const page = await prisma.page.findUnique({
+    where: {
+      user_title_unique: {
+        page_title: today,
+        page_user_id: user_id,
+      },
+    },
+  });
+  const new_page_id: TYPES.type_page_title = page.page_id;
+  const todo: TYPES.type_Useful_Todo = await prisma.todo.update({
+    where: {
+      todo_id,
+    },
+    data: {
+      todo_page_id: new_page_id,
+    },
+  });
+
+  return todo;
+};

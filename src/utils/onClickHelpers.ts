@@ -2,6 +2,7 @@ import {
   fetch_addTodoToStory,
   fetch_deleteTodo,
   fetch_makeHighlight,
+  fetch_moveTasksToToday,
   fetch_removeTodoFromStory,
   fetch_toggleArchived,
   fetch_toggleHabitDone,
@@ -13,10 +14,13 @@ import {
   type_handleDelete,
   type_handleTextSubmit,
   type_makeHighlight,
+  type_page_title,
   type_removeFromStory,
+  type_todo_id,
   type_toggleArchiving,
   type_toggleHabitDone,
   type_toggleTodoDone,
+  type_user_id,
 } from "./../constants/Types";
 
 export const onClick_handleTextSubmit = async ({
@@ -90,4 +94,23 @@ export const onClick_toggleHabitDone = async ({
   habit_done,
 }: type_toggleHabitDone): Promise<void> => {
   await fetch_toggleHabitDone({ habit_id, habit_done });
+};
+
+export const onClick_moveTasksToToday = async ({
+  stateReload,
+  today,
+  todo_id,
+  user_id,
+}: {
+  todo_id: type_todo_id;
+  today: type_page_title;
+  user_id: type_user_id;
+  stateReload: VoidFunction;
+}): Promise<void> => {
+  await fetch_moveTasksToToday({
+    today,
+    todo_id,
+    user_id,
+  });
+  stateReload();
 };

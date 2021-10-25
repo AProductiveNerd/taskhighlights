@@ -117,6 +117,8 @@ export const TasksCard = (): JSX.Element => {
           {currentHighlight && story && (
             <>
               <IndividualTask
+                today={new Date().toLocaleDateString("en-GB")}
+                user_id={fireId}
                 todo={currentHighlight}
                 highlight={true}
                 story={story}
@@ -132,6 +134,8 @@ export const TasksCard = (): JSX.Element => {
           {currentTodos && story ? (
             currentTodos?.map((todo: type_Useful_Todo) => (
               <IndividualTask
+                today={new Date().toLocaleDateString("en-GB")}
+                user_id={fireId}
                 todo={todo}
                 story={story}
                 key={todo.todo_id}

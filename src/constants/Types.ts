@@ -102,14 +102,18 @@ export interface type_Story_Body {
 
 export interface type_Todo_Body {
   todo_description?: type_todo_description;
-  user_id: type_user_id;
-  page_id: type_page_id;
-  task: type_Todo_Body_Task;
-  todo_highlight: type_todo_highlight;
+  user_id?: type_user_id;
+  page_id?: type_page_id;
+  task?: type_Todo_Body_Task;
+  todo_highlight?: type_todo_highlight;
   todo_id?: type_todo_id;
   todo_done?: type_todo_done;
   todo_archived?: type_todo_archived;
   todo_details?: type_todo_details;
+  old_page_id?: type_page_id;
+  new_page_id?: type_page_id;
+  today?: type_page_title;
+  put_task?: "several" | "single";
 }
 
 export interface Habit_Body {
