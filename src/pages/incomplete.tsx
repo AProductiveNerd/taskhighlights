@@ -12,7 +12,7 @@ export default function Incomplete(): JSX.Element {
           title: "Incomplete Tasks | Task Highlights",
         }}
         twitter={{
-          cardType: "app",
+          cardType: "summary",
         }}
       />
 

@@ -77,7 +77,7 @@ export default function SignUp(): JSX.Element {
             title: "Sign Up | Task Highlights",
           }}
           twitter={{
-            cardType: "app",
+            cardType: "summary",
           }}
         />
         <div className="max-w-md w-full space-y-8">

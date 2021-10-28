@@ -47,7 +47,7 @@ export default function UserProfile({
           },
         }}
         twitter={{
-          cardType: "app",
+          cardType: "summary",
           handle: profileUser.user_twitter_handle,
         }}
       />

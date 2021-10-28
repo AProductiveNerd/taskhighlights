@@ -13,7 +13,7 @@ const Home = (): JSX.Element => {
           title: "Task Highlights",
         }}
         twitter={{
-          cardType: "app",
+          cardType: "summary",
         }}
       />
 

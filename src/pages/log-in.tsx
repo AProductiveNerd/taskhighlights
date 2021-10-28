@@ -44,7 +44,7 @@ export default function LogIn(): JSX.Element {
           title="Log In | Task Highlights"
           description="Log In to Task Highlights"
           twitter={{
-            cardType: "app",
+            cardType: "summary",
           }}
           openGraph={{
             title: "Log In | Task Highlights",

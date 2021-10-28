@@ -12,7 +12,7 @@ export default function Archived(): JSX.Element {
           title: "Archived Tasks | Task Highlights",
         }}
         twitter={{
-          cardType: "app",
+          cardType: "summary",
         }}
       />
 

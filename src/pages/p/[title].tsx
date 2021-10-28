@@ -24,7 +24,7 @@ export default function Page(): JSX.Element {
           title: `${par_title ? par_title : "Daily Tasks"} | Task Highlights`,
         }}
         twitter={{
-          cardType: "app",
+          cardType: "summary",
         }}
       />
 

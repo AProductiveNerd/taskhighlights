@@ -12,7 +12,7 @@ export default function App(): JSX.Element {
           title: "Daily Tasks | Task Highlights",
         }}
         twitter={{
-          cardType: "app",
+          cardType: "summary",
         }}
       />
 
