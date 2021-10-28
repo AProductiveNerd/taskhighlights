@@ -46,7 +46,7 @@ module.exports = withPWA(
     //   return config;
     // },
     reactStrictMode: true,
-    // swcMinify: true,
+
     i18n: {
       locales: ["en"],
       defaultLocale: "en",
@@ -54,5 +54,6 @@ module.exports = withPWA(
     pwa: {
       dest: "public",
     },
+    ignoreBuildErrors: true,
   })
 );
