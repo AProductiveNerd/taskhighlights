@@ -22,7 +22,6 @@ import dynamic from "next/dynamic";
 // import { UseTemplate } from "./UseTemplate";
 
 const DynamicUseTemplate = dynamic(() => import("./UseTemplate"));
-// ! Limit the number of tasks a user can add to amplify the constraints lead to creativity effect
 
 export const HabitCard = (): JSX.Element => {
   const fireId: type_user_id = useContext(FireUserContext);
