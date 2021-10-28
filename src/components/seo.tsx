@@ -14,7 +14,7 @@ export const SEO_component = (seo_props: SEO_interface): JSX.Element => {
           <meta name="twitter:author" content={seo_props.twitter.handle} />
         )}
         <meta
-          name="twitter:image"
+          property="twitter:image"
           content="https://www.taskhighlights.com/icon.png"
         />
         <meta name="twitter:image:alt" content="Task Highlights" />
