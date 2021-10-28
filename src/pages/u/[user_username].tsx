@@ -1,5 +1,9 @@
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import { User_Story_Todo, type_Useful_Todo } from "../../constants/Types";
+import {
+  User_Story_Todo,
+  type_Story_and_Todos,
+  type_Useful_Todo,
+} from "../../constants/Types";
 import { useContext, useEffect, useState } from "react";
 
 import Avatar from "react-nice-avatar";
@@ -8,6 +12,8 @@ import { GetServerSideProps } from "next";
 import { Layout } from "../../components/layout/index";
 import { SEO_component } from "../../components/seo";
 import { StoryCard } from "../../components/stories/StoryCard";
+import { is_valid_prop } from "../../utils/validationHelpers";
+import { make_json_string } from "../../utils/generalHelpers";
 import { prisma_getUserByUsername } from "../../utils/prismaHelpers";
 
 export default function UserProfile({
@@ -15,12 +21,12 @@ export default function UserProfile({
 }: {
   user: User_Story_Todo;
 }): JSX.Element {
-  const type_Story_and_Todos = profileUser.User_Story;
+  const Story_and_Todos = profileUser.User_Story;
   const fireId = useContext(FireUserContext);
   const [loggedInSame, setLoggedInSame] = useState(false);
   const main: type_Useful_Todo[] = [];
 
-  type_Story_and_Todos.map((story_with_todo) => {
+  Story_and_Todos?.map((story_with_todo: type_Story_and_Todos) => {
     story_with_todo.Story_Todo.map((todo) => main.push(todo));
   });
 
@@ -93,12 +99,10 @@ export default function UserProfile({
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const reqUsername = context.query.user_username?.toString();
+  const reqUsername = context.query.user_username.toString();
 
-  if (reqUsername !== undefined) {
-    const today: string = new Date(
-      new Date().setDate(new Date().getDate())
-    ).toLocaleDateString("en-GB");
+  if (is_valid_prop(reqUsername)) {
+    const today: string = new Date().toLocaleDateString("en-GB");
 
     const fetchedUser: User_Story_Todo = await prisma_getUserByUsername(
       reqUsername,
@@ -107,7 +111,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     if (fetchedUser) {
       return {
-        props: { user: JSON.parse(JSON.stringify(fetchedUser)) },
+        props: { user: JSON.parse(make_json_string(fetchedUser)) },
       };
     } else {
       return {
