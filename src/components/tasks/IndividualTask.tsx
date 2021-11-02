@@ -40,6 +40,7 @@ import { Story } from "@prisma/client";
 import dynamic from "next/dynamic";
 
 const DynamicAddDetails = dynamic(() => import("./AddDetails"));
+const DynamicTaskDetailsModal = dynamic(() => import("./TaskDetailsModal"));
 
 export const IndividualTask = ({
   todo: {
@@ -49,6 +50,7 @@ export const IndividualTask = ({
     todo_highlight,
     todo_archived: db_archive,
     todo_story_id,
+    todo_details,
   },
   story: { story_id: storyid },
   stateReload,
@@ -73,6 +75,7 @@ export const IndividualTask = ({
     useState<type_todo_description>(todo_description);
   const [todo_archive_state, set_todo_archive_state] =
     useState<type_todo_archived>(db_archive);
+  const [isOpen, setIsOpen] = useState(false);
 
   const editTaskRef = useRef(null);
 
@@ -88,7 +91,11 @@ export const IndividualTask = ({
           className="cursor-pointer"
           id={todo_id}
           defaultChecked={todo_state}
-          onChange={() => {
+          onClick={(event) => {
+            if (event.ctrlKey) {
+              event.preventDefault();
+              return;
+            }
             set_todo_state(!db_done);
             if (todo_highlight && !todo_state) {
               set_party_display(true);
@@ -302,7 +309,14 @@ export const IndividualTask = ({
               className={`${
                 todo_state && "line-through"
               } w-full cursor-pointer`}
-              onClick={() => set_display_text_edit(!display_text_edit)}
+              onClick={(event) => {
+                if (event.ctrlKey) {
+                  console.log("AHAHA BSDK");
+                  setIsOpen(true);
+                } else {
+                  set_display_text_edit(!display_text_edit);
+                }
+              }}
             >
               {highlight ? (
                 <label
@@ -337,6 +351,13 @@ export const IndividualTask = ({
               <SparklesIcon className="text-yellow-400 w-5 h-5" />
             </button>
           )}
+          <DynamicTaskDetailsModal
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            todo_details={todo_details}
+            // stateReload={stateReload}
+            // todo_id={todo_id}
+          />
         </>
       }
     />

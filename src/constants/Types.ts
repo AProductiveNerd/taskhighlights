@@ -128,6 +128,7 @@ export interface Habit_Body {
 
 export interface type_Useful_Todo {
   todo_archived: type_todo_archived;
+  todo_details: type_todo_details;
   todo_description: type_todo_description;
   todo_done: type_todo_done;
   todo_highlight: type_todo_highlight;
@@ -175,6 +176,7 @@ export const Useful_Todo_Include_Object = {
   todo_id: true,
   todo_story_id: true,
   todo_highlight: true,
+  todo_details: true,
   todo_archived: true,
   Todo_Page: false,
   Todo_User: false,
