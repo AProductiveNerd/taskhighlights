@@ -290,3 +290,8 @@ export interface SEO_interface {
   };
   nosnippet?: boolean;
 }
+
+export interface type_indexDB_getAllPages {
+  id: type_page_title;
+  page: type_Page_Story_Todos;
+}

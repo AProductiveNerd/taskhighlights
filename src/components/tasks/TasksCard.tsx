@@ -1,6 +1,12 @@
 import { FastForwardIcon, RewindIcon } from "@heroicons/react/solid";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import {
+  indexDB_addPage,
+  indexDB_getAllPages,
+  indexDB_getPagebyPageID,
+  indexDB_updatePage,
+} from "../../utils/indexDBHelpers";
+import {
   type_Page_Story_Todos,
   type_Useful_Todo,
   type_user_id,
@@ -38,6 +44,14 @@ export const TasksCard = (): JSX.Element => {
 
   useEffect(() => {
     (async () => {
+      if (currentPage?.page_id) {
+        console.log(await indexDB_getPagebyPageID(currentPage?.page_id));
+      }
+    })();
+  }, [currentPage]);
+
+  useEffect(() => {
+    (async () => {
       const para_date = router.query?.date?.toString();
 
       const today: string = new Date(
@@ -55,6 +69,20 @@ export const TasksCard = (): JSX.Element => {
 
       if (JSON.stringify(currentPage) !== JSON.stringify(page)) {
         setCurrentPage(page);
+        const allPages = await indexDB_getAllPages();
+        let exists = false;
+
+        allPages.map((item) => {
+          if (item.id === today) {
+            exists = true;
+          }
+        });
+
+        if (exists) {
+          indexDB_updatePage({ today, page });
+        } else {
+          indexDB_addPage({ today, page });
+        }
       }
     })();
   }, [addedCounter, back_date_num, currentPage, fireId, router]);
