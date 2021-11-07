@@ -41,6 +41,8 @@ model Page {
   page_title         String
   page_last_accessed DateTime @updatedAt
   page_user_id       String
+  page_is_public     Boolean  @default(false)
+  page_public_link   String   @unique @default(cuid())
   Page_User          User     @relation(fields: [page_user_id], references: [user_id])
   Page_Story         Story?
   Page_Todo          Todo[]
