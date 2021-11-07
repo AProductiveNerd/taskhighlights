@@ -295,3 +295,6 @@ export interface type_indexDB_getAllPages {
   id: type_page_title;
   page: type_Page_Story_Todos;
 }
+export interface type_API_error {
+  Error: string;
+}

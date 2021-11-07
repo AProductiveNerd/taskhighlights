@@ -17,6 +17,7 @@ import { Card } from "../layout/Card";
 import FireUserContext from "../../contexts/FireUserContext";
 import { IndividualTask } from "./IndividualTask";
 import { Story } from "@prisma/client";
+import cuid from "cuid";
 import dynamic from "next/dynamic";
 import { fetch_createRetDailyPage } from "../../utils/fetchHelpers";
 import { isDailyPage } from "../../utils/generalHelpers";
@@ -41,7 +42,7 @@ export const TasksCard = (): JSX.Element => {
   const fireId: type_user_id = useContext(FireUserContext);
 
   const router = useRouter();
-
+  console.log(cuid());
   useEffect(() => {
     (async () => {
       if (currentPage?.page_id) {
@@ -92,7 +93,7 @@ export const TasksCard = (): JSX.Element => {
 
     if (JSON.stringify(currentTodos) !== JSON.stringify(fetchedTodos)) {
       const noHighlight = fetchedTodos?.filter(
-        (todo) => todo.todo_highlight === false
+        (todo: type_Useful_Todo) => todo.todo_highlight === false
       );
 
       setCurrentTodos(noHighlight);

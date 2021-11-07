@@ -16,31 +16,51 @@ import {
   TemplateIcon,
   UploadIcon,
 } from "@heroicons/react/outline";
-import { Fragment, useContext } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 import Avatar from "react-nice-avatar";
 import { EmptyCircleIcon } from "../../constants/customIcons";
+import FireUserContext from "../../contexts/FireUserContext";
 import Image from "next/image";
 import Link from "next/link";
 import PageSearchContext from "../../contexts/PageSearchContext";
 import { User } from "@prisma/client";
+import UserContext from "../../contexts/UserContext";
+import { are_args_same } from "../../utils/generalHelpers";
 import { auth } from "../../libs/Firebase";
 import dynamic from "next/dynamic";
+import { fetch_getUserByUserid } from "../../utils/fetchHelpers";
 import { signOut } from "@firebase/auth";
 
 const DynamicPageSearch = dynamic(() => import("../page/PageSearch"));
 
-export const Header = ({
-  currentUser,
-  path,
-}: {
-  currentUser: User;
-  path: string;
-}): JSX.Element => {
+export const Header = ({ path }: { path: string }): JSX.Element => {
   const { pageSearchIsOpen: isOpen, setPageSearchIsOpen: setIsOpen } =
     useContext(PageSearchContext);
+  const [currentUser, setCurrentUser] = useState<User>(null);
+  useContext(PageSearchContext);
+  const fireId = useContext(FireUserContext);
+
+  useEffect(() => {
+    (async () => {
+      const user = await fetch_getUserByUserid(fireId);
+
+      if (JSON.stringify(currentUser) !== JSON.stringify(user)) {
+        setCurrentUser(user);
+      }
+    })();
+  }, [fireId, currentUser]);
+
+  const { currentUser: contextUser, setCurrentUser: setContextUser } =
+    useContext(UserContext);
+
+  useEffect(() => {
+    if (!are_args_same(currentUser, contextUser)) {
+      setContextUser(currentUser);
+    }
+  }, [contextUser, currentUser, setContextUser]);
 
   return (
     <div className="py-3 px-6 sm:px-0 flex-1 max-w-7xl flex justify-between items-center">

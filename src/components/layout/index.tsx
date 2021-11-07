@@ -1,12 +1,10 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { ChildrenProps } from "../../constants/Types";
-import FireUserContext from "../../contexts/FireUserContext";
 import PageSearchContext from "../../contexts/PageSearchContext";
 import { User } from "@prisma/client";
-import UserContext from "./../../contexts/UserContext";
+import UserContext from "../../contexts/UserContext";
 import dynamic from "next/dynamic";
-import { fetch_getUserByUserid } from "../../utils/fetchHelpers";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useRouter } from "next/router";
 
@@ -16,26 +14,15 @@ const DynamicGlobalMenu = dynamic(() => import("./GlobalMenu"));
 const DynamicHeader = dynamic(() => import("./Header"));
 
 export const Layout = ({ children }: ChildrenProps): JSX.Element => {
-  const fireId = useContext(FireUserContext);
-  const [currentUser, setCurrentUser] = useState<User>(null);
   const [path, setPath] = useState<string>(null);
   const [globalMenuIsOpen, setGlobalMenuIsOpen] = useState(false);
   const [pageSearchIsOpen, setPageSearchIsOpen] = useState(false);
   const router = useRouter();
+  const [currentUser, setCurrentUser] = useState<User>(null);
 
   useEffect(() => {
     setPath(router.pathname.toString());
   }, [router.pathname]);
-
-  useEffect(() => {
-    (async () => {
-      const user = await fetch_getUserByUserid(fireId);
-
-      if (JSON.stringify(currentUser) !== JSON.stringify(user)) {
-        setCurrentUser(user);
-      }
-    })();
-  }, [fireId, currentUser]);
 
   useHotkeys("ctrl+p, command+p, ctrl+shift+f", (event, handler) => {
     event.preventDefault();
@@ -53,7 +40,7 @@ export const Layout = ({ children }: ChildrenProps): JSX.Element => {
   });
 
   return (
-    <UserContext.Provider value={currentUser}>
+    <UserContext.Provider value={{ currentUser, setCurrentUser }}>
       <div
         className="
           bg-theme-blueGray-900 text-theme-blueGray-300
@@ -66,7 +53,7 @@ export const Layout = ({ children }: ChildrenProps): JSX.Element => {
           <PageSearchContext.Provider
             value={{ pageSearchIsOpen, setPageSearchIsOpen }}
           >
-            <DynamicHeader currentUser={currentUser} path={path} />
+            <DynamicHeader path={path} />
           </PageSearchContext.Provider>
         </header>
 

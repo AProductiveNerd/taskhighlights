@@ -28,3 +28,19 @@ export const attach_user_js = (
 export const make_json_string = (data: any): string => {
   return JSON.stringify(data);
 };
+
+export const are_args_same = (...args: any[]) => {
+  let works = true;
+
+  for (let i = 0; i < args.length; i++) {
+    const base = args[i];
+    for (let j = i; j < args.length; j++) {
+      const curr = args[j];
+      if (make_json_string(base) !== make_json_string(curr)) {
+        works = false;
+      }
+    }
+  }
+
+  return works;
+};
