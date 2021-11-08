@@ -1,69 +1,48 @@
-import { Page, Prisma } from ".prisma/client";
-import { isDailyPage, make_json_string } from "../../utils/generalHelpers";
-import {
-  prisma_createRetDailyPage,
-  prisma_createRetPageByTitle,
-  prisma_getPageByPageTitle,
-} from "../../utils/prismaHelpers";
-
 import { NextApiResponse } from "next";
+import { Prisma } from ".prisma/client";
 import { is_valid_prop } from "../../utils/validationHelpers";
-import { type_Page_Story_Todos } from "../../constants/Types";
-import { type_page_query } from "../../types/api/page";
+import { make_json_string } from "../../utils/generalHelpers";
+import { prisma_getPageByPublicLink } from "../../utils/prismaHelpers";
+import { type_public_query } from "../../types/api/public";
 
 interface type_public_get_handler {
-  query: type_page_query;
+  query: type_public_query;
   res: NextApiResponse<any>;
 }
 
 export const public_get_handler = async ({
-  query: { page_title, page_user_id, today },
+  query: { page_public_link },
   res,
 }: type_public_get_handler): Promise<void> => {
-  let page: Page | type_Page_Story_Todos = null;
+  if (is_valid_prop(page_public_link)) {
+    try {
+      const page = await prisma_getPageByPublicLink(page_public_link);
 
-  try {
-    if (is_valid_prop(page_title) && is_valid_prop(page_user_id)) {
-      page = await prisma_getPageByPageTitle(page_title, page_user_id);
-    } else if (is_valid_prop(today)) {
-      if (isDailyPage(today)) {
-        page = await prisma_createRetDailyPage(page_user_id, today);
-      } else {
-        page = await prisma_createRetPageByTitle(page_user_id, today);
+      if (!page.page_is_public) {
+        res
+          .status(404)
+          .json(
+            make_json_string({ Error: "The requested page is not public" })
+          );
+        return;
       }
-    } else {
-      res
-        .status(406)
-        .json(make_json_string({ Error: "Please enter valid parameters" }));
-
-      return;
+      res.status(200).json(make_json_string(page));
+    } catch (e) {
+      if (e instanceof Prisma.PrismaClientKnownRequestError) {
+        res.status(400).json(e.message);
+      } else {
+        res.status(400).json(
+          make_json_string({
+            Error: "Could not do the operation",
+          })
+        );
+      }
     }
-  } catch (e) {
-    if (e instanceof Prisma.PrismaClientKnownRequestError) {
-      res.status(500).json(e.message);
-    } else {
-      res.status(500).json(
-        make_json_string({
-          Error: "Could not do the operation",
-        })
+  } else {
+    res
+      .status(406)
+      .json(
+        make_json_string({ Error: "Please enter a valid page public link" })
       );
-    }
-
-    return;
   }
-  if (!page) {
-    res
-      .status(404)
-      .json(make_json_string({ Error: "Could not find the page" }));
-    return;
-  }
-
-  if (!page.page_is_public) {
-    res
-      .status(404)
-      .json(make_json_string({ Error: "The requested page is not public" }));
-    return;
-  }
-
-  res.status(200).json(make_json_string(page));
 };

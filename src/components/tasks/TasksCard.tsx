@@ -3,7 +3,6 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import {
   indexDB_addPage,
   indexDB_getAllPages,
-  indexDB_getPagebyPageID,
   indexDB_updatePage,
 } from "../../utils/indexDBHelpers";
 import {
@@ -17,7 +16,6 @@ import { Card } from "../layout/Card";
 import FireUserContext from "../../contexts/FireUserContext";
 import { IndividualTask } from "./IndividualTask";
 import { Story } from "@prisma/client";
-import cuid from "cuid";
 import dynamic from "next/dynamic";
 import { fetch_createRetDailyPage } from "../../utils/fetchHelpers";
 import { isDailyPage } from "../../utils/generalHelpers";
@@ -42,14 +40,14 @@ export const TasksCard = (): JSX.Element => {
   const fireId: type_user_id = useContext(FireUserContext);
 
   const router = useRouter();
-  console.log(cuid());
-  useEffect(() => {
-    (async () => {
-      if (currentPage?.page_id) {
-        console.log(await indexDB_getPagebyPageID(currentPage?.page_id));
-      }
-    })();
-  }, [currentPage]);
+  // console.log(cuid());
+  // useEffect(() => {
+  //   (async () => {
+  //     if (currentPage?.page_id) {
+  //       console.log(await indexDB_getPagebyPageID(currentPage?.page_id));
+  //     }
+  //   })();
+  // }, [currentPage]);
 
   useEffect(() => {
     (async () => {

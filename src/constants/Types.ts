@@ -29,6 +29,7 @@ export type type_user_following = string[];
  */
 export type type_page_id = string;
 export type type_page_title = string;
+export type type_page_public_link = string;
 
 /**
  * Routine Model Types

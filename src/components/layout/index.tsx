@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { ChildrenProps } from "../../constants/Types";
 import PageSearchContext from "../../contexts/PageSearchContext";
@@ -19,7 +19,10 @@ export const Layout = ({ children }: ChildrenProps): JSX.Element => {
   const [pageSearchIsOpen, setPageSearchIsOpen] = useState(false);
   const router = useRouter();
   const [currentUser, setCurrentUser] = useState<User>(null);
-
+  const providerValue = useMemo(
+    () => ({ currentUser, setCurrentUser }),
+    [currentUser, setCurrentUser]
+  );
   useEffect(() => {
     setPath(router.pathname.toString());
   }, [router.pathname]);
@@ -40,7 +43,7 @@ export const Layout = ({ children }: ChildrenProps): JSX.Element => {
   });
 
   return (
-    <UserContext.Provider value={{ currentUser, setCurrentUser }}>
+    <UserContext.Provider value={providerValue}>
       <div
         className="
           bg-theme-blueGray-900 text-theme-blueGray-300

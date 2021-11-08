@@ -28,7 +28,6 @@ import Link from "next/link";
 import PageSearchContext from "../../contexts/PageSearchContext";
 import { User } from "@prisma/client";
 import UserContext from "../../contexts/UserContext";
-import { are_args_same } from "../../utils/generalHelpers";
 import { auth } from "../../libs/Firebase";
 import dynamic from "next/dynamic";
 import { fetch_getUserByUserid } from "../../utils/fetchHelpers";
@@ -40,8 +39,9 @@ export const Header = ({ path }: { path: string }): JSX.Element => {
   const { pageSearchIsOpen: isOpen, setPageSearchIsOpen: setIsOpen } =
     useContext(PageSearchContext);
   const [currentUser, setCurrentUser] = useState<User>(null);
-  useContext(PageSearchContext);
   const fireId = useContext(FireUserContext);
+
+  const { setCurrentUser: setContextUser } = useContext(UserContext);
 
   useEffect(() => {
     (async () => {
@@ -49,18 +49,10 @@ export const Header = ({ path }: { path: string }): JSX.Element => {
 
       if (JSON.stringify(currentUser) !== JSON.stringify(user)) {
         setCurrentUser(user);
+        setContextUser(user);
       }
     })();
-  }, [fireId, currentUser]);
-
-  const { currentUser: contextUser, setCurrentUser: setContextUser } =
-    useContext(UserContext);
-
-  useEffect(() => {
-    if (!are_args_same(currentUser, contextUser)) {
-      setContextUser(currentUser);
-    }
-  }, [contextUser, currentUser, setContextUser]);
+  }, [fireId, currentUser, setContextUser]);
 
   return (
     <div className="py-3 px-6 sm:px-0 flex-1 max-w-7xl flex justify-between items-center">

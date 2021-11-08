@@ -424,3 +424,24 @@ export const fetch_moveTasksToToday = async ({
     return data.json();
   }
 };
+
+export const fetch_getPageByPublicLink = async (
+  public_link: string
+): Promise<{ page: Promise<TYPES.type_Page_and_Todos>; status: number }> => {
+  if (public_link) {
+    const data = await fetch(`${API_V1}public?page_public_link=${public_link}`);
+    return {
+      page: data.json(),
+      status: data.status,
+    };
+  }
+};
+
+export const fetch_getPageByPublicLinkNOCHECK = async (
+  public_link: string
+): Promise<TYPES.type_Page_and_Todos> => {
+  if (public_link) {
+    const data = await fetch(`${API_V1}page?page_public_link=${public_link}`);
+    return data.json();
+  }
+};

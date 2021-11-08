@@ -23,7 +23,15 @@ export const StoryTask = ({
       className="flex items-center space-x-2 text-left text-lg break-words leading-6 group"
       tabIndex={0}
     >
-      <input type="checkbox" id={todo_id} checked={todo_done} readOnly={true} />
+      <input
+        type="checkbox"
+        id={todo_id}
+        checked={todo_done}
+        onClick={(event) => {
+          event.preventDefault();
+          return false;
+        }}
+      />
 
       <div
         className={`${

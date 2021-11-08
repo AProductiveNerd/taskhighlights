@@ -1047,8 +1047,24 @@ export const prisma_moveTasksToToday = async ({
   return todo;
 };
 
-// export const prisma_getPageByPublicCuid = (cuid) => {
-//   const page = prisma.page.findUnique({
-//     where: { page_id },
-//   });
-// };
+export const prisma_getPageByPublicLink = async (
+  page_public_link: TYPES.type_page_public_link
+): Promise<TYPES.type_Page_and_Todos> => {
+  const page = await prisma.page.findUnique({
+    where: {
+      page_public_link,
+    },
+    include: {
+      Page_Story: true,
+      Page_Todo: {
+        select: TYPES.Useful_Todo_Include_Object,
+        where: {
+          todo_archived: false,
+        },
+        orderBy: [{ todo_done: "asc" }, { todo_datecreated: "desc" }],
+      },
+    },
+  });
+
+  return page;
+};

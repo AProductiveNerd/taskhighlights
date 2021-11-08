@@ -311,7 +311,6 @@ export const IndividualTask = ({
               } w-full cursor-pointer`}
               onClick={(event) => {
                 if (event.ctrlKey) {
-                  console.log("AHAHA BSDK");
                   setIsOpen(true);
                 } else {
                   set_display_text_edit(!display_text_edit);
