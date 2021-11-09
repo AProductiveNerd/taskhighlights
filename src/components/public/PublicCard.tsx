@@ -25,8 +25,6 @@ export const PublicCard = ({
 }): JSX.Element => {
   const router = useRouter();
   const { public_id, username } = router.query;
-  const [isPublic, setIsPublic] = useState(null);
-  const [doesExit, setDoesExit] = useState(null);
   const [currentTodos, setCurrentTodos] = useState<type_Useful_Todo[]>(null);
   const [currentPage, setCurrentPage] = useState<type_Page_and_Todos>(null);
   const context = useContext(UserContext);
@@ -39,20 +37,23 @@ export const PublicCard = ({
           public_id.toString()
         );
         if (page.page_title === undefined) {
-          setDoesExit(false);
+          router.push("/404");
         } else {
           router.push(`/p/${page.page_title}`);
         }
       } else if (is_valid_prop(public_id)) {
         const ret = await fetch_getPageByPublicLink(public_id.toString());
-        if (ret.status === 404) {
-          setIsPublic(false);
-        } else {
+        if (ret.ok) {
           const page = await ret.page;
           if (JSON.stringify(currentPage) !== JSON.stringify(page)) {
+            if (page.Page_User.user_username !== username) {
+              router.push("/404");
+            }
             setCurrentPage(page);
             setParTitle(page.page_title);
           }
+        } else {
+          router.push("/404");
         }
       }
     })();
@@ -73,19 +74,6 @@ export const PublicCard = ({
     }
   }, [currentPage?.Page_Todo, currentTodos]);
 
-  if (isPublic === false) {
-    return (
-      <div>
-        <h1>hi from nope</h1>
-      </div>
-    );
-  } else if (doesExit === false) {
-    return (
-      <div>
-        <h1>hi from the page doesnt exist nigg</h1>
-      </div>
-    );
-  }
   return (
     <Card
       title={currentPage?.page_title || "Page"}

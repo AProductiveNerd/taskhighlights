@@ -1049,13 +1049,18 @@ export const prisma_moveTasksToToday = async ({
 
 export const prisma_getPageByPublicLink = async (
   page_public_link: TYPES.type_page_public_link
-): Promise<TYPES.type_Page_and_Todos> => {
+): Promise<TYPES.type_Page_Username_Todos> => {
   const page = await prisma.page.findUnique({
     where: {
       page_public_link,
     },
     include: {
       Page_Story: true,
+      Page_User: {
+        select: {
+          user_username: true,
+        },
+      },
       Page_Todo: {
         select: TYPES.Useful_Todo_Include_Object,
         where: {
@@ -1076,7 +1081,6 @@ export const prisma_changePagePublic = async ({
   page_public_link: TYPES.type_page_public_link;
   page_is_public: TYPES.type_page_is_public;
 }): Promise<Page> => {
-  console.log({ prisma: { page_is_public, page_public_link } });
   const page = await prisma.page.update({
     where: {
       page_public_link,

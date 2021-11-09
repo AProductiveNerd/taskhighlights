@@ -151,6 +151,12 @@ export type type_Page_Story_Todos = Page & {
 export type type_Page_and_Todos = Page & {
   Page_Todo: type_Useful_Todo[];
 };
+export type type_Page_Username_Todos = Page & {
+  Page_Todo: type_Useful_Todo[];
+  Page_User: {
+    user_username: type_user_username;
+  };
+};
 
 export type type_Story_and_Todos = Story & {
   Story_Todo: type_Useful_Todo[];

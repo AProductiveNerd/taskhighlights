@@ -427,12 +427,15 @@ export const fetch_moveTasksToToday = async ({
 
 export const fetch_getPageByPublicLink = async (
   public_link: string
-): Promise<{ page: Promise<TYPES.type_Page_and_Todos>; status: number }> => {
+): Promise<{
+  page: Promise<TYPES.type_Page_Username_Todos>;
+  ok: boolean;
+}> => {
   if (public_link) {
     const data = await fetch(`${API_V1}public?page_public_link=${public_link}`);
     return {
       page: data.json(),
-      status: data.status,
+      ok: data.ok,
     };
   }
 };
@@ -451,8 +454,6 @@ export const fetch_changePagePublic = async (
   is_public: TYPES.type_page_is_public
 ): Promise<Page> => {
   if (public_link) {
-    console.log({ fetch: is_public });
-
     const data = await fetch(
       `${API_V1}public?page_public_link=${public_link}&page_is_public=${is_public}`,
       {
