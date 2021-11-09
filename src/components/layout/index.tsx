@@ -8,14 +8,10 @@ import dynamic from "next/dynamic";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useRouter } from "next/router";
 
-// import { GlobalMenu } from "./GlobalMenu";
-
-const DynamicGlobalMenu = dynamic(() => import("./GlobalMenu"));
 const DynamicHeader = dynamic(() => import("./Header"));
 
 export const Layout = ({ children }: ChildrenProps): JSX.Element => {
   const [path, setPath] = useState<string>(null);
-  const [globalMenuIsOpen, setGlobalMenuIsOpen] = useState(false);
   const [pageSearchIsOpen, setPageSearchIsOpen] = useState(false);
   const router = useRouter();
   const [currentUser, setCurrentUser] = useState<User>(null);
@@ -30,10 +26,6 @@ export const Layout = ({ children }: ChildrenProps): JSX.Element => {
   useHotkeys("ctrl+p, command+p, ctrl+shift+f", (event, handler) => {
     event.preventDefault();
     switch (handler.key) {
-      case "ctrl+p":
-      case "command+p":
-        setGlobalMenuIsOpen(true);
-        break;
       case "ctrl+shift+f":
         setPageSearchIsOpen(true);
         break;
@@ -59,11 +51,6 @@ export const Layout = ({ children }: ChildrenProps): JSX.Element => {
             <DynamicHeader path={path} />
           </PageSearchContext.Provider>
         </header>
-
-        <DynamicGlobalMenu
-          globalMenuIsOpen={globalMenuIsOpen}
-          setGlobalMenuIsOpen={setGlobalMenuIsOpen}
-        />
 
         <main className="flex flex-1">{children}</main>
       </div>

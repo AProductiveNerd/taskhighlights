@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import { make_json_string } from "../../../utils/generalHelpers";
 import { public_get_handler } from "../../../apiHandlers/public/GET";
+import { public_put_handler } from "../../../apiHandlers/public/PUT";
 import { type_public_query } from "../../../types/api/public";
 
 export default function handler(
@@ -14,6 +15,10 @@ export default function handler(
   switch (method) {
     case "GET":
       public_get_handler({ query, res });
+      break;
+
+    case "PUT":
+      public_put_handler({ query, res });
       break;
 
     default:

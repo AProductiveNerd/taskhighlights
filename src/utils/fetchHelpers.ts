@@ -1,6 +1,6 @@
 import * as TYPES from "../constants/Types";
 
-import { Prisma, Template, Todo, User } from "@prisma/client";
+import { Page, Prisma, Template, Todo, User } from "@prisma/client";
 
 import { API_V1 } from "../constants/Routes";
 import fetch from "node-fetch";
@@ -442,6 +442,25 @@ export const fetch_getPageByPublicLinkNOCHECK = async (
 ): Promise<TYPES.type_Page_and_Todos> => {
   if (public_link) {
     const data = await fetch(`${API_V1}page?page_public_link=${public_link}`);
+    return data.json();
+  }
+};
+
+export const fetch_changePagePublic = async (
+  public_link: TYPES.type_page_public_link,
+  is_public: TYPES.type_page_is_public
+): Promise<Page> => {
+  if (public_link) {
+    console.log({ fetch: is_public });
+
+    const data = await fetch(
+      `${API_V1}public?page_public_link=${public_link}&page_is_public=${is_public}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+
     return data.json();
   }
 };

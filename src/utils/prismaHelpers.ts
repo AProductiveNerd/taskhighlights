@@ -1068,3 +1068,23 @@ export const prisma_getPageByPublicLink = async (
 
   return page;
 };
+
+export const prisma_changePagePublic = async ({
+  page_public_link,
+  page_is_public,
+}: {
+  page_public_link: TYPES.type_page_public_link;
+  page_is_public: TYPES.type_page_is_public;
+}): Promise<Page> => {
+  console.log({ prisma: { page_is_public, page_public_link } });
+  const page = await prisma.page.update({
+    where: {
+      page_public_link,
+    },
+    data: {
+      page_is_public,
+    },
+  });
+
+  return page;
+};
