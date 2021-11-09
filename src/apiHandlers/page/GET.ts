@@ -5,6 +5,7 @@ import {
   prisma_createRetPageByTitle,
   prisma_getPageByPageTitle,
   prisma_getPageByPageid,
+  prisma_getPageByPublicLink,
 } from "../../utils/prismaHelpers";
 
 import { NextApiResponse } from "next";
@@ -18,7 +19,7 @@ interface type_page_get_handler {
 }
 
 export const page_get_handler = async ({
-  query: { page_id, page_title, page_user_id, today },
+  query: { page_id, page_title, page_user_id, today, page_public_link },
   res,
 }: type_page_get_handler): Promise<void> => {
   let page: Page | type_Page_Story_Todos = null;
@@ -34,6 +35,8 @@ export const page_get_handler = async ({
       } else {
         page = await prisma_createRetPageByTitle(page_user_id, today);
       }
+    } else if (is_valid_prop(page_public_link)) {
+      page = await prisma_getPageByPublicLink(page_public_link);
     } else {
       res
         .status(406)

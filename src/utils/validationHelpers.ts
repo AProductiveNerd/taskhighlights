@@ -37,7 +37,8 @@ export const is_valid_prop = (
 
   if (intended_type === "boolean") {
     if (
-      (prop.toString() !== "true" && prop.toString() !== "false") ||
+      prop.toString() !== "true" &&
+      prop.toString() !== "false" &&
       typeof prop !== "boolean"
     ) {
       return false;

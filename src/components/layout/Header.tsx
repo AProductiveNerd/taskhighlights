@@ -16,31 +16,43 @@ import {
   TemplateIcon,
   UploadIcon,
 } from "@heroicons/react/outline";
-import { Fragment, useContext } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 import Avatar from "react-nice-avatar";
 import { EmptyCircleIcon } from "../../constants/customIcons";
+import FireUserContext from "../../contexts/FireUserContext";
 import Image from "next/image";
 import Link from "next/link";
 import PageSearchContext from "../../contexts/PageSearchContext";
 import { User } from "@prisma/client";
+import UserContext from "../../contexts/UserContext";
 import { auth } from "../../libs/Firebase";
 import dynamic from "next/dynamic";
+import { fetch_getUserByUserid } from "../../utils/fetchHelpers";
 import { signOut } from "@firebase/auth";
 
 const DynamicPageSearch = dynamic(() => import("../page/PageSearch"));
 
-export const Header = ({
-  currentUser,
-  path,
-}: {
-  currentUser: User;
-  path: string;
-}): JSX.Element => {
+export const Header = ({ path }: { path: string }): JSX.Element => {
   const { pageSearchIsOpen: isOpen, setPageSearchIsOpen: setIsOpen } =
     useContext(PageSearchContext);
+  const [currentUser, setCurrentUser] = useState<User>(null);
+  const fireId = useContext(FireUserContext);
+
+  const { setCurrentUser: setContextUser } = useContext(UserContext);
+
+  useEffect(() => {
+    (async () => {
+      const user = await fetch_getUserByUserid(fireId);
+
+      if (JSON.stringify(currentUser) !== JSON.stringify(user)) {
+        setCurrentUser(user);
+        setContextUser(user);
+      }
+    })();
+  }, [fireId, currentUser, setContextUser]);
 
   return (
     <div className="py-3 px-6 sm:px-0 flex-1 max-w-7xl flex justify-between items-center">

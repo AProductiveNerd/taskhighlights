@@ -29,6 +29,8 @@ export type type_user_following = string[];
  */
 export type type_page_id = string;
 export type type_page_title = string;
+export type type_page_public_link = string;
+export type type_page_is_public = boolean;
 
 /**
  * Routine Model Types
@@ -148,6 +150,12 @@ export type type_Page_Story_Todos = Page & {
 };
 export type type_Page_and_Todos = Page & {
   Page_Todo: type_Useful_Todo[];
+};
+export type type_Page_Username_Todos = Page & {
+  Page_Todo: type_Useful_Todo[];
+  Page_User: {
+    user_username: type_user_username;
+  };
 };
 
 export type type_Story_and_Todos = Story & {
@@ -289,4 +297,12 @@ export interface SEO_interface {
     };
   };
   nosnippet?: boolean;
+}
+
+export interface type_indexDB_getAllPages {
+  id: type_page_title;
+  page: type_Page_Story_Todos;
+}
+export interface type_API_error {
+  Error: string;
 }

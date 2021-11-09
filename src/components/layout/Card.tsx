@@ -25,11 +25,10 @@ export const Card = ({
       <div className="flex justify-between items-center">
         <p className="text-4xl">{title}</p>
 
-        {action_component}
+        {action_component && action_component}
       </div>
 
       <hr className="border-dashed" />
-
       <div className="space-y-1">{spaced_elements}</div>
 
       {buttons && <div className="flex justify-between">{buttons}</div>}

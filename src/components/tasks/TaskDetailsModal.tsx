@@ -19,7 +19,7 @@ export const TaskDetailsModal = ({
   todo_details,
 }: TaskDetailsModal_Props): JSX.Element => {
   // ! Need the if (isOpen) to make sure the function doesn't fire on component mount and dismount
-  if (isOpen) console.log(todo_details);
+  // if (isOpen) console.log(todo_details);
 
   return (
     <div>
