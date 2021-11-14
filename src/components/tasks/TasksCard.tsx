@@ -1,9 +1,12 @@
 import { FastForwardIcon, RewindIcon } from "@heroicons/react/solid";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import { are_args_same, isDailyPage } from "../../utils/generalHelpers";
 import {
-  indexDB_addPage,
+  indexDB_createPageByTitle,
+  indexDB_doesPageExist,
   indexDB_getAllPages,
-  indexDB_updatePage,
+  indexDB_getPageByPageIndexID,
+  indexDb_updatePageByTitle,
 } from "../../utils/indexDBHelpers";
 import {
   type_Page_Story_Todos,
@@ -18,7 +21,6 @@ import { IndividualTask } from "./IndividualTask";
 import { Story } from "@prisma/client";
 import dynamic from "next/dynamic";
 import { fetch_createRetDailyPage } from "../../utils/fetchHelpers";
-import { isDailyPage } from "../../utils/generalHelpers";
 import { useRouter } from "next/dist/client/router";
 
 // import { AddTask } from "./AddTask";
@@ -38,27 +40,62 @@ export const TasksCard = (): JSX.Element => {
   const [party_display, set_party_display] = useState(false);
 
   const fireId: type_user_id = useContext(FireUserContext);
-
   const router = useRouter();
-  // console.log(cuid());
-  // useEffect(() => {
-  //   (async () => {
-  //     if (currentPage?.page_id) {
-  //       console.log(await indexDB_getPagebyPageID(currentPage?.page_id));
-  //     }
-  //   })();
-  // }, [currentPage]);
 
+  // Each time currentPage changes, create a new page in indexedDb if it doesn't exist already and update the page in indexedDb if it does exist
   useEffect(() => {
     (async () => {
-      const para_date = router.query?.date?.toString();
+      if (currentPage?.page_title && currentPage?.page_id) {
+        const allPages = await indexDB_getAllPages();
 
-      const today: string = new Date(
-        new Date().setDate(new Date().getDate() - back_date_num)
-      ).toLocaleDateString("en-GB");
+        const doesPageExist = indexDB_doesPageExist({
+          all_pages: allPages,
+          page_title: currentPage?.page_title,
+        });
 
-      if (para_date !== today) {
-        router.push(`/app?date=${today}`);
+        if (doesPageExist) {
+          await indexDb_updatePageByTitle({
+            _id: currentPage?.page_title,
+            page_id: currentPage?.page_id,
+            page: currentPage,
+          });
+        } else {
+          await indexDB_createPageByTitle({
+            _id: currentPage?.page_title,
+            page_id: currentPage?.page_id,
+            page: currentPage,
+          });
+        }
+      }
+    })();
+  }, [currentPage]);
+
+  useEffect(() => {
+    console.log("Called");
+    const para_date = router.query?.date?.toString();
+    const today: string = new Date(
+      new Date().setDate(new Date().getDate() - back_date_num)
+    ).toLocaleDateString("en-GB");
+    if (para_date !== today) {
+      router.push(`/app?date=${today}`);
+    }
+
+    (async () => {
+      const all_indexDb_page = await indexDB_getAllPages();
+      const does_page_exist_in_indexDB = indexDB_doesPageExist({
+        all_pages: all_indexDb_page,
+        page_title: para_date,
+      });
+
+      if (does_page_exist_in_indexDB) {
+        const { page: page_from_indexDB } = await indexDB_getPageByPageIndexID(
+          para_date && isDailyPage(para_date) ? para_date : today
+        );
+
+        if (!are_args_same(currentPage, page_from_indexDB)) {
+          setCurrentPage(page_from_indexDB);
+          console.log("From indexedDB");
+        }
       }
 
       const page = await fetch_createRetDailyPage(
@@ -66,22 +103,9 @@ export const TasksCard = (): JSX.Element => {
         para_date && isDailyPage(para_date) ? para_date : today
       );
 
-      if (JSON.stringify(currentPage) !== JSON.stringify(page)) {
+      if (!are_args_same(currentPage, page)) {
         setCurrentPage(page);
-        const allPages = await indexDB_getAllPages();
-        let exists = false;
-
-        allPages.map((item) => {
-          if (item.id === today) {
-            exists = true;
-          }
-        });
-
-        if (exists) {
-          indexDB_updatePage({ today, page });
-        } else {
-          indexDB_addPage({ today, page });
-        }
+        console.log("From server");
       }
     })();
   }, [addedCounter, back_date_num, currentPage, fireId, router]);
@@ -160,15 +184,17 @@ export const TasksCard = (): JSX.Element => {
 
           {currentTodos && story ? (
             currentTodos?.map((todo: type_Useful_Todo) => (
-              <IndividualTask
-                today={new Date().toLocaleDateString("en-GB")}
-                user_id={fireId}
-                todo={todo}
-                story={story}
-                key={todo.todo_id}
-                stateReload={stateReload}
-                highlightCount={currentHighlight ? 1 : 0}
-              />
+              <>
+                <IndividualTask
+                  today={new Date().toLocaleDateString("en-GB")}
+                  user_id={fireId}
+                  todo={todo}
+                  story={story}
+                  key={todo.todo_id}
+                  stateReload={stateReload}
+                  highlightCount={currentHighlight ? 1 : 0}
+                />
+              </>
             ))
           ) : (
             <SkeletonTheme color="#0F172A" highlightColor="#1E293B">
