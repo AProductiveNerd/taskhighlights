@@ -2905,10 +2905,15 @@ detective@^5.2.0:
     defined "^1.0.0"
     minimist "^1.1.1"
 
-dexie@^3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/dexie/-/dexie-3.0.3.tgz#ede63849dfe5f07e13e99bb72a040e8ac1d29dab"
-  integrity sha512-BSFhGpngnCl1DOr+8YNwBDobRMH0ziJs2vts69VilwetHYOtEDcLqo7d/XiIphM0tJZ2rPPyAGd31lgH2Ln3nw==
+dexie-react-hooks@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/dexie-react-hooks/-/dexie-react-hooks-1.0.7.tgz#50316a7829a6dfa013b8471f66b010cc77f00d3e"
+  integrity sha512-hqXGFbfgu1rdfcGHQUPwW2G0iWyupoNWnk3ODvqr+HdZt2ip3y1e/dcWIOsEnlUWWCWk6a3+ok0fvECU05eE2A==
+
+dexie@^v3.2.0-beta.1:
+  version "3.2.0-rc.3"
+  resolved "https://registry.yarnpkg.com/dexie/-/dexie-3.2.0-rc.3.tgz#e79c531fde444f063c3c841e5886b5da36e88aba"
+  integrity sha512-4DdArnU3AWfCWRFz+7lkgZMjTvhPgYvQ5vGA4nHdTWvi+Gh5hLIeF/vGa7MjgeXLae82uquWixihXqyuheQSTA==
 
 didyoumean@^1.2.2:
   version "1.2.2"
