@@ -108,3 +108,22 @@ export const indexDB_toggleTodoDone = async (
 
   await indexDB.table("pages").update(updated_page._id, updated_page);
 };
+
+export const indexDB_deleteTodo = async (
+  todo_id: TYPES.type_todo_id
+): Promise<void> => {
+  let updated_page: type_indexDB_page = null;
+
+  const allIndexDBPages = await indexDB_getAllPages();
+
+  allIndexDBPages.map((page) => {
+    page.page.Page_Todo.map((todo: TYPES.type_Useful_Todo, index) => {
+      if (todo.todo_id === todo_id) {
+        page.page.Page_Todo.splice(index, 1);
+        updated_page = page;
+      }
+    });
+  });
+
+  await indexDB.table("pages").update(updated_page._id, updated_page);
+};

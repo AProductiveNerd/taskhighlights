@@ -1,7 +1,11 @@
 import * as TYPES from "../constants/Types";
 
 import { Page, Prisma, Template, Todo, User } from "@prisma/client";
-import { indexDB_createTodo, indexDB_toggleTodoDone } from "./indexDBHelpers";
+import {
+  indexDB_createTodo,
+  indexDB_deleteTodo,
+  indexDB_toggleTodoDone,
+} from "./indexDBHelpers";
 
 import { API_V1 } from "../constants/Routes";
 import fetch from "node-fetch";
@@ -128,13 +132,9 @@ export const fetch_updateTodoDescription = async ({
 
 export const fetch_deleteTodo = async (
   todo_id: TYPES.type_todo_id
-): Promise<Todo> => {
+): Promise<void> => {
   if (todo_id) {
-    const data = await fetch(`${API_V1}todo?todo_id=${todo_id}`, {
-      method: "DELETE",
-    });
-
-    return data.json();
+    await indexDB_deleteTodo(todo_id);
   }
 };
 
