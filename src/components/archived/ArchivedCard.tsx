@@ -4,20 +4,21 @@ import { useContext, useEffect, useState } from "react";
 import { ArchivedTask } from "./ArchivedTask";
 import { Card } from "../layout/Card";
 import FireUserContext from "../../contexts/FireUserContext";
-import { fetch_getAllArchivedTodosByPage } from "../../utils/fetchHelpers";
+import { Todo } from "@prisma/client";
+import { fetch_getAllArchivedTodos } from "../../utils/fetchHelpers";
 import { type_Useful_Todo } from "../../constants/Types";
 
 // ! Limit the number of tasks a user can add to amplify the constraints lead to creativity effect
 
 export const ArchivedCard = (): JSX.Element => {
-  const [todos, setTodos] = useState<type_Useful_Todo[]>(null);
+  const [todos, setTodos] = useState<Todo[]>(null);
   const [addedCounter, setAddedCounter] = useState<number>(0);
 
   const fireId = useContext(FireUserContext);
 
   useEffect(() => {
     (async () => {
-      const fetchedTodos = await fetch_getAllArchivedTodosByPage(fireId);
+      const fetchedTodos = await fetch_getAllArchivedTodos();
       if (JSON.stringify(fetchedTodos) !== JSON.stringify(todos)) {
         setTodos(fetchedTodos);
       }

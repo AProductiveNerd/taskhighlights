@@ -27,7 +27,6 @@ import {
 import {
   type_Useful_Todo,
   type_page_title,
-  type_todo_archived,
   type_todo_description,
   type_todo_done,
   type_todo_highlight,
@@ -48,7 +47,6 @@ export const IndividualTask = ({
     todo_done: db_done,
     todo_id,
     todo_highlight,
-    todo_archived: db_archive,
     todo_story_id,
     todo_details,
   },
@@ -73,8 +71,7 @@ export const IndividualTask = ({
   const [todo_state, set_todo_state] = useState<type_todo_done>(db_done);
   const [new_title, set_new_title] =
     useState<type_todo_description>(todo_description);
-  const [todo_archive_state, set_todo_archive_state] =
-    useState<type_todo_archived>(db_archive);
+
   const [isOpen, setIsOpen] = useState(false);
 
   const editTaskRef = useRef(null);
@@ -229,10 +226,8 @@ export const IndividualTask = ({
                 title="Archive Task"
                 aria-label="Archive Task"
                 onClick={() => {
-                  set_todo_archive_state(!db_archive);
                   onClick_toggleArchiving({
                     stateReload,
-                    todo_archived: !todo_archive_state,
                     todo_id,
                   });
                 }}

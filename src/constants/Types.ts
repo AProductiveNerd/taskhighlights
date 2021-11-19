@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { Page, Routine, Story, User } from "@prisma/client";
+import { Page, Routine, Story, Todo, User } from "@prisma/client";
 
 import { AvatarConfig } from "react-nice-avatar";
 
@@ -146,7 +146,7 @@ export interface type_Useful_Habit {
 
 export type type_Page_Story_Todos = Page & {
   Page_Story: Story;
-  Page_Todo: type_Useful_Todo[];
+  Page_Todo: Todo[];
 };
 export type type_Page_and_Todos = Page & {
   Page_Todo: type_Useful_Todo[];
@@ -230,7 +230,6 @@ export interface type_toggleHabitDone {
 export interface type_toggleArchiving {
   stateReload: type_stateReload;
   todo_id: type_todo_id;
-  todo_archived: type_todo_archived;
 }
 
 export interface type_makeHighlight {

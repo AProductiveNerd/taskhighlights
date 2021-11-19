@@ -1,6 +1,7 @@
 import * as TYPES from "../constants/Types";
 
 import Dexie from "dexie";
+import { Todo } from "@prisma/client";
 import cuid from "cuid";
 
 // Prevent multiple instances of Dexie Client in development
@@ -21,12 +22,11 @@ indexDB.version(1).stores({
 });
 
 export const indexDB_createPageByTitle = async (page: type_indexDB_page) => {
-  const s = await indexDB.table("pages").add({
+  await indexDB.table("pages").add({
     _id: page._id,
     page_id: page.page_id,
     page: page.page,
   });
-  console.log({ s });
 };
 
 export const indexDb_updatePageByTitle = async (page: type_indexDB_page) => {
@@ -60,7 +60,22 @@ export const indexDB_doesPageExist = ({
 export const indexDB_getPageByPageIndexID = async (
   _id: TYPES.type_page_title
 ): Promise<type_indexDB_page> => {
-  const page = await indexDB.table("pages").get(_id);
+  const page: type_indexDB_page = await indexDB.table("pages").get(_id);
+  page.page.Page_Todo.sort((a, b) => {
+    if (a.todo_datecreated.getTime() < b.todo_datecreated.getTime()) {
+      return -1;
+    } else {
+      return 1;
+    }
+  });
+
+  page.page.Page_Todo.sort(({ todo_done }) => {
+    return todo_done ? 1 : -1;
+  });
+
+  page.page.Page_Todo = page.page.Page_Todo.filter(({ todo_archived }) => {
+    return !todo_archived;
+  });
 
   return page as type_indexDB_page;
 };
@@ -72,7 +87,6 @@ export const indexDB_createTodo = async ({
   body: TYPES.type_Todo_Body;
   _id: TYPES.type_page_title;
 }): Promise<void> => {
-  console.log({ _id });
   const { page } = await indexDB_getPageByPageIndexID(_id);
 
   page.Page_Todo.push({
@@ -83,6 +97,10 @@ export const indexDB_createTodo = async ({
     todo_id: cuid(),
     todo_done: false,
     todo_story_id: null,
+    todo_datecreated: new Date(),
+    todo_highlight_questions: [],
+    todo_page_id: _id,
+    todo_user_id: page.page_user_id,
   });
 
   await indexDB.table("pages").update(_id, {
@@ -164,4 +182,52 @@ export const indexDB_makeHighlight = async (
   });
 
   await indexDB.table("pages").update(updated_page._id, updated_page);
+};
+
+export const indexDB_toggleArchive = async (
+  todo_id: TYPES.type_todo_id
+): Promise<void> => {
+  let updated_page: type_indexDB_page = null;
+  const allIndexDBPages = await indexDB_getAllPages();
+
+  allIndexDBPages.map((page) => {
+    page.page.Page_Todo.map((todo: TYPES.type_Useful_Todo) => {
+      if (todo.todo_id === todo_id) {
+        todo.todo_archived = !todo.todo_archived;
+        updated_page = page;
+      }
+    });
+  });
+
+  await indexDB.table("pages").update(updated_page._id, updated_page);
+};
+
+export const indexDB_getAllArchivedTodos = async (): Promise<Todo[]> => {
+  const all_indexDB_pages = await indexDB_getAllPages();
+
+  const filtered_pages = all_indexDB_pages.map((page) => {
+    page.page.Page_Todo = page.page.Page_Todo.filter(({ todo_archived }) => {
+      return todo_archived;
+    });
+
+    return page;
+  });
+
+  let all_archived_todos: Todo[] = [];
+  filtered_pages.map(({ page: { Page_Todo } }) => {
+    all_archived_todos = all_archived_todos.concat(Page_Todo);
+  });
+  all_archived_todos.sort((a, b) => {
+    if (a.todo_datecreated.getTime() < b.todo_datecreated.getTime()) {
+      return -1;
+    } else {
+      return 1;
+    }
+  });
+
+  all_archived_todos.sort(({ todo_done }) => {
+    return todo_done ? 1 : -1;
+  });
+
+  return all_archived_todos;
 };

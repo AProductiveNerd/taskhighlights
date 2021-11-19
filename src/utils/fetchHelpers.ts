@@ -4,7 +4,9 @@ import { Page, Prisma, Template, Todo, User } from "@prisma/client";
 import {
   indexDB_createTodo,
   indexDB_deleteTodo,
+  indexDB_getAllArchivedTodos,
   indexDB_makeHighlight,
+  indexDB_toggleArchive,
   indexDB_toggleTodoDone,
   indexDB_updateTodoDescription,
 } from "./indexDBHelpers";
@@ -133,24 +135,12 @@ export const fetch_deleteTodo = async (
   }
 };
 
-export const fetch_toggleArchived = async ({
-  todo_id,
-  todo_archived,
-}: {
-  todo_id: TYPES.type_todo_id;
-  todo_archived: TYPES.type_todo_archived;
-}): Promise<Todo> => {
-  const data = await fetch(`${API_V1}todo`, {
-    method: "POST",
-    body: JSON.stringify({
-      task: "toggleArchive",
-      todo_id,
-      todo_archived,
-    }),
-    headers: { "Content-Type": "application/json" },
-  });
-
-  return data.json();
+export const fetch_toggleArchived = async (
+  todo_id: TYPES.type_todo_id
+): Promise<void> => {
+  if (todo_id) {
+    await indexDB_toggleArchive(todo_id);
+  }
 };
 
 export const fetch_makeHighlight = async (
@@ -225,16 +215,8 @@ export const fetch_getAllPageNamesByUserid = async (
   }
 };
 
-export const fetch_getAllArchivedTodosByPage = async (
-  user_id: TYPES.type_user_id
-): Promise<TYPES.type_Useful_Todo[]> => {
-  if (user_id && typeof user_id === "string") {
-    const data = await fetch(
-      `${API_V1}allTodos?user_id=${user_id}&work=archived`
-    );
-
-    return data.json();
-  }
+export const fetch_getAllArchivedTodos = async (): Promise<Todo[]> => {
+  return await indexDB_getAllArchivedTodos();
 };
 
 export const fetch_createRetDailyRoutine = async (

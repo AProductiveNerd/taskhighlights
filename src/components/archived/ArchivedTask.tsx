@@ -11,7 +11,6 @@ import {
 } from "../../utils/onClickHelpers";
 import {
   type_Useful_Todo,
-  type_todo_archived,
   type_todo_description,
   type_todo_done,
 } from "../../constants/Types";
@@ -25,7 +24,7 @@ export const ArchivedTask = ({
     todo_description,
     todo_done: db_done,
     todo_id,
-    todo_archived: db_archive,
+
     todo_highlight,
   },
   stateReload,
@@ -37,8 +36,6 @@ export const ArchivedTask = ({
   const [todo_state, set_todo_state] = useState<type_todo_done>(db_done);
   const [new_title, set_new_title] =
     useState<type_todo_description>(todo_description);
-  const [todo_archive_state, set_todo_archive_state] =
-    useState<type_todo_archived>(db_archive);
 
   const editTaskRef = useRef(null);
 
@@ -157,10 +154,8 @@ export const ArchivedTask = ({
                 title="Unarchive"
                 aria-label="Unarchive Task"
                 onClick={() => {
-                  set_todo_archive_state(!db_archive);
                   onClick_toggleArchiving({
                     stateReload,
-                    todo_archived: !todo_archive_state,
                     todo_id,
                   });
                 }}

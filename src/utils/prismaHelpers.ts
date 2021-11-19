@@ -191,7 +191,7 @@ export const prisma_createRetDailyPage = async (
       include: {
         Page_Story: true,
         Page_Todo: {
-          select: TYPES.Useful_Todo_Include_Object,
+          // select: TYPES.Useful_Todo_Include_Object,
           where: {
             todo_archived: false,
           },

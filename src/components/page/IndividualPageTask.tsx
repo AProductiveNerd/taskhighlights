@@ -11,7 +11,6 @@ import {
 } from "../../utils/onClickHelpers";
 import {
   type_Useful_Todo,
-  type_todo_archived,
   type_todo_description,
   type_todo_done,
 } from "../../constants/Types";
@@ -21,12 +20,7 @@ import { IndividualItem } from "../layout/IndividualItem";
 import { Menu } from "@headlessui/react";
 
 export const IndividualPageTask = ({
-  todo: {
-    todo_description,
-    todo_done: db_done,
-    todo_id,
-    todo_archived: db_archive,
-  },
+  todo: { todo_description, todo_done: db_done, todo_id },
   stateReload,
 }: {
   todo: type_Useful_Todo;
@@ -36,8 +30,6 @@ export const IndividualPageTask = ({
   const [todo_state, set_todo_state] = useState<type_todo_done>(db_done);
   const [new_title, set_new_title] =
     useState<type_todo_description>(todo_description);
-  const [todo_archive_state, set_todo_archive_state] =
-    useState<type_todo_archived>(db_archive);
 
   const editTaskRef = useRef(null);
 
@@ -142,10 +134,8 @@ export const IndividualPageTask = ({
                 title="Archive Task"
                 aria-label="Archive Task"
                 onClick={() => {
-                  set_todo_archive_state(!db_archive);
                   onClick_toggleArchiving({
                     stateReload,
-                    todo_archived: todo_archive_state,
                     todo_id,
                   });
                 }}

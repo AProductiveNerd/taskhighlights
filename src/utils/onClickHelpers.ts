@@ -53,12 +53,8 @@ export const onClick_makeHighlight = async ({
 export const onClick_toggleArchiving = async ({
   stateReload,
   todo_id,
-  todo_archived,
 }: type_toggleArchiving): Promise<void> => {
-  await fetch_toggleArchived({
-    todo_id,
-    todo_archived,
-  });
+  await fetch_toggleArchived(todo_id);
   stateReload();
 };
 

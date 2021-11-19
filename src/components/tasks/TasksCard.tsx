@@ -66,7 +66,6 @@ export const TasksCard = (): JSX.Element => {
         all_pages: all_indexDb_page,
         page_title: para_date,
       });
-      console.log({ does_page_exist_in_indexDB });
 
       if (does_page_exist_in_indexDB) {
         const { page: page_from_indexDB } = await indexDB_getPageByPageIndexID(
