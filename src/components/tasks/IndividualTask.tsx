@@ -101,7 +101,6 @@ export const IndividualTask = ({
               set_party_display(true);
             }
             onClick_toggleTodoDone({
-              todo_done: todo_state,
               todo_id,
               stateReload,
             });

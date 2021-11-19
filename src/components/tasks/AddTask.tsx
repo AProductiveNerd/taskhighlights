@@ -5,7 +5,6 @@ import {
   type_page_title,
   type_todo_description,
   type_todo_highlight,
-  type_user_id,
 } from "../../constants/Types";
 
 import { PlusCircleIcon } from "@heroicons/react/outline";
@@ -13,7 +12,6 @@ import { fetch_createTodo } from "../../utils/fetchHelpers";
 
 interface AddTask_Props {
   page: type_page_title;
-  user: type_user_id;
   count: number;
   stateReload: VoidFunction;
   highlight: type_Useful_Todo;
@@ -21,7 +19,6 @@ interface AddTask_Props {
 
 export const AddTask = ({
   page,
-  user,
   stateReload,
   count,
   highlight,
@@ -34,11 +31,11 @@ export const AddTask = ({
   const taskCreator = async () => {
     if (task !== "") {
       await fetch_createTodo({
-        page_id: page,
-        todo_description: task,
-        user_id: user,
-        todo_highlight: should_highlight,
-        task: "create",
+        _id: page,
+        body: {
+          todo_description: task,
+          todo_highlight: should_highlight,
+        },
       });
       setTask("");
       setShouldHighlight(false);

@@ -7,7 +7,6 @@ import {
 } from "../../constants/Types";
 
 import { PlusCircleIcon } from "@heroicons/react/outline";
-import { fetch_createTodo } from "../../utils/fetchHelpers";
 
 interface AddPageTask_Props {
   page: type_page_title;
@@ -16,22 +15,22 @@ interface AddPageTask_Props {
 }
 
 export const AddPageTask = ({
-  page,
-  user,
+  // page,
+  // user,
   stateReload,
 }: AddPageTask_Props): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [task, setTask] = useState<type_todo_description>("");
 
-  const taskCreator = async () => {
+  const taskCreator = () => {
     if (task !== "") {
-      await fetch_createTodo({
-        page_id: page,
-        todo_description: task,
-        user_id: user,
-        todo_highlight: false,
-        task: "create",
-      });
+      // await fetch_createTodo({
+      //   page_id: page,
+      //   todo_description: task,
+      //   user_id: user,
+      //   todo_highlight: false,
+      //   task: "create",
+      // });
       setTask("");
       stateReload();
     }

@@ -36,10 +36,9 @@ export const onClick_handleTextSubmit = async ({
 
 export const onClick_toggleTodoDone = async ({
   todo_id,
-  todo_done,
   stateReload,
 }: type_toggleTodoDone): Promise<void> => {
-  await fetch_toggleTodoDone({ todo_id, todo_done });
+  await fetch_toggleTodoDone(todo_id);
   stateReload();
 };
 

@@ -1,6 +1,7 @@
 import * as TYPES from "../constants/Types";
 
 import Dexie from "dexie";
+import cuid from "cuid";
 
 // Prevent multiple instances of Dexie Client in development
 // eslint-disable-next-line init-declarations
@@ -20,11 +21,12 @@ indexDB.version(1).stores({
 });
 
 export const indexDB_createPageByTitle = async (page: type_indexDB_page) => {
-  await indexDB.table("pages").add({
+  const s = await indexDB.table("pages").add({
     _id: page._id,
     page_id: page.page_id,
     page: page.page,
   });
+  console.log({ s });
 };
 
 export const indexDb_updatePageByTitle = async (page: type_indexDB_page) => {
@@ -61,4 +63,48 @@ export const indexDB_getPageByPageIndexID = async (
   const page = await indexDB.table("pages").get(_id);
 
   return page as type_indexDB_page;
+};
+
+export const indexDB_createTodo = async ({
+  body: { todo_description, todo_highlight },
+  _id,
+}: {
+  body: TYPES.type_Todo_Body;
+  _id: TYPES.type_page_title;
+}): Promise<void> => {
+  console.log({ _id });
+  const { page } = await indexDB_getPageByPageIndexID(_id);
+
+  page.Page_Todo.push({
+    todo_archived: false,
+    todo_description,
+    todo_details: null,
+    todo_highlight,
+    todo_id: cuid(),
+    todo_done: false,
+    todo_story_id: null,
+  });
+
+  await indexDB.table("pages").update(_id, {
+    page,
+  });
+};
+
+export const indexDB_toggleTodoDone = async (
+  todo_id: TYPES.type_todo_id
+): Promise<void> => {
+  let updated_page: type_indexDB_page = null;
+
+  const allIndexDBPages = await indexDB_getAllPages();
+
+  allIndexDBPages.map((page) => {
+    page.page.Page_Todo.map((todo: TYPES.type_Useful_Todo) => {
+      if (todo.todo_id === todo_id) {
+        todo.todo_done = !todo.todo_done;
+        updated_page = page;
+      }
+    });
+  });
+
+  await indexDB.table("pages").update(updated_page._id, updated_page);
 };

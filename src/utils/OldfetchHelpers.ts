@@ -1,7 +1,6 @@
 import * as TYPES from "../constants/Types";
 
 import { Page, Prisma, Template, Todo, User } from "@prisma/client";
-import { indexDB_createTodo, indexDB_toggleTodoDone } from "./indexDBHelpers";
 
 import { API_V1 } from "../constants/Routes";
 import fetch from "node-fetch";
@@ -65,18 +64,17 @@ export const fetch_createRetPageByTitle = async (
   }
 };
 
-export const fetch_createTodo = async ({
-  body,
-  _id,
-}: {
-  body: TYPES.type_Todo_Body;
-  _id: TYPES.type_page_title;
-}): Promise<void> => {
+export const fetch_createTodo = async (
+  body: TYPES.type_Todo_Body
+): Promise<Todo> => {
   if (body) {
-    await indexDB_createTodo({
-      body,
-      _id,
+    const data = await fetch(`${API_V1}todo`, {
+      method: "POST",
+      body: JSON.stringify(body),
+      headers: { "Content-Type": "application/json" },
     });
+
+    return data.json();
   }
 };
 
@@ -98,10 +96,24 @@ export const fetch_getAllTodosByPage = async (
   }
 };
 
-export const fetch_toggleTodoDone = async (
-  todo_id: TYPES.type_todo_id
-): Promise<void> => {
-  await indexDB_toggleTodoDone(todo_id);
+export const fetch_toggleTodoDone = async ({
+  todo_id,
+  todo_done,
+}: {
+  todo_id: TYPES.type_todo_id;
+  todo_done: TYPES.type_todo_done;
+}): Promise<Todo> => {
+  const data = await fetch(`${API_V1}todo`, {
+    method: "POST",
+    body: JSON.stringify({
+      task: "toggleState",
+      todo_id,
+      todo_done: !todo_done,
+    }),
+    headers: { "Content-Type": "application/json" },
+  });
+
+  return data.json();
 };
 
 export const fetch_updateTodoDescription = async ({

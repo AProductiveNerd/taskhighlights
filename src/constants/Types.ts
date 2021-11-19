@@ -220,7 +220,6 @@ export interface type_handleTextSubmit {
 export interface type_toggleTodoDone {
   stateReload: type_stateReload;
   todo_id: type_todo_id;
-  todo_done: type_todo_done;
 }
 
 export interface type_toggleHabitDone {
