@@ -4,6 +4,7 @@ import { Page, Prisma, Template, Todo, User } from "@prisma/client";
 import {
   indexDB_createTodo,
   indexDB_deleteTodo,
+  indexDB_makeHighlight,
   indexDB_toggleTodoDone,
   indexDB_updateTodoDescription,
 } from "./indexDBHelpers";
@@ -154,17 +155,8 @@ export const fetch_toggleArchived = async ({
 
 export const fetch_makeHighlight = async (
   todo_id: TYPES.type_todo_id
-): Promise<Todo> => {
-  const data = await fetch(`${API_V1}todo`, {
-    method: "POST",
-    body: JSON.stringify({
-      task: "makeHighlight",
-      todo_id,
-    }),
-    headers: { "Content-Type": "application/json" },
-  });
-
-  return data.json();
+): Promise<void> => {
+  await indexDB_makeHighlight(todo_id);
 };
 
 export const fetch_getStoryByStoryId = async (
