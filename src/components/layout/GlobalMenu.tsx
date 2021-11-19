@@ -7,7 +7,7 @@ import {
 } from "../../constants/Types";
 
 import UserContext from "../../contexts/UserContext";
-import { fetch_changePagePublic } from "../../utils/fetchHelpers";
+import { fetch_changePageIsPublicByPublicLink } from "../../utils/fetchHelpers";
 
 interface GlobalMenu_Props {
   globalMenuIsOpen: boolean;
@@ -103,7 +103,10 @@ export const GlobalMenu = ({
                         <Switch
                           checked={page_is_public}
                           onChange={async () => {
-                            await fetch_changePagePublic(page, !page_is_public);
+                            await fetch_changePageIsPublicByPublicLink(
+                              page,
+                              !page_is_public
+                            );
                             stateReload();
                           }}
                           className={`${

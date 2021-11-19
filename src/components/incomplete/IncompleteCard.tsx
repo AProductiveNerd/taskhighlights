@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { Card } from "../layout/Card";
 import FireUserContext from "../../contexts/FireUserContext";
 import { IncompleteTask } from "./IncompleteTask";
-import { fetch_getAllIncompleteTodosByPage } from "../../utils/fetchHelpers";
+import { fetch_getAllIncompleteTodos } from "../../utils/fetchHelpers";
 import { type_Useful_Todo } from "../../constants/Types";
 
 // ! Limit the number of tasks a user can add to amplify the constraints lead to creativity effect
@@ -17,7 +17,7 @@ export const IncompleteCard = (): JSX.Element => {
 
   useEffect(() => {
     (async () => {
-      const fetchedTodos = await fetch_getAllIncompleteTodosByPage(fireId);
+      const fetchedTodos = await fetch_getAllIncompleteTodos();
       if (JSON.stringify(fetchedTodos) !== JSON.stringify(todos)) {
         setTodos(fetchedTodos);
       }

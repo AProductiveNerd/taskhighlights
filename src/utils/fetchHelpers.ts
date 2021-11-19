@@ -5,6 +5,7 @@ import {
   indexDB_createTodo,
   indexDB_deleteTodo,
   indexDB_getAllArchivedTodos,
+  indexDB_getAllIncompleteTodos,
   indexDB_makeHighlight,
   indexDB_toggleArchive,
   indexDB_toggleTodoDone,
@@ -193,16 +194,8 @@ export const fetch_removeTodoFromStory = async ({
   return data.json();
 };
 
-export const fetch_getAllIncompleteTodosByPage = async (
-  user_id: TYPES.type_user_id
-): Promise<TYPES.type_Useful_Todo[]> => {
-  if (user_id && typeof user_id === "string") {
-    const data = await fetch(
-      `${API_V1}allTodos?user_id=${user_id}&work=incomplete`
-    );
-
-    return data.json();
-  }
+export const fetch_getAllIncompleteTodos = async (): Promise<Todo[]> => {
+  return await indexDB_getAllIncompleteTodos();
 };
 
 export const fetch_getAllPageNamesByUserid = async (
@@ -405,7 +398,7 @@ export const fetch_getPageByPublicLinkNOCHECK = async (
   }
 };
 
-export const fetch_changePagePublic = async (
+export const fetch_changePageIsPublicByPublicLink = async (
   public_link: TYPES.type_page_public_link,
   is_public: TYPES.type_page_is_public
 ): Promise<Page> => {

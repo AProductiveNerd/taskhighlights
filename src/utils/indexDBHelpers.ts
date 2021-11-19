@@ -231,3 +231,32 @@ export const indexDB_getAllArchivedTodos = async (): Promise<Todo[]> => {
 
   return all_archived_todos;
 };
+export const indexDB_getAllIncompleteTodos = async (): Promise<Todo[]> => {
+  const all_indexDB_pages = await indexDB_getAllPages();
+
+  const filtered_pages = all_indexDB_pages.map((page) => {
+    page.page.Page_Todo = page.page.Page_Todo.filter(({ todo_done }) => {
+      return !todo_done;
+    });
+
+    return page;
+  });
+
+  let all_incomplete_todos: Todo[] = [];
+  filtered_pages.map(({ page: { Page_Todo } }) => {
+    all_incomplete_todos = all_incomplete_todos.concat(Page_Todo);
+  });
+  all_incomplete_todos.sort((a, b) => {
+    if (a.todo_datecreated.getTime() < b.todo_datecreated.getTime()) {
+      return -1;
+    } else {
+      return 1;
+    }
+  });
+
+  all_incomplete_todos.sort(({ todo_archived }) => {
+    return todo_archived ? 1 : -1;
+  });
+
+  return all_incomplete_todos;
+};
