@@ -5,6 +5,7 @@ import {
   indexDB_createTodo,
   indexDB_deleteTodo,
   indexDB_toggleTodoDone,
+  indexDB_updateTodoDescription,
 } from "./indexDBHelpers";
 
 import { API_V1 } from "../constants/Routes";
@@ -114,19 +115,12 @@ export const fetch_updateTodoDescription = async ({
 }: {
   todo_id: TYPES.type_todo_id;
   todo_description: TYPES.type_todo_description;
-}): Promise<Todo> => {
+}): Promise<void> => {
   if (todo_id && todo_description) {
-    const data = await fetch(`${API_V1}todo`, {
-      method: "POST",
-      body: JSON.stringify({
-        task: "updateDescription",
-        todo_id,
-        todo_description,
-      }),
-      headers: { "Content-Type": "application/json" },
+    await indexDB_updateTodoDescription({
+      todo_id,
+      todo_description,
     });
-
-    return data.json();
   }
 };
 
