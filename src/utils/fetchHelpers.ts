@@ -7,6 +7,7 @@ import {
   indexDB_getAllArchivedTodos,
   indexDB_getAllIncompleteTodos,
   indexDB_makeHighlight,
+  indexDB_moveTaskToToday,
   indexDB_toggleArchive,
   indexDB_toggleTodoDone,
   indexDB_updateTodoDescription,
@@ -349,28 +350,9 @@ export const fetch_updateTodoDetails = async ({
   }
 };
 
-export const fetch_moveTasksToToday = async ({
-  todo_id,
-  today,
-  user_id,
-}: {
-  todo_id: TYPES.type_todo_id;
-  today: TYPES.type_page_title;
-  user_id: TYPES.type_user_id;
-}) => {
-  if (todo_id && today && user_id) {
-    const data = await fetch(`${API_V1}todo`, {
-      method: "PUT",
-      body: JSON.stringify({
-        put_task: "single",
-        user_id,
-        todo_id,
-        today,
-      }),
-      headers: { "Content-Type": "application/json" },
-    });
-
-    return data.json();
+export const fetch_moveTasksToToday = async (todo_id: TYPES.type_todo_id) => {
+  if (todo_id) {
+    await indexDB_moveTaskToToday(todo_id);
   }
 };
 

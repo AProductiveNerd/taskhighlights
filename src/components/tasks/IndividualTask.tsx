@@ -26,11 +26,9 @@ import {
 } from "../../utils/onClickHelpers";
 import {
   type_Useful_Todo,
-  type_page_title,
   type_todo_description,
   type_todo_done,
   type_todo_highlight,
-  type_user_id,
 } from "../../constants/Types";
 
 import { IndividualItem } from "../layout/IndividualItem";
@@ -55,17 +53,13 @@ export const IndividualTask = ({
   highlight,
   set_party_display,
   highlightCount,
-  today,
-  user_id,
 }: {
   todo: type_Useful_Todo;
   story: Story;
   set_party_display?: Dispatch<SetStateAction<boolean>>;
   stateReload: VoidFunction;
-  user_id: type_user_id;
   highlightCount: number;
   highlight?: type_todo_highlight;
-  today: type_page_title;
 }): JSX.Element => {
   const [display_text_edit, set_display_text_edit] = useState<boolean>(false);
   const [todo_state, set_todo_state] = useState<type_todo_done>(db_done);
@@ -200,8 +194,6 @@ export const IndividualTask = ({
                   onClick_moveTasksToToday({
                     stateReload,
                     todo_id,
-                    today,
-                    user_id,
                   })
                 }
                 className={`${

@@ -43,6 +43,7 @@ export type type_routine_title = string;
  */
 export type type_todo_id = string;
 export type type_todo_description = string;
+export type type_todo_datecreated = Date;
 export type type_todo_done = boolean;
 export type type_todo_archived = boolean;
 export type type_todo_highlight = boolean;
@@ -104,6 +105,8 @@ export interface type_Story_Body {
 
 export interface type_Todo_Body {
   todo_description?: type_todo_description;
+  todo_datecreated?: type_todo_datecreated;
+  todo_story_id?: type_story_id;
   user_id?: type_user_id;
   page_id?: type_page_id;
   task?: type_Todo_Body_Task;

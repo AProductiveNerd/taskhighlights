@@ -80,8 +80,25 @@ export const indexDB_getPageByPageIndexID = async (
   return page as type_indexDB_page;
 };
 
+export const indexDB_getPageByPageid = async (
+  page_id: TYPES.type_page_id
+): Promise<type_indexDB_page> => {
+  const page: type_indexDB_page = await indexDB.table("pages").get({ page_id });
+
+  return page as type_indexDB_page;
+};
+
 export const indexDB_createTodo = async ({
-  body: { todo_description, todo_highlight },
+  body: {
+    todo_description,
+    todo_highlight,
+    todo_datecreated,
+    todo_archived,
+    todo_details,
+    todo_done,
+    todo_id,
+    todo_story_id,
+  },
   _id,
 }: {
   body: TYPES.type_Todo_Body;
@@ -90,14 +107,14 @@ export const indexDB_createTodo = async ({
   const { page } = await indexDB_getPageByPageIndexID(_id);
 
   page.Page_Todo.push({
-    todo_archived: false,
+    todo_archived: todo_archived || false,
     todo_description,
-    todo_details: null,
+    todo_details: todo_details || null,
     todo_highlight,
-    todo_id: cuid(),
-    todo_done: false,
-    todo_story_id: null,
-    todo_datecreated: new Date(),
+    todo_id: todo_id || cuid(),
+    todo_done: todo_done || false,
+    todo_story_id: todo_story_id || null,
+    todo_datecreated: todo_datecreated || new Date(),
     todo_highlight_questions: [],
     todo_page_id: _id,
     todo_user_id: page.page_user_id,
@@ -259,4 +276,51 @@ export const indexDB_getAllIncompleteTodos = async (): Promise<Todo[]> => {
   });
 
   return all_incomplete_todos;
+};
+
+export const indexDB_getTodoById = async (
+  todo_id: TYPES.type_todo_id
+): Promise<Todo> => {
+  let todo: Todo = null;
+
+  const all_indexDB_pages = await indexDB_getAllPages();
+  all_indexDB_pages.map(({ page: { Page_Todo } }) => {
+    Page_Todo.map((page_todo: Todo) => {
+      if (page_todo.todo_id === todo_id) {
+        todo = page_todo;
+      }
+    });
+  });
+
+  return todo;
+};
+
+export const indexDB_moveTaskToToday = async (
+  todo_id: TYPES.type_todo_id
+): Promise<void> => {
+  console.log(todo_id);
+  const {
+    todo_archived,
+    todo_datecreated,
+    todo_description,
+    todo_details,
+    todo_done,
+    todo_story_id,
+  } = await indexDB_getTodoById(todo_id);
+
+  indexDB_createTodo({
+    body: {
+      todo_description,
+      todo_highlight: false,
+      todo_datecreated,
+      todo_archived,
+      todo_details,
+      todo_done,
+      todo_id,
+      todo_story_id,
+    },
+    _id: new Date().toLocaleDateString("en-GB"),
+  });
+
+  await indexDB_deleteTodo(todo_id);
 };
