@@ -36,6 +36,16 @@ export const indexDb_updatePageByTitle = async (page: type_indexDB_page) => {
     page: page.page,
   });
 };
+export const indexDb_updatePageById = async (page: type_indexDB_page) => {
+  await indexDB.table("pages").update(
+    { page_id: page.page.page_id },
+    {
+      _id: page._id,
+      page_id: page.page_id,
+      page: page.page,
+    }
+  );
+};
 
 export const indexDB_getAllPages = async (): Promise<type_indexDB_page[]> => {
   const allPages = await indexDB.table("pages").toArray();
@@ -56,24 +66,40 @@ export const indexDB_doesPageExist = ({
 
   return !!page;
 };
+export const indexDB_doesPageExistByPageID = ({
+  page_id,
+  all_pages,
+}: {
+  page_id: TYPES.type_page_id;
+  all_pages: type_indexDB_page[];
+}): boolean => {
+  const page = all_pages.find(
+    (page_local: type_indexDB_page) => page_local.page_id === page_id
+  );
+
+  return !!page;
+};
 
 export const indexDB_getPageByPageIndexID = async (
   _id: TYPES.type_page_title
 ): Promise<type_indexDB_page> => {
   const page: type_indexDB_page = await indexDB.table("pages").get(_id);
-  page.page.Page_Todo.sort((a, b) => {
-    if (a.todo_datecreated.getTime() < b.todo_datecreated.getTime()) {
+  page.page.Page_Todo?.sort((a, b) => {
+    if (
+      new Date(a.todo_datecreated).getTime() <
+      new Date(b.todo_datecreated).getTime()
+    ) {
       return -1;
     } else {
       return 1;
     }
   });
 
-  page.page.Page_Todo.sort(({ todo_done }) => {
+  page.page.Page_Todo?.sort(({ todo_done }) => {
     return todo_done ? 1 : -1;
   });
 
-  page.page.Page_Todo = page.page.Page_Todo.filter(({ todo_archived }) => {
+  page.page.Page_Todo = page.page.Page_Todo?.filter(({ todo_archived }) => {
     return !todo_archived;
   });
 
@@ -132,15 +158,14 @@ export const indexDB_toggleTodoDone = async (
   const allIndexDBPages = await indexDB_getAllPages();
 
   allIndexDBPages.map((page) => {
-    page.page.Page_Todo.map((todo: TYPES.type_Useful_Todo) => {
+    page.page.Page_Todo.map(async (todo: Todo) => {
       if (todo.todo_id === todo_id) {
         todo.todo_done = !todo.todo_done;
         updated_page = page;
+        await indexDB.table("pages").update(updated_page._id, updated_page);
       }
     });
   });
-
-  await indexDB.table("pages").update(updated_page._id, updated_page);
 };
 
 export const indexDB_deleteTodo = async (
@@ -150,15 +175,14 @@ export const indexDB_deleteTodo = async (
   const allIndexDBPages = await indexDB_getAllPages();
 
   allIndexDBPages.map((page) => {
-    page.page.Page_Todo.map((todo: TYPES.type_Useful_Todo, index) => {
+    page.page.Page_Todo.map(async (todo: Todo, index) => {
       if (todo.todo_id === todo_id) {
         page.page.Page_Todo.splice(index, 1);
         updated_page = page;
+        await indexDB.table("pages").update(updated_page._id, updated_page);
       }
     });
   });
-
-  await indexDB.table("pages").update(updated_page._id, updated_page);
 };
 
 export const indexDB_updateTodoDescription = async ({
@@ -172,15 +196,14 @@ export const indexDB_updateTodoDescription = async ({
   const allIndexDBPages = await indexDB_getAllPages();
 
   allIndexDBPages.map((page) => {
-    page.page.Page_Todo.map((todo: TYPES.type_Useful_Todo) => {
+    page.page.Page_Todo.map(async (todo: Todo) => {
       if (todo.todo_id === todo_id) {
         todo.todo_description = todo_description;
         updated_page = page;
+        await indexDB.table("pages").update(updated_page._id, updated_page);
       }
     });
   });
-
-  await indexDB.table("pages").update(updated_page._id, updated_page);
 };
 
 export const indexDB_makeHighlight = async (
@@ -190,15 +213,14 @@ export const indexDB_makeHighlight = async (
   const allIndexDBPages = await indexDB_getAllPages();
 
   allIndexDBPages.map((page) => {
-    page.page.Page_Todo.map((todo: TYPES.type_Useful_Todo) => {
+    page.page.Page_Todo.map(async (todo: Todo) => {
       if (todo.todo_id === todo_id) {
         todo.todo_highlight = true;
         updated_page = page;
+        await indexDB.table("pages").update(updated_page._id, updated_page);
       }
     });
   });
-
-  await indexDB.table("pages").update(updated_page._id, updated_page);
 };
 
 export const indexDB_toggleArchive = async (
@@ -208,15 +230,14 @@ export const indexDB_toggleArchive = async (
   const allIndexDBPages = await indexDB_getAllPages();
 
   allIndexDBPages.map((page) => {
-    page.page.Page_Todo.map((todo: TYPES.type_Useful_Todo) => {
+    page.page.Page_Todo.map(async (todo: Todo) => {
       if (todo.todo_id === todo_id) {
         todo.todo_archived = !todo.todo_archived;
         updated_page = page;
+        await indexDB.table("pages").update(updated_page._id, updated_page);
       }
     });
   });
-
-  await indexDB.table("pages").update(updated_page._id, updated_page);
 };
 
 export const indexDB_getAllArchivedTodos = async (): Promise<Todo[]> => {
@@ -226,7 +247,6 @@ export const indexDB_getAllArchivedTodos = async (): Promise<Todo[]> => {
     page.page.Page_Todo = page.page.Page_Todo.filter(({ todo_archived }) => {
       return todo_archived;
     });
-
     return page;
   });
 
@@ -248,6 +268,7 @@ export const indexDB_getAllArchivedTodos = async (): Promise<Todo[]> => {
 
   return all_archived_todos;
 };
+
 export const indexDB_getAllIncompleteTodos = async (): Promise<Todo[]> => {
   const all_indexDB_pages = await indexDB_getAllPages();
 
@@ -264,7 +285,10 @@ export const indexDB_getAllIncompleteTodos = async (): Promise<Todo[]> => {
     all_incomplete_todos = all_incomplete_todos.concat(Page_Todo);
   });
   all_incomplete_todos.sort((a, b) => {
-    if (a.todo_datecreated.getTime() < b.todo_datecreated.getTime()) {
+    if (
+      new Date(a.todo_datecreated).getTime() <
+      new Date(b.todo_datecreated).getTime()
+    ) {
       return -1;
     } else {
       return 1;
