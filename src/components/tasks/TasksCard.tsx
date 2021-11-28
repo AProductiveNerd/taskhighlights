@@ -1,5 +1,6 @@
 import { FastForwardIcon, RewindIcon } from "@heroicons/react/solid";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import { Story, Todo } from "@prisma/client";
 import { are_args_same, isDailyPage } from "../../utils/generalHelpers";
 import {
   indexDB_createPageByTitle,
@@ -7,17 +8,12 @@ import {
   indexDB_getAllPages,
   indexDB_getPageByPageIndexID,
 } from "../../utils/indexDBHelpers";
-import {
-  type_Page_Story_Todos,
-  type_Useful_Todo,
-  type_user_id,
-} from "../../constants/Types";
+import { type_Page_Story_Todos, type_user_id } from "../../constants/Types";
 import { useContext, useEffect, useState } from "react";
 
 import { Card } from "../layout/Card";
 import FireUserContext from "../../contexts/FireUserContext";
 import { IndividualTask } from "./IndividualTask";
-import { Story } from "@prisma/client";
 import cuid from "cuid";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
@@ -30,11 +26,10 @@ const DynamicAddTask = dynamic(() => import("./AddTask"));
 
 export const TasksCard = (): JSX.Element => {
   const [currentPage, setCurrentPage] = useState<type_Page_Story_Todos>(null);
-  const [currentTodos, setCurrentTodos] = useState<type_Useful_Todo[]>(null);
+  const [currentTodos, setCurrentTodos] = useState<Todo[]>(null);
   const [addedCounter, setAddedCounter] = useState<number>(0);
   const [back_date_num, setBack_date_num] = useState<number>(0);
-  const [currentHighlight, setCurrentHighlight] =
-    useState<type_Useful_Todo>(null);
+  const [currentHighlight, setCurrentHighlight] = useState<Todo>(null);
   const [story, set_story] = useState<Story>(null);
   const [party_display, set_party_display] = useState(false);
 
@@ -50,7 +45,7 @@ export const TasksCard = (): JSX.Element => {
     if (para_date !== today) {
       router.push(`/app?date=${today}`);
     }
-    // const page_title = para_date && isDailyPage(para_date) ? para_date : today;
+    const page_title = para_date && isDailyPage(para_date) ? para_date : today;
 
     /*
      * checks if query parameter exists.
@@ -69,7 +64,7 @@ export const TasksCard = (): JSX.Element => {
 
       if (does_page_exist_in_indexDB) {
         const { page: page_from_indexDB } = await indexDB_getPageByPageIndexID(
-          para_date && isDailyPage(para_date) ? para_date : today
+          page_title
         );
 
         if (!are_args_same(currentPage, page_from_indexDB)) {
@@ -85,8 +80,7 @@ export const TasksCard = (): JSX.Element => {
               story_datecreated: new Date(),
               story_id: cuid(),
               story_page_id: page_id,
-              story_title:
-                para_date && isDailyPage(para_date) ? para_date : today,
+              story_title: page_title,
               story_user_id: fireId,
             },
             Page_Todo: [],
@@ -95,15 +89,15 @@ export const TasksCard = (): JSX.Element => {
             page_is_public: false,
             page_last_accessed: new Date(),
             page_public_link: cuid(),
-            page_title: para_date && isDailyPage(para_date) ? para_date : today,
+            page_title,
             page_user_id: fireId,
           },
-          _id: para_date && isDailyPage(para_date) ? para_date : today,
+          _id: page_title,
           page_id,
         });
 
         const { page: page_from_indexDB } = await indexDB_getPageByPageIndexID(
-          para_date && isDailyPage(para_date) ? para_date : today
+          page_title
         );
         setCurrentPage(page_from_indexDB);
       }
@@ -115,14 +109,14 @@ export const TasksCard = (): JSX.Element => {
 
     if (JSON.stringify(currentTodos) !== JSON.stringify(fetchedTodos)) {
       const noHighlight = fetchedTodos?.filter(
-        (todo: type_Useful_Todo) => todo.todo_highlight === false
+        (todo: Todo) => todo.todo_highlight === false
       );
 
       setCurrentTodos(noHighlight);
     }
 
     const highlightTask = fetchedTodos?.filter(
-      (todo: type_Useful_Todo) => todo?.todo_highlight === true
+      (todo: Todo) => todo?.todo_highlight === true
     );
 
     if (highlightTask) {
@@ -186,7 +180,7 @@ export const TasksCard = (): JSX.Element => {
           )}
 
           {currentTodos && story ? (
-            currentTodos?.map((todo: type_Useful_Todo) => (
+            currentTodos?.map((todo: Todo) => (
               <>
                 <IndividualTask
                   todo={todo}

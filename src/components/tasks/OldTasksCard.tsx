@@ -8,7 +8,7 @@
 // } from "../../utils/indexDBHelpers";
 // import {
 //   type_Page_Story_Todos,
-//   type_Useful_Todo,
+//   Todo,
 //   type_user_id,
 // } from "../../constants/Types";
 // import { useContext, useEffect, useState } from "react";
@@ -29,11 +29,11 @@
 
 // export const TasksCard = (): JSX.Element => {
 //   const [currentPage, setCurrentPage] = useState<type_Page_Story_Todos>(null);
-//   const [currentTodos, setCurrentTodos] = useState<type_Useful_Todo[]>(null);
+//   const [currentTodos, setCurrentTodos] = useState<Todo[]>(null);
 //   const [addedCounter, setAddedCounter] = useState<number>(0);
 //   const [back_date_num, setBack_date_num] = useState<number>(0);
 //   const [currentHighlight, setCurrentHighlight] =
-//     useState<type_Useful_Todo>(null);
+//     useState<Todo>(null);
 //   const [story, set_story] = useState<Story>(null);
 //   const [party_display, set_party_display] = useState(false);
 
@@ -112,14 +112,14 @@
 
 //     if (JSON.stringify(currentTodos) !== JSON.stringify(fetchedTodos)) {
 //       const noHighlight = fetchedTodos?.filter(
-//         (todo: type_Useful_Todo) => todo.todo_highlight === false
+//         (todo: Todo) => todo.todo_highlight === false
 //       );
 
 //       setCurrentTodos(noHighlight);
 //     }
 
 //     const highlightTask = fetchedTodos?.filter(
-//       (todo: type_Useful_Todo) => todo?.todo_highlight === true
+//       (todo: Todo) => todo?.todo_highlight === true
 //     );
 
 //     if (highlightTask) {
@@ -180,7 +180,7 @@
 //           )}
 
 //           {currentTodos && story ? (
-//             currentTodos?.map((todo: type_Useful_Todo) => (
+//             currentTodos?.map((todo: Todo) => (
 //               <>
 //                 <IndividualTask
 //                   today={new Date().toLocaleDateString("en-GB")}

@@ -1,11 +1,11 @@
 import { IndividualItem } from "../layout/IndividualItem";
+import { Todo } from "@prisma/client";
 import cuid from "cuid";
-import { type_Useful_Todo } from "../../constants/Types";
 
 export const IndividualPublicTask = ({
   todo: { todo_description, todo_done },
 }: {
-  todo: type_Useful_Todo;
+  todo: Todo;
 }): JSX.Element => {
   const cuid_id = cuid();
   return (

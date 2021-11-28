@@ -9,21 +9,18 @@ import {
   onClick_toggleArchiving,
   onClick_toggleTodoDone,
 } from "../../utils/onClickHelpers";
-import {
-  type_Useful_Todo,
-  type_todo_description,
-  type_todo_done,
-} from "../../constants/Types";
+import { type_todo_description, type_todo_done } from "../../constants/Types";
 import { useLayoutEffect, useRef, useState } from "react";
 
 import { IndividualItem } from "../layout/IndividualItem";
 import { Menu } from "@headlessui/react";
+import { Todo } from "@prisma/client";
 
 export const IncompleteTask = ({
   todo: { todo_description, todo_done: db_done, todo_id, todo_highlight },
   stateReload,
 }: {
-  todo: type_Useful_Todo;
+  todo: Todo;
   stateReload: VoidFunction;
 }): JSX.Element => {
   const [display_text_edit, set_display_text_edit] = useState<boolean>(false);

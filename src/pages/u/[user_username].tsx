@@ -1,5 +1,4 @@
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import { User_Story_Todo, type_Useful_Todo } from "../../constants/Types";
 import { useContext, useEffect, useState } from "react";
 
 import Avatar from "react-nice-avatar";
@@ -8,6 +7,8 @@ import { GetServerSideProps } from "next";
 import { Layout } from "../../components/layout/index";
 import { SEO_component } from "../../components/seo";
 import { StoryCard } from "../../components/stories/StoryCard";
+import { Todo } from "@prisma/client";
+import { User_Story_Todo } from "../../constants/Types";
 import { prisma_getUserByUsername } from "../../utils/prismaHelpers";
 
 export default function UserProfile({
@@ -18,7 +19,7 @@ export default function UserProfile({
   const type_Story_and_Todos = profileUser.User_Story;
   const fireId = useContext(FireUserContext);
   const [loggedInSame, setLoggedInSame] = useState(false);
-  const main: type_Useful_Todo[] = [];
+  const main: Todo[] = [];
 
   type_Story_and_Todos.map((story_with_todo) => {
     story_with_todo.Story_Todo.map((todo) => main.push(todo));

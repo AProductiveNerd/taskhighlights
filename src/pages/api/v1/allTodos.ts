@@ -1,10 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import {
-  prisma_getAllArchivedTodosByPage,
+  prisma_getAllArchivedTodos,
   prisma_getAllIncompleteTodosByPage,
 } from "../../../utils/prismaHelpers";
 
-import { type_Useful_Todo } from "../../../constants/Types";
+import { Todo } from "@prisma/client";
 
 interface Query {
   user_id?: string;
@@ -22,12 +22,10 @@ export default async function handler(
   switch (method) {
     case "GET": {
       if (work === "incomplete") {
-        const todos: type_Useful_Todo[] =
-          await prisma_getAllIncompleteTodosByPage(user_id);
+        const todos: Todo[] = await prisma_getAllIncompleteTodosByPage(user_id);
         res.status(200).json(JSON.stringify(todos));
       } else if (work === "archived") {
-        const todos: type_Useful_Todo[] =
-          await prisma_getAllArchivedTodosByPage(user_id);
+        const todos: Todo[] = await prisma_getAllArchivedTodos(user_id);
 
         res.status(200).json(JSON.stringify(todos));
       }

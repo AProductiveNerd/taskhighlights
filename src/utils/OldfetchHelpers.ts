@@ -231,7 +231,7 @@ export const fetch_removeTodoFromStory = async ({
 
 export const fetch_getAllIncompleteTodosByPage = async (
   user_id: TYPES.type_user_id
-): Promise<TYPES.type_Useful_Todo[]> => {
+): Promise<Todo[]> => {
   if (user_id && typeof user_id === "string") {
     const data = await fetch(
       `${API_V1}allTodos?user_id=${user_id}&work=incomplete`
@@ -253,7 +253,7 @@ export const fetch_getAllPageNamesByUserid = async (
 
 export const fetch_getAllArchivedTodosByPage = async (
   user_id: TYPES.type_user_id
-): Promise<TYPES.type_Useful_Todo[]> => {
+): Promise<Todo[]> => {
   if (user_id && typeof user_id === "string") {
     const data = await fetch(
       `${API_V1}allTodos?user_id=${user_id}&work=archived`

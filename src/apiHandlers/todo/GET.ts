@@ -1,9 +1,9 @@
+import { Prisma, Todo } from "@prisma/client";
+
 import { NextApiResponse } from "next";
-import { Prisma } from ".prisma/client";
 import { is_valid_prop } from "../../utils/validationHelpers";
 import { make_json_string } from "../../utils/generalHelpers";
 import { prisma_getTodobyTodoId } from "../../utils/prismaHelpers";
-import { type_Useful_Todo } from "../../constants/Types";
 import { type_todo_query } from "../../types/api/todo";
 
 interface type_todo_get_handler {
@@ -22,7 +22,7 @@ export const todo_get_handler = async ({
   }
 
   try {
-    const todo: type_Useful_Todo = await prisma_getTodobyTodoId(todo_id);
+    const todo: Todo = await prisma_getTodobyTodoId(todo_id);
 
     if (todo) {
       res.status(200).json(make_json_string(todo));

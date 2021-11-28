@@ -14,6 +14,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { Story, Todo } from "@prisma/client";
 import {
   onClick_addToStory,
   onClick_handleDelete,
@@ -25,7 +26,6 @@ import {
   onClick_toggleTodoDone,
 } from "../../utils/onClickHelpers";
 import {
-  type_Useful_Todo,
   type_todo_description,
   type_todo_done,
   type_todo_highlight,
@@ -33,7 +33,6 @@ import {
 
 import { IndividualItem } from "../layout/IndividualItem";
 import { Menu } from "@headlessui/react";
-import { Story } from "@prisma/client";
 import dynamic from "next/dynamic";
 
 const DynamicAddDetails = dynamic(() => import("./AddDetails"));
@@ -54,7 +53,7 @@ export const IndividualTask = ({
   set_party_display,
   highlightCount,
 }: {
-  todo: type_Useful_Todo;
+  todo: Todo;
   story: Story;
   set_party_display?: Dispatch<SetStateAction<boolean>>;
   stateReload: VoidFunction;

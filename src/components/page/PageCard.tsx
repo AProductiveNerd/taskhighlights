@@ -1,14 +1,11 @@
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import {
-  type_Page_and_Todos,
-  type_Useful_Todo,
-  type_user_id,
-} from "../../constants/Types";
+import { type_Page_and_Todos, type_user_id } from "../../constants/Types";
 import { useContext, useEffect, useState } from "react";
 
 import { Card } from "../layout/Card";
 import FireUserContext from "../../contexts/FireUserContext";
 import { IndividualPageTask } from "./IndividualPageTask";
+import { Todo } from "@prisma/client";
 import dynamic from "next/dynamic";
 import { fetch_createRetPageByTitle } from "../../utils/fetchHelpers";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -18,7 +15,7 @@ const DynamicGlobalMenu = dynamic(() => import("../layout/GlobalMenu"));
 
 export const PageCard = ({ title }: { title: string }): JSX.Element => {
   const [currentPage, setCurrentPage] = useState<type_Page_and_Todos>(null);
-  const [currentTodos, setCurrentTodos] = useState<type_Useful_Todo[]>(null);
+  const [currentTodos, setCurrentTodos] = useState<Todo[]>(null);
   const [addedCounter, setAddedCounter] = useState<number>(0);
   const [globalMenuIsOpen, setGlobalMenuIsOpen] = useState(false);
   const fireId: type_user_id = useContext(FireUserContext);
@@ -80,7 +77,7 @@ export const PageCard = ({ title }: { title: string }): JSX.Element => {
         spaced_elements={
           <>
             {currentTodos ? (
-              currentTodos?.map((todo: type_Useful_Todo) => (
+              currentTodos?.map((todo: Todo) => (
                 <IndividualPageTask
                   todo={todo}
                   key={todo.todo_id}

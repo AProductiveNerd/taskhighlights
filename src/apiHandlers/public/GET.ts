@@ -1,5 +1,5 @@
 import { NextApiResponse } from "next";
-import { Prisma } from ".prisma/client";
+import { Prisma } from "@prisma/client";
 import { is_valid_prop } from "../../utils/validationHelpers";
 import { make_json_string } from "../../utils/generalHelpers";
 import { prisma_getPageByPublicLink } from "../../utils/prismaHelpers";

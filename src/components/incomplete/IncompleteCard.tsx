@@ -4,13 +4,13 @@ import { useContext, useEffect, useState } from "react";
 import { Card } from "../layout/Card";
 import FireUserContext from "../../contexts/FireUserContext";
 import { IncompleteTask } from "./IncompleteTask";
+import { Todo } from "@prisma/client";
 import { fetch_getAllIncompleteTodos } from "../../utils/fetchHelpers";
-import { type_Useful_Todo } from "../../constants/Types";
 
 // ! Limit the number of tasks a user can add to amplify the constraints lead to creativity effect
 
 export const IncompleteCard = (): JSX.Element => {
-  const [todos, setTodos] = useState<type_Useful_Todo[]>(null);
+  const [todos, setTodos] = useState<Todo[]>(null);
   const [addedCounter, setAddedCounter] = useState<number>(0);
 
   const fireId = useContext(FireUserContext);
@@ -37,7 +37,7 @@ export const IncompleteCard = (): JSX.Element => {
       spaced_elements={
         <>
           {todos ? (
-            todos?.map((todo: type_Useful_Todo) => (
+            todos?.map((todo: Todo) => (
               <IncompleteTask
                 todo={todo}
                 key={todo.todo_id}

@@ -131,15 +131,15 @@ export interface Habit_Body {
   task: type_Habit_Body_Task;
 }
 
-export interface type_Useful_Todo {
-  todo_archived: type_todo_archived;
-  todo_details: type_todo_details;
-  todo_description: type_todo_description;
-  todo_done: type_todo_done;
-  todo_highlight: type_todo_highlight;
-  todo_id: type_todo_id;
-  todo_story_id: type_story_id;
-}
+// export interface Todo {
+//   todo_archived: type_todo_archived;
+//   todo_details: type_todo_details;
+//   todo_description: type_todo_description;
+//   todo_done: type_todo_done;
+//   todo_highlight: type_todo_highlight;
+//   todo_id: type_todo_id;
+//   todo_story_id: type_story_id;
+// }
 
 export interface type_Useful_Habit {
   habit_description: type_habit_description;
@@ -152,17 +152,17 @@ export type type_Page_Story_Todos = Page & {
   Page_Todo: Todo[];
 };
 export type type_Page_and_Todos = Page & {
-  Page_Todo: type_Useful_Todo[];
+  Page_Todo: Todo[];
 };
 export type type_Page_Username_Todos = Page & {
-  Page_Todo: type_Useful_Todo[];
+  Page_Todo: Todo[];
   Page_User: {
     user_username: type_user_username;
   };
 };
 
 export type type_Story_and_Todos = Story & {
-  Story_Todo: type_Useful_Todo[];
+  Story_Todo: Todo[];
 };
 
 export type User_Story_Todo = User & {

@@ -1,15 +1,16 @@
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import { type_Useful_Todo, type_todo_id } from "../../constants/Types";
 import { useEffect, useState } from "react";
 
 import { Card } from "../layout/Card";
 import { StoryTask } from "./StoryTask";
+import { Todo } from "@prisma/client";
+import { type_todo_id } from "../../constants/Types";
 
 export const StoryCard = ({
   todos,
   loggedInSame,
 }: {
-  todos: type_Useful_Todo[];
+  todos: Todo[];
   loggedInSame: boolean;
 }): JSX.Element => {
   const [highlights, setHighlights] = useState(null);
@@ -45,7 +46,7 @@ export const StoryCard = ({
       spaced_elements={
         <>
           {highlights &&
-            highlights.map((highlight: type_Useful_Todo) => (
+            highlights.map((highlight: Todo) => (
               <StoryTask
                 key={highlight.todo_id}
                 todo={highlight}
@@ -56,7 +57,7 @@ export const StoryCard = ({
             ))}
 
           {normalTodos ? (
-            normalTodos.map((todo: type_Useful_Todo) => (
+            normalTodos.map((todo: Todo) => (
               <StoryTask
                 todo={todo}
                 key={todo.todo_id}

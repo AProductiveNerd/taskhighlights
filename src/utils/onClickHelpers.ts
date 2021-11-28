@@ -7,7 +7,7 @@ import {
   fetch_toggleArchived,
   fetch_toggleHabitDone,
   fetch_toggleTodoDone,
-  fetch_updateTodoDescription
+  fetch_updateTodoDescription,
 } from "./fetchHelpers";
 import {
   type_addToStory,
@@ -18,7 +18,7 @@ import {
   type_todo_id,
   type_toggleArchiving,
   type_toggleHabitDone,
-  type_toggleTodoDone
+  type_toggleTodoDone,
 } from "./../constants/Types";
 
 export const onClick_handleTextSubmit = async ({

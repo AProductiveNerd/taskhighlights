@@ -10,12 +10,13 @@ import {
   fetch_getPageByPublicLink,
   fetch_getPageByPublicLinkNOCHECK,
 } from "../../utils/fetchHelpers";
-import { type_Page_and_Todos, type_Useful_Todo } from "../../constants/Types";
 
 import { Card } from "../layout/Card";
 import { IndividualPublicTask } from "./IndividualPublicTask";
+import { Todo } from "@prisma/client";
 import UserContext from "../../contexts/UserContext";
 import { is_valid_prop } from "../../utils/validationHelpers";
+import { type_Page_and_Todos } from "../../constants/Types";
 import { useRouter } from "next/router";
 
 export const PublicCard = ({
@@ -25,7 +26,7 @@ export const PublicCard = ({
 }): JSX.Element => {
   const router = useRouter();
   const { public_id, username } = router.query;
-  const [currentTodos, setCurrentTodos] = useState<type_Useful_Todo[]>(null);
+  const [currentTodos, setCurrentTodos] = useState<Todo[]>(null);
   const [currentPage, setCurrentPage] = useState<type_Page_and_Todos>(null);
   const context = useContext(UserContext);
   const logged_in_username = context?.currentUser?.user_username;
@@ -80,7 +81,7 @@ export const PublicCard = ({
       spaced_elements={
         <>
           {currentTodos ? (
-            currentTodos?.map((todo: type_Useful_Todo) => (
+            currentTodos?.map((todo: Todo) => (
               <IndividualPublicTask todo={todo} key={todo.todo_id} />
             ))
           ) : (

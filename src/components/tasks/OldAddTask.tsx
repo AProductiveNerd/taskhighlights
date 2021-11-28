@@ -1,7 +1,7 @@
 // import { Dialog, Transition } from "@headlessui/react";
 // import { Fragment, useState } from "react";
 // import {
-//   type_Useful_Todo,
+//   Todo,
 //   type_page_title,
 //   type_todo_description,
 //   type_todo_highlight,
@@ -16,7 +16,7 @@
 //   user: type_user_id;
 //   count: number;
 //   stateReload: VoidFunction;
-//   highlight: type_Useful_Todo;
+//   highlight: Todo;
 // }
 
 // export const AddTask = ({
