@@ -240,6 +240,35 @@ export const indexDB_toggleArchive = async (
   });
 };
 
+// export const indexDB_getAllArchivedTodos = async (): Promise<Todo[]> => {
+//   const all_indexDB_pages = await indexDB_getAllPages();
+
+//   const filtered_pages = all_indexDB_pages.map((page) => {
+//     page.page.Page_Todo = page.page.Page_Todo.filter(({ todo_archived }) => {
+//       return todo_archived;
+//     });
+//     return page;
+//   });
+
+//   let all_archived_todos: Todo[] = [];
+//   filtered_pages.map(({ page: { Page_Todo } }) => {
+//     all_archived_todos = all_archived_todos.concat(Page_Todo);
+//   });
+//   all_archived_todos.sort((a, b) => {
+//     if (a.todo_datecreated.getTime() < b.todo_datecreated.getTime()) {
+//       return -1;
+//     } else {
+//       return 1;
+//     }
+//   });
+
+//   all_archived_todos.sort(({ todo_done }) => {
+//     return todo_done ? 1 : -1;
+//   });
+
+//   return all_archived_todos;
+// };
+
 export const indexDB_getAllArchivedTodos = async (): Promise<Todo[]> => {
   const all_indexDB_pages = await indexDB_getAllPages();
 

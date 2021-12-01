@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>https://taskhighlights.com</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-11-24T11:16:01.665Z</lastmod></url>
-<url><loc>https://taskhighlights.com/app</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-11-24T11:16:01.666Z</lastmod></url>
-<url><loc>https://taskhighlights.com/archived</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-11-24T11:16:01.666Z</lastmod></url>
-<url><loc>https://taskhighlights.com/habits</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-11-24T11:16:01.666Z</lastmod></url>
-<url><loc>https://taskhighlights.com/incomplete</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-11-24T11:16:01.666Z</lastmod></url>
-<url><loc>https://taskhighlights.com/log-in</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-11-24T11:16:01.666Z</lastmod></url>
-<url><loc>https://taskhighlights.com/sign-up</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-11-24T11:16:01.666Z</lastmod></url>
-<url><loc>https://taskhighlights.com/templates</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-11-24T11:16:01.666Z</lastmod></url>
+<url><loc>https://taskhighlights.com</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-12-01T09:09:33.499Z</lastmod></url>
+<url><loc>https://taskhighlights.com/app</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-12-01T09:09:33.499Z</lastmod></url>
+<url><loc>https://taskhighlights.com/archived</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-12-01T09:09:33.499Z</lastmod></url>
+<url><loc>https://taskhighlights.com/habits</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-12-01T09:09:33.499Z</lastmod></url>
+<url><loc>https://taskhighlights.com/incomplete</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-12-01T09:09:33.499Z</lastmod></url>
+<url><loc>https://taskhighlights.com/log-in</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-12-01T09:09:33.499Z</lastmod></url>
+<url><loc>https://taskhighlights.com/sign-up</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-12-01T09:09:33.499Z</lastmod></url>
+<url><loc>https://taskhighlights.com/templates</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-12-01T09:09:33.499Z</lastmod></url>
 </urlset>

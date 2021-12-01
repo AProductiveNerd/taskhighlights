@@ -18,11 +18,7 @@ import cuid from "cuid";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 
-// import { AddTask } from "./AddTask";
-
 const DynamicAddTask = dynamic(() => import("./AddTask"));
-
-// ! Limit the number of tasks a user can add to amplify the constraints lead to creativity effect
 
 export const TasksCard = (): JSX.Element => {
   const [currentPage, setCurrentPage] = useState<type_Page_Story_Todos>(null);
