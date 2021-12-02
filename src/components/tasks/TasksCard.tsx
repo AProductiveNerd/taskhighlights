@@ -7,6 +7,7 @@ import {
   indexDB_doesPageExist,
   indexDB_getAllPages,
   indexDB_getPageByPageIndexID,
+  indexDb_updatePageByTitle,
 } from "../../utils/indexDBHelpers";
 import { type_Page_Story_Todos, type_user_id } from "../../constants/Types";
 import { useContext, useEffect, useState } from "react";
@@ -16,12 +17,14 @@ import FireUserContext from "../../contexts/FireUserContext";
 import { IndividualTask } from "./IndividualTask";
 import cuid from "cuid";
 import dynamic from "next/dynamic";
+import { server_createRetDailyPage } from "../../utils/serverHelpers";
 import { useRouter } from "next/router";
 
 const DynamicAddTask = dynamic(() => import("./AddTask"));
 
 export const TasksCard = (): JSX.Element => {
   const [currentPage, setCurrentPage] = useState<type_Page_Story_Todos>(null);
+  const [serverPage, setServerPage] = useState<type_Page_Story_Todos>(null);
   const [currentTodos, setCurrentTodos] = useState<Todo[]>(null);
   const [addedCounter, setAddedCounter] = useState<number>(0);
   const [back_date_num, setBack_date_num] = useState<number>(0);
@@ -37,19 +40,26 @@ export const TasksCard = (): JSX.Element => {
     const today: string = new Date(
       new Date().setDate(new Date().getDate() - back_date_num)
     ).toLocaleDateString("en-GB");
+    const page_title = para_date && isDailyPage(para_date) ? para_date : today;
+
+    (async () => {
+      const server_page = await server_createRetDailyPage(fireId, page_title);
+      if (!are_args_same(serverPage, server_page)) {
+        setServerPage(server_page);
+      }
+    })();
+  }, [back_date_num, serverPage, fireId, router]);
+
+  useEffect(() => {
+    const para_date = router.query?.date?.toString();
+    const today: string = new Date(
+      new Date().setDate(new Date().getDate() - back_date_num)
+    ).toLocaleDateString("en-GB");
 
     if (para_date !== today) {
       router.push(`/app?date=${today}`);
     }
     const page_title = para_date && isDailyPage(para_date) ? para_date : today;
-
-    /*
-     * checks if query parameter exists.
-     * If it doesn't exist just set it to today.
-     * If it does exist check if it is a daily page.
-     * If it is a daily page use it for everything.
-     * If it is not a daily page then use today for everything.
-     */
 
     (async () => {
       const all_indexDb_page = await indexDB_getAllPages();
@@ -63,42 +73,78 @@ export const TasksCard = (): JSX.Element => {
           page_title
         );
 
-        if (!are_args_same(currentPage, page_from_indexDB)) {
+        if (serverPage && serverPage.page_title === page_title) {
+          if (!are_args_same(serverPage, page_from_indexDB)) {
+            indexDb_updatePageByTitle({
+              page_id: serverPage.page_id,
+              page: serverPage,
+              _id: serverPage.page_title,
+            });
+          }
+          setCurrentPage(serverPage);
+        } else if (!are_args_same(currentPage, page_from_indexDB)) {
           setCurrentPage(page_from_indexDB);
         }
       }
 
       if (!does_page_exist_in_indexDB && fireId) {
-        const page_id = cuid();
-        await indexDB_createPageByTitle({
-          page: {
-            Page_Story: {
-              story_datecreated: new Date(),
-              story_id: cuid(),
-              story_page_id: page_id,
-              story_title: page_title,
-              story_user_id: fireId,
+        if (serverPage && serverPage.page_title === page_title) {
+          await indexDB_createPageByTitle({
+            page: serverPage,
+            _id: serverPage.page_title,
+            page_id: serverPage.page_id,
+          });
+        } else {
+          const page_id = cuid();
+
+          await indexDB_createPageByTitle({
+            page: {
+              Page_Story: {
+                story_datecreated: new Date(),
+                story_id: cuid(),
+                story_page_id: page_id,
+                story_title: page_title,
+                story_user_id: fireId,
+              },
+              Page_Todo: [],
+              page_datecreated: new Date(),
+              page_id,
+              page_is_public: false,
+              page_last_accessed: new Date(),
+              page_public_link: cuid(),
+              page_title,
+              page_user_id: fireId,
             },
-            Page_Todo: [],
-            page_datecreated: new Date(),
+            _id: page_title,
             page_id,
-            page_is_public: false,
-            page_last_accessed: new Date(),
-            page_public_link: cuid(),
-            page_title,
-            page_user_id: fireId,
-          },
-          _id: page_title,
-          page_id,
-        });
+          });
+        }
 
         const { page: page_from_indexDB } = await indexDB_getPageByPageIndexID(
           page_title
         );
-        setCurrentPage(page_from_indexDB);
+
+        if (serverPage && serverPage.page_title === page_title) {
+          if (!are_args_same(serverPage, page_from_indexDB)) {
+            indexDb_updatePageByTitle({
+              page_id: serverPage.page_id,
+              page: serverPage,
+              _id: serverPage.page_title,
+            });
+          }
+          setCurrentPage(serverPage);
+        } else if (!are_args_same(currentPage, page_from_indexDB)) {
+          setCurrentPage(page_from_indexDB);
+        }
+      } else if (
+        serverPage &&
+        serverPage.page_title === page_title &&
+        !are_args_same(currentPage, serverPage)
+      ) {
+        setCurrentPage(serverPage);
       }
     })();
-  }, [back_date_num, currentPage, fireId, router, addedCounter]);
+  }, [back_date_num, currentPage, fireId, router, addedCounter, serverPage]);
 
   useEffect(() => {
     const fetchedTodos = currentPage?.Page_Todo;
