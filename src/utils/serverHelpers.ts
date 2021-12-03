@@ -74,19 +74,14 @@ export const server_getAllTodosByPage = async (
   }
 };
 
-export const server_toggleTodoDone = async ({
-  todo_id,
-  todo_done,
-}: {
-  todo_id: TYPES.type_todo_id;
-  todo_done: TYPES.type_todo_done;
-}): Promise<Todo> => {
+export const server_toggleTodoDone = async (
+  todo_id: TYPES.type_todo_id
+): Promise<Todo> => {
   const data = await fetch(`${API_V1}todo`, {
     method: "POST",
     body: JSON.stringify({
       task: "toggleState",
       todo_id,
-      todo_done: !todo_done,
     }),
     headers: { "Content-Type": "application/json" },
   });
@@ -128,19 +123,14 @@ export const server_deleteTodo = async (
   }
 };
 
-export const server_toggleArchived = async ({
-  todo_id,
-  todo_archived,
-}: {
-  todo_id: TYPES.type_todo_id;
-  todo_archived: TYPES.type_todo_archived;
-}): Promise<Todo> => {
+export const server_toggleArchived = async (
+  todo_id: TYPES.type_todo_id
+): Promise<Todo> => {
   const data = await fetch(`${API_V1}todo`, {
     method: "POST",
     body: JSON.stringify({
       task: "toggleArchive",
       todo_id,
-      todo_archived,
     }),
     headers: { "Content-Type": "application/json" },
   });

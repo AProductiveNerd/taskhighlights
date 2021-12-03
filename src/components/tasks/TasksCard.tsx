@@ -246,6 +246,7 @@ export const TasksCard = (): JSX.Element => {
           {currentHighlight && story && (
             <>
               <IndividualTask
+                serverReload={serverReload}
                 todo={currentHighlight}
                 highlight={true}
                 story={story}
@@ -264,6 +265,7 @@ export const TasksCard = (): JSX.Element => {
                 <IndividualTask
                   todo={todo}
                   story={story}
+                  serverReload={serverReload}
                   key={todo.todo_id}
                   stateReload={stateReload}
                   highlightCount={currentHighlight ? 1 : 0}

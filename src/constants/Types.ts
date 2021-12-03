@@ -210,6 +210,7 @@ export type type_stateReload =
   // eslint-disable-next-line no-unused-vars
   | ((todo_id?: type_todo_id) => void);
 
+export type type_serverReload = VoidFunction;
 /**
  * onClickHelpers types
  */
@@ -217,11 +218,13 @@ export interface type_handleTextSubmit {
   stateReload: type_stateReload;
   set_display_text_edit: Dispatch<SetStateAction<boolean>>;
   todo_id: type_todo_id;
+  serverReload: type_serverReload;
   todo_description: type_todo_description;
 }
 
 export interface type_toggleTodoDone {
   stateReload: type_stateReload;
+  serverReload: type_serverReload;
   todo_id: type_todo_id;
 }
 
@@ -232,16 +235,19 @@ export interface type_toggleHabitDone {
 
 export interface type_toggleArchiving {
   stateReload: type_stateReload;
+  serverReload: type_serverReload;
   todo_id: type_todo_id;
 }
 
 export interface type_makeHighlight {
   stateReload: type_stateReload;
+  serverReload: type_serverReload;
   todo_id: type_todo_id;
 }
 
 export interface type_handleDelete {
   stateReload: type_stateReload;
+  serverReload: type_serverReload;
   todo_id: type_todo_id;
 }
 
