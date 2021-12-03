@@ -12,6 +12,7 @@ import { fetch_getAllIncompleteTodos } from "../../utils/fetchHelpers";
 export const IncompleteCard = (): JSX.Element => {
   const [todos, setTodos] = useState<Todo[]>(null);
   const [addedCounter, setAddedCounter] = useState<number>(0);
+  const [serverCounter, setServerCounter] = useState<number>(0);
 
   const fireId = useContext(FireUserContext);
 
@@ -31,7 +32,13 @@ export const IncompleteCard = (): JSX.Element => {
       setAddedCounter(0);
     }
   };
-
+  const serverReload = (): void => {
+    if (serverCounter < 50) {
+      setServerCounter(serverCounter + 1);
+    } else {
+      setServerCounter(0);
+    }
+  };
   return (
     <Card
       spaced_elements={
@@ -42,6 +49,7 @@ export const IncompleteCard = (): JSX.Element => {
                 todo={todo}
                 key={todo.todo_id}
                 stateReload={stateReload}
+                serverReload={serverReload}
               />
             ))
           ) : (

@@ -1,26 +1,33 @@
-import { Menu } from "@headlessui/react";
 import {
   ArchiveIcon,
   DotsVerticalIcon,
   TrashIcon,
 } from "@heroicons/react/solid";
-import { Todo } from "@prisma/client";
-import { useLayoutEffect, useRef, useState } from "react";
-import { type_todo_description, type_todo_done } from "../../constants/Types";
 import {
   onClick_handleDelete,
   onClick_handleTextSubmit,
   onClick_toggleArchiving,
   onClick_toggleTodoDone,
 } from "../../utils/onClickHelpers";
+import {
+  type_serverReload,
+  type_todo_description,
+  type_todo_done,
+} from "../../constants/Types";
+import { useLayoutEffect, useRef, useState } from "react";
+
 import { IndividualItem } from "../layout/IndividualItem";
+import { Menu } from "@headlessui/react";
+import { Todo } from "@prisma/client";
 
 export const IndividualPageTask = ({
   todo: { todo_description, todo_done: db_done, todo_id },
   stateReload,
+  serverReload,
 }: {
   todo: Todo;
   stateReload: VoidFunction;
+  serverReload: type_serverReload;
 }): JSX.Element => {
   const [display_text_edit, set_display_text_edit] = useState<boolean>(false);
   const [todo_state, set_todo_state] = useState<type_todo_done>(db_done);
@@ -46,13 +53,14 @@ export const IndividualPageTask = ({
             onClick_toggleTodoDone({
               todo_id,
               stateReload,
+              serverReload,
             });
           }}
         />
       }
       onkeydowncapture_callback={(event) => {
         if (event.key === "Delete") {
-          onClick_handleDelete({ stateReload, todo_id });
+          onClick_handleDelete({ stateReload, serverReload, todo_id });
         } else if (event.key === "Enter") {
           set_display_text_edit(true);
         }
@@ -73,6 +81,7 @@ export const IndividualPageTask = ({
                     todo_description: new_title,
                     stateReload,
                     set_display_text_edit,
+                    serverReload,
                   });
                   set_display_text_edit(false);
                 } else if (event.key === "Escape") {
@@ -106,6 +115,7 @@ export const IndividualPageTask = ({
                   onClick_handleDelete({
                     stateReload,
                     todo_id,
+                    serverReload,
                   })
                 }
                 className={`${
@@ -132,6 +142,7 @@ export const IndividualPageTask = ({
                 onClick={() => {
                   onClick_toggleArchiving({
                     stateReload,
+                    serverReload,
                     todo_id,
                   });
                 }}

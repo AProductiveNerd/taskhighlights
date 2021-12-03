@@ -54,6 +54,6 @@ module.exports = withPWA(
     pwa: {
       dest: "public",
     },
-    ignoreBuildErrors: true,
+    // ignoreBuildErrors: true,
   })
 );
