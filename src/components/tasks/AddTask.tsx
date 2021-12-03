@@ -1,26 +1,38 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import {
+  type_Todo_Body,
+  type_page_id,
   type_page_title,
   type_todo_description,
   type_todo_highlight,
+  type_user_id,
 } from "../../constants/Types";
 
 import { PlusCircleIcon } from "@heroicons/react/outline";
 import { Todo } from "@prisma/client";
 import { fetch_createTodo } from "../../utils/fetchHelpers";
+import { server_createTodo } from "../../utils/serverHelpers";
 
 interface AddTask_Props {
   page: type_page_title;
+  page_id: type_page_id;
   count: number;
+  user_id: type_user_id;
   stateReload: VoidFunction;
+  serverReload: VoidFunction;
   highlight: Todo;
+  // setShouldUseServer: Dispatch<SetStateAction<boolean>>;
 }
 
 export const AddTask = ({
   page,
   stateReload,
+  page_id,
   count,
+  user_id,
+  serverReload,
+  // setShouldUseServer,
   highlight,
 }: AddTask_Props): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -28,8 +40,25 @@ export const AddTask = ({
   const [should_highlight, setShouldHighlight] =
     useState<type_todo_highlight>(false);
 
+  const server_handle = async ({
+    todo_description,
+    todo_highlight,
+  }: type_Todo_Body) => {
+    console.log("SERVER HANDLE");
+    await server_createTodo({
+      page_id,
+      todo_description,
+      todo_highlight,
+      user_id,
+      task: "create",
+    });
+    serverReload();
+  };
+
   const taskCreator = async () => {
     if (task !== "") {
+      const temp_highlight = should_highlight;
+      const temp_task = task;
       await fetch_createTodo({
         _id: page,
         body: {
@@ -37,9 +66,13 @@ export const AddTask = ({
           todo_highlight: should_highlight,
         },
       });
-      setTask("");
       setShouldHighlight(false);
+      setTask("");
       stateReload();
+      await server_handle({
+        todo_description: temp_task,
+        todo_highlight: temp_highlight,
+      });
     }
   };
 

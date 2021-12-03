@@ -30,7 +30,9 @@ export const TasksCard = (): JSX.Element => {
   const [back_date_num, setBack_date_num] = useState<number>(0);
   const [currentHighlight, setCurrentHighlight] = useState<Todo>(null);
   const [story, set_story] = useState<Story>(null);
+  const [shouldUseServer, setShouldUseServer] = useState(true);
   const [party_display, set_party_display] = useState(false);
+  const [serverCounter, setServerCounter] = useState<number>(0);
 
   const fireId: type_user_id = useContext(FireUserContext);
   const router = useRouter();
@@ -43,14 +45,17 @@ export const TasksCard = (): JSX.Element => {
     const page_title = para_date && isDailyPage(para_date) ? para_date : today;
 
     (async () => {
+      console.log("JUST SERVER");
       const server_page = await server_createRetDailyPage(fireId, page_title);
       if (!are_args_same(serverPage, server_page)) {
         setServerPage(server_page);
+        setShouldUseServer(true);
       }
     })();
-  }, [back_date_num, serverPage, fireId, router]);
+  }, [back_date_num, serverPage, fireId, router, serverCounter]);
 
   useEffect(() => {
+    console.log("FULL BLAST");
     const para_date = router.query?.date?.toString();
     const today: string = new Date(
       new Date().setDate(new Date().getDate() - back_date_num)
@@ -73,7 +78,11 @@ export const TasksCard = (): JSX.Element => {
           page_title
         );
 
-        if (serverPage && serverPage.page_title === page_title) {
+        if (
+          serverPage &&
+          serverPage.page_title === page_title &&
+          shouldUseServer
+        ) {
           if (!are_args_same(serverPage, page_from_indexDB)) {
             indexDb_updatePageByTitle({
               page_id: serverPage.page_id,
@@ -82,13 +91,18 @@ export const TasksCard = (): JSX.Element => {
             });
           }
           setCurrentPage(serverPage);
+          setShouldUseServer(false);
         } else if (!are_args_same(currentPage, page_from_indexDB)) {
           setCurrentPage(page_from_indexDB);
         }
       }
 
       if (!does_page_exist_in_indexDB && fireId) {
-        if (serverPage && serverPage.page_title === page_title) {
+        if (
+          serverPage &&
+          serverPage.page_title === page_title &&
+          shouldUseServer
+        ) {
           await indexDB_createPageByTitle({
             page: serverPage,
             _id: serverPage.page_title,
@@ -124,7 +138,11 @@ export const TasksCard = (): JSX.Element => {
           page_title
         );
 
-        if (serverPage && serverPage.page_title === page_title) {
+        if (
+          serverPage &&
+          serverPage.page_title === page_title &&
+          shouldUseServer
+        ) {
           if (!are_args_same(serverPage, page_from_indexDB)) {
             indexDb_updatePageByTitle({
               page_id: serverPage.page_id,
@@ -133,18 +151,29 @@ export const TasksCard = (): JSX.Element => {
             });
           }
           setCurrentPage(serverPage);
+          setShouldUseServer(false);
         } else if (!are_args_same(currentPage, page_from_indexDB)) {
           setCurrentPage(page_from_indexDB);
         }
       } else if (
         serverPage &&
         serverPage.page_title === page_title &&
-        !are_args_same(currentPage, serverPage)
+        !are_args_same(currentPage, serverPage) &&
+        shouldUseServer
       ) {
         setCurrentPage(serverPage);
+        setShouldUseServer(false);
       }
     })();
-  }, [back_date_num, currentPage, fireId, router, addedCounter, serverPage]);
+  }, [
+    back_date_num,
+    currentPage,
+    fireId,
+    router,
+    addedCounter,
+    serverPage,
+    shouldUseServer,
+  ]);
 
   useEffect(() => {
     const fetchedTodos = currentPage?.Page_Todo;
@@ -181,7 +210,13 @@ export const TasksCard = (): JSX.Element => {
       setAddedCounter(0);
     }
   };
-
+  const serverReload = (): void => {
+    if (serverCounter < 50) {
+      setServerCounter(serverCounter + 1);
+    } else {
+      setServerCounter(0);
+    }
+  };
   useEffect(() => {
     setTimeout(() => {
       set_party_display(false);
@@ -192,7 +227,9 @@ export const TasksCard = (): JSX.Element => {
     <Card
       action_component={
         <DynamicAddTask
-          // user={fireId}
+          serverReload={serverReload}
+          user_id={fireId}
+          page_id={currentPage?.page_id}
           page={
             currentPage?.page_title ||
             new Date(
