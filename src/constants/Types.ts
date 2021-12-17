@@ -309,3 +309,22 @@ export interface SEO_interface {
 export interface type_API_error {
   Error: string;
 }
+
+// const a: User = {
+// user_id
+// user_email
+// user_username
+// user_fullname
+// user_bio
+// user_followers
+// user_following
+// user_avatar
+// user_streak
+// user_highlight_questions
+// user_api_token
+// user_twitter_handle
+// user_level
+// user_streak_prev
+// };
+
+// export interface useful_User {}

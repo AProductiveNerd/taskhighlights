@@ -1,9 +1,4 @@
-interface Card_Props {
-  title: string;
-  spaced_elements: JSX.Element;
-  action_component?: JSX.Element;
-  buttons?: JSX.Element;
-}
+import { Card_Props } from "../../types/layout/Card";
 
 export const Card = ({
   title,

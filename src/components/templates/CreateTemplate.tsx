@@ -1,3 +1,7 @@
+import {
+  CreateTemplate_Transition_Props_1,
+  CreateTemplate_Transition_Props_2,
+} from "../../types/layout/templates/CreateTemplate";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { type_habit_description, type_user_id } from "../../constants/Types";
@@ -47,15 +51,7 @@ export const CreateTemplate = ({
           onClose={() => setIsOpen(false)}
         >
           <div className="min-h-screen px-4 text-center">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
+            <Transition.Child {...CreateTemplate_Transition_Props_1}>
               <Dialog.Overlay className="fixed inset-0" />
             </Transition.Child>
 
@@ -65,15 +61,7 @@ export const CreateTemplate = ({
             >
               &#8203;
             </span>
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
+            <Transition.Child {...CreateTemplate_Transition_Props_2}>
               <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden align-middle transition-all transform bg-theme-blueGray-800 shadow-lg border-theme-primary-500 border-2 rounded-lg space-y-5 justify-center items-center flex-col">
                 <Dialog.Title
                   as="h3"
