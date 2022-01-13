@@ -1,9 +1,6 @@
-import { Context, Dispatch, SetStateAction, createContext } from "react";
+import { Context, createContext } from "react";
 
-interface PageSearchContext_Types {
-  pageSearchIsOpen: boolean;
-  setPageSearchIsOpen: Dispatch<SetStateAction<boolean>>;
-}
+import { type_PageSearchContext } from "../types/contexts/PageSearchContext";
 
-const PageSearchContext: Context<PageSearchContext_Types> = createContext(null);
+const PageSearchContext: Context<type_PageSearchContext> = createContext(null);
 export default PageSearchContext;

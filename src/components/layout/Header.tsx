@@ -16,6 +16,10 @@ import {
   TemplateIcon,
   UploadIcon,
 } from "@heroicons/react/outline";
+import {
+  Header_Props,
+  Header_Transition_Props,
+} from "../../types/layout/Header";
 import { Menu, Transition } from "@headlessui/react";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { useContext, useEffect, useState } from "react";
@@ -23,7 +27,6 @@ import { useContext, useEffect, useState } from "react";
 import Avatar from "react-nice-avatar";
 import { EmptyCircleIcon } from "../../constants/customIcons";
 import FireUserContext from "../../contexts/FireUserContext";
-import { Header_Transition_Props } from "../../types/layout/Header";
 import Image from "next/image";
 import Link from "next/link";
 import PageSearchContext from "../../contexts/PageSearchContext";
@@ -36,7 +39,7 @@ import { signOut } from "@firebase/auth";
 
 const DynamicPageSearch = dynamic(() => import("../page/PageSearch"));
 
-export const Header = ({ path }: { path: string }): JSX.Element => {
+export const Header = ({ path }: Header_Props): JSX.Element => {
   const { pageSearchIsOpen: isOpen, setPageSearchIsOpen: setIsOpen } =
     useContext(PageSearchContext);
   const [currentUser, setCurrentUser] = useState<User>(null);

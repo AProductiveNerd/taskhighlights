@@ -1,5 +1,9 @@
 import { Fragment } from "react";
 
+export interface Header_Props {
+  path: string;
+}
+
 export const Header_Transition_Props = {
   as: Fragment,
   enter: "transition ease-out duration-100",

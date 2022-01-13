@@ -3,23 +3,11 @@ import {
   UseItem_Transition_Props,
 } from "../../types/layout/AddOrUseItem";
 import { Dialog, Menu, Switch, Transition } from "@headlessui/react";
-import { Dispatch, Fragment, SetStateAction, useContext } from "react";
-import {
-  type_page_is_public,
-  type_page_public_link,
-  type_stateReload,
-} from "../../constants/Types";
+import { Fragment, useContext } from "react";
 
+import { GlobalMenu_Props } from "../../types/layout/GlobalMenu";
 import UserContext from "../../contexts/UserContext";
 import { fetch_changePageIsPublicByPublicLink } from "../../utils/fetchHelpers";
-
-interface GlobalMenu_Props {
-  globalMenuIsOpen: boolean;
-  setGlobalMenuIsOpen: Dispatch<SetStateAction<boolean>>;
-  page: type_page_public_link;
-  page_is_public: type_page_is_public;
-  stateReload: type_stateReload;
-}
 
 export const GlobalMenu = ({
   globalMenuIsOpen,
