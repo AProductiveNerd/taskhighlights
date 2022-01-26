@@ -19,7 +19,7 @@ export const server_createRetDailyPage = async (
       `${API_V1}page?page_user_id=${user_id}&today=${today}`
     );
 
-    return data.json();
+    return data.json() as Promise<TYPES.type_Page_Story_Todos>;
   }
 };
 
@@ -37,7 +37,7 @@ export const server_createRetPageByTitle = async (
       `${API_V1}page?page_user_id=${user_id}&today=${title}`
     );
 
-    return data.json();
+    return data.json() as Promise<TYPES.type_Page_and_Todos>;
   }
 };
 
@@ -51,7 +51,7 @@ export const server_createTodo = async (
       headers: { "Content-Type": "application/json" },
     });
 
-    return data.json();
+    return data.json() as Promise<Todo>;
   }
 };
 
@@ -69,7 +69,7 @@ export const server_getAllTodosByPage = async (
       `${API_V1}allTodos?page_id=${page_id}&user_id=${user_id}`
     );
 
-    return data.json();
+    return data.json() as Promise<Todo[]>;
   }
 };
 
@@ -85,7 +85,7 @@ export const server_toggleTodoDone = async (
     headers: { "Content-Type": "application/json" },
   });
 
-  return data.json();
+  return data.json() as Promise<Todo>;
 };
 
 export const server_updateTodoDescription = async ({
@@ -106,7 +106,7 @@ export const server_updateTodoDescription = async ({
       headers: { "Content-Type": "application/json" },
     });
 
-    return data.json();
+    return data.json() as Promise<Todo>;
   }
 };
 
@@ -118,7 +118,7 @@ export const server_deleteTodo = async (
       method: "DELETE",
     });
 
-    return data.json();
+    return data.json() as Promise<Todo>;
   }
 };
 
@@ -134,7 +134,7 @@ export const server_toggleArchived = async (
     headers: { "Content-Type": "application/json" },
   });
 
-  return data.json();
+  return data.json() as Promise<Todo>;
 };
 
 export const server_makeHighlight = async (
@@ -149,7 +149,7 @@ export const server_makeHighlight = async (
     headers: { "Content-Type": "application/json" },
   });
 
-  return data.json();
+  return data.json() as Promise<Todo>;
 };
 
 export const server_getStoryByStoryId = async (
@@ -158,7 +158,7 @@ export const server_getStoryByStoryId = async (
   if (story_id && typeof story_id === "string") {
     const data = await fetch(`${API_V1}story?story_id=${story_id}`);
 
-    return data.json();
+    return data.json() as Promise<TYPES.type_Story_and_Todos>;
   }
 };
 
@@ -176,7 +176,7 @@ export const server_addTodoToStory = async ({
     headers: { "Content-Type": "application/json" },
   });
 
-  return data.json();
+  return data.json() as Promise<TYPES.type_Story_and_Todos>;
 };
 
 export const server_removeTodoFromStory = async ({
@@ -193,7 +193,7 @@ export const server_removeTodoFromStory = async ({
     headers: { "Content-Type": "application/json" },
   });
 
-  return data.json();
+  return data.json() as Promise<TYPES.type_Story_and_Todos>;
 };
 
 export const server_getAllIncompleteTodosByPage = async (
@@ -204,7 +204,7 @@ export const server_getAllIncompleteTodosByPage = async (
       `${API_V1}allTodos?user_id=${user_id}&work=incomplete`
     );
 
-    return data.json();
+    return data.json() as Promise<Todo[]>;
   }
 };
 
@@ -214,7 +214,7 @@ export const server_getAllPageNamesByUserid = async (
   if (user_id && typeof user_id === "string") {
     const data = await fetch(`${API_V1}allPages?user_id=${user_id}&work=names`);
 
-    return data.json();
+    return data.json() as Promise<TYPES.type_page_title[]>;
   }
 };
 
@@ -226,7 +226,7 @@ export const server_getAllArchivedTodosByPage = async (
       `${API_V1}allTodos?user_id=${user_id}&work=archived`
     );
 
-    return data.json();
+    return data.json() as Promise<Todo[]>;
   }
 };
 
@@ -248,7 +248,7 @@ export const server_updateTodoDetails = async ({
       headers: { "Content-Type": "application/json" },
     });
 
-    return data.json();
+    return data.json() as Promise<Todo>;
   }
 };
 
@@ -286,7 +286,7 @@ export const server_getPageByPublicLink = async (
   if (public_link) {
     const data = await fetch(`${API_V1}public?page_public_link=${public_link}`);
     return {
-      page: data.json(),
+      page: data.json() as Promise<TYPES.type_Page_Username_Todos>,
       ok: data.ok,
     };
   }
@@ -297,7 +297,7 @@ export const server_getPageByPublicLinkNOCHECK = async (
 ): Promise<TYPES.type_Page_and_Todos> => {
   if (public_link) {
     const data = await fetch(`${API_V1}page?page_public_link=${public_link}`);
-    return data.json();
+    return data.json() as Promise<TYPES.type_Page_and_Todos>;
   }
 };
 
@@ -314,6 +314,6 @@ export const server_changePagePublic = async (
       }
     );
 
-    return data.json();
+    return data.json() as Promise<Page>;
   }
 };

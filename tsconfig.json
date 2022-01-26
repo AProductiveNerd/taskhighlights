@@ -22,7 +22,8 @@
     "noEmit": true,
     "isolatedModules": true,
     // "baseUrl": "src"
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "incremental": true
   },
   "include": [
     "**.ts",

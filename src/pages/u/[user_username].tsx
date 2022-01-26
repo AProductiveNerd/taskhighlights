@@ -54,7 +54,7 @@ export default function UserProfile({
       />
 
       <div className="flex flex-col flex-1">
-        <SkeletonTheme color="#0F172A" highlightColor="#1E293B">
+        <SkeletonTheme baseColor="#0F172A" highlightColor="#1E293B">
           <div className="flex-1 flex justify-center mt-5 pb-4">
             <div className="flex items-center space-x-3">
               <div className="relative w-28 h-28">

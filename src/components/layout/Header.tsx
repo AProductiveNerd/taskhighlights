@@ -69,7 +69,7 @@ export const Header = ({ path }: Header_Props): JSX.Element => {
               </a>
             </Link>
           ) : (
-            <SkeletonTheme color="#0F172A" highlightColor="#1E293B">
+            <SkeletonTheme baseColor="#0F172A" highlightColor="#1E293B">
               <Skeleton circle={true} height={44} width={44} />
             </SkeletonTheme>
           )}

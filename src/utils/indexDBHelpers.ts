@@ -6,7 +6,7 @@ import cuid from "cuid";
 
 // Prevent multiple instances of Dexie Client in development
 // eslint-disable-next-line init-declarations
-declare const global: NodeJS.Global & { indexDB?: Dexie };
+declare const global: typeof globalThis & { indexDB?: Dexie };
 
 export const indexDB = global.indexDB || new Dexie("MainDB");
 if (process.env.NODE_ENV === "development") global.indexDB = indexDB;

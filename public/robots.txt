@@ -7,3 +7,4 @@ Host: https://taskhighlights.com
 
 # Sitemaps
 Sitemap: https://taskhighlights.com/sitemap.xml
+Sitemap: https://taskhighlights.com/sitemap-0.xml

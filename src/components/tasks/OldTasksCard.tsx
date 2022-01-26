@@ -194,7 +194,7 @@
 //               </>
 //             ))
 //           ) : (
-//             <SkeletonTheme color="#0F172A" highlightColor="#1E293B">
+//             <SkeletonTheme baseColor="#0F172A" highlightColor="#1E293B">
 //               <Skeleton count={10} height={20} />
 //             </SkeletonTheme>
 //           )}

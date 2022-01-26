@@ -4,7 +4,7 @@ import { Page, Prisma, PrismaClient, Story, Todo, User } from "@prisma/client";
 
 // Prevent multiple instances of Prisma Client in development
 // eslint-disable-next-line init-declarations
-declare const global: NodeJS.Global & { prisma?: PrismaClient };
+declare const global: typeof globalThis & { prisma?: PrismaClient };
 
 export const prisma = global.prisma || new PrismaClient();
 if (process.env.NODE_ENV === "development") global.prisma = prisma;
