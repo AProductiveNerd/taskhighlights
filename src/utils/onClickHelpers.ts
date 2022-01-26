@@ -5,7 +5,6 @@ import {
   fetch_moveTasksToToday,
   fetch_removeTodoFromStory,
   fetch_toggleArchived,
-  fetch_toggleHabitDone,
   fetch_toggleTodoDone,
   fetch_updateTodoDescription,
 } from "./fetchHelpers";
@@ -24,7 +23,6 @@ import {
   type_removeFromStory,
   type_todo_id,
   type_toggleArchiving,
-  type_toggleHabitDone,
   type_toggleTodoDone,
 } from "./../constants/Types";
 
@@ -105,13 +103,6 @@ export const onClick_removeFromStory = async ({
 }: type_removeFromStory): Promise<void> => {
   await fetch_removeTodoFromStory({ story_id, todo_id });
   stateReload(todo_id);
-};
-
-export const onClick_toggleHabitDone = async ({
-  habit_id,
-  habit_done,
-}: type_toggleHabitDone): Promise<void> => {
-  await fetch_toggleHabitDone({ habit_id, habit_done });
 };
 
 export const onClick_moveTasksToToday = async ({

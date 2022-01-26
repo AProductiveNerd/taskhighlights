@@ -1,10 +1,9 @@
 import * as TYPES from "../constants/Types";
 
-import { Page, Prisma, Template, Todo } from "@prisma/client";
+import { Page, Todo } from "@prisma/client";
 
 import { API_V1 } from "../constants/Routes";
 import fetch from "node-fetch";
-import { type_Useful_Habit } from "./../constants/Types";
 
 export const server_createRetDailyPage = async (
   user_id: TYPES.type_user_id,
@@ -229,121 +228,6 @@ export const server_getAllArchivedTodosByPage = async (
 
     return data.json();
   }
-};
-
-export const server_createRetDailyRoutine = async (
-  user_id: TYPES.type_user_id,
-  today: TYPES.type_page_title
-): Promise<TYPES.type_Routine_and_Habits> => {
-  if (
-    user_id &&
-    typeof user_id === "string" &&
-    today &&
-    typeof today === "string"
-  ) {
-    const data = await fetch(
-      `${API_V1}routine?routine_user_id=${user_id}&today=${today}`
-    );
-
-    return data.json();
-  }
-};
-
-export const server_createHabit = async (
-  body: TYPES.Habit_Body
-): Promise<TYPES.type_Useful_Habit> => {
-  if (body) {
-    const data = await fetch(`${API_V1}habit`, {
-      method: "POST",
-      body: JSON.stringify(body),
-      headers: { "Content-Type": "application/json" },
-    });
-
-    return data.json();
-  }
-};
-
-export const server_toggleHabitDone = async ({
-  habit_id,
-  habit_done,
-}: {
-  habit_id: TYPES.type_habit_id;
-  habit_done: TYPES.type_habit_done;
-}): Promise<type_Useful_Habit> => {
-  const data = await fetch(`${API_V1}habit`, {
-    method: "POST",
-    body: JSON.stringify({
-      task: "toggleState",
-      habit_id,
-      habit_done: !habit_done,
-    }),
-    headers: { "Content-Type": "application/json" },
-  });
-
-  return data.json();
-};
-
-export const server_createTemplate = async (
-  body: TYPES.type_Create_Template_Body
-): Promise<Template> => {
-  const data = await fetch(`${API_V1}template`, {
-    method: "POST",
-    body: JSON.stringify(body),
-    headers: { "Content-Type": "application/json" },
-  });
-
-  return data.json();
-};
-
-export const server_getAllUserTemplates = async (
-  user_id: TYPES.type_user_id
-): Promise<Template[]> => {
-  if (user_id && typeof user_id === "string") {
-    const data = await fetch(
-      `${API_V1}allTemplates?template_user_id=${user_id}`
-    );
-
-    return data.json();
-  }
-};
-
-export const server_addHabitToTemplate = async ({
-  habit_description,
-  template_id,
-}: TYPES.type_Template_Query): Promise<Template> => {
-  const data = await fetch(
-    `${API_V1}template?habit_description=${habit_description}&template_id=${template_id}`,
-    {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-    }
-  );
-
-  return data.json();
-};
-
-export const server_createManyHabit = async ({
-  template_id,
-  routine_id,
-  user_id,
-}: {
-  user_id: TYPES.type_user_id;
-  routine_id: TYPES.type_routine_id;
-  template_id: TYPES.type_template_id;
-}): Promise<Prisma.BatchPayload> => {
-  const data = await fetch(`${API_V1}habit`, {
-    method: "POST",
-    body: JSON.stringify({
-      template_id,
-      routine_id,
-      user_id,
-      task: "createMany",
-    }),
-
-    headers: { "Content-Type": "application/json" },
-  });
-
-  return data.json();
 };
 
 export const server_updateTodoDetails = async ({
