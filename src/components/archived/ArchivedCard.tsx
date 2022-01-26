@@ -13,8 +13,8 @@ export const ArchivedCard = (): JSX.Element => {
   const [todos, setTodos] = useState<Todo[]>(null);
   const [addedCounter, setAddedCounter] = useState<number>(0);
   const [serverTodos, setServerTodos] = useState<Todo[]>(null);
-  const [serverCounter, setServerCounter] = useState<number>(0);
-
+  // const [serverCounter, setServerCounter] = useState<number>(0);
+  const [shouldUseServer, setShouldUseServer] = useState(true);
   const fireId = useContext(FireUserContext);
 
   useEffect(() => {
@@ -28,6 +28,7 @@ export const ArchivedCard = (): JSX.Element => {
       }
     })();
   }, [todos, addedCounter, serverTodos]);
+  console.log(shouldUseServer);
 
   useEffect(() => {
     (async () => {
@@ -45,13 +46,13 @@ export const ArchivedCard = (): JSX.Element => {
       setAddedCounter(0);
     }
   };
-  const serverReload = (): void => {
-    if (serverCounter < 50) {
-      setServerCounter(serverCounter + 1);
-    } else {
-      setServerCounter(0);
-    }
-  };
+  // const serverReload = (): void => {
+  //   if (serverCounter < 50) {
+  //     setServerCounter(serverCounter + 1);
+  //   } else {
+  //     setServerCounter(0);
+  //   }
+  // };
   return (
     <Card
       spaced_elements={
@@ -64,7 +65,7 @@ export const ArchivedCard = (): JSX.Element => {
                     todo={todo}
                     key={todo.todo_id}
                     stateReload={stateReload}
-                    serverReload={serverReload}
+                    setShouldUseServer={setShouldUseServer}
                   />
                 )
             )

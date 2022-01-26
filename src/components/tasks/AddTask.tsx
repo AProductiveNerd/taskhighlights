@@ -3,7 +3,7 @@ import {
   UseItem_Transition_Props,
 } from "../../types/layout/AddOrUseItem";
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Dispatch, Fragment, SetStateAction, useState } from "react";
 import {
   type_Todo_Body,
   type_page_id,
@@ -24,9 +24,8 @@ interface AddTask_Props {
   count: number;
   user_id: type_user_id;
   stateReload: VoidFunction;
-  serverReload: VoidFunction;
   highlight: Todo;
-  // setShouldUseServer: Dispatch<SetStateAction<boolean>>;
+  setShouldUseServer: Dispatch<SetStateAction<boolean>>;
 }
 
 export const AddTask = ({
@@ -35,8 +34,7 @@ export const AddTask = ({
   page_id,
   count,
   user_id,
-  serverReload,
-  // setShouldUseServer,
+  setShouldUseServer,
   highlight,
 }: AddTask_Props): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -56,7 +54,8 @@ export const AddTask = ({
       user_id,
       task: "create",
     });
-    serverReload();
+    // setShouldUseServer(true);
+    // serverReload();
   };
 
   const taskCreator = async () => {
@@ -72,6 +71,7 @@ export const AddTask = ({
       });
       setShouldHighlight(false);
       setTask("");
+      setShouldUseServer(false);
       stateReload();
       await server_handle({
         todo_description: temp_task,

@@ -32,7 +32,7 @@ export const TasksCard = (): JSX.Element => {
   const [story, set_story] = useState<Story>(null);
   const [shouldUseServer, setShouldUseServer] = useState(true);
   const [party_display, set_party_display] = useState(false);
-  const [serverCounter, setServerCounter] = useState<number>(0);
+  // const [serverCounter, setServerCounter] = useState<number>(0);
 
   const fireId: type_user_id = useContext(FireUserContext);
   const router = useRouter();
@@ -47,12 +47,12 @@ export const TasksCard = (): JSX.Element => {
     (async () => {
       console.log("JUST SERVER");
       const server_page = await server_createRetDailyPage(fireId, page_title);
-      if (!are_args_same(serverPage, server_page)) {
+      if (!are_args_same(serverPage, server_page) && shouldUseServer) {
         setServerPage(server_page);
         setShouldUseServer(true);
       }
     })();
-  }, [back_date_num, serverPage, fireId, router, serverCounter]);
+  }, [back_date_num, serverPage, fireId, router, shouldUseServer]);
 
   useEffect(() => {
     console.log("FULL BLAST");
@@ -210,13 +210,13 @@ export const TasksCard = (): JSX.Element => {
       setAddedCounter(0);
     }
   };
-  const serverReload = (): void => {
-    if (serverCounter < 50) {
-      setServerCounter(serverCounter + 1);
-    } else {
-      setServerCounter(0);
-    }
-  };
+  // const serverReload = (): void => {
+  //   if (serverCounter < 50) {
+  //     setServerCounter(serverCounter + 1);
+  //   } else {
+  //     setServerCounter(0);
+  //   }
+  // };
   useEffect(() => {
     setTimeout(() => {
       set_party_display(false);
@@ -227,7 +227,7 @@ export const TasksCard = (): JSX.Element => {
     <Card
       action_component={
         <DynamicAddTask
-          serverReload={serverReload}
+          setShouldUseServer={setShouldUseServer}
           user_id={fireId}
           page_id={currentPage?.page_id}
           page={
@@ -246,7 +246,7 @@ export const TasksCard = (): JSX.Element => {
           {currentHighlight && story && (
             <>
               <IndividualTask
-                serverReload={serverReload}
+                setShouldUseServer={setShouldUseServer}
                 todo={currentHighlight}
                 highlight={true}
                 story={story}
@@ -265,8 +265,8 @@ export const TasksCard = (): JSX.Element => {
                 <IndividualTask
                   todo={todo}
                   story={story}
-                  serverReload={serverReload}
                   key={todo.todo_id}
+                  setShouldUseServer={setShouldUseServer}
                   stateReload={stateReload}
                   highlightCount={currentHighlight ? 1 : 0}
                 />

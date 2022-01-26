@@ -26,7 +26,6 @@ import {
   onClick_toggleTodoDone,
 } from "../../utils/onClickHelpers";
 import {
-  type_serverReload,
   type_todo_description,
   type_todo_done,
   type_todo_highlight,
@@ -48,10 +47,10 @@ export const IndividualTask = ({
     todo_story_id,
     todo_details,
   },
-  serverReload,
   story: { story_id: storyid },
   stateReload,
   highlight,
+  setShouldUseServer,
   set_party_display,
   highlightCount,
 }: {
@@ -59,8 +58,8 @@ export const IndividualTask = ({
   story: Story;
   set_party_display?: Dispatch<SetStateAction<boolean>>;
   stateReload: VoidFunction;
-  serverReload: type_serverReload;
   highlightCount: number;
+  setShouldUseServer: Dispatch<SetStateAction<boolean>>;
   highlight?: type_todo_highlight;
 }): JSX.Element => {
   const [display_text_edit, set_display_text_edit] = useState<boolean>(false);
@@ -94,7 +93,7 @@ export const IndividualTask = ({
               set_party_display(true);
             }
             onClick_toggleTodoDone({
-              serverReload,
+              setShouldUseServer,
               todo_id,
               stateReload,
             });
@@ -169,7 +168,7 @@ export const IndividualTask = ({
                 onClick={() =>
                   onClick_handleDelete({
                     stateReload,
-                    serverReload,
+                    setShouldUseServer,
                     todo_id,
                   })
                 }
@@ -225,7 +224,7 @@ export const IndividualTask = ({
                   onClick_toggleArchiving({
                     stateReload,
                     todo_id,
-                    serverReload,
+                    setShouldUseServer,
                   });
                 }}
                 className={`${
@@ -261,14 +260,14 @@ export const IndividualTask = ({
       }
       onkeydowncapture_callback={(event) => {
         if (event.key === "Delete") {
-          onClick_handleDelete({ stateReload, todo_id, serverReload });
+          onClick_handleDelete({ stateReload, todo_id, setShouldUseServer });
         } else if (event.key === "Enter") {
           set_display_text_edit(true);
         } else if (event.key === "h" && highlightCount === 0) {
           onClick_makeHighlight({
             stateReload,
             todo_id,
-            serverReload,
+            setShouldUseServer,
           });
         }
       }}
@@ -287,7 +286,7 @@ export const IndividualTask = ({
                     todo_id,
                     todo_description: new_title,
                     stateReload,
-                    serverReload,
+                    setShouldUseServer,
                     set_display_text_edit,
                   });
                   set_display_text_edit(false);
@@ -337,7 +336,7 @@ export const IndividualTask = ({
                 onClick_makeHighlight({
                   stateReload,
                   todo_id,
-                  serverReload,
+                  setShouldUseServer,
                 });
               }}
             >

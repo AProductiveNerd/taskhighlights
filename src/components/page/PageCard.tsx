@@ -18,8 +18,10 @@ export const PageCard = ({ title }: { title: string }): JSX.Element => {
   const [currentTodos, setCurrentTodos] = useState<Todo[]>(null);
   const [addedCounter, setAddedCounter] = useState<number>(0);
   const [globalMenuIsOpen, setGlobalMenuIsOpen] = useState(false);
-  const [serverCounter, setServerCounter] = useState<number>(0);
+  // const [serverCounter, setServerCounter] = useState<number>(0);
   const fireId: type_user_id = useContext(FireUserContext);
+  const [shouldUseServer, setShouldUseServer] = useState(true);
+  console.log(shouldUseServer);
 
   useEffect(() => {
     (async () => {
@@ -46,13 +48,13 @@ export const PageCard = ({ title }: { title: string }): JSX.Element => {
       setAddedCounter(0);
     }
   };
-  const serverReload = (): void => {
-    if (serverCounter < 50) {
-      setServerCounter(serverCounter + 1);
-    } else {
-      setServerCounter(0);
-    }
-  };
+  // const serverReload = (): void => {
+  //   if (serverCounter < 50) {
+  //     setServerCounter(serverCounter + 1);
+  //   } else {
+  //     setServerCounter(0);
+  //   }
+  // };
   useHotkeys("ctrl+p, command+p, ctrl+shift+f", (event, handler) => {
     event.preventDefault();
     switch (handler.key) {
@@ -88,7 +90,7 @@ export const PageCard = ({ title }: { title: string }): JSX.Element => {
               currentTodos?.map((todo: Todo) => (
                 <IndividualPageTask
                   todo={todo}
-                  serverReload={serverReload}
+                  setShouldUseServer={setShouldUseServer}
                   key={todo.todo_id}
                   stateReload={stateReload}
                 />

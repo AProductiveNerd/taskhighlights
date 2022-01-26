@@ -4,17 +4,19 @@ import {
   TrashIcon,
 } from "@heroicons/react/solid";
 import {
+  Dispatch,
+  SetStateAction,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
+import {
   onClick_handleDelete,
   onClick_handleTextSubmit,
   onClick_toggleArchiving,
   onClick_toggleTodoDone,
 } from "../../utils/onClickHelpers";
-import {
-  type_serverReload,
-  type_todo_description,
-  type_todo_done,
-} from "../../constants/Types";
-import { useLayoutEffect, useRef, useState } from "react";
+import { type_todo_description, type_todo_done } from "../../constants/Types";
 
 import { IndividualItem } from "../layout/IndividualItem";
 import { Menu } from "@headlessui/react";
@@ -23,11 +25,11 @@ import { Todo } from "@prisma/client";
 export const IncompleteTask = ({
   todo: { todo_description, todo_done: db_done, todo_id, todo_highlight },
   stateReload,
-  serverReload,
+  setShouldUseServer,
 }: {
   todo: Todo;
-  serverReload: type_serverReload;
   stateReload: VoidFunction;
+  setShouldUseServer: Dispatch<SetStateAction<boolean>>;
 }): JSX.Element => {
   const [display_text_edit, set_display_text_edit] = useState<boolean>(false);
   const [todo_state, set_todo_state] = useState<type_todo_done>(db_done);
@@ -52,14 +54,14 @@ export const IncompleteTask = ({
             onClick_toggleTodoDone({
               todo_id,
               stateReload,
-              serverReload,
+              setShouldUseServer,
             });
           }}
         />
       }
       onkeydowncapture_callback={(event) => {
         if (event.key === "Delete") {
-          onClick_handleDelete({ stateReload, todo_id, serverReload });
+          onClick_handleDelete({ stateReload, todo_id, setShouldUseServer });
         } else if (event.key === "Enter") {
           set_display_text_edit(true);
         }
@@ -79,7 +81,7 @@ export const IncompleteTask = ({
                     todo_id,
                     todo_description,
                     stateReload,
-                    serverReload,
+                    setShouldUseServer,
                     set_display_text_edit,
                   });
                   set_display_text_edit(false);
@@ -129,7 +131,7 @@ export const IncompleteTask = ({
                   onClick_handleDelete({
                     stateReload,
                     todo_id,
-                    serverReload,
+                    setShouldUseServer,
                   })
                 }
                 className={`${
@@ -157,7 +159,7 @@ export const IncompleteTask = ({
                   onClick_toggleArchiving({
                     stateReload,
                     todo_id,
-                    serverReload,
+                    setShouldUseServer,
                   });
                 }}
                 className={`${
