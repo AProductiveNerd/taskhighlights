@@ -5,6 +5,7 @@ import {
 } from "../../../utils/prismaHelpers";
 
 import { Todo } from "@prisma/client";
+import { make_json_string } from "./../../../utils/generalHelpers";
 
 interface Query {
   user_id?: string;
@@ -23,11 +24,11 @@ export default async function handler(
     case "GET": {
       if (work === "incomplete") {
         const todos: Todo[] = await prisma_getAllIncompleteTodosByPage(user_id);
-        res.status(200).json(JSON.stringify(todos));
+        res.status(200).json(make_json_string(todos));
       } else if (work === "archived") {
         const todos: Todo[] = await prisma_getAllArchivedTodos(user_id);
 
-        res.status(200).json(JSON.stringify(todos));
+        res.status(200).json(make_json_string(todos));
       }
     }
   }

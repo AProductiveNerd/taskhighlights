@@ -2,6 +2,8 @@ import * as TYPES from "./../constants/Types";
 
 import { Page, Prisma, PrismaClient, Story, Todo, User } from "@prisma/client";
 
+import { make_json_string } from "./generalHelpers";
+
 // Prevent multiple instances of Prisma Client in development
 // eslint-disable-next-line init-declarations
 declare const global: typeof globalThis & { prisma?: PrismaClient };
@@ -54,7 +56,7 @@ export const prisma_createUser = async ({
   user_id,
   user_username,
 }: TYPES.type_User_Request_Body): Promise<User> => {
-  const avatar = JSON.parse(JSON.stringify(user_avatar));
+  const avatar = JSON.parse(make_json_string(user_avatar));
   const createdUser: User = await prisma.user.create({
     data: {
       user_avatar: avatar,

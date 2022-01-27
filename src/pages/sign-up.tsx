@@ -9,6 +9,7 @@ import { SEO_component } from "../components/seo";
 import { auth } from "../libs/Firebase";
 import { createUserWithEmailAndPassword } from "@firebase/auth";
 import { fetch_createUser } from "../utils/fetchHelpers";
+import { make_json_string } from "../utils/generalHelpers";
 import { useRouter } from "next/router";
 
 export default function SignUp(): JSX.Element {
@@ -33,7 +34,7 @@ export default function SignUp(): JSX.Element {
   const handleSignUp = async (event: FormEvent) => {
     event.preventDefault();
 
-    if (JSON.stringify(user_avatar) !== "") {
+    if (make_json_string(user_avatar) !== "") {
       try {
         const fireAuthUser = await createUserWithEmailAndPassword(
           auth,
@@ -195,7 +196,7 @@ export default function SignUp(): JSX.Element {
               </div>
             </div>
 
-            {!isInvalid && JSON.stringify(user_avatar) !== "" && (
+            {!isInvalid && make_json_string(user_avatar) !== "" && (
               <div>
                 <button
                   aria-label="Sign up"

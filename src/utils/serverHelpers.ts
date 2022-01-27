@@ -4,6 +4,7 @@ import { Page, Todo } from "@prisma/client";
 
 import { API_V1 } from "../constants/Routes";
 import fetch from "node-fetch";
+import { make_json_string } from "./generalHelpers";
 
 export const server_createRetDailyPage = async (
   user_id: TYPES.type_user_id,
@@ -47,7 +48,7 @@ export const server_createTodo = async (
   if (body) {
     const data = await fetch(`${API_V1}todo`, {
       method: "POST",
-      body: JSON.stringify(body),
+      body: make_json_string(body),
       headers: { "Content-Type": "application/json" },
     });
 
@@ -78,7 +79,7 @@ export const server_toggleTodoDone = async (
 ): Promise<Todo> => {
   const data = await fetch(`${API_V1}todo`, {
     method: "POST",
-    body: JSON.stringify({
+    body: make_json_string({
       task: "toggleState",
       todo_id,
     }),
@@ -98,7 +99,7 @@ export const server_updateTodoDescription = async ({
   if (todo_id && todo_description) {
     const data = await fetch(`${API_V1}todo`, {
       method: "POST",
-      body: JSON.stringify({
+      body: make_json_string({
         task: "updateDescription",
         todo_id,
         todo_description,
@@ -127,7 +128,7 @@ export const server_toggleArchived = async (
 ): Promise<Todo> => {
   const data = await fetch(`${API_V1}todo`, {
     method: "POST",
-    body: JSON.stringify({
+    body: make_json_string({
       task: "toggleArchive",
       todo_id,
     }),
@@ -142,7 +143,7 @@ export const server_makeHighlight = async (
 ): Promise<Todo> => {
   const data = await fetch(`${API_V1}todo`, {
     method: "POST",
-    body: JSON.stringify({
+    body: make_json_string({
       task: "makeHighlight",
       todo_id,
     }),
@@ -168,7 +169,7 @@ export const server_addTodoToStory = async ({
 }: TYPES.type_Story_Body): Promise<TYPES.type_Story_and_Todos> => {
   const data = await fetch(`${API_V1}story`, {
     method: "POST",
-    body: JSON.stringify({
+    body: make_json_string({
       todo_id,
       story_id,
       task: "add",
@@ -185,7 +186,7 @@ export const server_removeTodoFromStory = async ({
 }: TYPES.type_Story_Body): Promise<TYPES.type_Story_and_Todos> => {
   const data = await fetch(`${API_V1}story`, {
     method: "POST",
-    body: JSON.stringify({
+    body: make_json_string({
       todo_id,
       story_id,
       task: "remove",
@@ -240,7 +241,7 @@ export const server_updateTodoDetails = async ({
   if (todo_id && todo_details) {
     const data = await fetch(`${API_V1}todo`, {
       method: "POST",
-      body: JSON.stringify({
+      body: make_json_string({
         task: "updateDetails",
         todo_id,
         todo_details,
@@ -264,7 +265,7 @@ export const server_moveTasksToToday = async ({
   if (todo_id && today && user_id) {
     const data = await fetch(`${API_V1}todo`, {
       method: "PUT",
-      body: JSON.stringify({
+      body: make_json_string({
         put_task: "single",
         user_id,
         todo_id,

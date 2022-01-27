@@ -32,6 +32,7 @@ import Link from "next/link";
 import PageSearchContext from "../../contexts/PageSearchContext";
 import { User } from "@prisma/client";
 import UserContext from "../../contexts/UserContext";
+import { are_args_same } from "../../utils/generalHelpers";
 import { auth } from "../../libs/Firebase";
 import dynamic from "next/dynamic";
 import { fetch_getUserByUserid } from "../../utils/fetchHelpers";
@@ -51,7 +52,7 @@ export const Header = ({ path }: Header_Props): JSX.Element => {
     (async () => {
       const user = await fetch_getUserByUserid(fireId);
 
-      if (JSON.stringify(currentUser) !== JSON.stringify(user)) {
+      if (!are_args_same(currentUser, user)) {
         setCurrentUser(user);
         setContextUser(user);
       }

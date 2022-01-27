@@ -5,6 +5,7 @@ import { Card } from "../layout/Card";
 import FireUserContext from "../../contexts/FireUserContext";
 import { IncompleteTask } from "./IncompleteTask";
 import { Todo } from "@prisma/client";
+import { are_args_same } from "../../utils/generalHelpers";
 import { fetch_getAllIncompleteTodos } from "../../utils/fetchHelpers";
 
 // ! Limit the number of tasks a user can add to amplify the constraints lead to creativity effect
@@ -20,7 +21,7 @@ export const IncompleteCard = (): JSX.Element => {
   useEffect(() => {
     (async () => {
       const fetchedTodos = await fetch_getAllIncompleteTodos();
-      if (JSON.stringify(fetchedTodos) !== JSON.stringify(todos)) {
+      if (!are_args_same(fetchedTodos, todos)) {
         setTodos(fetchedTodos);
       }
     })();

@@ -6,6 +6,7 @@ import { Card } from "../layout/Card";
 import FireUserContext from "../../contexts/FireUserContext";
 import { IndividualPageTask } from "./IndividualPageTask";
 import { Todo } from "@prisma/client";
+import { are_args_same } from "../../utils/generalHelpers";
 import dynamic from "next/dynamic";
 import { fetch_createRetPageByTitle } from "../../utils/fetchHelpers";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -27,7 +28,7 @@ export const PageCard = ({ title }: { title: string }): JSX.Element => {
     (async () => {
       const page = await fetch_createRetPageByTitle(fireId, title);
 
-      if (JSON.stringify(currentPage) !== JSON.stringify(page)) {
+      if (!are_args_same(currentPage, page)) {
         setCurrentPage(page);
       }
     })();
@@ -36,7 +37,7 @@ export const PageCard = ({ title }: { title: string }): JSX.Element => {
   useEffect(() => {
     const fetchedTodos = currentPage?.Page_Todo;
 
-    if (JSON.stringify(currentTodos) !== JSON.stringify(fetchedTodos)) {
+    if (!are_args_same(currentTodos, fetchedTodos)) {
       setCurrentTodos(fetchedTodos);
     }
   }, [currentPage?.Page_Todo, currentTodos]);

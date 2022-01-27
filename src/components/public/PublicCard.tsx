@@ -15,6 +15,7 @@ import { Card } from "../layout/Card";
 import { IndividualPublicTask } from "./IndividualPublicTask";
 import { Todo } from "@prisma/client";
 import UserContext from "../../contexts/UserContext";
+import { are_args_same } from "../../utils/generalHelpers";
 import { is_valid_prop } from "../../utils/validationHelpers";
 import { type_Page_and_Todos } from "../../constants/Types";
 import { useRouter } from "next/router";
@@ -46,7 +47,7 @@ export const PublicCard = ({
         const ret = await fetch_getPageByPublicLink(public_id.toString());
         if (ret.ok) {
           const page = await ret.page;
-          if (JSON.stringify(currentPage) !== JSON.stringify(page)) {
+          if (!are_args_same(currentPage, page)) {
             if (page.Page_User.user_username !== username) {
               router.push("/404");
             }
@@ -70,7 +71,7 @@ export const PublicCard = ({
   useEffect(() => {
     const fetchedTodos = currentPage?.Page_Todo;
 
-    if (JSON.stringify(currentTodos) !== JSON.stringify(fetchedTodos)) {
+    if (!are_args_same(currentTodos, fetchedTodos)) {
       setCurrentTodos(fetchedTodos);
     }
   }, [currentPage?.Page_Todo, currentTodos]);

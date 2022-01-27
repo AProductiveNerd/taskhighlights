@@ -187,7 +187,7 @@ export const TasksCard = (): JSX.Element => {
   useEffect(() => {
     const fetchedTodos = currentPage?.Page_Todo;
 
-    if (JSON.stringify(currentTodos) !== JSON.stringify(fetchedTodos)) {
+    if (!are_args_same(currentTodos, fetchedTodos)) {
       const noHighlight = fetchedTodos?.filter(
         (todo: Todo) => todo.todo_highlight === false
       );
@@ -207,7 +207,7 @@ export const TasksCard = (): JSX.Element => {
   }, [currentPage?.Page_Todo, currentTodos, setCurrentHighlight]);
 
   useEffect(() => {
-    if (JSON.stringify(story) !== JSON.stringify(currentPage?.Page_Story)) {
+    if (!are_args_same(story, currentPage?.Page_Story)) {
       set_story(currentPage?.Page_Story);
     }
   }, [addedCounter, currentTodos, currentPage, story]);
@@ -219,13 +219,7 @@ export const TasksCard = (): JSX.Element => {
       setAddedCounter(0);
     }
   };
-  // const serverReload = (): void => {
-  //   if (serverCounter < 50) {
-  //     setServerCounter(serverCounter + 1);
-  //   } else {
-  //     setServerCounter(0);
-  //   }
-  // };
+
   useEffect(() => {
     setTimeout(() => {
       set_party_display(false);

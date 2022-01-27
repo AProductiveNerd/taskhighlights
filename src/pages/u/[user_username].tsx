@@ -9,6 +9,7 @@ import { SEO_component } from "../../components/seo";
 import { StoryCard } from "../../components/stories/StoryCard";
 import { Todo } from "@prisma/client";
 import { User_Story_Todo } from "../../constants/Types";
+import { make_json_string } from "../../utils/generalHelpers";
 import { prisma_getUserByUsername } from "../../utils/prismaHelpers";
 
 export default function UserProfile({
@@ -108,7 +109,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     if (fetchedUser) {
       return {
-        props: { user: JSON.parse(JSON.stringify(fetchedUser)) },
+        props: { user: JSON.parse(make_json_string(fetchedUser)) },
       };
     } else {
       return {

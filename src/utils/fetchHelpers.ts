@@ -15,6 +15,7 @@ import {
 import { API_V1 } from "../constants/Routes";
 import fetch from "node-fetch";
 import { is_valid_prop } from "./validationHelpers";
+import { make_json_string } from "./generalHelpers";
 
 export const fetch_getUserByUserid = async (
   user_id: TYPES.type_user_id
@@ -31,7 +32,7 @@ export const fetch_createUser = async (
 ): Promise<User> => {
   const data = await fetch(`${API_V1}user`, {
     method: "POST",
-    body: JSON.stringify(body),
+    body: make_json_string(body),
     headers: { "Content-Type": "application/json" },
   });
 
@@ -114,7 +115,7 @@ export const fetch_toggleTodoDone = async (
 
   fetch(`${API_V1}todo`, {
     method: "POST",
-    body: JSON.stringify({
+    body: make_json_string({
       task: "toggleState",
       todo_id,
     }),
@@ -153,7 +154,7 @@ export const fetch_toggleArchived = async (
 
     fetch(`${API_V1}todo`, {
       method: "POST",
-      body: JSON.stringify({
+      body: make_json_string({
         task: "toggleArchive",
         todo_id,
       }),
@@ -184,7 +185,7 @@ export const fetch_addTodoToStory = async ({
 }: TYPES.type_Story_Body): Promise<TYPES.type_Story_and_Todos> => {
   const data = await fetch(`${API_V1}story`, {
     method: "POST",
-    body: JSON.stringify({
+    body: make_json_string({
       todo_id,
       story_id,
       task: "add",
@@ -201,7 +202,7 @@ export const fetch_removeTodoFromStory = async ({
 }: TYPES.type_Story_Body): Promise<TYPES.type_Story_and_Todos> => {
   const data = await fetch(`${API_V1}story`, {
     method: "POST",
-    body: JSON.stringify({
+    body: make_json_string({
       todo_id,
       story_id,
       task: "remove",
@@ -248,7 +249,7 @@ export const fetch_updateTodoDetails = async ({
   if (todo_id && todo_details) {
     const data = await fetch(`${API_V1}todo`, {
       method: "POST",
-      body: JSON.stringify({
+      body: make_json_string({
         task: "updateDetails",
         todo_id,
         todo_details,

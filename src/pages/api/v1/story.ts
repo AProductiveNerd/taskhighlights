@@ -13,6 +13,8 @@ import {
   type_Story_and_Todos,
 } from "../../../constants/Types";
 
+import { make_json_string } from "./../../../utils/generalHelpers";
+
 interface Query {
   story_id?: string;
   story_title?: string;
@@ -37,14 +39,14 @@ export default async function handler(
           story_id
         );
 
-        res.status(200).json(JSON.stringify(story));
+        res.status(200).json(make_json_string(story));
       } else if (story_title) {
         const story: type_Story_and_Todos = await prisma_getStoryByStoryTitle(
           story_title,
           story_user_id
         );
 
-        res.status(200).json(JSON.stringify(story));
+        res.status(200).json(make_json_string(story));
       } else {
         const story: Story = await prisma_createUpdateStory({
           story_user_id,
@@ -52,7 +54,7 @@ export default async function handler(
           page_id,
         });
 
-        res.status(200).json(JSON.stringify(story));
+        res.status(200).json(make_json_string(story));
       }
 
       break;
@@ -63,18 +65,18 @@ export default async function handler(
 
         if (body.task === "add") {
           const story: type_Story_and_Todos = await prisma_addTodoToStory(body);
-          res.status(201).json(JSON.stringify(story));
+          res.status(201).json(make_json_string(story));
         } else if (body.task === "remove") {
           const story: type_Story_and_Todos = await prisma_removeTodoFromStory(
             body
           );
-          res.status(201).json(JSON.stringify(story));
+          res.status(201).json(make_json_string(story));
         } else {
-          res.status(501).json(JSON.stringify({ Error: "bad req" }));
+          res.status(501).json(make_json_string({ Error: "bad req" }));
         }
       } catch (e) {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
-          res.status(409).json(JSON.stringify(e.message));
+          res.status(409).json(make_json_string(e.message));
         }
       }
 
@@ -84,7 +86,7 @@ export default async function handler(
       if (story_id) {
         const deletedPage: Story = await prisma_deleteStoryByStoryid(story_id);
 
-        res.status(200).json(JSON.stringify(deletedPage));
+        res.status(200).json(make_json_string(deletedPage));
       }
 
       break;
