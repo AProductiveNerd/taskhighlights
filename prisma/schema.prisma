@@ -27,11 +27,8 @@ model User {
   user_level               User_Level @default(None)
   user_streak_last_updated DateTime   @default(now())
   user_streak_prev         Int        @default(0)
-  User_Habits              Habit[]
   User_Page                Page[]
-  User_Routine             Routine[]
   User_Story               Story[]
-  User_Templates           Template[]
   User_Todo                Todo[]
 }
 
@@ -48,18 +45,6 @@ model Page {
   Page_Todo          Todo[]
 
   @@unique([page_user_id, page_title], name: "user_title_unique")
-}
-
-model Routine {
-  routine_id            String   @id @default(cuid())
-  routine_datecreated   DateTime @default(now())
-  routine_user_id       String
-  routine_last_accessed DateTime @updatedAt
-  routine_title         String
-  Routine_User          User     @relation(fields: [routine_user_id], references: [user_id])
-  Routine_Habits        Habit[]
-
-  @@unique([routine_user_id, routine_title], name: "user_routine_title_unique")
 }
 
 model Story {
@@ -90,25 +75,6 @@ model Todo {
   Todo_Page                Page     @relation(fields: [todo_page_id], references: [page_id])
   Todo_Story               Story?   @relation(fields: [todo_story_id], references: [story_id])
   Todo_User                User     @relation(fields: [todo_user_id], references: [user_id])
-}
-
-model Habit {
-  habit_id          String   @id @default(cuid())
-  habit_datecreated DateTime @default(now())
-  habit_description String
-  habit_done        Boolean  @default(false)
-  habit_user_id     String
-  habit_routine_id  String
-  Habit_Routine     Routine  @relation(fields: [habit_routine_id], references: [routine_id])
-  Habit_User        User     @relation(fields: [habit_user_id], references: [user_id])
-}
-
-model Template {
-  template_id      String   @id @default(cuid())
-  template_title   String
-  template_habits  String[]
-  template_user_id String
-  Template_User    User     @relation(fields: [template_user_id], references: [user_id])
 }
 
 enum User_Level {
