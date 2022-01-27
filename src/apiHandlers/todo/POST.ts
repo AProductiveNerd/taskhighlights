@@ -1,3 +1,4 @@
+import { Prisma, Todo } from "@prisma/client";
 import {
   prisma_createTodo,
   prisma_makeHighlight,
@@ -6,12 +7,11 @@ import {
   prisma_updateTodoDescription,
   prisma_updateTodoDetails,
 } from "../../utils/prismaHelpers";
-import { type_Todo_Body, type_Useful_Todo } from "../../constants/Types";
 
 import { NextApiResponse } from "next";
-import { Prisma } from ".prisma/client";
 import { is_valid_prop } from "../../utils/validationHelpers";
 import { make_json_string } from "../../utils/generalHelpers";
+import { type_Todo_Body } from "../../constants/Types";
 
 interface type_todo_post_handler {
   body: type_Todo_Body;
@@ -24,15 +24,13 @@ export const todo_post_handler = async ({
     task,
     todo_highlight,
     user_id,
-    todo_archived,
     todo_description,
     todo_details,
-    todo_done,
     todo_id,
   },
   res,
 }: type_todo_post_handler): Promise<void> => {
-  let todo: type_Useful_Todo = null;
+  let todo: Todo = null;
 
   try {
     switch (task) {
@@ -93,16 +91,8 @@ export const todo_post_handler = async ({
             .json(make_json_string({ Error: "Please enter a valid todo id" }));
           return;
         }
-        if (!is_valid_prop(todo_archived, "boolean")) {
-          res.status(400).json(
-            make_json_string({
-              Error: "Please enter a valid todo archived",
-            })
-          );
-          return;
-        }
 
-        todo = await prisma_toggleArchived({ todo_archived, todo_id });
+        todo = await prisma_toggleArchived(todo_id);
         break;
 
       case "toggleState":
@@ -112,16 +102,8 @@ export const todo_post_handler = async ({
             .json(make_json_string({ Error: "Please enter a valid todo id" }));
           return;
         }
-        if (!is_valid_prop(todo_done, "boolean")) {
-          res.status(400).json(
-            make_json_string({
-              Error: "Please enter a valid todo done",
-            })
-          );
-          return;
-        }
-
-        todo = await prisma_toggleTodoDone({ todo_done, todo_id });
+        console.log("nice");
+        todo = await prisma_toggleTodoDone(todo_id);
         break;
 
       case "updateDescription":

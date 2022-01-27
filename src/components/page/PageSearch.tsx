@@ -1,11 +1,12 @@
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import { Dispatch, Fragment, useEffect, useRef, useState } from "react";
+import { are_args_same, isDailyPage } from "../../utils/generalHelpers";
 import { type_page_title, type_user_id } from "../../constants/Types";
 
 import Fuse from "fuse.js";
 import Link from "next/link";
+import { PageSearch_Transition_Props } from "../../types/layout/PageSearch";
 import { fetch_getAllPageNamesByUserid } from "../../utils/fetchHelpers";
-import { isDailyPage } from "../../utils/generalHelpers";
 
 interface PageSearch_Props {
   user: type_user_id;
@@ -28,7 +29,7 @@ export const PageSearch = ({
   useEffect(() => {
     (async () => {
       const names = await fetch_getAllPageNamesByUserid(user);
-      if (JSON.stringify(page_names) !== JSON.stringify(names)) {
+      if (!are_args_same(page_names, names)) {
         set_page_names(names);
       }
     })();
@@ -67,15 +68,7 @@ export const PageSearch = ({
         initialFocus={focusRef}
       >
         <div className="min-h-screen px-4 text-center">
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
+          <Transition.Child {...PageSearch_Transition_Props}>
             <Dialog.Overlay className="fixed inset-0" />
           </Transition.Child>
 

@@ -1,19 +1,12 @@
 import * as TYPES from "./../constants/Types";
 
-import {
-  Habit,
-  Page,
-  Prisma,
-  PrismaClient,
-  Routine,
-  Story,
-  Template,
-  User,
-} from "@prisma/client";
+import { Page, Prisma, PrismaClient, Story, Todo, User } from "@prisma/client";
+
+import { make_json_string } from "./generalHelpers";
 
 // Prevent multiple instances of Prisma Client in development
 // eslint-disable-next-line init-declarations
-declare const global: NodeJS.Global & { prisma?: PrismaClient };
+declare const global: typeof globalThis & { prisma?: PrismaClient };
 
 export const prisma = global.prisma || new PrismaClient();
 if (process.env.NODE_ENV === "development") global.prisma = prisma;
@@ -32,9 +25,7 @@ export const prisma_getUserByUsername = async (
           story_title: today,
         },
         include: {
-          Story_Todo: {
-            select: TYPES.Useful_Todo_Include_Object,
-          },
+          Story_Todo: {},
         },
         orderBy: {
           story_datecreated: "asc",
@@ -65,7 +56,7 @@ export const prisma_createUser = async ({
   user_id,
   user_username,
 }: TYPES.type_User_Request_Body): Promise<User> => {
-  const avatar = JSON.parse(JSON.stringify(user_avatar));
+  const avatar = JSON.parse(make_json_string(user_avatar));
   const createdUser: User = await prisma.user.create({
     data: {
       user_avatar: avatar,
@@ -191,7 +182,7 @@ export const prisma_createRetDailyPage = async (
       include: {
         Page_Story: true,
         Page_Todo: {
-          select: TYPES.Useful_Todo_Include_Object,
+          //
           where: {
             todo_archived: false,
           },
@@ -266,8 +257,8 @@ export const prisma_deleteAllPagesByUserid = async (
 
 export const prisma_getTodobyTodoId = async (
   todo_id: TYPES.type_todo_id
-): Promise<TYPES.type_Useful_Todo> => {
-  const todo: TYPES.type_Useful_Todo = await prisma.todo.findUnique({
+): Promise<Todo> => {
+  const todo: Todo = await prisma.todo.findUnique({
     where: {
       todo_id,
     },
@@ -287,8 +278,8 @@ export const prisma_createTodo = async ({
   page_id: TYPES.type_page_id;
   user_id: TYPES.type_user_id;
   todo_highlight: TYPES.type_todo_highlight;
-}): Promise<TYPES.type_Useful_Todo> => {
-  const todo: TYPES.type_Useful_Todo = await prisma.todo.create({
+}): Promise<Todo> => {
+  const todo: Todo = await prisma.todo.create({
     data: {
       todo_description,
       todo_highlight,
@@ -310,8 +301,8 @@ export const prisma_createTodo = async ({
 
 export const prisma_deleteTodo = async (
   todo_id: TYPES.type_todo_id
-): Promise<TYPES.type_Useful_Todo> => {
-  const deletedTodo: TYPES.type_Useful_Todo = await prisma.todo.delete({
+): Promise<Todo> => {
+  const deletedTodo: Todo = await prisma.todo.delete({
     where: {
       todo_id,
     },
@@ -322,8 +313,8 @@ export const prisma_deleteTodo = async (
 
 export const prisma_getAllIncompleteTodosByPage = async (
   user_id: TYPES.type_user_id
-): Promise<TYPES.type_Useful_Todo[]> => {
-  const todos: TYPES.type_Useful_Todo[] = await prisma.todo.findMany({
+): Promise<Todo[]> => {
+  const todos: Todo[] = await prisma.todo.findMany({
     orderBy: [{ todo_datecreated: "desc" }, { todo_archived: "asc" }],
     where: {
       AND: {
@@ -340,25 +331,37 @@ export const prisma_getAllIncompleteTodosByPage = async (
   return todos;
 };
 
-export const prisma_toggleTodoDone = async ({
-  todo_id,
-  todo_done,
-}: {
-  todo_id: TYPES.type_todo_id;
-  todo_done: TYPES.type_todo_done;
-}): Promise<TYPES.type_Useful_Todo> => {
-  const todo: TYPES.type_Useful_Todo = await prisma.todo.update({
+export const prisma_getTodoByTodoId = async (
+  todo_id: TYPES.type_todo_id
+): Promise<Todo> => {
+  console.log("todo_id", todo_id);
+  const todo = await prisma.todo.findUnique({
+    where: {
+      todo_id,
+    },
+  });
+
+  return todo;
+};
+
+export const prisma_toggleTodoDone = async (
+  todo_id: TYPES.type_todo_id
+): Promise<Todo> => {
+  const { todo_done } = await prisma_getTodoByTodoId(todo_id);
+  console.log({ todo_done });
+
+  const todo: Todo = await prisma.todo.update({
     where: {
       todo_id,
     },
     data: {
-      todo_done,
+      todo_done: !todo_done,
     },
   });
 
   if (todo.todo_highlight) {
     if (todo.todo_done) {
-      const if_todo: TYPES.type_Useful_Todo = await prisma.todo.update({
+      const if_todo: Todo = await prisma.todo.update({
         where: {
           todo_id,
         },
@@ -375,7 +378,7 @@ export const prisma_toggleTodoDone = async ({
 
       return if_todo;
     } else {
-      const if_todo: TYPES.type_Useful_Todo = await prisma.todo.update({
+      const if_todo: Todo = await prisma.todo.update({
         where: {
           todo_id,
         },
@@ -403,8 +406,8 @@ export const prisma_updateTodoDescription = async ({
 }: {
   todo_id: TYPES.type_todo_id;
   todo_description: TYPES.type_todo_description;
-}): Promise<TYPES.type_Useful_Todo> => {
-  const todo: TYPES.type_Useful_Todo = await prisma.todo.update({
+}): Promise<Todo> => {
+  const todo: Todo = await prisma.todo.update({
     where: {
       todo_id,
     },
@@ -416,19 +419,16 @@ export const prisma_updateTodoDescription = async ({
   return todo;
 };
 
-export const prisma_toggleArchived = async ({
-  todo_id,
-  todo_archived,
-}: {
-  todo_id: TYPES.type_todo_id;
-  todo_archived: TYPES.type_todo_archived;
-}): Promise<TYPES.type_Useful_Todo> => {
-  const todo: TYPES.type_Useful_Todo = await prisma.todo.update({
+export const prisma_toggleArchived = async (
+  todo_id: TYPES.type_todo_id
+): Promise<Todo> => {
+  const { todo_archived } = await prisma_getTodoByTodoId(todo_id);
+  const todo: Todo = await prisma.todo.update({
     where: {
       todo_id,
     },
     data: {
-      todo_archived,
+      todo_archived: !todo_archived,
     },
   });
 
@@ -437,8 +437,8 @@ export const prisma_toggleArchived = async ({
 
 export const prisma_makeHighlight = async (
   todo_id: TYPES.type_todo_id
-): Promise<TYPES.type_Useful_Todo> => {
-  const todo: TYPES.type_Useful_Todo = await prisma.todo.update({
+): Promise<Todo> => {
+  const todo: Todo = await prisma.todo.update({
     where: {
       todo_id,
     },
@@ -459,7 +459,6 @@ export const prisma_getStoryByStoryId = async (
     },
     include: {
       Story_Todo: {
-        select: TYPES.Useful_Todo_Include_Object,
         where: {
           todo_archived: false,
         },
@@ -488,7 +487,6 @@ export const prisma_getStoryByStoryTitle = async (
     },
     include: {
       Story_Todo: {
-        select: TYPES.Useful_Todo_Include_Object,
         where: {
           todo_archived: false,
         },
@@ -536,7 +534,6 @@ export const prisma_createUpdateStory = async ({
     },
     include: {
       Story_Todo: {
-        select: TYPES.Useful_Todo_Include_Object,
         where: {
           todo_archived: false,
         },
@@ -595,7 +592,6 @@ export const prisma_addTodoToStory = async ({
     },
     include: {
       Story_Todo: {
-        select: TYPES.Useful_Todo_Include_Object,
         where: {
           todo_archived: false,
         },
@@ -628,7 +624,6 @@ export const prisma_removeTodoFromStory = async ({
     },
     include: {
       Story_Todo: {
-        select: TYPES.Useful_Todo_Include_Object,
         where: {
           todo_archived: false,
         },
@@ -665,278 +660,6 @@ export const prisma_moveTasks = async ({
   return todos;
 };
 
-export const prisma_createRetDailyRoutine = async (
-  user_id: TYPES.type_user_id,
-  today: TYPES.type_routine_title
-): Promise<TYPES.type_Routine_and_Habits> => {
-  if (user_id.toString() !== "undefined") {
-    const page = await prisma.routine.upsert({
-      where: {
-        user_routine_title_unique: {
-          routine_title: today,
-          routine_user_id: user_id,
-        },
-      },
-      create: {
-        routine_title: today,
-        Routine_User: {
-          connect: {
-            user_id,
-          },
-        },
-      },
-      update: {},
-      include: {
-        Routine_Habits: {
-          select: TYPES.Useful_Habit_Include_Object,
-          orderBy: [{ habit_done: "asc" }, { habit_datecreated: "desc" }],
-        },
-      },
-    });
-
-    return page;
-  }
-};
-
-export const prisma_getRoutineByRoutineid = async (
-  routine_id: TYPES.type_routine_id
-): Promise<Routine> => {
-  const routine: Routine = await prisma.routine.findUnique({
-    where: {
-      routine_id,
-    },
-  });
-
-  return routine;
-};
-
-export const prisma_deleteRoutineByRoutineid = async (
-  routine_id: TYPES.type_routine_id
-): Promise<Routine> => {
-  const deletedRoutine: Routine = await prisma.routine.delete({
-    where: {
-      routine_id,
-    },
-  });
-
-  return deletedRoutine;
-};
-
-export const prisma_getRoutineByRoutineTitle = async (
-  routine_title: TYPES.type_routine_title,
-  user_id: TYPES.type_user_id
-): Promise<Routine> => {
-  const routine: Routine = await prisma.routine.findUnique({
-    where: {
-      user_routine_title_unique: {
-        routine_title,
-        routine_user_id: user_id,
-      },
-    },
-  });
-
-  return routine;
-};
-
-export const prisma_createRoutine = async ({
-  routine_title,
-  user_id,
-}: TYPES.type_Routine_Body): Promise<Routine> => {
-  const createdRoutine: Routine = await prisma.routine.create({
-    data: {
-      routine_title,
-      Routine_User: {
-        connect: {
-          user_id,
-        },
-      },
-    },
-  });
-
-  return createdRoutine;
-};
-
-export const prisma_getHabitbyHabitid = async (
-  habit_id: TYPES.type_habit_id
-): Promise<TYPES.type_Useful_Habit> => {
-  const habit: Habit = await prisma.habit.findUnique({
-    where: {
-      habit_id,
-    },
-  });
-
-  return habit;
-};
-
-export const prisma_toggleHabitDone = async ({
-  habit_id,
-  habit_done,
-}: TYPES.Habit_Body): Promise<TYPES.type_Useful_Habit> => {
-  const habit: TYPES.type_Useful_Habit = await prisma.habit.update({
-    where: {
-      habit_id,
-    },
-    data: {
-      habit_done,
-    },
-  });
-
-  return habit;
-};
-
-export const prisma_createHabit = async ({
-  habit_description,
-  routine_id,
-  user_id,
-}: TYPES.Habit_Body): Promise<TYPES.type_Useful_Habit> => {
-  const todo: TYPES.type_Useful_Habit = await prisma.habit.create({
-    data: {
-      habit_description,
-      Habit_User: {
-        connect: {
-          user_id,
-        },
-      },
-      Habit_Routine: {
-        connect: {
-          routine_id,
-        },
-      },
-    },
-  });
-
-  return todo;
-};
-
-export const prisma_deleteHabit = async (
-  habit_id: TYPES.type_habit_id
-): Promise<TYPES.type_Useful_Habit> => {
-  const deletedHabit: TYPES.type_Useful_Habit = await prisma.habit.delete({
-    where: {
-      habit_id,
-    },
-  });
-
-  return deletedHabit;
-};
-
-// export const prisma_createManyHabit = async ({
-//   habits,
-//   routine_id,
-//   user_id
-// }: TYPES.Habit_Body): Promise<Prisma.BatchPayload> => {
-//   const dataArr = habits.map((i) => {
-//     return {
-//       habit_description: i,
-//       habit_routine_id: routine_id,
-//       habit_user_id: user_id
-//     };
-//   });
-
-//   const count: Prisma.BatchPayload = await prisma.habit.createMany({
-//     data: dataArr
-//   });
-
-//   // await prisma.routine.update({
-//   //   where: {
-//   //     routine_id
-//   //   },
-//   //   data: {
-//   //     Routine_Habits: {
-//   //       createMany: {
-//   //         data: habits,
-//   //         skipDuplicates: true
-//   //       }
-//   //     }
-//   //   }
-//   // });
-
-//   return count;
-// };
-export const prisma_createManyHabit = async ({
-  template_id,
-  routine_id,
-  user_id,
-}: TYPES.Habit_Body): Promise<Prisma.BatchPayload> => {
-  const template = await prisma.template.findUnique({
-    where: {
-      template_id,
-    },
-  });
-
-  const habits = template.template_habits;
-
-  const dataArr = habits.map((i) => {
-    return {
-      habit_description: i,
-      habit_routine_id: routine_id,
-      habit_user_id: user_id,
-    };
-  });
-
-  const count: Prisma.BatchPayload = await prisma.habit.createMany({
-    data: dataArr,
-  });
-
-  return count;
-};
-
-export const prisma_createTemplate = async ({
-  template_habits,
-
-  template_title,
-  user_id,
-}: TYPES.type_Create_Template_Body): Promise<Template> => {
-  const template: Template = await prisma.template.create({
-    data: {
-      template_title,
-      template_habits,
-      Template_User: {
-        connect: {
-          user_id,
-        },
-      },
-    },
-  });
-
-  return template;
-};
-
-export const prisma_getAllUserTemplates = async (
-  user_id: TYPES.type_user_id
-): Promise<Template[]> => {
-  const templates: Template[] = await prisma.template.findMany({
-    where: {
-      Template_User: {
-        user_id,
-      },
-    },
-  });
-
-  return templates;
-};
-
-export const prisma_addHabitToTemplate = async ({
-  habit_description,
-  template_id,
-}: {
-  template_id: TYPES.type_template_id;
-  habit_description: TYPES.type_habit_description;
-}): Promise<Template> => {
-  const template: Template = await prisma.template.update({
-    where: {
-      template_id,
-    },
-    data: {
-      template_habits: {
-        push: habit_description,
-      },
-    },
-  });
-
-  return template;
-};
-
 export const prisma_createRetPageByTitle = async (
   user_id: TYPES.type_user_id,
   page_title: TYPES.type_page_title
@@ -961,7 +684,6 @@ export const prisma_createRetPageByTitle = async (
       include: {
         Page_Story: true,
         Page_Todo: {
-          select: TYPES.Useful_Todo_Include_Object,
           where: {
             todo_archived: false,
           },
@@ -974,13 +696,13 @@ export const prisma_createRetPageByTitle = async (
   }
 };
 
-export const prisma_getAllArchivedTodosByPage = async (
+export const prisma_getAllArchivedTodos = async (
   user_id: TYPES.type_user_id
-): Promise<TYPES.type_Useful_Todo[]> => {
-  const todos: TYPES.type_Useful_Todo[] = await prisma.todo.findMany({
+): Promise<Todo[]> => {
+  const todos: Todo[] = await prisma.todo.findMany({
     orderBy: [
       { todo_done: "asc" },
-      { todo_description: "asc" },
+      { todo_datecreated: "desc" },
       { todo_archived: "asc" },
     ],
     where: {
@@ -1004,8 +726,8 @@ export const prisma_updateTodoDetails = async ({
 }: {
   todo_id: TYPES.type_todo_id;
   todo_details: TYPES.type_todo_details;
-}): Promise<TYPES.type_Useful_Todo> => {
-  const todo: TYPES.type_Useful_Todo = await prisma.todo.update({
+}): Promise<Todo> => {
+  const todo: Todo = await prisma.todo.update({
     where: {
       todo_id,
     },
@@ -1025,7 +747,7 @@ export const prisma_moveTasksToToday = async ({
   todo_id: TYPES.type_todo_id;
   today: TYPES.type_page_title;
   user_id: TYPES.type_user_id;
-}): Promise<TYPES.type_Useful_Todo> => {
+}): Promise<Todo> => {
   const page = await prisma.page.findUnique({
     where: {
       user_title_unique: {
@@ -1035,7 +757,7 @@ export const prisma_moveTasksToToday = async ({
     },
   });
   const new_page_id: TYPES.type_page_title = page.page_id;
-  const todo: TYPES.type_Useful_Todo = await prisma.todo.update({
+  const todo: Todo = await prisma.todo.update({
     where: {
       todo_id,
     },
@@ -1062,7 +784,6 @@ export const prisma_getPageByPublicLink = async (
         },
       },
       Page_Todo: {
-        select: TYPES.Useful_Todo_Include_Object,
         where: {
           todo_archived: false,
         },

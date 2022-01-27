@@ -4,40 +4,37 @@ import {
   TrashIcon,
 } from "@heroicons/react/solid";
 import {
+  Dispatch,
+  SetStateAction,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
+import {
   onClick_handleDelete,
   onClick_handleTextSubmit,
   onClick_toggleArchiving,
   onClick_toggleTodoDone,
 } from "../../utils/onClickHelpers";
-import {
-  type_Useful_Todo,
-  type_todo_archived,
-  type_todo_description,
-  type_todo_done,
-} from "../../constants/Types";
-import { useLayoutEffect, useRef, useState } from "react";
+import { type_todo_description, type_todo_done } from "../../constants/Types";
 
 import { IndividualItem } from "../layout/IndividualItem";
 import { Menu } from "@headlessui/react";
+import { Todo } from "@prisma/client";
 
 export const IndividualPageTask = ({
-  todo: {
-    todo_description,
-    todo_done: db_done,
-    todo_id,
-    todo_archived: db_archive,
-  },
+  todo: { todo_description, todo_done: db_done, todo_id },
   stateReload,
+  setShouldUseServer,
 }: {
-  todo: type_Useful_Todo;
+  todo: Todo;
   stateReload: VoidFunction;
+  setShouldUseServer: Dispatch<SetStateAction<boolean>>;
 }): JSX.Element => {
   const [display_text_edit, set_display_text_edit] = useState<boolean>(false);
   const [todo_state, set_todo_state] = useState<type_todo_done>(db_done);
   const [new_title, set_new_title] =
     useState<type_todo_description>(todo_description);
-  const [todo_archive_state, set_todo_archive_state] =
-    useState<type_todo_archived>(db_archive);
 
   const editTaskRef = useRef(null);
 
@@ -55,18 +52,17 @@ export const IndividualPageTask = ({
           defaultChecked={todo_state}
           onChange={() => {
             set_todo_state(!db_done);
-
             onClick_toggleTodoDone({
-              todo_done: todo_state,
               todo_id,
               stateReload,
+              setShouldUseServer,
             });
           }}
         />
       }
       onkeydowncapture_callback={(event) => {
         if (event.key === "Delete") {
-          onClick_handleDelete({ stateReload, todo_id });
+          onClick_handleDelete({ stateReload, setShouldUseServer, todo_id });
         } else if (event.key === "Enter") {
           set_display_text_edit(true);
         }
@@ -87,6 +83,7 @@ export const IndividualPageTask = ({
                     todo_description: new_title,
                     stateReload,
                     set_display_text_edit,
+                    setShouldUseServer,
                   });
                   set_display_text_edit(false);
                 } else if (event.key === "Escape") {
@@ -120,6 +117,7 @@ export const IndividualPageTask = ({
                   onClick_handleDelete({
                     stateReload,
                     todo_id,
+                    setShouldUseServer,
                   })
                 }
                 className={`${
@@ -144,10 +142,9 @@ export const IndividualPageTask = ({
                 title="Archive Task"
                 aria-label="Archive Task"
                 onClick={() => {
-                  set_todo_archive_state(!db_archive);
                   onClick_toggleArchiving({
                     stateReload,
-                    todo_archived: todo_archive_state,
+                    setShouldUseServer,
                     todo_id,
                   });
                 }}

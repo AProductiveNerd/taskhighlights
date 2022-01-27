@@ -1,9 +1,6 @@
-import { Context, Dispatch, SetStateAction, createContext } from "react";
+import { Context, createContext } from "react";
 
-interface GlobalMenuConext {
-  globalMenuIsOpen: boolean;
-  setGlobalMenuIsOpen: Dispatch<SetStateAction<boolean>>;
-}
+import { type_GlobalMenuContext } from "../types/contexts/GlobalMenuContext";
 
-const GlobalMenuContext: Context<GlobalMenuConext> = createContext(null);
+const GlobalMenuContext: Context<type_GlobalMenuContext> = createContext(null);
 export default GlobalMenuContext;

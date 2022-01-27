@@ -1,45 +1,12 @@
 import * as TYPES from "../constants/Types";
 
-import { Page, Todo, User } from "@prisma/client";
-import {
-  indexDB_createTodo,
-  indexDB_deleteTodo,
-  indexDB_getAllIncompleteTodos,
-  indexDB_makeHighlight,
-  indexDB_moveTaskToToday,
-  indexDB_toggleArchive,
-  indexDB_toggleTodoDone,
-  indexDB_updateTodoDescription,
-} from "./indexDBHelpers";
+import { Page, Todo } from "@prisma/client";
 
 import { API_V1 } from "../constants/Routes";
 import fetch from "node-fetch";
-import { is_valid_prop } from "./validationHelpers";
 import { make_json_string } from "./generalHelpers";
 
-export const fetch_getUserByUserid = async (
-  user_id: TYPES.type_user_id
-): Promise<User> => {
-  if (user_id && typeof user_id === "string") {
-    const data = await fetch(`${API_V1}user?user_id=${user_id}`);
-
-    return data.json() as Promise<User>;
-  }
-};
-
-export const fetch_createUser = async (
-  body: TYPES.type_User_Request_Body
-): Promise<User> => {
-  const data = await fetch(`${API_V1}user`, {
-    method: "POST",
-    body: make_json_string(body),
-    headers: { "Content-Type": "application/json" },
-  });
-
-  return data.json() as Promise<User>;
-};
-
-export const fetch_createRetDailyPage = async (
+export const server_createRetDailyPage = async (
   user_id: TYPES.type_user_id,
   today: TYPES.type_page_title
 ): Promise<TYPES.type_Page_Story_Todos> => {
@@ -57,7 +24,7 @@ export const fetch_createRetDailyPage = async (
   }
 };
 
-export const fetch_createRetPageByTitle = async (
+export const server_createRetPageByTitle = async (
   user_id: TYPES.type_user_id,
   title: TYPES.type_page_title
 ): Promise<TYPES.type_Page_and_Todos> => {
@@ -75,22 +42,21 @@ export const fetch_createRetPageByTitle = async (
   }
 };
 
-export const fetch_createTodo = async ({
-  body,
-  _id,
-}: {
-  body: TYPES.type_Todo_Body;
-  _id: TYPES.type_page_title;
-}): Promise<void> => {
+export const server_createTodo = async (
+  body: TYPES.type_Todo_Body
+): Promise<Todo> => {
   if (body) {
-    await indexDB_createTodo({
-      body,
-      _id,
+    const data = await fetch(`${API_V1}todo`, {
+      method: "POST",
+      body: make_json_string(body),
+      headers: { "Content-Type": "application/json" },
     });
+
+    return data.json() as Promise<Todo>;
   }
 };
 
-export const fetch_getAllTodosByPage = async (
+export const server_getAllTodosByPage = async (
   page_id: TYPES.type_page_id,
   user_id: TYPES.type_user_id
 ): Promise<Todo[]> => {
@@ -108,12 +74,10 @@ export const fetch_getAllTodosByPage = async (
   }
 };
 
-export const fetch_toggleTodoDone = async (
+export const server_toggleTodoDone = async (
   todo_id: TYPES.type_todo_id
-): Promise<void> => {
-  await indexDB_toggleTodoDone(todo_id);
-
-  fetch(`${API_V1}todo`, {
+): Promise<Todo> => {
+  const data = await fetch(`${API_V1}todo`, {
     method: "POST",
     body: make_json_string({
       task: "toggleState",
@@ -121,55 +85,75 @@ export const fetch_toggleTodoDone = async (
     }),
     headers: { "Content-Type": "application/json" },
   });
+
+  return data.json() as Promise<Todo>;
 };
 
-export const fetch_updateTodoDescription = async ({
+export const server_updateTodoDescription = async ({
   todo_id,
   todo_description,
 }: {
   todo_id: TYPES.type_todo_id;
   todo_description: TYPES.type_todo_description;
-}): Promise<void> => {
+}): Promise<Todo> => {
   if (todo_id && todo_description) {
-    await indexDB_updateTodoDescription({
-      todo_id,
-      todo_description,
-    });
-  }
-};
-
-export const fetch_deleteTodo = async (
-  todo_id: TYPES.type_todo_id
-): Promise<void> => {
-  if (todo_id) {
-    await indexDB_deleteTodo(todo_id);
-  }
-};
-
-export const fetch_toggleArchived = async (
-  todo_id: TYPES.type_todo_id
-): Promise<void> => {
-  if (todo_id) {
-    await indexDB_toggleArchive(todo_id);
-
-    fetch(`${API_V1}todo`, {
+    const data = await fetch(`${API_V1}todo`, {
       method: "POST",
       body: make_json_string({
-        task: "toggleArchive",
+        task: "updateDescription",
         todo_id,
+        todo_description,
       }),
       headers: { "Content-Type": "application/json" },
     });
+
+    return data.json() as Promise<Todo>;
   }
 };
 
-export const fetch_makeHighlight = async (
+export const server_deleteTodo = async (
   todo_id: TYPES.type_todo_id
-): Promise<void> => {
-  await indexDB_makeHighlight(todo_id);
+): Promise<Todo> => {
+  if (todo_id) {
+    const data = await fetch(`${API_V1}todo?todo_id=${todo_id}`, {
+      method: "DELETE",
+    });
+
+    return data.json() as Promise<Todo>;
+  }
 };
 
-export const fetch_getStoryByStoryId = async (
+export const server_toggleArchived = async (
+  todo_id: TYPES.type_todo_id
+): Promise<Todo> => {
+  const data = await fetch(`${API_V1}todo`, {
+    method: "POST",
+    body: make_json_string({
+      task: "toggleArchive",
+      todo_id,
+    }),
+    headers: { "Content-Type": "application/json" },
+  });
+
+  return data.json() as Promise<Todo>;
+};
+
+export const server_makeHighlight = async (
+  todo_id: TYPES.type_todo_id
+): Promise<Todo> => {
+  const data = await fetch(`${API_V1}todo`, {
+    method: "POST",
+    body: make_json_string({
+      task: "makeHighlight",
+      todo_id,
+    }),
+    headers: { "Content-Type": "application/json" },
+  });
+
+  return data.json() as Promise<Todo>;
+};
+
+export const server_getStoryByStoryId = async (
   story_id: TYPES.type_story_id
 ): Promise<TYPES.type_Story_and_Todos> => {
   if (story_id && typeof story_id === "string") {
@@ -179,7 +163,7 @@ export const fetch_getStoryByStoryId = async (
   }
 };
 
-export const fetch_addTodoToStory = async ({
+export const server_addTodoToStory = async ({
   story_id,
   todo_id,
 }: TYPES.type_Story_Body): Promise<TYPES.type_Story_and_Todos> => {
@@ -196,7 +180,7 @@ export const fetch_addTodoToStory = async ({
   return data.json() as Promise<TYPES.type_Story_and_Todos>;
 };
 
-export const fetch_removeTodoFromStory = async ({
+export const server_removeTodoFromStory = async ({
   story_id,
   todo_id,
 }: TYPES.type_Story_Body): Promise<TYPES.type_Story_and_Todos> => {
@@ -213,11 +197,19 @@ export const fetch_removeTodoFromStory = async ({
   return data.json() as Promise<TYPES.type_Story_and_Todos>;
 };
 
-export const fetch_getAllIncompleteTodos = async (): Promise<Todo[]> => {
-  return await indexDB_getAllIncompleteTodos();
+export const server_getAllIncompleteTodosByPage = async (
+  user_id: TYPES.type_user_id
+): Promise<Todo[]> => {
+  if (user_id && typeof user_id === "string") {
+    const data = await fetch(
+      `${API_V1}allTodos?user_id=${user_id}&work=incomplete`
+    );
+
+    return data.json() as Promise<Todo[]>;
+  }
 };
 
-export const fetch_getAllPageNamesByUserid = async (
+export const server_getAllPageNamesByUserid = async (
   user_id: TYPES.type_user_id
 ): Promise<TYPES.type_page_title[]> => {
   if (user_id && typeof user_id === "string") {
@@ -227,10 +219,10 @@ export const fetch_getAllPageNamesByUserid = async (
   }
 };
 
-export const fetch_getAllArchivedTodos = async (
+export const server_getAllArchivedTodosByPage = async (
   user_id: TYPES.type_user_id
 ): Promise<Todo[]> => {
-  if (is_valid_prop(user_id)) {
+  if (user_id && typeof user_id === "string") {
     const data = await fetch(
       `${API_V1}allTodos?user_id=${user_id}&work=archived`
     );
@@ -239,7 +231,7 @@ export const fetch_getAllArchivedTodos = async (
   }
 };
 
-export const fetch_updateTodoDetails = async ({
+export const server_updateTodoDetails = async ({
   todo_id,
   todo_details,
 }: {
@@ -261,13 +253,32 @@ export const fetch_updateTodoDetails = async ({
   }
 };
 
-export const fetch_moveTasksToToday = async (todo_id: TYPES.type_todo_id) => {
-  if (todo_id) {
-    await indexDB_moveTaskToToday(todo_id);
+export const server_moveTasksToToday = async ({
+  todo_id,
+  today,
+  user_id,
+}: {
+  todo_id: TYPES.type_todo_id;
+  today: TYPES.type_page_title;
+  user_id: TYPES.type_user_id;
+}) => {
+  if (todo_id && today && user_id) {
+    const data = await fetch(`${API_V1}todo`, {
+      method: "PUT",
+      body: make_json_string({
+        put_task: "single",
+        user_id,
+        todo_id,
+        today,
+      }),
+      headers: { "Content-Type": "application/json" },
+    });
+
+    return data.json();
   }
 };
 
-export const fetch_getPageByPublicLink = async (
+export const server_getPageByPublicLink = async (
   public_link: string
 ): Promise<{
   page: Promise<TYPES.type_Page_Username_Todos>;
@@ -282,7 +293,7 @@ export const fetch_getPageByPublicLink = async (
   }
 };
 
-export const fetch_getPageByPublicLinkNOCHECK = async (
+export const server_getPageByPublicLinkNOCHECK = async (
   public_link: string
 ): Promise<TYPES.type_Page_and_Todos> => {
   if (public_link) {
@@ -291,7 +302,7 @@ export const fetch_getPageByPublicLinkNOCHECK = async (
   }
 };
 
-export const fetch_changePageIsPublicByPublicLink = async (
+export const server_changePagePublic = async (
   public_link: TYPES.type_page_public_link,
   is_public: TYPES.type_page_is_public
 ): Promise<Page> => {

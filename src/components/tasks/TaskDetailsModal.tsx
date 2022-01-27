@@ -1,3 +1,7 @@
+import {
+  AddItem_Transition_Props,
+  UseItem_Transition_Props,
+} from "../../types/layout/AddOrUseItem";
 import { Dialog, Transition } from "@headlessui/react";
 import { Dispatch, Fragment, SetStateAction } from "react";
 
@@ -52,15 +56,7 @@ export const TaskDetailsModal = ({
           onClose={() => setIsOpen(false)}
         >
           <div className="min-h-screen px-4 text-center">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
+            <Transition.Child {...AddItem_Transition_Props}>
               <Dialog.Overlay className="fixed inset-0" />
             </Transition.Child>
 
@@ -70,15 +66,7 @@ export const TaskDetailsModal = ({
             >
               &#8203;
             </span>
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
+            <Transition.Child {...UseItem_Transition_Props}>
               <div
                 className="
                   inline-block w-full

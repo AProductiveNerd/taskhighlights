@@ -1,11 +1,11 @@
-import { type_Todo_Body, type_Useful_Todo } from "../../constants/Types";
+import { Prisma, Todo } from "@prisma/client";
 
 import { NextApiResponse } from "next";
-import { Prisma } from ".prisma/client";
 import { is_valid_prop } from "../../utils/validationHelpers";
 import { make_json_string } from "../../utils/generalHelpers";
 import { prisma_moveTasks } from "../../utils/prismaHelpers";
 import { prisma_moveTasksToToday } from "./../../utils/prismaHelpers";
+import { type_Todo_Body } from "../../constants/Types";
 
 interface type_todo_put_handler {
   body: type_Todo_Body;
@@ -16,7 +16,7 @@ export const todo_put_handler = async ({
   body: { new_page_id, old_page_id, today, todo_id, user_id, put_task },
   res,
 }: type_todo_put_handler): Promise<void> => {
-  let todo: Prisma.BatchPayload | type_Useful_Todo = null;
+  let todo: Prisma.BatchPayload | Todo = null;
 
   try {
     switch (put_task) {

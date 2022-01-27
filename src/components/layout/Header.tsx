@@ -16,9 +16,13 @@ import {
   TemplateIcon,
   UploadIcon,
 } from "@heroicons/react/outline";
-import { Fragment, useContext, useEffect, useState } from "react";
+import {
+  Header_Props,
+  Header_Transition_Props,
+} from "../../types/layout/Header";
 import { Menu, Transition } from "@headlessui/react";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import { useContext, useEffect, useState } from "react";
 
 import Avatar from "react-nice-avatar";
 import { EmptyCircleIcon } from "../../constants/customIcons";
@@ -28,6 +32,7 @@ import Link from "next/link";
 import PageSearchContext from "../../contexts/PageSearchContext";
 import { User } from "@prisma/client";
 import UserContext from "../../contexts/UserContext";
+import { are_args_same } from "../../utils/generalHelpers";
 import { auth } from "../../libs/Firebase";
 import dynamic from "next/dynamic";
 import { fetch_getUserByUserid } from "../../utils/fetchHelpers";
@@ -35,7 +40,7 @@ import { signOut } from "@firebase/auth";
 
 const DynamicPageSearch = dynamic(() => import("../page/PageSearch"));
 
-export const Header = ({ path }: { path: string }): JSX.Element => {
+export const Header = ({ path }: Header_Props): JSX.Element => {
   const { pageSearchIsOpen: isOpen, setPageSearchIsOpen: setIsOpen } =
     useContext(PageSearchContext);
   const [currentUser, setCurrentUser] = useState<User>(null);
@@ -47,7 +52,7 @@ export const Header = ({ path }: { path: string }): JSX.Element => {
     (async () => {
       const user = await fetch_getUserByUserid(fireId);
 
-      if (JSON.stringify(currentUser) !== JSON.stringify(user)) {
+      if (!are_args_same(currentUser, user)) {
         setCurrentUser(user);
         setContextUser(user);
       }
@@ -65,7 +70,7 @@ export const Header = ({ path }: { path: string }): JSX.Element => {
               </a>
             </Link>
           ) : (
-            <SkeletonTheme color="#0F172A" highlightColor="#1E293B">
+            <SkeletonTheme baseColor="#0F172A" highlightColor="#1E293B">
               <Skeleton circle={true} height={44} width={44} />
             </SkeletonTheme>
           )}
@@ -122,15 +127,7 @@ export const Header = ({ path }: { path: string }): JSX.Element => {
                 </Menu.Button>
               </div>
 
-              <Transition
-                as={Fragment}
-                enter="transition ease-out duration-100"
-                enterFrom="transform opacity-0 scale-95"
-                enterTo="transform opacity-100 scale-100"
-                leave="transition ease-in duration-75"
-                leaveFrom="transform opacity-100 scale-100"
-                leaveTo="transform opacity-0 scale-95"
-              >
+              <Transition {...Header_Transition_Props}>
                 <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-black filter backdrop-blur-3xl bg-opacity-40 divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                   <div className="px-1 py-1 ">
                     {/* Daily Page */}
@@ -356,15 +353,7 @@ export const Header = ({ path }: { path: string }): JSX.Element => {
                 </Menu.Button>
               </div>
 
-              <Transition
-                as={Fragment}
-                enter="transition ease-out duration-100"
-                enterFrom="transform opacity-0 scale-95"
-                enterTo="transform opacity-100 scale-100"
-                leave="transition ease-in duration-75"
-                leaveFrom="transform opacity-100 scale-100"
-                leaveTo="transform opacity-0 scale-95"
-              >
+              <Transition {...Header_Transition_Props}>
                 <Menu.Items className="absolute right-0 w-32 mt-2 origin-top-right bg-black filter backdrop-blur-3xl bg-opacity-40 divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                   <div className="px-1 py-1 ">
                     <Link href="/log-in">

@@ -1,10 +1,7 @@
-import {
-  type_Useful_Todo,
-  type_stateReload,
-  type_todo_highlight,
-} from "../../constants/Types";
+import { type_stateReload, type_todo_highlight } from "../../constants/Types";
 
 import { EyeIcon } from "@heroicons/react/solid";
+import { Todo } from "@prisma/client";
 import { onClick_removeFromStory } from "../../utils/onClickHelpers";
 
 export const StoryTask = ({
@@ -13,7 +10,7 @@ export const StoryTask = ({
   loggedInSame,
   stateReload,
 }: {
-  todo: type_Useful_Todo;
+  todo: Todo;
   highlight?: type_todo_highlight;
   loggedInSame: boolean;
   stateReload: type_stateReload;

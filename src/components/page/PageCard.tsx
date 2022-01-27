@@ -1,14 +1,12 @@
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import {
-  type_Page_and_Todos,
-  type_Useful_Todo,
-  type_user_id,
-} from "../../constants/Types";
+import { type_Page_and_Todos, type_user_id } from "../../constants/Types";
 import { useContext, useEffect, useState } from "react";
 
 import { Card } from "../layout/Card";
 import FireUserContext from "../../contexts/FireUserContext";
 import { IndividualPageTask } from "./IndividualPageTask";
+import { Todo } from "@prisma/client";
+import { are_args_same } from "../../utils/generalHelpers";
 import dynamic from "next/dynamic";
 import { fetch_createRetPageByTitle } from "../../utils/fetchHelpers";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -18,16 +16,19 @@ const DynamicGlobalMenu = dynamic(() => import("../layout/GlobalMenu"));
 
 export const PageCard = ({ title }: { title: string }): JSX.Element => {
   const [currentPage, setCurrentPage] = useState<type_Page_and_Todos>(null);
-  const [currentTodos, setCurrentTodos] = useState<type_Useful_Todo[]>(null);
+  const [currentTodos, setCurrentTodos] = useState<Todo[]>(null);
   const [addedCounter, setAddedCounter] = useState<number>(0);
   const [globalMenuIsOpen, setGlobalMenuIsOpen] = useState(false);
+  // const [serverCounter, setServerCounter] = useState<number>(0);
   const fireId: type_user_id = useContext(FireUserContext);
+  const [shouldUseServer, setShouldUseServer] = useState(true);
+  console.log(shouldUseServer);
 
   useEffect(() => {
     (async () => {
       const page = await fetch_createRetPageByTitle(fireId, title);
 
-      if (JSON.stringify(currentPage) !== JSON.stringify(page)) {
+      if (!are_args_same(currentPage, page)) {
         setCurrentPage(page);
       }
     })();
@@ -36,7 +37,7 @@ export const PageCard = ({ title }: { title: string }): JSX.Element => {
   useEffect(() => {
     const fetchedTodos = currentPage?.Page_Todo;
 
-    if (JSON.stringify(currentTodos) !== JSON.stringify(fetchedTodos)) {
+    if (!are_args_same(currentTodos, fetchedTodos)) {
       setCurrentTodos(fetchedTodos);
     }
   }, [currentPage?.Page_Todo, currentTodos]);
@@ -48,6 +49,13 @@ export const PageCard = ({ title }: { title: string }): JSX.Element => {
       setAddedCounter(0);
     }
   };
+  // const serverReload = (): void => {
+  //   if (serverCounter < 50) {
+  //     setServerCounter(serverCounter + 1);
+  //   } else {
+  //     setServerCounter(0);
+  //   }
+  // };
   useHotkeys("ctrl+p, command+p, ctrl+shift+f", (event, handler) => {
     event.preventDefault();
     switch (handler.key) {
@@ -80,15 +88,16 @@ export const PageCard = ({ title }: { title: string }): JSX.Element => {
         spaced_elements={
           <>
             {currentTodos ? (
-              currentTodos?.map((todo: type_Useful_Todo) => (
+              currentTodos?.map((todo: Todo) => (
                 <IndividualPageTask
                   todo={todo}
+                  setShouldUseServer={setShouldUseServer}
                   key={todo.todo_id}
                   stateReload={stateReload}
                 />
               ))
             ) : (
-              <SkeletonTheme color="#0F172A" highlightColor="#1E293B">
+              <SkeletonTheme baseColor="#0F172A" highlightColor="#1E293B">
                 <Skeleton count={10} height={20} />
               </SkeletonTheme>
             )}

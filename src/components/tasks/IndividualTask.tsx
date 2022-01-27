@@ -14,6 +14,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { Story, Todo } from "@prisma/client";
 import {
   onClick_addToStory,
   onClick_handleDelete,
@@ -25,22 +26,13 @@ import {
   onClick_toggleTodoDone,
 } from "../../utils/onClickHelpers";
 import {
-  type_Useful_Todo,
-  type_page_title,
-  type_todo_archived,
   type_todo_description,
   type_todo_done,
   type_todo_highlight,
-  type_user_id,
 } from "../../constants/Types";
 
 import { IndividualItem } from "../layout/IndividualItem";
 import { Menu } from "@headlessui/react";
-import { Story } from "@prisma/client";
-import dynamic from "next/dynamic";
-
-const DynamicAddDetails = dynamic(() => import("./AddDetails"));
-const DynamicTaskDetailsModal = dynamic(() => import("./TaskDetailsModal"));
 
 export const IndividualTask = ({
   todo: {
@@ -48,34 +40,27 @@ export const IndividualTask = ({
     todo_done: db_done,
     todo_id,
     todo_highlight,
-    todo_archived: db_archive,
     todo_story_id,
-    todo_details,
   },
   story: { story_id: storyid },
   stateReload,
   highlight,
+  setShouldUseServer,
   set_party_display,
   highlightCount,
-  today,
-  user_id,
 }: {
-  todo: type_Useful_Todo;
+  todo: Todo;
   story: Story;
   set_party_display?: Dispatch<SetStateAction<boolean>>;
   stateReload: VoidFunction;
-  user_id: type_user_id;
   highlightCount: number;
+  setShouldUseServer: Dispatch<SetStateAction<boolean>>;
   highlight?: type_todo_highlight;
-  today: type_page_title;
 }): JSX.Element => {
   const [display_text_edit, set_display_text_edit] = useState<boolean>(false);
   const [todo_state, set_todo_state] = useState<type_todo_done>(db_done);
   const [new_title, set_new_title] =
     useState<type_todo_description>(todo_description);
-  const [todo_archive_state, set_todo_archive_state] =
-    useState<type_todo_archived>(db_archive);
-  const [isOpen, setIsOpen] = useState(false);
 
   const editTaskRef = useRef(null);
 
@@ -101,7 +86,7 @@ export const IndividualTask = ({
               set_party_display(true);
             }
             onClick_toggleTodoDone({
-              todo_done: todo_state,
+              setShouldUseServer,
               todo_id,
               stateReload,
             });
@@ -176,6 +161,7 @@ export const IndividualTask = ({
                 onClick={() =>
                   onClick_handleDelete({
                     stateReload,
+                    setShouldUseServer,
                     todo_id,
                   })
                 }
@@ -204,8 +190,6 @@ export const IndividualTask = ({
                   onClick_moveTasksToToday({
                     stateReload,
                     todo_id,
-                    today,
-                    user_id,
                   })
                 }
                 className={`${
@@ -230,11 +214,10 @@ export const IndividualTask = ({
                 title="Archive Task"
                 aria-label="Archive Task"
                 onClick={() => {
-                  set_todo_archive_state(!db_archive);
                   onClick_toggleArchiving({
                     stateReload,
-                    todo_archived: !todo_archive_state,
                     todo_id,
+                    setShouldUseServer,
                   });
                 }}
                 className={`${
@@ -252,14 +235,6 @@ export const IndividualTask = ({
               </button>
             )}
           </Menu.Item>
-          <Menu.Item>
-            <DynamicAddDetails
-              stateReload={stateReload}
-              todo_id={todo_id}
-              // isOpen={isOpen}
-              // setIsOpen={setIsOpen}
-            />
-          </Menu.Item>
         </div>
       }
       menu_show_button_icon={
@@ -270,13 +245,14 @@ export const IndividualTask = ({
       }
       onkeydowncapture_callback={(event) => {
         if (event.key === "Delete") {
-          onClick_handleDelete({ stateReload, todo_id });
+          onClick_handleDelete({ stateReload, todo_id, setShouldUseServer });
         } else if (event.key === "Enter") {
           set_display_text_edit(true);
         } else if (event.key === "h" && highlightCount === 0) {
           onClick_makeHighlight({
             stateReload,
             todo_id,
+            setShouldUseServer,
           });
         }
       }}
@@ -295,6 +271,7 @@ export const IndividualTask = ({
                     todo_id,
                     todo_description: new_title,
                     stateReload,
+                    setShouldUseServer,
                     set_display_text_edit,
                   });
                   set_display_text_edit(false);
@@ -309,12 +286,8 @@ export const IndividualTask = ({
               className={`${
                 todo_state && "line-through"
               } w-full cursor-pointer`}
-              onClick={(event) => {
-                if (event.ctrlKey) {
-                  setIsOpen(true);
-                } else {
-                  set_display_text_edit(!display_text_edit);
-                }
+              onClick={() => {
+                set_display_text_edit(!display_text_edit);
               }}
             >
               {highlight ? (
@@ -344,19 +317,13 @@ export const IndividualTask = ({
                 onClick_makeHighlight({
                   stateReload,
                   todo_id,
+                  setShouldUseServer,
                 });
               }}
             >
               <SparklesIcon className="text-yellow-400 w-5 h-5" />
             </button>
           )}
-          <DynamicTaskDetailsModal
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-            todo_details={todo_details}
-            // stateReload={stateReload}
-            // todo_id={todo_id}
-          />
         </>
       }
     />

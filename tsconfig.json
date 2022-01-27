@@ -11,8 +11,8 @@
     "strict": true,
     "strictNullChecks": false,
     "lib": ["ESNext", "DOM"],
-    "module": "commonjs",
-    "esModuleInterop": true,
+    "module": "esnext",
+    // "esModuleInterop": true,
     "preserveSymlinks": true,
     "typeRoots": ["./node_modules/@types"],
     "downlevelIteration": true,
@@ -20,8 +20,10 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
-    "isolatedModules": true
+    "isolatedModules": true,
     // "baseUrl": "src"
+    "esModuleInterop": true,
+    "incremental": true
   },
   "include": [
     "**.ts",

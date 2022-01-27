@@ -1,21 +1,13 @@
-import { Dialog, Menu, Switch, Transition } from "@headlessui/react";
-import { Dispatch, Fragment, SetStateAction, useContext } from "react";
 import {
-  type_page_is_public,
-  type_page_public_link,
-  type_stateReload,
-} from "../../constants/Types";
+  AddItem_Transition_Props,
+  UseItem_Transition_Props,
+} from "../../types/layout/AddOrUseItem";
+import { Dialog, Menu, Switch, Transition } from "@headlessui/react";
+import { Fragment, useContext } from "react";
 
+import { GlobalMenu_Props } from "../../types/layout/GlobalMenu";
 import UserContext from "../../contexts/UserContext";
-import { fetch_changePagePublic } from "../../utils/fetchHelpers";
-
-interface GlobalMenu_Props {
-  globalMenuIsOpen: boolean;
-  setGlobalMenuIsOpen: Dispatch<SetStateAction<boolean>>;
-  page: type_page_public_link;
-  page_is_public: type_page_is_public;
-  stateReload: type_stateReload;
-}
+import { fetch_changePageIsPublicByPublicLink } from "../../utils/fetchHelpers";
 
 export const GlobalMenu = ({
   globalMenuIsOpen,
@@ -34,15 +26,7 @@ export const GlobalMenu = ({
           onClose={() => setGlobalMenuIsOpen(false)}
         >
           <div className="min-h-screen px-4 text-center">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
+            <Transition.Child {...AddItem_Transition_Props}>
               <Dialog.Overlay className="fixed inset-0" />
             </Transition.Child>
 
@@ -53,15 +37,7 @@ export const GlobalMenu = ({
             >
               &#8203;
             </span>
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
+            <Transition.Child {...UseItem_Transition_Props}>
               <div
                 className="
                   inline-block w-full
@@ -103,7 +79,10 @@ export const GlobalMenu = ({
                         <Switch
                           checked={page_is_public}
                           onChange={async () => {
-                            await fetch_changePagePublic(page, !page_is_public);
+                            await fetch_changePageIsPublicByPublicLink(
+                              page,
+                              !page_is_public
+                            );
                             stateReload();
                           }}
                           className={`${

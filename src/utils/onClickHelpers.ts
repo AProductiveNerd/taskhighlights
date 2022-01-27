@@ -5,22 +5,25 @@ import {
   fetch_moveTasksToToday,
   fetch_removeTodoFromStory,
   fetch_toggleArchived,
-  fetch_toggleHabitDone,
   fetch_toggleTodoDone,
   fetch_updateTodoDescription,
 } from "./fetchHelpers";
+import {
+  server_deleteTodo,
+  server_makeHighlight,
+  server_toggleArchived,
+  server_toggleTodoDone,
+  server_updateTodoDescription,
+} from "./serverHelpers";
 import {
   type_addToStory,
   type_handleDelete,
   type_handleTextSubmit,
   type_makeHighlight,
-  type_page_title,
   type_removeFromStory,
   type_todo_id,
   type_toggleArchiving,
-  type_toggleHabitDone,
   type_toggleTodoDone,
-  type_user_id,
 } from "./../constants/Types";
 
 export const onClick_handleTextSubmit = async ({
@@ -28,47 +31,60 @@ export const onClick_handleTextSubmit = async ({
   todo_id,
   todo_description,
   set_display_text_edit,
+  setShouldUseServer,
 }: type_handleTextSubmit): Promise<void> => {
   await fetch_updateTodoDescription({ todo_id, todo_description });
   set_display_text_edit(false);
+  setShouldUseServer(false);
   stateReload();
+  await server_updateTodoDescription({
+    todo_description,
+    todo_id,
+  });
 };
 
 export const onClick_toggleTodoDone = async ({
   todo_id,
-  todo_done,
   stateReload,
+  setShouldUseServer,
 }: type_toggleTodoDone): Promise<void> => {
-  await fetch_toggleTodoDone({ todo_id, todo_done });
+  await fetch_toggleTodoDone(todo_id);
+  setShouldUseServer(false);
   stateReload();
+  await server_toggleTodoDone(todo_id);
 };
 
 export const onClick_makeHighlight = async ({
   todo_id,
   stateReload,
+  setShouldUseServer,
 }: type_makeHighlight): Promise<void> => {
   await fetch_makeHighlight(todo_id);
+  setShouldUseServer(false);
   stateReload();
+  await server_makeHighlight(todo_id);
 };
 
 export const onClick_toggleArchiving = async ({
   stateReload,
   todo_id,
-  todo_archived,
+  setShouldUseServer,
 }: type_toggleArchiving): Promise<void> => {
-  await fetch_toggleArchived({
-    todo_id,
-    todo_archived,
-  });
+  await fetch_toggleArchived(todo_id);
+  setShouldUseServer(false);
   stateReload();
+  await server_toggleArchived(todo_id);
 };
 
 export const onClick_handleDelete = async ({
   stateReload,
   todo_id,
+  setShouldUseServer,
 }: type_handleDelete): Promise<void> => {
   await fetch_deleteTodo(todo_id);
+  setShouldUseServer(false);
   stateReload();
+  await server_deleteTodo(todo_id);
 };
 
 export const onClick_addToStory = async ({
@@ -89,28 +105,13 @@ export const onClick_removeFromStory = async ({
   stateReload(todo_id);
 };
 
-export const onClick_toggleHabitDone = async ({
-  habit_id,
-  habit_done,
-}: type_toggleHabitDone): Promise<void> => {
-  await fetch_toggleHabitDone({ habit_id, habit_done });
-};
-
 export const onClick_moveTasksToToday = async ({
   stateReload,
-  today,
   todo_id,
-  user_id,
 }: {
   todo_id: type_todo_id;
-  today: type_page_title;
-  user_id: type_user_id;
   stateReload: VoidFunction;
 }): Promise<void> => {
-  await fetch_moveTasksToToday({
-    today,
-    todo_id,
-    user_id,
-  });
+  await fetch_moveTasksToToday(todo_id);
   stateReload();
 };

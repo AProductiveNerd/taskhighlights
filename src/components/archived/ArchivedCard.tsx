@@ -4,25 +4,27 @@ import { useContext, useEffect, useState } from "react";
 import { ArchivedTask } from "./ArchivedTask";
 import { Card } from "../layout/Card";
 import FireUserContext from "../../contexts/FireUserContext";
-import { fetch_getAllArchivedTodosByPage } from "../../utils/fetchHelpers";
-import { type_Useful_Todo } from "../../constants/Types";
-
-// ! Limit the number of tasks a user can add to amplify the constraints lead to creativity effect
+import { Todo } from "@prisma/client";
+import { are_args_same } from "../../utils/generalHelpers";
+import { server_getAllArchivedTodosByPage } from "../../utils/serverHelpers";
 
 export const ArchivedCard = (): JSX.Element => {
-  const [todos, setTodos] = useState<type_Useful_Todo[]>(null);
+  const [todos, setTodos] = useState<Todo[]>(null);
   const [addedCounter, setAddedCounter] = useState<number>(0);
+  const [shouldUseServer, setShouldUseServer] = useState(true);
 
   const fireId = useContext(FireUserContext);
 
+  console.log(shouldUseServer);
+
   useEffect(() => {
     (async () => {
-      const fetchedTodos = await fetch_getAllArchivedTodosByPage(fireId);
-      if (JSON.stringify(fetchedTodos) !== JSON.stringify(todos)) {
+      const fetchedTodos = await server_getAllArchivedTodosByPage(fireId);
+      if (!are_args_same(fetchedTodos, todos)) {
         setTodos(fetchedTodos);
       }
     })();
-  }, [todos, addedCounter, fireId]);
+  }, [fireId, todos, addedCounter]);
 
   const stateReload = (): void => {
     if (addedCounter < 50) {
@@ -37,15 +39,19 @@ export const ArchivedCard = (): JSX.Element => {
       spaced_elements={
         <>
           {todos ? (
-            todos?.map((todo: type_Useful_Todo) => (
-              <ArchivedTask
-                todo={todo}
-                key={todo.todo_id}
-                stateReload={stateReload}
-              />
-            ))
+            todos?.map(
+              (todo: Todo) =>
+                todo && (
+                  <ArchivedTask
+                    todo={todo}
+                    key={todo.todo_id}
+                    stateReload={stateReload}
+                    setShouldUseServer={setShouldUseServer}
+                  />
+                )
+            )
           ) : (
-            <SkeletonTheme color="#0F172A" highlightColor="#1E293B">
+            <SkeletonTheme baseColor="#0F172A" highlightColor="#1E293B">
               <Skeleton count={10} height={20} />
             </SkeletonTheme>
           )}

@@ -1,104 +1,202 @@
 import { FastForwardIcon, RewindIcon } from "@heroicons/react/solid";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import { Story, Todo } from "@prisma/client";
+import { are_args_same, isDailyPage } from "../../utils/generalHelpers";
 import {
-  indexDB_addPage,
+  indexDB_createPageByTitle,
+  indexDB_doesPageExist,
   indexDB_getAllPages,
-  indexDB_updatePage,
+  indexDB_getPageByPageIndexID,
+  indexDb_updatePageByTitle,
 } from "../../utils/indexDBHelpers";
-import {
-  type_Page_Story_Todos,
-  type_Useful_Todo,
-  type_user_id,
-} from "../../constants/Types";
+import { type_Page_Story_Todos, type_user_id } from "../../constants/Types";
 import { useContext, useEffect, useState } from "react";
 
 import { Card } from "../layout/Card";
 import FireUserContext from "../../contexts/FireUserContext";
 import { IndividualTask } from "./IndividualTask";
-import { Story } from "@prisma/client";
+import cuid from "cuid";
 import dynamic from "next/dynamic";
-import { fetch_createRetDailyPage } from "../../utils/fetchHelpers";
-import { isDailyPage } from "../../utils/generalHelpers";
-import { useRouter } from "next/dist/client/router";
-
-// import { AddTask } from "./AddTask";
+import { server_createRetDailyPage } from "../../utils/serverHelpers";
+import { useRouter } from "next/router";
 
 const DynamicAddTask = dynamic(() => import("./AddTask"));
 
-// ! Limit the number of tasks a user can add to amplify the constraints lead to creativity effect
-
 export const TasksCard = (): JSX.Element => {
   const [currentPage, setCurrentPage] = useState<type_Page_Story_Todos>(null);
-  const [currentTodos, setCurrentTodos] = useState<type_Useful_Todo[]>(null);
+  const [serverPage, setServerPage] = useState<type_Page_Story_Todos>(null);
+  const [currentTodos, setCurrentTodos] = useState<Todo[]>(null);
   const [addedCounter, setAddedCounter] = useState<number>(0);
   const [back_date_num, setBack_date_num] = useState<number>(0);
-  const [currentHighlight, setCurrentHighlight] =
-    useState<type_Useful_Todo>(null);
+  const [currentHighlight, setCurrentHighlight] = useState<Todo>(null);
   const [story, set_story] = useState<Story>(null);
+  const [shouldUseServer, setShouldUseServer] = useState(true);
   const [party_display, set_party_display] = useState(false);
+  // const [serverCounter, setServerCounter] = useState<number>(0);
 
   const fireId: type_user_id = useContext(FireUserContext);
-
   const router = useRouter();
-  // console.log(cuid());
-  // useEffect(() => {
-  //   (async () => {
-  //     if (currentPage?.page_id) {
-  //       console.log(await indexDB_getPagebyPageID(currentPage?.page_id));
-  //     }
-  //   })();
-  // }, [currentPage]);
+
+  const set_all_default = () => {
+    setShouldUseServer(true);
+    setServerPage(null);
+    setCurrentPage(null);
+    setCurrentTodos(null);
+    setCurrentHighlight(null);
+    set_story(null);
+  };
 
   useEffect(() => {
+    const para_date = router.query?.date?.toString();
+    const today: string = new Date(
+      new Date().setDate(new Date().getDate() - back_date_num)
+    ).toLocaleDateString("en-GB");
+    const page_title = para_date && isDailyPage(para_date) ? para_date : today;
+
     (async () => {
-      const para_date = router.query?.date?.toString();
-
-      const today: string = new Date(
-        new Date().setDate(new Date().getDate() - back_date_num)
-      ).toLocaleDateString("en-GB");
-
-      if (para_date !== today) {
-        router.push(`/app?date=${today}`);
-      }
-
-      const page = await fetch_createRetDailyPage(
-        fireId,
-        para_date && isDailyPage(para_date) ? para_date : today
-      );
-
-      if (JSON.stringify(currentPage) !== JSON.stringify(page)) {
-        setCurrentPage(page);
-        const allPages = await indexDB_getAllPages();
-        let exists = false;
-
-        allPages.map((item) => {
-          if (item.id === today) {
-            exists = true;
-          }
-        });
-
-        if (exists) {
-          indexDB_updatePage({ today, page });
-        } else {
-          indexDB_addPage({ today, page });
-        }
+      console.log("JUST SERVER");
+      const server_page = await server_createRetDailyPage(fireId, page_title);
+      if (!are_args_same(serverPage, server_page) && shouldUseServer) {
+        setServerPage(server_page);
+        setShouldUseServer(true);
       }
     })();
-  }, [addedCounter, back_date_num, currentPage, fireId, router]);
+  }, [back_date_num, serverPage, fireId, router, shouldUseServer]);
+
+  useEffect(() => {
+    console.log("FULL BLAST");
+    const para_date = router.query?.date?.toString();
+    const today: string = new Date(
+      new Date().setDate(new Date().getDate() - back_date_num)
+    ).toLocaleDateString("en-GB");
+
+    if (para_date !== today) {
+      router.push(`/app?date=${today}`);
+    }
+    const page_title = para_date && isDailyPage(para_date) ? para_date : today;
+
+    (async () => {
+      const all_indexDb_page = await indexDB_getAllPages();
+      const does_page_exist_in_indexDB = indexDB_doesPageExist({
+        all_pages: all_indexDb_page,
+        page_title: para_date,
+      });
+
+      if (does_page_exist_in_indexDB) {
+        const { page: page_from_indexDB } = await indexDB_getPageByPageIndexID(
+          page_title
+        );
+
+        if (
+          serverPage &&
+          serverPage.page_title === page_title &&
+          shouldUseServer
+        ) {
+          if (!are_args_same(serverPage, page_from_indexDB)) {
+            indexDb_updatePageByTitle({
+              page_id: serverPage.page_id,
+              page: serverPage,
+              _id: serverPage.page_title,
+            });
+          }
+          setCurrentPage(serverPage);
+          setShouldUseServer(false);
+        } else if (!are_args_same(currentPage, page_from_indexDB)) {
+          setCurrentPage(page_from_indexDB);
+        }
+      }
+
+      if (!does_page_exist_in_indexDB && fireId) {
+        if (
+          serverPage &&
+          serverPage.page_title === page_title &&
+          shouldUseServer
+        ) {
+          await indexDB_createPageByTitle({
+            page: serverPage,
+            _id: serverPage.page_title,
+            page_id: serverPage.page_id,
+          });
+        } else {
+          const page_id = cuid();
+
+          await indexDB_createPageByTitle({
+            page: {
+              Page_Story: {
+                story_datecreated: new Date(),
+                story_id: cuid(),
+                story_page_id: page_id,
+                story_title: page_title,
+                story_user_id: fireId,
+              },
+              Page_Todo: [],
+              page_datecreated: new Date(),
+              page_id,
+              page_is_public: false,
+              page_last_accessed: new Date(),
+              page_public_link: cuid(),
+              page_title,
+              page_user_id: fireId,
+            },
+            _id: page_title,
+            page_id,
+          });
+        }
+
+        const { page: page_from_indexDB } = await indexDB_getPageByPageIndexID(
+          page_title
+        );
+
+        if (
+          serverPage &&
+          serverPage.page_title === page_title &&
+          shouldUseServer
+        ) {
+          if (!are_args_same(serverPage, page_from_indexDB)) {
+            indexDb_updatePageByTitle({
+              page_id: serverPage.page_id,
+              page: serverPage,
+              _id: serverPage.page_title,
+            });
+          }
+          setCurrentPage(serverPage);
+          setShouldUseServer(false);
+        } else if (!are_args_same(currentPage, page_from_indexDB)) {
+          setCurrentPage(page_from_indexDB);
+        }
+      } else if (
+        serverPage &&
+        serverPage.page_title === page_title &&
+        !are_args_same(currentPage, serverPage) &&
+        shouldUseServer
+      ) {
+        setCurrentPage(serverPage);
+        setShouldUseServer(false);
+      }
+    })();
+  }, [
+    back_date_num,
+    currentPage,
+    fireId,
+    router,
+    addedCounter,
+    serverPage,
+    shouldUseServer,
+  ]);
 
   useEffect(() => {
     const fetchedTodos = currentPage?.Page_Todo;
 
-    if (JSON.stringify(currentTodos) !== JSON.stringify(fetchedTodos)) {
+    if (!are_args_same(currentTodos, fetchedTodos)) {
       const noHighlight = fetchedTodos?.filter(
-        (todo: type_Useful_Todo) => todo.todo_highlight === false
+        (todo: Todo) => todo.todo_highlight === false
       );
 
       setCurrentTodos(noHighlight);
     }
 
     const highlightTask = fetchedTodos?.filter(
-      (todo: type_Useful_Todo) => todo?.todo_highlight === true
+      (todo: Todo) => todo?.todo_highlight === true
     );
 
     if (highlightTask) {
@@ -109,7 +207,7 @@ export const TasksCard = (): JSX.Element => {
   }, [currentPage?.Page_Todo, currentTodos, setCurrentHighlight]);
 
   useEffect(() => {
-    if (JSON.stringify(story) !== JSON.stringify(currentPage?.Page_Story)) {
+    if (!are_args_same(story, currentPage?.Page_Story)) {
       set_story(currentPage?.Page_Story);
     }
   }, [addedCounter, currentTodos, currentPage, story]);
@@ -132,8 +230,15 @@ export const TasksCard = (): JSX.Element => {
     <Card
       action_component={
         <DynamicAddTask
-          user={fireId}
-          page={currentPage?.page_id}
+          setShouldUseServer={setShouldUseServer}
+          user_id={fireId}
+          page_id={currentPage?.page_id}
+          page={
+            currentPage?.page_title ||
+            new Date(
+              new Date().setDate(new Date().getDate() - back_date_num)
+            ).toLocaleDateString("en-GB")
+          }
           count={currentTodos?.length}
           highlight={currentHighlight}
           stateReload={stateReload}
@@ -144,8 +249,7 @@ export const TasksCard = (): JSX.Element => {
           {currentHighlight && story && (
             <>
               <IndividualTask
-                today={new Date().toLocaleDateString("en-GB")}
-                user_id={fireId}
+                setShouldUseServer={setShouldUseServer}
                 todo={currentHighlight}
                 highlight={true}
                 story={story}
@@ -159,19 +263,20 @@ export const TasksCard = (): JSX.Element => {
           )}
 
           {currentTodos && story ? (
-            currentTodos?.map((todo: type_Useful_Todo) => (
-              <IndividualTask
-                today={new Date().toLocaleDateString("en-GB")}
-                user_id={fireId}
-                todo={todo}
-                story={story}
-                key={todo.todo_id}
-                stateReload={stateReload}
-                highlightCount={currentHighlight ? 1 : 0}
-              />
+            currentTodos?.map((todo: Todo) => (
+              <>
+                <IndividualTask
+                  todo={todo}
+                  story={story}
+                  key={todo.todo_id}
+                  setShouldUseServer={setShouldUseServer}
+                  stateReload={stateReload}
+                  highlightCount={currentHighlight ? 1 : 0}
+                />
+              </>
             ))
           ) : (
-            <SkeletonTheme color="#0F172A" highlightColor="#1E293B">
+            <SkeletonTheme baseColor="#0F172A" highlightColor="#1E293B">
               <Skeleton count={10} height={20} />
             </SkeletonTheme>
           )}
@@ -187,14 +292,20 @@ export const TasksCard = (): JSX.Element => {
         <>
           <button
             aria-label="Go to previous date page"
-            onClick={() => setBack_date_num(back_date_num + 1)}
+            onClick={() => {
+              setBack_date_num(back_date_num + 1);
+              set_all_default();
+            }}
           >
             <RewindIcon className="w-6 h-6" />
           </button>
 
           <button
             aria-label="Go to next date page"
-            onClick={() => setBack_date_num(back_date_num - 1)}
+            onClick={() => {
+              setBack_date_num(back_date_num - 1);
+              set_all_default();
+            }}
           >
             <FastForwardIcon className="w-6 h-6" />
           </button>
