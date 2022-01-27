@@ -37,6 +37,15 @@ export const TasksCard = (): JSX.Element => {
   const fireId: type_user_id = useContext(FireUserContext);
   const router = useRouter();
 
+  const set_all_default = () => {
+    setShouldUseServer(true);
+    setServerPage(null);
+    setCurrentPage(null);
+    setCurrentTodos(null);
+    setCurrentHighlight(null);
+    set_story(null);
+  };
+
   useEffect(() => {
     const para_date = router.query?.date?.toString();
     const today: string = new Date(
@@ -289,14 +298,20 @@ export const TasksCard = (): JSX.Element => {
         <>
           <button
             aria-label="Go to previous date page"
-            onClick={() => setBack_date_num(back_date_num + 1)}
+            onClick={() => {
+              setBack_date_num(back_date_num + 1);
+              set_all_default();
+            }}
           >
             <RewindIcon className="w-6 h-6" />
           </button>
 
           <button
             aria-label="Go to next date page"
-            onClick={() => setBack_date_num(back_date_num - 1)}
+            onClick={() => {
+              setBack_date_num(back_date_num - 1);
+              set_all_default();
+            }}
           >
             <FastForwardIcon className="w-6 h-6" />
           </button>
