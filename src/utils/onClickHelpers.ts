@@ -41,7 +41,6 @@ export const onClick_handleTextSubmit = async ({
     todo_description,
     todo_id,
   });
-  // setShouldUseServer(true);
 };
 
 export const onClick_toggleTodoDone = async ({
@@ -53,7 +52,6 @@ export const onClick_toggleTodoDone = async ({
   setShouldUseServer(false);
   stateReload();
   await server_toggleTodoDone(todo_id);
-  // setShouldUseServer(true);
 };
 
 export const onClick_makeHighlight = async ({
@@ -65,7 +63,6 @@ export const onClick_makeHighlight = async ({
   setShouldUseServer(false);
   stateReload();
   await server_makeHighlight(todo_id);
-  // setShouldUseServer(true);
 };
 
 export const onClick_toggleArchiving = async ({
@@ -77,7 +74,6 @@ export const onClick_toggleArchiving = async ({
   setShouldUseServer(false);
   stateReload();
   await server_toggleArchived(todo_id);
-  // setShouldUseServer(true);
 };
 
 export const onClick_handleDelete = async ({
@@ -89,7 +85,6 @@ export const onClick_handleDelete = async ({
   setShouldUseServer(false);
   stateReload();
   await server_deleteTodo(todo_id);
-  // setShouldUseServer(true);
 };
 
 export const onClick_addToStory = async ({

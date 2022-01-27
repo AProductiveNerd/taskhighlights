@@ -6,38 +6,25 @@ import { Card } from "../layout/Card";
 import FireUserContext from "../../contexts/FireUserContext";
 import { Todo } from "@prisma/client";
 import { are_args_same } from "../../utils/generalHelpers";
-import { fetch_getAllArchivedTodos } from "../../utils/fetchHelpers";
-import { indexDB_getAllArchivedTodos } from "../../utils/indexDBHelpers";
+import { server_getAllArchivedTodosByPage } from "../../utils/serverHelpers";
 
 export const ArchivedCard = (): JSX.Element => {
   const [todos, setTodos] = useState<Todo[]>(null);
   const [addedCounter, setAddedCounter] = useState<number>(0);
-  const [serverTodos, setServerTodos] = useState<Todo[]>(null);
-  // const [serverCounter, setServerCounter] = useState<number>(0);
   const [shouldUseServer, setShouldUseServer] = useState(true);
+
   const fireId = useContext(FireUserContext);
 
-  useEffect(() => {
-    (async () => {
-      const fetchedTodos = await indexDB_getAllArchivedTodos();
-      if (serverTodos && !are_args_same(serverTodos, fetchedTodos)) {
-        // indexDB_updateArchivedTodos(serverTodos);
-        setTodos(serverTodos);
-      } else if (!are_args_same(fetchedTodos, todos)) {
-        setTodos(fetchedTodos);
-      }
-    })();
-  }, [todos, addedCounter, serverTodos]);
   console.log(shouldUseServer);
 
   useEffect(() => {
     (async () => {
-      const fetchedTodos = await fetch_getAllArchivedTodos(fireId);
-      if (!are_args_same(fetchedTodos, serverTodos)) {
-        setServerTodos(fetchedTodos);
+      const fetchedTodos = await server_getAllArchivedTodosByPage(fireId);
+      if (!are_args_same(fetchedTodos, todos)) {
+        setTodos(fetchedTodos);
       }
     })();
-  }, [fireId, serverTodos]);
+  }, [fireId, todos, addedCounter]);
 
   const stateReload = (): void => {
     if (addedCounter < 50) {
@@ -46,13 +33,7 @@ export const ArchivedCard = (): JSX.Element => {
       setAddedCounter(0);
     }
   };
-  // const serverReload = (): void => {
-  //   if (serverCounter < 50) {
-  //     setServerCounter(serverCounter + 1);
-  //   } else {
-  //     setServerCounter(0);
-  //   }
-  // };
+
   return (
     <Card
       spaced_elements={

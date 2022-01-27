@@ -33,10 +33,6 @@ import {
 
 import { IndividualItem } from "../layout/IndividualItem";
 import { Menu } from "@headlessui/react";
-import dynamic from "next/dynamic";
-
-const DynamicAddDetails = dynamic(() => import("./AddDetails"));
-const DynamicTaskDetailsModal = dynamic(() => import("./TaskDetailsModal"));
 
 export const IndividualTask = ({
   todo: {
@@ -45,7 +41,6 @@ export const IndividualTask = ({
     todo_id,
     todo_highlight,
     todo_story_id,
-    todo_details,
   },
   story: { story_id: storyid },
   stateReload,
@@ -66,8 +61,6 @@ export const IndividualTask = ({
   const [todo_state, set_todo_state] = useState<type_todo_done>(db_done);
   const [new_title, set_new_title] =
     useState<type_todo_description>(todo_description);
-
-  const [isOpen, setIsOpen] = useState(false);
 
   const editTaskRef = useRef(null);
 
@@ -242,14 +235,6 @@ export const IndividualTask = ({
               </button>
             )}
           </Menu.Item>
-          <Menu.Item>
-            <DynamicAddDetails
-              stateReload={stateReload}
-              todo_id={todo_id}
-              // isOpen={isOpen}
-              // setIsOpen={setIsOpen}
-            />
-          </Menu.Item>
         </div>
       }
       menu_show_button_icon={
@@ -301,12 +286,8 @@ export const IndividualTask = ({
               className={`${
                 todo_state && "line-through"
               } w-full cursor-pointer`}
-              onClick={(event) => {
-                if (event.ctrlKey) {
-                  setIsOpen(true);
-                } else {
-                  set_display_text_edit(!display_text_edit);
-                }
+              onClick={() => {
+                set_display_text_edit(!display_text_edit);
               }}
             >
               {highlight ? (
@@ -343,13 +324,6 @@ export const IndividualTask = ({
               <SparklesIcon className="text-yellow-400 w-5 h-5" />
             </button>
           )}
-          <DynamicTaskDetailsModal
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-            todo_details={todo_details}
-            // stateReload={stateReload}
-            // todo_id={todo_id}
-          />
         </>
       }
     />
