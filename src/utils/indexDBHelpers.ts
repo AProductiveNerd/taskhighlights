@@ -129,15 +129,15 @@ export const indexDB_createTodo = async ({
 }: {
   body: TYPES.type_Todo_Body;
   _id: TYPES.type_page_title;
-}): Promise<void> => {
+}): Promise<TYPES.type_todo_id> => {
   const { page } = await indexDB_getPageByPageIndexID(_id);
-
+  const c_todo_id = cuid();
   page.Page_Todo.push({
     todo_archived: todo_archived || false,
     todo_description,
     todo_details: todo_details || null,
     todo_highlight,
-    todo_id: todo_id || cuid(),
+    todo_id: todo_id || c_todo_id,
     todo_done: todo_done || false,
     todo_story_id: todo_story_id || null,
     todo_datecreated: todo_datecreated || new Date(),
@@ -149,6 +149,8 @@ export const indexDB_createTodo = async ({
   await indexDB.table("pages").update(_id, {
     page,
   });
+
+  return c_todo_id;
 };
 
 export const indexDB_toggleTodoDone = async (

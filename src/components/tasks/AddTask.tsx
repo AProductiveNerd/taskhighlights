@@ -45,6 +45,7 @@ export const AddTask = ({
   const server_handle = async ({
     todo_description,
     todo_highlight,
+    todo_id,
   }: type_Todo_Body) => {
     console.log("SERVER HANDLE");
     await server_createTodo({
@@ -52,6 +53,7 @@ export const AddTask = ({
       todo_description,
       todo_highlight,
       user_id,
+      todo_id,
       task: "create",
     });
     // setShouldUseServer(true);
@@ -62,7 +64,7 @@ export const AddTask = ({
     if (task !== "") {
       const temp_highlight = should_highlight;
       const temp_task = task;
-      await fetch_createTodo({
+      const local_todo_id = await fetch_createTodo({
         _id: page,
         body: {
           todo_description: task,
@@ -76,6 +78,7 @@ export const AddTask = ({
       await server_handle({
         todo_description: temp_task,
         todo_highlight: temp_highlight,
+        todo_id: local_todo_id,
       });
     }
   };

@@ -81,12 +81,14 @@ export const fetch_createTodo = async ({
 }: {
   body: TYPES.type_Todo_Body;
   _id: TYPES.type_page_title;
-}): Promise<void> => {
+}): Promise<TYPES.type_todo_id> => {
   if (body) {
-    await indexDB_createTodo({
+    const todo_id = await indexDB_createTodo({
       body,
       _id,
     });
+
+    return todo_id;
   }
 };
 

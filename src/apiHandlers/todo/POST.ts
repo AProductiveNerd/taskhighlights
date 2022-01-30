@@ -63,12 +63,19 @@ export const todo_post_handler = async ({
             .json(make_json_string({ Error: "Please enter a valid user id" }));
           return;
         }
+        if (!is_valid_prop(todo_id)) {
+          res
+            .status(400)
+            .json(make_json_string({ Error: "Please enter a valid todo id" }));
+          return;
+        }
 
         todo = await prisma_createTodo({
           page_id,
           todo_description,
           todo_highlight,
           user_id,
+          todo_id,
         });
         break;
 
