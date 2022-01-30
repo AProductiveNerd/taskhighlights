@@ -11,9 +11,7 @@ import {
   DotsVerticalIcon,
   LoginIcon,
   LogoutIcon,
-  RefreshIcon,
   SearchCircleIcon,
-  TemplateIcon,
   UploadIcon,
 } from "@heroicons/react/outline";
 import {
@@ -161,65 +159,9 @@ export const Header = ({ path }: Header_Props): JSX.Element => {
                         </Menu.Item>
                       </a>
                     </Link>
-
-                    {/* Habits */}
-                    <Link href="/habits">
-                      <a
-                        title="Habits"
-                        aria-label="Habits"
-                        className="flex items-center"
-                      >
-                        <Menu.Item>
-                          {({ active }) => (
-                            <button
-                              className={`${
-                                active
-                                  ? "bg-theme-primary-500 text-theme-blueGray-300"
-                                  : "text-theme-blueGray-500"
-                              } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
-                            >
-                              <RefreshIcon
-                                className={`w-6 h-6 ${
-                                  !active && "text-theme-primary-500"
-                                } mr-2`}
-                              />
-                              Habits
-                            </button>
-                          )}
-                        </Menu.Item>
-                      </a>
-                    </Link>
                   </div>
 
                   <div className="px-1 py-1">
-                    {/* Templates */}
-                    <Link href="/templates" passHref>
-                      <a
-                        title="Templates"
-                        aria-label="Templates"
-                        className="flex items-center"
-                      >
-                        <Menu.Item>
-                          {({ active }) => (
-                            <button
-                              className={`${
-                                active
-                                  ? "bg-theme-primary-500 text-theme-blueGray-300"
-                                  : "text-theme-blueGray-500"
-                              } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
-                            >
-                              <TemplateIcon
-                                className={`w-6 h-6 ${
-                                  !active && "text-theme-primary-500"
-                                } mr-2`}
-                              />
-                              Templates
-                            </button>
-                          )}
-                        </Menu.Item>
-                      </a>
-                    </Link>
-
                     {/* Incompletes */}
                     <Link href="/incomplete">
                       <a
