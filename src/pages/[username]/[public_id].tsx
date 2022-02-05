@@ -21,7 +21,7 @@ export default function PublicPage(): JSX.Element {
         }}
       />
 
-      <div className="flex-1 text-center mt-5 z-0">
+      <div className="z-0 mt-5 flex-1 text-center">
         <PublicCard setParTitle={setParTitle} />
       </div>
     </Layout>

@@ -51,19 +51,19 @@ export default function LogIn(): JSX.Element {
           }}
         />
 
-        <div className="max-w-md w-full space-y-8">
+        <div className="w-full max-w-md space-y-8">
           <div className="text-center">
-            <h1 className="text-5xl sm:text-7xl leading-tight font-extrabold text-theme-primary-500">
+            <h1 className="text-5xl font-extrabold leading-tight text-theme-primary-500 sm:text-7xl">
               Task Highlights
             </h1>
 
-            <h2 className="mt-6 text-center text-xl sm:text-3xl font-semibold text-theme-blueGray-400">
+            <h2 className="mt-6 text-center text-xl font-semibold text-theme-blueGray-400 sm:text-3xl">
               Log In to your account
             </h2>
           </div>
 
           {error && (
-            <p className="mb-4 text-sm text-red-500 text-center font-semibold">
+            <p className="mb-4 text-center text-sm font-semibold text-red-500">
               {error}
             </p>
           )}
@@ -71,7 +71,7 @@ export default function LogIn(): JSX.Element {
           <form className="mt-8 space-y-6" method="POST" onSubmit={handleLogin}>
             <input type="hidden" name="remember" defaultValue="true" />
 
-            <div className="rounded-md shadow-sm -space-y-px">
+            <div className="-space-y-px rounded-md shadow-sm">
               <div>
                 <label htmlFor="email-address" className="sr-only">
                   Email address
@@ -83,7 +83,7 @@ export default function LogIn(): JSX.Element {
                   type="email"
                   autoComplete="email"
                   required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t focus:outline-none focus:ring-theme-primary-500 focus:border-theme-primary-500 focus:z-10 sm:text-sm"
+                  className="relative block w-full appearance-none rounded-none rounded-t border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-theme-primary-500 focus:outline-none focus:ring-theme-primary-500 sm:text-sm"
                   placeholder="Email address"
                   onChange={({ target }) => setEmailAddress(target.value)}
                   value={emailAddress}
@@ -101,7 +101,7 @@ export default function LogIn(): JSX.Element {
                   type="password"
                   autoComplete="current-password"
                   required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b focus:outline-none focus:ring-theme-primary-500 focus:border-theme-primary-500 focus:z-10 sm:text-sm"
+                  className="relative block w-full appearance-none rounded-none rounded-b border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-theme-primary-500 focus:outline-none focus:ring-theme-primary-500 sm:text-sm"
                   placeholder="Password"
                   onChange={({ target }) => setPassword(target.value)}
                   value={password}
@@ -114,11 +114,11 @@ export default function LogIn(): JSX.Element {
                 <button
                   type="submit"
                   aria-label="Log In"
-                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-base font-medium rounded-md text-white bg-theme-primary-500 hover:bg-theme-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-theme-primary-500"
+                  className="group relative flex w-full justify-center rounded-md border border-transparent bg-theme-primary-500 py-2 px-4 text-base font-medium text-white hover:bg-theme-primary-700 focus:outline-none focus:ring-2 focus:ring-theme-primary-500 focus:ring-offset-2"
                 >
-                  <span className="absolute left-0 inset-y-0 flex items-center pl-3">
+                  <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                     <LockClosedIcon
-                      className="h-5 w-5 text-theme-coolGray-400 group-hover:text-theme-coolGray-900"
+                      className="text-theme-coolGray-400 group-hover:text-theme-coolGray-900 h-5 w-5"
                       aria-hidden="true"
                     />
                   </span>
@@ -128,10 +128,10 @@ export default function LogIn(): JSX.Element {
             )}
           </form>
 
-          <div className="text-base text-center text-theme-blueGray-400">
+          <div className="text-center text-base text-theme-blueGray-400">
             {`Don't have an account? `}
 
-            <span className="font-medium hover:border-b-2 border-theme-primary-500 w-max relative cursor-pointer">
+            <span className="relative w-max cursor-pointer border-theme-primary-500 font-medium hover:border-b-2">
               <Link href="/sign-up">
                 <a>Sign Up</a>
               </Link>

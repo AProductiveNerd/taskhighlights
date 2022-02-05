@@ -56,8 +56,6 @@ export const AddTask = ({
       todo_id,
       task: "create",
     });
-    // setShouldUseServer(true);
-    // serverReload();
   };
 
   const taskCreator = async () => {
@@ -71,6 +69,7 @@ export const AddTask = ({
           todo_highlight: should_highlight,
         },
       });
+      console.log({ local_todo_id });
       setShouldHighlight(false);
       setTask("");
       setShouldUseServer(false);
@@ -92,16 +91,16 @@ export const AddTask = ({
           title="Add a task!"
           onClick={() => setIsOpen(true)}
           className="
-            inline-flex justify-center
-            w-full px-3.5 py-3.5
-            text-sm font-medium
-            rounded-md
-            bg-black bg-opacity-30 filter backdrop-blur-3xl
+            inline-flex w-full
+            justify-center rounded-md bg-black
+            bg-opacity-30 px-3.5
+            py-3.5
+            text-sm font-medium filter backdrop-blur-3xl
             hover:bg-opacity-40 focus:outline-none focus-visible:ring-2
             focus-visible:ring-white focus-visible:ring-opacity-75
           "
         >
-          <PlusCircleIcon className="w-5 h-5 text-theme-blueGray-50" />
+          <PlusCircleIcon className="h-5 w-5 text-theme-blueGray-50" />
         </button>
       </div>
 
@@ -125,15 +124,15 @@ export const AddTask = ({
             <Transition.Child {...UseItem_Transition_Props}>
               <div
                 className="
-                  inline-block w-full
-                  max-w-md p-6 my-8
-                  overflow-hidden align-middle
-                  transition-all transform
-                  bg-theme-blueGray-800 shadow-lg
-                  border-theme-primary-500
-                  border-2 rounded-lg space-y-5
-                  justify-center items-center flex-col
-                  filter backdrop-blur-3xl bg-opacity-40
+                  my-8 inline-block
+                  w-full max-w-md transform
+                  flex-col items-center
+                  justify-center space-y-5
+                  overflow-hidden rounded-lg
+                  border-2
+                  border-theme-primary-500 bg-theme-blueGray-800 bg-opacity-40
+                  p-6 align-middle shadow-lg
+                  filter backdrop-blur-3xl transition-all
                 "
               >
                 {count <= 10 ? (
@@ -146,7 +145,7 @@ export const AddTask = ({
                     </Dialog.Title>
                     <div className="mt-2">
                       <input
-                        className="text-xl w-full p-2 selection:bg-theme-primary-500/60"
+                        className="w-full p-2 text-xl selection:bg-theme-primary-500/60"
                         onKeyDown={(event) => {
                           if (event.key === "Enter" && task !== "") {
                             taskCreator();
@@ -178,7 +177,7 @@ export const AddTask = ({
                       <button
                         type="button"
                         aria-label="Close add tasks popup"
-                        className="inline-flex justify-center px-4 py-2 text-sm font-medium bg-theme-primary-500/60 border border-transparent rounded-md hover:bg-theme-primary-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 text-theme-blueGray-50"
+                        className="inline-flex justify-center rounded-md border border-transparent bg-theme-primary-500/60 px-4 py-2 text-sm font-medium text-theme-blueGray-50 hover:bg-theme-primary-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                         onClick={() => {
                           setIsOpen(false);
                         }}
@@ -189,7 +188,7 @@ export const AddTask = ({
                       <button
                         type="button"
                         aria-label="Close add tasks popup"
-                        className="inline-flex justify-center px-4 py-2 text-sm font-medium bg-theme-primary-500/60 border border-transparent rounded-md hover:bg-theme-primary-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                        className="inline-flex justify-center rounded-md border border-transparent bg-theme-primary-500/60 px-4 py-2 text-sm font-medium hover:bg-theme-primary-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                         onClick={() => {
                           taskCreator();
                         }}
@@ -211,7 +210,7 @@ export const AddTask = ({
                       <button
                         type="button"
                         aria-label="Close add tasks popup"
-                        className="inline-flex justify-center px-4 py-2 text-sm font-medium bg-theme-primary-500/60 border border-transparent rounded-md hover:bg-theme-primary-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                        className="inline-flex justify-center rounded-md border border-transparent bg-theme-primary-500/60 px-4 py-2 text-sm font-medium hover:bg-theme-primary-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                         onClick={() => {
                           setIsOpen(false);
                         }}

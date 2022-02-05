@@ -54,13 +54,13 @@ export default function UserProfile({
         }}
       />
 
-      <div className="flex flex-col flex-1">
+      <div className="flex flex-1 flex-col">
         <SkeletonTheme baseColor="#0F172A" highlightColor="#1E293B">
-          <div className="flex-1 flex justify-center mt-5 pb-4">
+          <div className="mt-5 flex flex-1 justify-center pb-4">
             <div className="flex items-center space-x-3">
-              <div className="relative w-28 h-28">
+              <div className="relative h-28 w-28">
                 {profileUser ? (
-                  <Avatar className="w-28 h-28" {...profileUser.user_avatar} />
+                  <Avatar className="h-28 w-28" {...profileUser.user_avatar} />
                 ) : (
                   <Skeleton circle={true} height={44} width={44} />
                 )}

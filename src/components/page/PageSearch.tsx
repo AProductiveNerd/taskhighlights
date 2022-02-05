@@ -89,15 +89,15 @@ export const PageSearch = ({
           >
             <div
               className="
-                inline-block w-full
-                max-w-md p-6 my-8
-                overflow-hidden align-middle
-                transition-all transform
-                bg-theme-blueGray-800 shadow-lg
-                border-theme-primary-500
-                border-2 rounded-lg space-y-5
-                justify-center items-center flex-col
-                filter backdrop-blur-3xl bg-opacity-40
+                my-8 inline-block
+                w-full max-w-md transform
+                flex-col items-center
+                justify-center space-y-5
+                overflow-hidden rounded-lg
+                border-2
+                border-theme-primary-500 bg-theme-blueGray-800 bg-opacity-40
+                p-6 align-middle shadow-lg
+                filter backdrop-blur-3xl transition-all
               "
             >
               <>
@@ -111,7 +111,7 @@ export const PageSearch = ({
                 <Menu as="div" className="mt-4">
                   <input
                     ref={focusRef}
-                    className="text-theme-blueGray-500 group flex rounded-md items-center w-full px-2 py-2 text-sm hover:bg-white"
+                    className="group flex w-full items-center rounded-md px-2 py-2 text-sm text-theme-blueGray-500 hover:bg-white"
                     onChange={({ target }) => setQuery(target.value)}
                     value={query}
                     onKeyDown={(event) => {
@@ -126,10 +126,10 @@ export const PageSearch = ({
                       static
                       as="div"
                       className="
-                        w-full mt-2
-                      bg-black filter backdrop-blur-3xl bg-opacity-40
-                      divide-gray-100 rounded-md shadow-lg ring-1
-                      ring-black ring-opacity-5 focus:outline-none
+                        mt-2 w-full
+                      divide-gray-100 rounded-md bg-black bg-opacity-40
+                      shadow-lg ring-1 ring-black ring-opacity-5
+                      filter backdrop-blur-3xl focus:outline-none
                     "
                     >
                       <div className="px-1 py-1 ">
@@ -154,7 +154,7 @@ export const PageSearch = ({
                                       active
                                         ? "bg-theme-primary-500 text-theme-blueGray-300"
                                         : "text-theme-blueGray-500"
-                                    } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                   >
                                     {result.isCreate && "Create"} {result.item}
                                   </button>

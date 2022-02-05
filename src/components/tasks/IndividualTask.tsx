@@ -112,10 +112,10 @@ export const IndividualTask = ({
                     active
                       ? "bg-theme-primary-500 text-theme-blueGray-300"
                       : "text-theme-blueGray-500"
-                  } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                  } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                 >
                   <EyeIcon
-                    className={`w-6 h-6 ${
+                    className={`h-6 w-6 ${
                       !active && "text-theme-primary-500"
                     } mr-2`}
                   />
@@ -140,10 +140,10 @@ export const IndividualTask = ({
                     active
                       ? "bg-theme-primary-500 text-theme-blueGray-300"
                       : "text-theme-blueGray-500"
-                  } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                  } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                 >
                   <EyeOffIcon
-                    className={`w-6 h-6 ${
+                    className={`h-6 w-6 ${
                       !active && "text-theme-primary-500"
                     } mr-2`}
                   />
@@ -169,10 +169,10 @@ export const IndividualTask = ({
                   active
                     ? "bg-theme-primary-500 text-theme-blueGray-300"
                     : "text-theme-blueGray-500"
-                } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
               >
                 <TrashIcon
-                  className={`w-6 h-6 ${
+                  className={`h-6 w-6 ${
                     !active && "text-theme-primary-500"
                   } mr-2`}
                 />
@@ -196,10 +196,10 @@ export const IndividualTask = ({
                   active
                     ? "bg-theme-primary-500 text-theme-blueGray-300"
                     : "text-theme-blueGray-500"
-                } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
               >
                 <ArrowNarrowRightIcon
-                  className={`w-6 h-6 ${
+                  className={`h-6 w-6 ${
                     !active && "text-theme-primary-500"
                   } mr-2`}
                 />
@@ -224,10 +224,10 @@ export const IndividualTask = ({
                   active
                     ? "bg-theme-primary-500 text-theme-blueGray-300"
                     : "text-theme-blueGray-500"
-                } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
               >
                 <ArchiveIcon
-                  className={`w-6 h-6 ${
+                  className={`h-6 w-6 ${
                     !active && "text-theme-primary-500"
                   } mr-2`}
                 />
@@ -239,7 +239,7 @@ export const IndividualTask = ({
       }
       menu_show_button_icon={
         <DotsVerticalIcon
-          className="w-5 h-5 text-theme-primary-50"
+          className="h-5 w-5 text-theme-primary-50"
           aria-hidden="true"
         />
       }
@@ -261,7 +261,7 @@ export const IndividualTask = ({
           {display_text_edit === true ? (
             <input
               type="text"
-              className="w-full bg-theme-blueGray-800 cursor-pointer"
+              className="w-full cursor-pointer bg-theme-blueGray-800"
               value={new_title}
               onChange={({ target }) => set_new_title(target.value)}
               ref={editTaskRef}
@@ -292,7 +292,7 @@ export const IndividualTask = ({
             >
               {highlight ? (
                 <label
-                  className="cursor-pointer highlight text-theme-primary-500 leading-7 text-xl"
+                  className="highlight cursor-pointer text-xl leading-7 text-theme-primary-500"
                   htmlFor={todo_id}
                 >
                   <p>{new_title}</p>
@@ -321,7 +321,7 @@ export const IndividualTask = ({
                 });
               }}
             >
-              <SparklesIcon className="text-yellow-400 w-5 h-5" />
+              <SparklesIcon className="h-5 w-5 text-yellow-400" />
             </button>
           )}
         </>

@@ -81,19 +81,19 @@ export default function SignUp(): JSX.Element {
             cardType: "summary",
           }}
         />
-        <div className="max-w-md w-full space-y-8">
+        <div className="w-full max-w-md space-y-8">
           <div className="text-center">
-            <h1 className="text-5xl sm:text-7xl leading-tight font-extrabold text-theme-primary-500">
+            <h1 className="text-5xl font-extrabold leading-tight text-theme-primary-500 sm:text-7xl">
               Task Highlights
             </h1>
 
-            <h2 className="mt-6 text-center text-xl sm:text-3xl font-semibold text-theme-blueGray-400">
+            <h2 className="mt-6 text-center text-xl font-semibold text-theme-blueGray-400 sm:text-3xl">
               Sign up
             </h2>
           </div>
 
           {error && (
-            <p className="mb-4 text-sm text-red-500 text-center font-semibold">
+            <p className="mb-4 text-center text-sm font-semibold text-red-500">
               {error}
             </p>
           )}
@@ -105,7 +105,7 @@ export default function SignUp(): JSX.Element {
           >
             <input type="hidden" name="remember" defaultValue="true" />
 
-            <div className="rounded-md shadow-sm -space-y-px">
+            <div className="-space-y-px rounded-md shadow-sm">
               <div>
                 <label htmlFor="full-name" className="sr-only">
                   Full Name
@@ -117,7 +117,7 @@ export default function SignUp(): JSX.Element {
                   type="text"
                   autoComplete="name"
                   required
-                  className="appearance-none rounded-none rounded-t relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-theme-primary-500 focus:border-theme-primary-500 focus:z-10 sm:text-sm"
+                  className="relative block w-full appearance-none rounded-none rounded-t border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-theme-primary-500 focus:outline-none focus:ring-theme-primary-500 sm:text-sm"
                   placeholder="Full Name"
                   onChange={({ target }) => setfullname(target.value)}
                   value={user_fullname}
@@ -135,7 +135,7 @@ export default function SignUp(): JSX.Element {
                   type="text"
                   autoComplete="username"
                   required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-theme-primary-500 focus:border-theme-primary-500 focus:z-10 sm:text-sm"
+                  className="relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-theme-primary-500 focus:outline-none focus:ring-theme-primary-500 sm:text-sm"
                   placeholder="Username"
                   onChange={({ target }) => setUsername(target.value)}
                   value={user_username}
@@ -153,7 +153,7 @@ export default function SignUp(): JSX.Element {
                   type="email"
                   autoComplete="email"
                   required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-theme-primary-500 focus:border-theme-primary-500 focus:z-10 sm:text-sm"
+                  className="relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-theme-primary-500 focus:outline-none focus:ring-theme-primary-500 sm:text-sm"
                   placeholder="Email address"
                   onChange={({ target }) =>
                     setemailaddress(target.value.toLowerCase())
@@ -173,7 +173,7 @@ export default function SignUp(): JSX.Element {
                   type="password"
                   autoComplete="current-password"
                   required
-                  className="appearance-none rounded-none rounded-b relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-theme-primary-500 focus:border-theme-primary-500 focus:z-10 sm:text-sm"
+                  className="relative block w-full appearance-none rounded-none rounded-b border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-theme-primary-500 focus:outline-none focus:ring-theme-primary-500 sm:text-sm"
                   placeholder="Password"
                   onChange={({ target }) => setPassword(target.value)}
                   value={password}
@@ -181,18 +181,18 @@ export default function SignUp(): JSX.Element {
               </div>
             </div>
 
-            <div className="text-sm text-center flex justify-between flex-col items-center space-y-3">
+            <div className="flex flex-col items-center justify-between space-y-3 text-center text-sm">
               <button
                 type="button"
                 name="Generate avatar"
                 onClick={() => setAvatar(genConfig())}
-                className="bg-white text-theme-primary-600 hover:text-theme-primary-700 w-full rounded h-11 font-bold border"
+                className="h-11 w-full rounded border bg-white font-bold text-theme-primary-600 hover:text-theme-primary-700"
               >
                 Generate avatar
               </button>
 
               <div>
-                <Avatar className="w-32 h-32" {...user_avatar} />
+                <Avatar className="h-32 w-32" {...user_avatar} />
               </div>
             </div>
 
@@ -201,11 +201,11 @@ export default function SignUp(): JSX.Element {
                 <button
                   aria-label="Sign up"
                   type="submit"
-                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-base font-medium rounded-md text-white bg-theme-primary-500 hover:bg-theme-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-theme-primary-500"
+                  className="group relative flex w-full justify-center rounded-md border border-transparent bg-theme-primary-500 py-2 px-4 text-base font-medium text-white hover:bg-theme-primary-700 focus:outline-none focus:ring-2 focus:ring-theme-primary-500 focus:ring-offset-2"
                 >
-                  <span className="absolute left-0 inset-y-0 flex items-center pl-3">
+                  <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                     <LockClosedIcon
-                      className="h-5 w-5 text-theme-coolGray-400 group-hover:text-theme-coolGray-900"
+                      className="text-theme-coolGray-400 group-hover:text-theme-coolGray-900 h-5 w-5"
                       aria-hidden="true"
                     />
                   </span>
@@ -214,10 +214,10 @@ export default function SignUp(): JSX.Element {
               </div>
             )}
 
-            <div className="text-base text-center text-theme-blueGray-400">
+            <div className="text-center text-base text-theme-blueGray-400">
               {`Already have an account? `}
 
-              <span className="font-medium hover:border-b-2 border-theme-primary-500 w-max relative cursor-pointer">
+              <span className="relative w-max cursor-pointer border-theme-primary-500 font-medium hover:border-b-2">
                 <Link href="/log-in">
                   <a>Log In</a>
                 </Link>

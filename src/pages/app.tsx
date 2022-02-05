@@ -16,7 +16,7 @@ export default function App(): JSX.Element {
         }}
       />
 
-      <div className="flex-1 text-center mt-5">
+      <div className="mt-5 flex-1 text-center">
         <TasksCard />
       </div>
     </Layout>

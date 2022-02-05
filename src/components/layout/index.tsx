@@ -38,9 +38,9 @@ export const Layout = ({ children }: ChildrenProps): JSX.Element => {
     <UserContext.Provider value={providerValue}>
       <div
         className="
+          flex min-h-screen
+          flex-col
           bg-theme-blueGray-900 text-theme-blueGray-300
-          min-h-screen
-          flex flex-col
           selection:bg-theme-primary-500/60
         "
       >

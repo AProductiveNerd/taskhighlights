@@ -9,15 +9,15 @@ export const Card = ({
   return (
     <div
       className="
-      noScrollbar relative space-y-5 max-h-[80vh] w-11/12
-      sm:max-w-md md:max-w-lg py-5 px-[1.6rem]
-      bg-theme-blueGray-800 shadow-lg rounded-lg mx-auto
-      overflow-y-scroll overflow-x-hidden
-      filter backdrop-blur-3xl bg-opacity-40
+      noScrollbar relative mx-auto max-h-[80vh] w-11/12
+      space-y-5 overflow-x-hidden overflow-y-scroll rounded-lg
+      bg-theme-blueGray-800 bg-opacity-40 py-5 px-[1.6rem]
+      shadow-lg filter
+      backdrop-blur-3xl sm:max-w-md md:max-w-lg
     "
       id="Card"
     >
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <p className="text-4xl">{title}</p>
 
         {action_component && action_component}

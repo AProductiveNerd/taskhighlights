@@ -84,6 +84,7 @@ export const indexDB_getPageByPageIndexID = async (
   _id: TYPES.type_page_title
 ): Promise<type_indexDB_page> => {
   const page: type_indexDB_page = await indexDB.table("pages").get(_id);
+  console.log({ page });
   page.page.Page_Todo?.sort((a, b) => {
     if (
       new Date(a.todo_datecreated).getTime() <

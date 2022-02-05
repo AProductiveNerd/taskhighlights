@@ -72,7 +72,7 @@ export const IndividualPageTask = ({
           {display_text_edit === true ? (
             <input
               type="text"
-              className="w-full bg-theme-blueGray-800 cursor-pointer"
+              className="w-full cursor-pointer bg-theme-blueGray-800"
               value={new_title}
               onChange={({ target }) => set_new_title(target.value)}
               ref={editTaskRef}
@@ -124,10 +124,10 @@ export const IndividualPageTask = ({
                   active
                     ? "bg-theme-primary-500 text-theme-blueGray-300"
                     : "text-theme-blueGray-500"
-                } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
               >
                 <TrashIcon
-                  className={`w-6 h-6 ${
+                  className={`h-6 w-6 ${
                     !active && "text-theme-primary-500"
                   } mr-2`}
                 />
@@ -152,10 +152,10 @@ export const IndividualPageTask = ({
                   active
                     ? "bg-theme-primary-500 text-theme-blueGray-300"
                     : "text-theme-blueGray-500"
-                } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
               >
                 <ArchiveIcon
-                  className={`w-6 h-6 ${
+                  className={`h-6 w-6 ${
                     !active && "text-theme-primary-500"
                   } mr-2`}
                 />
@@ -167,7 +167,7 @@ export const IndividualPageTask = ({
       }
       menu_show_button_icon={
         <DotsVerticalIcon
-          className="w-5 h-5 text-theme-primary-50"
+          className="h-5 w-5 text-theme-primary-50"
           aria-hidden="true"
         />
       }

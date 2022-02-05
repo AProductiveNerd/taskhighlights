@@ -3,43 +3,70 @@ import {
   UseItem_Transition_Props,
 } from "../../types/layout/AddOrUseItem";
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Dispatch, Fragment, SetStateAction, useState } from "react";
 import {
+  type_Todo_Body,
+  type_page_id,
   type_page_title,
   type_todo_description,
   type_user_id,
 } from "../../constants/Types";
 
 import { PlusCircleIcon } from "@heroicons/react/outline";
+import { fetch_createTodo } from "../../utils/fetchHelpers";
+import { server_createTodo } from "../../utils/serverHelpers";
 
 interface AddPageTask_Props {
+  page_id: type_page_id;
   page: type_page_title;
-  user: type_user_id;
+  user_id: type_user_id;
   stateReload: VoidFunction;
+  setShouldUseServer: Dispatch<SetStateAction<boolean>>;
 }
 
 export const AddPageTask = ({
-  // page,
-  // user,
+  user_id,
+  page_id,
+  page,
   stateReload,
+  setShouldUseServer,
 }: AddPageTask_Props): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [task, setTask] = useState<type_todo_description>("");
 
-  const taskCreator = () => {
+  const server_handle = async ({
+    todo_description,
+    todo_highlight,
+    todo_id,
+  }: type_Todo_Body) => {
+    console.log("SERVER HANDLE");
+    await server_createTodo({
+      page_id,
+      todo_description,
+      todo_highlight,
+      user_id,
+      todo_id,
+      task: "create",
+    });
+  };
+  const taskCreator = async () => {
     if (task !== "") {
-      // await fetch_createTodo({
-      //   page_id: page,
-      //   todo_description: task,
-      //   user_id: user,
-      //   todo_highlight: false,
-      //   task: "create",
-      // });
+      const temp_task = task;
+      const local_todo_id = await fetch_createTodo({
+        _id: page,
+        body: {
+          todo_description: task,
+        },
+      });
       setTask("");
+      setShouldUseServer(false);
       stateReload();
+      await server_handle({
+        todo_description: temp_task,
+        todo_id: local_todo_id,
+      });
     }
   };
-
   return (
     <div>
       <div className="flex items-center justify-center">
@@ -48,16 +75,16 @@ export const AddPageTask = ({
           aria-label="Add a task!"
           onClick={() => setIsOpen(true)}
           className="
-            inline-flex justify-center
-            w-full px-3.5 py-3.5
-            text-sm font-medium
-            rounded-md
-            bg-black bg-opacity-30 filter backdrop-blur-3xl
+            inline-flex w-full
+            justify-center rounded-md bg-black
+            bg-opacity-30 px-3.5
+            py-3.5
+            text-sm font-medium filter backdrop-blur-3xl
             hover:bg-opacity-40 focus:outline-none focus-visible:ring-2
             focus-visible:ring-white focus-visible:ring-opacity-75
           "
         >
-          <PlusCircleIcon className="w-5 h-5 text-theme-blueGray-50" />
+          <PlusCircleIcon className="h-5 w-5 text-theme-blueGray-50" />
         </button>
       </div>
 
@@ -81,15 +108,15 @@ export const AddPageTask = ({
             <Transition.Child {...UseItem_Transition_Props}>
               <div
                 className="
-                  inline-block w-full
-                  max-w-md p-6 my-8
-                  overflow-hidden align-middle
-                  transition-all transform
-                  bg-theme-blueGray-800 shadow-lg
-                  border-theme-primary-500
-                  border-2 rounded-lg space-y-5
-                  justify-center items-center flex-col
-                  filter backdrop-blur-3xl bg-opacity-40
+                  my-8 inline-block
+                  w-full max-w-md transform
+                  flex-col items-center
+                  justify-center space-y-5
+                  overflow-hidden rounded-lg
+                  border-2
+                  border-theme-primary-500 bg-theme-blueGray-800 bg-opacity-40
+                  p-6 align-middle shadow-lg
+                  filter backdrop-blur-3xl transition-all
                 "
               >
                 <>
@@ -101,7 +128,7 @@ export const AddPageTask = ({
                   </Dialog.Title>
                   <div className="mt-2">
                     <input
-                      className="text-xl w-full p-2 selection:bg-theme-primary-500/60"
+                      className="w-full p-2 text-xl selection:bg-theme-primary-500/60"
                       onKeyDown={(event) => {
                         if (event.key === "Enter" && task !== "") {
                           taskCreator();
@@ -118,7 +145,7 @@ export const AddPageTask = ({
                     <button
                       type="button"
                       aria-label="Close add tasks popup"
-                      className="inline-flex justify-center px-4 py-2 text-sm font-medium bg-theme-primary-500/60 border border-transparent rounded-md hover:bg-theme-primary-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 text-theme-blueGray-50"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-theme-primary-500/60 px-4 py-2 text-sm font-medium text-theme-blueGray-50 hover:bg-theme-primary-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                       onClick={() => {
                         setIsOpen(false);
                       }}
@@ -129,7 +156,7 @@ export const AddPageTask = ({
                     <button
                       type="button"
                       aria-label="Close add tasks popup"
-                      className="inline-flex justify-center px-4 py-2 text-sm font-medium bg-theme-primary-500/60 border border-transparent rounded-md hover:bg-theme-primary-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-theme-primary-500/60 px-4 py-2 text-sm font-medium hover:bg-theme-primary-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                       onClick={() => {
                         taskCreator();
                       }}

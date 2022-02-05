@@ -16,7 +16,7 @@ export default function Incomplete(): JSX.Element {
         }}
       />
 
-      <div className="text-4xl flex-1 items-center text-center mt-5">
+      <div className="mt-5 flex-1 items-center text-center text-4xl">
         <IncompleteCard />
       </div>
     </Layout>

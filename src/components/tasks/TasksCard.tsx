@@ -297,7 +297,7 @@ export const TasksCard = (): JSX.Element => {
               set_all_default();
             }}
           >
-            <RewindIcon className="w-6 h-6" />
+            <RewindIcon className="h-6 w-6" />
           </button>
 
           <button
@@ -307,7 +307,7 @@ export const TasksCard = (): JSX.Element => {
               set_all_default();
             }}
           >
-            <FastForwardIcon className="w-6 h-6" />
+            <FastForwardIcon className="h-6 w-6" />
           </button>
         </>
       }

@@ -17,13 +17,13 @@ const Home = (): JSX.Element => {
         }}
       />
 
-      <div className="flex-1 flex flex-col mx-auto sm:max-w-3xl mt-5 px-7 text-center space-y-10">
-        <h1 className="text-theme-blueGray-300 mt-20 break-words text-5xl tracking-tight sm:text-7xl font-extrabold leading-none">
+      <div className="mx-auto mt-5 flex flex-1 flex-col space-y-10 px-7 text-center sm:max-w-3xl">
+        <h1 className="mt-20 break-words text-5xl font-extrabold leading-none tracking-tight text-theme-blueGray-300 sm:text-7xl">
           Supercharge productivity
         </h1>
 
         <div className="space-y-10">
-          <div className="h-72 relative justify-center mx-auto z-0">
+          <div className="relative z-0 mx-auto h-72 justify-center">
             <Image
               src="/images/tasks-card_app-page.png"
               alt="desktop_app-page"
@@ -38,13 +38,13 @@ const Home = (): JSX.Element => {
               aria-label="Get Started"
               className="
               inline-flex justify-center
-              px-3.5 py-3.5
-              text-theme-blueGray-900
-              rounded-md
-              bg-theme-primary-500
-              hover:bg-opacity-90 focus:outline-none focus-visible:ring-2
-              focus-visible:ring-white focus-visible:ring-opacity-75
+              rounded-md bg-theme-primary-500
+              px-3.5
+              py-3.5
               font-bold
+              text-theme-blueGray-900 hover:bg-opacity-90 focus:outline-none
+              focus-visible:ring-2 focus-visible:ring-white
+              focus-visible:ring-opacity-75
               "
             >
               Get Started

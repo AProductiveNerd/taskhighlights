@@ -17,7 +17,7 @@ export const StoryTask = ({
 }): JSX.Element => {
   return (
     <div
-      className="flex items-center space-x-2 text-left text-lg break-words leading-6 group"
+      className="group flex items-center space-x-2 break-words text-left text-lg leading-6"
       tabIndex={0}
     >
       <input
@@ -33,11 +33,11 @@ export const StoryTask = ({
       <div
         className={`${
           todo_done && "line-through"
-        } w-full cursor-text flex justify-between items-center`}
+        } flex w-full cursor-text items-center justify-between`}
       >
         {highlight ? (
           <label
-            className="cursor-text highlight text-theme-primary-500 leading-7 text-xl"
+            className="highlight cursor-text text-xl leading-7 text-theme-primary-500"
             htmlFor={todo_id}
           >
             <p>{todo_description}</p>
@@ -55,7 +55,7 @@ export const StoryTask = ({
             className="flex items-center"
           >
             <EyeIcon
-              className="w-6 h-6"
+              className="h-6 w-6"
               onClick={() =>
                 onClick_removeFromStory({
                   story_id: todo_story_id,

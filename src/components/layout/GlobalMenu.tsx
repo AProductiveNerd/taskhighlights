@@ -40,15 +40,15 @@ export const GlobalMenu = ({
             <Transition.Child {...UseItem_Transition_Props}>
               <div
                 className="
-                  inline-block w-full
-                  max-w-md p-6 my-8
-                  overflow-hidden align-middle
-                  transition-all transform
-                  bg-theme-blueGray-800 shadow-lg
-                  border-theme-primary-500
-                  border-2 rounded-lg space-y-5
-                  justify-center items-center flex-col
-                  filter backdrop-blur-3xl bg-opacity-40
+                  my-8 inline-block
+                  w-full max-w-md transform
+                  flex-col items-center
+                  justify-center space-y-5
+                  overflow-hidden rounded-lg
+                  border-2
+                  border-theme-primary-500 bg-theme-blueGray-800 bg-opacity-40
+                  p-6 align-middle shadow-lg
+                  filter backdrop-blur-3xl transition-all
                 "
               >
                 <Dialog.Title
@@ -64,16 +64,16 @@ export const GlobalMenu = ({
                       static
                       as="div"
                       className="
-                        w-full mt-2
-                        bg-black filter backdrop-blur-3xl bg-opacity-40
-                        divide-gray-100 rounded-md shadow-lg ring-1
-                        ring-black ring-opacity-5 focus:outline-none
-                        space-y-2
+                        mt-2 w-full
+                        space-y-2 divide-gray-100 rounded-md bg-black
+                        bg-opacity-40 shadow-lg ring-1 ring-black
+                        ring-opacity-5 filter backdrop-blur-3xl
+                        focus:outline-none
                       "
                     >
                       <Menu.Item
                         as="div"
-                        className="flex justify-between items-center text-gray-300 mx-3"
+                        className="mx-3 flex items-center justify-between text-gray-300"
                       >
                         <p>is public</p>
                         <Switch
@@ -90,7 +90,7 @@ export const GlobalMenu = ({
                               ? "bg-theme-primary-700"
                               : "bg-theme-primary-500"
                           }
-          relative inline-flex flex-shrink-0 h-[38px] w-[74px] border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+          relative inline-flex h-[38px] w-[74px] flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
                         >
                           <span className="sr-only">Use setting</span>
                           <span
@@ -98,7 +98,7 @@ export const GlobalMenu = ({
                             className={`${
                               page_is_public ? "translate-x-9" : "translate-x-0"
                             }
-            pointer-events-none inline-block h-[34px] w-[34px] rounded-full bg-white shadow-lg transform ring-0 transition ease-in-out duration-200`}
+            pointer-events-none inline-block h-[34px] w-[34px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
                           />
                         </Switch>
                       </Menu.Item>

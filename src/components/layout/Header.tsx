@@ -58,13 +58,13 @@ export const Header = ({ path }: Header_Props): JSX.Element => {
   }, [fireId, currentUser, setContextUser]);
 
   return (
-    <div className="py-3 px-6 sm:px-0 flex-1 max-w-7xl flex justify-between items-center">
+    <div className="flex max-w-7xl flex-1 items-center justify-between py-3 px-6 sm:px-0">
       {!INDEX_HEADER.includes(path) ? (
-        <div className="w-11/12 sm:max-w-md md:max-w-lg flex items-center justify-between flex-1 mx-auto">
+        <div className="mx-auto flex w-11/12 flex-1 items-center justify-between sm:max-w-md md:max-w-lg">
           {currentUser?.user_avatar ? (
             <Link href={`/u/${currentUser.user_username}`}>
               <a title="Your profile" aria-label="Your profile">
-                <Avatar className="w-12 h-12" {...currentUser.user_avatar} />
+                <Avatar className="h-12 w-12" {...currentUser.user_avatar} />
               </a>
             </Link>
           ) : (
@@ -76,7 +76,7 @@ export const Header = ({ path }: Header_Props): JSX.Element => {
           <div>
             <Menu
               as="div"
-              className="relative inline-block text-left text-theme-blueGray-300 z-50"
+              className="relative z-50 inline-block text-left text-theme-blueGray-300"
             >
               <div className="flex space-x-1.5">
                 <button
@@ -85,17 +85,17 @@ export const Header = ({ path }: Header_Props): JSX.Element => {
                   title="Search Pages"
                   onClick={() => setIsOpen(true)}
                   className="
-                    inline-flex justify-center
-                    w-full px-3.5 py-3.5
-                    text-sm font-medium
-                    rounded-md
-                    bg-black bg-opacity-20 filter backdrop-blur-3xl
+                    inline-flex w-full
+                    justify-center rounded-md bg-black
+                    bg-opacity-20 px-3.5
+                    py-3.5
+                    text-sm font-medium filter backdrop-blur-3xl
                     hover:bg-opacity-30 focus:outline-none focus-visible:ring-2
                     focus-visible:ring-white focus-visible:ring-opacity-75
                   "
                 >
                   <SearchCircleIcon
-                    className="w-5 h-5 text-theme-primary-50"
+                    className="h-5 w-5 text-theme-primary-50"
                     aria-hidden="true"
                   />
                   <DynamicPageSearch
@@ -109,24 +109,24 @@ export const Header = ({ path }: Header_Props): JSX.Element => {
                   title="Menu"
                   aria-label="Menu"
                   className="
-                  inline-flex justify-center
-                  w-full px-3.5 py-3.5
-                  text-sm font-medium
-                  rounded-md
-                  bg-black bg-opacity-20 filter backdrop-blur-3xl
+                  inline-flex w-full
+                  justify-center rounded-md bg-black
+                  bg-opacity-20 px-3.5
+                  py-3.5
+                  text-sm font-medium filter backdrop-blur-3xl
                   hover:bg-opacity-30 focus:outline-none focus-visible:ring-2
                   focus-visible:ring-white focus-visible:ring-opacity-75
                 "
                 >
                   <DotsVerticalIcon
-                    className="w-5 h-5 text-theme-primary-50"
+                    className="h-5 w-5 text-theme-primary-50"
                     aria-hidden="true"
                   />
                 </Menu.Button>
               </div>
 
               <Transition {...Header_Transition_Props}>
-                <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-black filter backdrop-blur-3xl bg-opacity-40 divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-gray-100 rounded-md bg-black bg-opacity-40 shadow-lg ring-1 ring-black ring-opacity-5 filter backdrop-blur-3xl focus:outline-none">
                   <div className="px-1 py-1 ">
                     {/* Daily Page */}
                     <Link
@@ -146,10 +146,10 @@ export const Header = ({ path }: Header_Props): JSX.Element => {
                                 active
                                   ? "bg-theme-primary-500 text-theme-blueGray-300"
                                   : "text-theme-blueGray-500"
-                              } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                              } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                             >
                               <CalendarIcon
-                                className={`w-6 h-6 ${
+                                className={`h-6 w-6 ${
                                   !active && "text-theme-primary-500"
                                 } mr-2`}
                               />
@@ -176,10 +176,10 @@ export const Header = ({ path }: Header_Props): JSX.Element => {
                                 active
                                   ? "bg-theme-primary-500 text-theme-blueGray-300"
                                   : "text-theme-blueGray-500"
-                              } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                              } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                             >
                               <EmptyCircleIcon
-                                className={`w-6 h-6 ${
+                                className={`h-6 w-6 ${
                                   !active && "text-theme-primary-500"
                                 } mr-2`}
                               />
@@ -204,10 +204,10 @@ export const Header = ({ path }: Header_Props): JSX.Element => {
                                 active
                                   ? "bg-theme-primary-500 text-theme-blueGray-300"
                                   : "text-theme-blueGray-500"
-                              } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                              } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                             >
                               <ArchiveIcon
-                                className={`w-6 h-6 ${
+                                className={`h-6 w-6 ${
                                   !active && "text-theme-primary-500"
                                 } mr-2`}
                               />
@@ -229,12 +229,12 @@ export const Header = ({ path }: Header_Props): JSX.Element => {
                             active
                               ? "bg-theme-primary-500 text-theme-blueGray-300"
                               : "text-theme-blueGray-500"
-                          } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                          } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                           title="Sign out"
                           onClick={() => signOut(auth)}
                         >
                           <LogoutIcon
-                            className={`w-6 h-6 ${
+                            className={`h-6 w-6 ${
                               !active && "text-theme-primary-500"
                             } mr-2`}
                           />
@@ -249,12 +249,12 @@ export const Header = ({ path }: Header_Props): JSX.Element => {
           </div>
         </div>
       ) : (
-        <div className="px-7 py-0.5 sm:max-w-3xl flex-1 mx-auto font-semibold text-lg">
+        <div className="mx-auto flex-1 px-7 py-0.5 text-lg font-semibold sm:max-w-3xl">
           <div className="flex flex-1 items-center justify-between py-0.5">
             <div className="flex items-center justify-center">
               <Link href={INDEX}>
-                <a className="flex items-center space-x-3 group cursor-pointer">
-                  <span className="relative w-11 h-11 -mt-1">
+                <a className="group flex cursor-pointer items-center space-x-3">
+                  <span className="relative -mt-1 h-11 w-11">
                     <Image
                       src="/icon.png"
                       alt="icon"
@@ -271,7 +271,7 @@ export const Header = ({ path }: Header_Props): JSX.Element => {
 
             <Menu
               as="div"
-              className="relative inline-block text-left text-theme-blueGray-300 z-50 sm:hidden"
+              className="relative z-50 inline-block text-left text-theme-blueGray-300 sm:hidden"
             >
               <div>
                 <Menu.Button
@@ -279,24 +279,24 @@ export const Header = ({ path }: Header_Props): JSX.Element => {
                   title="Menu"
                   aria-label="Menu"
                   className="
-                  inline-flex justify-center
-                  w-full px-3.5 py-3.5
-                  text-sm font-medium
-                  rounded-md
-                  bg-black bg-opacity-20 filter backdrop-blur-3xl
+                  inline-flex w-full
+                  justify-center rounded-md bg-black
+                  bg-opacity-20 px-3.5
+                  py-3.5
+                  text-sm font-medium filter backdrop-blur-3xl
                   hover:bg-opacity-30 focus:outline-none focus-visible:ring-2
                   focus-visible:ring-white focus-visible:ring-opacity-75
                 "
                 >
                   <DotsVerticalIcon
-                    className="w-5 h-5 text-theme-primary-50"
+                    className="h-5 w-5 text-theme-primary-50"
                     aria-hidden="true"
                   />
                 </Menu.Button>
               </div>
 
               <Transition {...Header_Transition_Props}>
-                <Menu.Items className="absolute right-0 w-32 mt-2 origin-top-right bg-black filter backdrop-blur-3xl bg-opacity-40 divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <Menu.Items className="absolute right-0 mt-2 w-32 origin-top-right divide-gray-100 rounded-md bg-black bg-opacity-40 shadow-lg ring-1 ring-black ring-opacity-5 filter backdrop-blur-3xl focus:outline-none">
                   <div className="px-1 py-1 ">
                     <Link href="/log-in">
                       <a
@@ -311,10 +311,10 @@ export const Header = ({ path }: Header_Props): JSX.Element => {
                                 active
                                   ? "bg-theme-primary-500 text-theme-blueGray-300"
                                   : "text-theme-blueGray-500"
-                              } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                              } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                             >
                               <LoginIcon
-                                className={`w-6 h-6 ${
+                                className={`h-6 w-6 ${
                                   !active && "text-theme-primary-500"
                                 } mr-2`}
                               />
@@ -338,10 +338,10 @@ export const Header = ({ path }: Header_Props): JSX.Element => {
                                 active
                                   ? "bg-theme-primary-500 text-theme-blueGray-300"
                                   : "text-theme-blueGray-500"
-                              } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                              } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                             >
                               <UploadIcon
-                                className={`w-6 h-6 ${
+                                className={`h-6 w-6 ${
                                   !active && "text-theme-primary-500"
                                 } mr-2`}
                               />
@@ -356,15 +356,15 @@ export const Header = ({ path }: Header_Props): JSX.Element => {
               </Transition>
             </Menu>
 
-            <div className="space-x-3 hidden sm:block">
+            <div className="hidden space-x-3 sm:block">
               <Link href={currentUser ? APP : LOG_IN}>
-                <a className="border-theme-primary-500 hover:border-b-2 cursor-pointer">
+                <a className="cursor-pointer border-theme-primary-500 hover:border-b-2">
                   Log In
                 </a>
               </Link>
 
               <Link href={currentUser ? APP : SIGN_UP}>
-                <a className="border-theme-primary-500 hover:border-b-2 cursor-pointer">
+                <a className="cursor-pointer border-theme-primary-500 hover:border-b-2">
                   Sign Up
                 </a>
               </Link>

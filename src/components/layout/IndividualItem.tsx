@@ -14,7 +14,7 @@ export const IndividualItem = ({
 }: IndividualMenu_Props): JSX.Element => {
   return (
     <div
-      className="flex items-center space-x-2 text-left text-lg break-words leading-6 group relative"
+      className="group relative flex items-center space-x-2 break-words text-left text-lg leading-6"
       tabIndex={0}
       onKeyDownCapture={onkeydowncapture_callback}
     >
@@ -33,12 +33,12 @@ export const IndividualItem = ({
             <Transition {...InvdividualItem_Transition_Props}>
               <Menu.Items
                 className="
-                  absolute right-0 w-56 mr-10 -mt-24 origin-bottom-left
-                  bg-black bg-opacity-70 filter backdrop-blur-3xl
-                  divide-gray-100 rounded-md
-                  shadow-lg ring-1 ring-black ring-opacity-5
+                  absolute right-0 z-50 mr-10 -mt-24 w-56
+                  origin-bottom-left divide-gray-100 rounded-md bg-black
+                  bg-opacity-70 shadow-lg
+                  ring-1 ring-black ring-opacity-5 filter
+                  backdrop-blur-3xl
                   focus:outline-none
-                  z-50
                 "
               >
                 <div className="px-1 py-1">{menu_items}</div>
@@ -51,11 +51,11 @@ export const IndividualItem = ({
                 title="Menu"
                 aria-label="Menu"
                 className="
-                  inline-flex justify-center
-                  w-full px-2 py-2
-                  text-sm font-medium
-                  rounded-md
-                  bg-black bg-opacity-20 filter backdrop-blur-3xl
+                  inline-flex w-full
+                  justify-center rounded-md bg-black
+                  bg-opacity-20 px-2
+                  py-2
+                  text-sm font-medium filter backdrop-blur-3xl
                   hover:bg-opacity-30 focus:outline-none focus-visible:ring-2
                   focus-visible:ring-white focus-visible:ring-opacity-75
                 "
