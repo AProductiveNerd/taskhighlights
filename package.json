@@ -22,7 +22,6 @@
     "@headlessui/react": "^1.4.3",
     "@heroicons/react": "^1.0.5",
     "@prisma/client": "^3.9.1",
-    "cors": "^2.8.5",
     "cuid": "^2.1.8",
     "dexie": "^3.2.0",
     "firebase": "^9.6.4",
@@ -40,12 +39,9 @@
     "react-loading-skeleton": "^3.0.2",
     "react-nice-avatar": "1.2.2",
     "react-ssr-prepass": "npm:preact-ssr-prepass",
-    "scheduler": "^0.20.2",
-    "sharp": "^0.29.2",
-    "stripe": "^8.178.0"
+    "scheduler": "^0.20.2"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.12",
     "@types/node": "^17.0.12",
     "@types/node-fetch": "^2.5.12",
     "@types/react": "^17.0.38",
