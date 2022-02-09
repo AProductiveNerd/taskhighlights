@@ -110,12 +110,12 @@ export const IndividualTask = ({
               event.preventDefault();
               return;
             }
-            if (db_done) {
+            set_todo_state(!db_done);
+            if (todo_state) {
               await remove_time();
             } else {
               await append_time();
             }
-            set_todo_state(!db_done);
             if (todo_highlight && !todo_state) {
               set_party_display(true);
             }
