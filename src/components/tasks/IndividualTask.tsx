@@ -33,6 +33,7 @@ import {
 
 import { IndividualItem } from "../layout/IndividualItem";
 import { Menu } from "@headlessui/react";
+import { time_EN_GB_HOUR_MINUTE } from "../../constants/Regexes";
 
 export const IndividualTask = ({
   todo: {
@@ -64,6 +65,34 @@ export const IndividualTask = ({
 
   const editTaskRef = useRef(null);
 
+  const append_time = async () => {
+    const time = new Date().toLocaleTimeString("en-GB").substring(0, 5);
+    const new_text = `${todo_description} - ${time}`;
+    await onClick_handleTextSubmit({
+      setShouldUseServer,
+      set_display_text_edit,
+      stateReload,
+      todo_description: new_text,
+      todo_id,
+    });
+  };
+
+  const remove_time = async () => {
+    const split = todo_description.split("-");
+    const last_dashed = split[split.length - 1]?.substring(1);
+    if (last_dashed && time_EN_GB_HOUR_MINUTE.test(last_dashed)) {
+      const new_text = todo_description.replace(` - ${last_dashed}`, "");
+
+      await onClick_handleTextSubmit({
+        setShouldUseServer,
+        set_display_text_edit,
+        stateReload,
+        todo_description: new_text,
+        todo_id,
+      });
+    }
+  };
+
   useLayoutEffect(() => {
     editTaskRef.current?.focus();
   }, [display_text_edit]);
@@ -76,10 +105,15 @@ export const IndividualTask = ({
           className="cursor-pointer"
           id={todo_id}
           defaultChecked={todo_state}
-          onClick={(event) => {
+          onClick={async (event) => {
             if (event.ctrlKey) {
               event.preventDefault();
               return;
+            }
+            if (db_done) {
+              await remove_time();
+            } else {
+              await append_time();
             }
             set_todo_state(!db_done);
             if (todo_highlight && !todo_state) {
