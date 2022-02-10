@@ -58,13 +58,20 @@ export const Header = ({ path }: Header_Props): JSX.Element => {
   }, [fireId, currentUser, setContextUser]);
 
   return (
-    <div className="flex max-w-7xl flex-1 items-center justify-between py-3 px-6 sm:px-0">
+    <div
+      className="flex max-w-7xl flex-1 items-center justify-between py-3 px-6 sm:px-0"
+      id="Header"
+    >
       {!INDEX_HEADER.includes(path) ? (
         <div className="mx-auto flex w-11/12 flex-1 items-center justify-between sm:max-w-md md:max-w-lg">
           {currentUser?.user_avatar ? (
             <Link href={`/u/${currentUser.user_username}`}>
               <a title="Your profile" aria-label="Your profile">
-                <Avatar className="h-12 w-12" {...currentUser.user_avatar} />
+                <Avatar
+                  className="h-12 w-12"
+                  id="Avatar"
+                  {...currentUser.user_avatar}
+                />
               </a>
             </Link>
           ) : (
@@ -83,6 +90,7 @@ export const Header = ({ path }: Header_Props): JSX.Element => {
                   type="button"
                   aria-label="Search Pages"
                   title="Search Pages"
+                  id="PageSearch"
                   onClick={() => setIsOpen(true)}
                   className="
                     inline-flex w-full
@@ -107,6 +115,7 @@ export const Header = ({ path }: Header_Props): JSX.Element => {
                 <Menu.Button
                   as="button"
                   title="Menu"
+                  id="MenuButton"
                   aria-label="Menu"
                   className="
                   inline-flex w-full
@@ -136,6 +145,7 @@ export const Header = ({ path }: Header_Props): JSX.Element => {
                     >
                       <a
                         title="Daily Page"
+                        id="DailyPage"
                         aria-label="Daily Page"
                         className="flex items-center"
                       >
@@ -146,7 +156,7 @@ export const Header = ({ path }: Header_Props): JSX.Element => {
                                 active
                                   ? "bg-theme-primary-500 text-theme-blueGray-300"
                                   : "text-theme-blueGray-500"
-                              } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                              } group menu-button flex w-full items-center rounded-md px-2 py-2 text-sm`}
                             >
                               <CalendarIcon
                                 className={`h-6 w-6 ${
@@ -166,6 +176,7 @@ export const Header = ({ path }: Header_Props): JSX.Element => {
                     <Link href="/incomplete">
                       <a
                         title="Incomplete"
+                        id="IncompletePage"
                         aria-label="Incomplete"
                         className="flex items-center"
                       >
@@ -176,7 +187,7 @@ export const Header = ({ path }: Header_Props): JSX.Element => {
                                 active
                                   ? "bg-theme-primary-500 text-theme-blueGray-300"
                                   : "text-theme-blueGray-500"
-                              } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                              } group menu-button flex w-full items-center rounded-md px-2 py-2 text-sm`}
                             >
                               <EmptyCircleIcon
                                 className={`h-6 w-6 ${
@@ -194,6 +205,7 @@ export const Header = ({ path }: Header_Props): JSX.Element => {
                     <Link href="/archived">
                       <a
                         title="Archived"
+                        id="ArchivedPage"
                         aria-label="Archived"
                         className="flex items-center"
                       >
@@ -204,7 +216,7 @@ export const Header = ({ path }: Header_Props): JSX.Element => {
                                 active
                                   ? "bg-theme-primary-500 text-theme-blueGray-300"
                                   : "text-theme-blueGray-500"
-                              } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                              } group menu-button flex w-full items-center rounded-md px-2 py-2 text-sm`}
                             >
                               <ArchiveIcon
                                 className={`h-6 w-6 ${
@@ -225,11 +237,12 @@ export const Header = ({ path }: Header_Props): JSX.Element => {
                       {({ active }) => (
                         <button
                           aria-label="Sign out"
+                          id="SignOut"
                           className={`${
                             active
                               ? "bg-theme-primary-500 text-theme-blueGray-300"
                               : "text-theme-blueGray-500"
-                          } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                          } group menu-button flex w-full items-center rounded-md px-2 py-2 text-sm`}
                           title="Sign out"
                           onClick={() => signOut(auth)}
                         >
@@ -277,6 +290,7 @@ export const Header = ({ path }: Header_Props): JSX.Element => {
                 <Menu.Button
                   as="button"
                   title="Menu"
+                  id="MenuButton"
                   aria-label="Menu"
                   className="
                   inline-flex w-full
@@ -302,6 +316,7 @@ export const Header = ({ path }: Header_Props): JSX.Element => {
                       <a
                         title="Log In"
                         aria-label="Log In"
+                        id="Login"
                         className="flex items-center"
                       >
                         <Menu.Item>
@@ -311,7 +326,7 @@ export const Header = ({ path }: Header_Props): JSX.Element => {
                                 active
                                   ? "bg-theme-primary-500 text-theme-blueGray-300"
                                   : "text-theme-blueGray-500"
-                              } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                              } group menu-button flex w-full items-center rounded-md px-2 py-2 text-sm`}
                             >
                               <LoginIcon
                                 className={`h-6 w-6 ${
@@ -328,6 +343,7 @@ export const Header = ({ path }: Header_Props): JSX.Element => {
                     <Link href="/sign-up">
                       <a
                         title="Sign Up"
+                        id="SignUp"
                         aria-label="Sign Up"
                         className="flex items-center"
                       >
@@ -338,7 +354,7 @@ export const Header = ({ path }: Header_Props): JSX.Element => {
                                 active
                                   ? "bg-theme-primary-500 text-theme-blueGray-300"
                                   : "text-theme-blueGray-500"
-                              } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                              } group menu-button flex w-full items-center rounded-md px-2 py-2 text-sm`}
                             >
                               <UploadIcon
                                 className={`h-6 w-6 ${

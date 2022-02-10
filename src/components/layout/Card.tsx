@@ -17,16 +17,26 @@ export const Card = ({
     "
       id="Card"
     >
-      <div className="flex items-center justify-between">
-        <p className="text-4xl">{title}</p>
+      <div className="flex items-center justify-between" id="CardHeader">
+        <p className="text-4xl" id="CardTitle">
+          {title}
+        </p>
 
-        {action_component && action_component}
+        {action_component && (
+          <span id="ActionComponent">{action_component}</span>
+        )}
       </div>
 
-      <hr className="border-dashed" />
-      <div className="space-y-1">{spaced_elements}</div>
+      <hr className="border-dashed" id="CardDash" />
+      <div className="space-y-1" id="ItemList">
+        {spaced_elements}
+      </div>
 
-      {buttons && <div className="flex justify-between">{buttons}</div>}
+      {buttons && (
+        <div className="flex justify-between" id="BottomButtons">
+          {buttons}
+        </div>
+      )}
     </div>
   );
 };

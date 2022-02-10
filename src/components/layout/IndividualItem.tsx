@@ -14,7 +14,7 @@ export const IndividualItem = ({
 }: IndividualMenu_Props): JSX.Element => {
   return (
     <div
-      className="group relative flex items-center space-x-2 break-words text-left text-lg leading-6"
+      className="group Individual-Item relative flex items-center space-x-2 break-words text-left text-lg leading-6"
       tabIndex={0}
       onKeyDownCapture={onkeydowncapture_callback}
     >
@@ -22,7 +22,9 @@ export const IndividualItem = ({
 
       {text_input_p}
 
-      {non_menu_button && <div>{non_menu_button}</div>}
+      {non_menu_button && (
+        <div className="non-menu-buttons">{non_menu_button}</div>
+      )}
 
       {menu_items && menu_show_button_icon && (
         <div>
